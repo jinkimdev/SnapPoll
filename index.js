@@ -21,9 +21,9 @@ app.get('/test', function(request, response) {
 
 app.get('/db', function(request, response) {
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-		client.query('SELCT * FROM test_table', function(err, result) {
+		client.query('SELECT * FROM test_table', function(err, result) {
 			done();
-			iff (err) {
+			if (err) {
 				console.error(err);
 				response.send("Error " + error);
 			} else {
