@@ -26,7 +26,7 @@ app.get('/poll', function(request, response) {
 
 app.get('/poll/:id', function(request, response) {
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-		client.query('SELECT * FROM poll WHERE poll_id='+request.params.poll_id+';', function(err, result) {
+		client.query('SELECT * FROM poll WHERE poll_id='+request.params.id+';', function(err, result) {
 			done();
 			if (err) {
 				console.error(err);
