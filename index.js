@@ -4,7 +4,16 @@ var cool = require('cool-ascii-faces');
 var pg = require('pg');
 
 app.set('port', (process.env.PORT || 5000));
-app.use(express.static(__dirname + '/public'))
+
+// parse urlencoded request bodies into req.body
+var bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded());
+app.use(bodyParser.json());
+
+app.use(express.static(__dirname + '/public'));
+
+
+/* ######## REST API ######## */
 
 app.get('/', function(request, response) {
   response.send('Hello World!')
@@ -39,6 +48,9 @@ app.get('/poll/:id', function(request, response) {
 });
 
 app.post('/poll', function(req, response) {
+
+	// response.send("HERE-- " + req.body);
+
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
 		// console.error(req.body);
 
