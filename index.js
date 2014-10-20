@@ -38,6 +38,20 @@ app.get('/poll/:id', function(request, response) {
 	});
 });
 
+app.post('/poll', function(req, response) {
+	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+		client.query("INSERT INTO poll (req.body.creator_id, req.body.question) VALUES ('jk', 'What is a test?');", function(err, result) {
+			done();
+			if (err) {
+				console.error(err);
+				response.send("Error " + error);
+			} else {
+				response.send(result.rows);
+			}
+		});
+	});
+});
+
 app.get('/test', function(request, response) {
   var result = '';
   var times = process.env.TIMES || 5;
