@@ -10,8 +10,6 @@ app.use(bodyParser.json());
 
 app.set('port', (process.env.PORT || 5000));
 
-
-
 app.use(express.static(__dirname + '/public'));
 
 
@@ -64,7 +62,7 @@ app.post('/poll', function(req, response) {
 				console.error(err);
 				response.send("Error " + err);
 			} else {
-				response.send(result.rows);
+				response.send(req.headers + "<br>-------<br>" + result.rows);
 			}
 		});
 	});
