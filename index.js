@@ -40,7 +40,7 @@ app.get('/poll/:id', function(request, response) {
 
 app.post('/poll', function(req, response) {
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-		console.error(req.body);
+		// console.error(req.body);
 
 		client.query("INSERT INTO poll (creator_id, question) VALUES (" + req.body.creator_id + ", " + req.body.question + ");", function(err, result) {
 			done();
