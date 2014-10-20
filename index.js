@@ -1,15 +1,16 @@
 var express = require('express');
 var app = express();
 var pg = require('pg');
-
-app.set('port', (process.env.PORT || 5000));
-
-// parse urlencoded request bodies into req.body
 var bodyParser = require('body-parser');
+// parse urlencoded request bodies into req.body
 app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(bodyParser.json());
+
+app.set('port', (process.env.PORT || 5000));
+
+
 
 app.use(express.static(__dirname + '/public'));
 
@@ -70,12 +71,7 @@ app.post('/poll', function(req, response) {
 });
 
 app.get('/test', function(request, response) {
-  // var result = '';
-  // var times = process.env.TIMES || 5;
-  // for (i=0; i < times; i++) {
-  // 	result += (cool() + "<br>");
-  // }
-  response.send("TEST 202");
+	response.send("TEST 202");
 });
 
 app.get('/db', function(request, response) {
