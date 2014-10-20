@@ -16,7 +16,7 @@ app.get('/poll', function(request, response) {
 			done();
 			if (err) {
 				console.error(err);
-				response.send("Error " + error);
+				response.send("Error " + err);
 			} else {
 				response.send(result.rows);
 			}
@@ -30,7 +30,7 @@ app.get('/poll/:id', function(request, response) {
 			done();
 			if (err) {
 				console.error(err);
-				response.send("Error " + error);
+				response.send("Error " + err);
 			} else {
 				response.send(result.rows);
 			}
@@ -44,7 +44,7 @@ app.post('/poll', function(req, response) {
 			done();
 			if (err) {
 				console.error(err);
-				response.send("Error " + error);
+				response.send("Error " + err);
 			} else {
 				response.send(result.rows);
 			}
@@ -67,7 +67,7 @@ app.get('/db', function(request, response) {
 			done();
 			if (err) {
 				console.error(err);
-				response.send("Error " + error);
+				response.send("Error " + err);
 			} else {
 				response.send(result.rows);
 			}
