@@ -7,7 +7,9 @@ app.set('port', (process.env.PORT || 5000));
 
 // parse urlencoded request bodies into req.body
 var bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use(bodyParser.json());
 
 app.use(express.static(__dirname + '/public'));
