@@ -10,6 +10,34 @@ app.get('/', function(request, response) {
   response.send('Hello World!')
 });
 
+app.get('/poll', function(request, response) {
+	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+		client.query('SELECT * FROM poll;', function(err, result) {
+			done();
+			if (err) {
+				console.error(err);
+				response.send("Error " + error);
+			} else {
+				response.send(result.rows);
+			}
+		});
+	});
+});
+
+app.get('/poll/:id', function(request, response) {
+	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+		client.query('SELECT * FROM poll WHERE poll_id='+request.params.poll_id+';', function(err, result) {
+			done();
+			if (err) {
+				console.error(err);
+				response.send("Error " + error);
+			} else {
+				response.send(result.rows);
+			}
+		});
+	});
+});
+
 app.get('/test', function(request, response) {
   var result = '';
   var times = process.env.TIMES || 5;
