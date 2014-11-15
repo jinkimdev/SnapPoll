@@ -4,8 +4,6 @@ var pg = require('pg');
 var bodyParser = require('body-parser');
 var router = express.Router();
 
-var dbcred = "postgres://riznmjlobcgmmm:PqcDsJ6S52QHqmwl_vemRPdd2K@ec2-54-204-32-91.compute-1.amazonaws.com:5432/d25fpp8hn5frvv";
-
 // parse urlencoded request bodies into req.body
 app.use(bodyParser.urlencoded({	extended: true }));
 app.use(bodyParser.json());
@@ -20,6 +18,11 @@ router.get('/', function(req, res, next) {
 /* -------- REST API -------- */
 
 /* ######## DEBUG ######## */
+
+router.get('/', function(req, res) {
+	console.log(process.env.DATABASE_URL);
+	res.send('Snap Poll REST API')
+});
 
 router.get('/debug', function(req, res) {
 	console.log(process.env.DATABASE_URL);
@@ -49,8 +52,8 @@ router.get('/db', function(req, res) {
 /* ######## POLL ######## */
 
 router.get('/poll', function(req, res) {
-	console.log("#### dbcred #### " + dbcred);
-	pg.connect(dbcred, function(err, client, done) {
+	console.log("#### dbcred #### " + process.env.DATABASE_URL);
+	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
 
 		console.log("#### pg.connect #### " + client);
 		var queryString = "SELECT * FROM polls";
