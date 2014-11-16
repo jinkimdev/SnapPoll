@@ -136,7 +136,7 @@ router.put('/user', function(req, res) {
 		var queryString
 			= "UPDATE users SET f_name='" + req.body.f_name
 				+ "', l_name='" + req.body.l_name + "'" 
-				+ " WHERE poll_id='" + req.body.poll_id + "';";
+				+ " WHERE user_id='" + req.body.user_id + "';";
 
 		client.query(queryString, function(err, result) {
 			done();
