@@ -3,6 +3,7 @@ var app = express();
 var pg = require('pg');
 var bodyParser = require('body-parser');
 var router = express.Router();
+var squel = require('squel');
 
 // parse urlencoded request bodies into req.body
 app.use(bodyParser.urlencoded({	extended: true }));
@@ -52,11 +53,13 @@ router.get('/db', function(req, res) {
 
 /* -------- POLL -------- */
 
-// retrieve all polls in the table
+// GET - retrieve all polls in the table
 router.get('/poll', function(req, res) {
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
 		// console.log("#### pg.connect #### " + client);
-		var queryString = "SELECT * FROM polls";
+		// var queryString = "SELECT * FROM polls";
+		var queryString = squel.select().from('polls').toString();
+		
 		client.query(queryString, function(err, result) {
 			done();
 			if (err) {
@@ -69,7 +72,7 @@ router.get('/poll', function(req, res) {
 	});
 });
 
-// retrieve a poll with the passed in poll_id
+// GET - retrieve a poll with the passed in poll_id
 router.get('/poll/:poll_id', function(req, res) {
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
 		var queryString = "SELECT * FROM polls WHERE poll_id=" + req.params.poll_id + ";";
@@ -86,7 +89,7 @@ router.get('/poll/:poll_id', function(req, res) {
 	});
 });
 
-// insert a poll created by a user (poll creator)
+// POST - insert a poll created by a user (poll creator)
 router.post('/poll', function(req, res) {
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
 		var queryString
@@ -94,6 +97,25 @@ router.post('/poll', function(req, res) {
 				+ req.body.creator_id + "', '" 
 				+ req.body.question + "', '"
 				+ req.body.allow_multiple_responses + "');";
+
+		client.query(queryString, function(err, result) {
+			done();
+			if (err) {
+				console.error(err);
+				res.send("Error " + err);
+			} else {
+				res.send(result.rows);
+			}
+		});
+	});
+});
+
+// DELETE - delete a poll specified the poll_id
+router.delete('/poll', function(req, res) {
+	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+		var queryString
+			= "DELETE FROM polls WHERE poll_id='"
+				+ req.body.poll_id + "';";
 
 		client.query(queryString, function(err, result) {
 			done();
@@ -130,7 +152,7 @@ router.post('/user', function(req, res) {
 	});
 });
 
-// update user info
+// PUT - update user info
 router.put('/user', function(req, res) {
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
 		var queryString
@@ -149,6 +171,98 @@ router.put('/user', function(req, res) {
 		});
 	});
 });
+
+/* -------- RESPONSE -------- */
+
+// GET - retrieve a response specified by response_id
+router.get('/response/:response_id', function(req, res) {
+	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+		var queryString
+			= "SELECT * FROM responses WHERE response_id='"
+				+ req.body.response_id + "';";
+
+		client.query(queryString, function(err, result) {
+			done();
+			if (err) {
+				console.error(err);
+				res.send("Error " + err);
+			} else {
+				res.send(result.rows);
+			}
+		});
+	});
+});
+
+// POST - insert a response to a poll
+router.post('/response', function(req, res) {
+	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+		var queryString
+			= "INSERT INTO responses (x, y, respondent_id, attribute_choice, poll_id)"
+				+ " VALUES ('"
+				+ req.body.x + "', '"
+				+ req.body.y + "', '"
+				+ req.body.respondent_id + "', '"
+				+ req.body.attribute_choice + "', '"
+				+ req.body.poll_id + "';";
+
+		client.query(queryString, function(err, result) {
+			done();
+			if (err) {
+				console.error(err);
+				res.send("Error " + err);
+			} else {
+				res.send(result.rows);
+			}
+		});
+	});
+});
+
+// PUT - update a response specified by response_id
+router.put('/response', function(req, res) {
+	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+		var queryString
+			= "UPDATE responses SET x='" + req.body.x + "', "
+				+ "y='" + req.body.y + "', "
+				+ "respondent_id='" + req.body.respondent_id + "', "
+				+ "attribute_choice='" + req.body.attribute_choice + "' "
+				+ "WHERE response_id='" + req.body.response_id + "';";
+
+		client.query(queryString, function(err, result) {
+			done();
+			if (err) {
+				console.error(err);
+				res.send("Error " + err);
+			} else {
+				res.send(result.rows);
+			}
+		});
+	});
+});
+
+// DELETE - delete a response specified by response_id
+
+/* -------- RESULT -------- */
+
+// GET - retrieve all responses to the specified poll_id
+router.get('/result', function(req, res) {
+	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+		var queryString
+			= "SELECT * FROM responses WHERE poll_id='"
+				+ req.body.poll_id + "';";
+
+		client.query(queryString, function(err, result) {
+			done();
+			if (err) {
+				console.error(err);
+				res.send("Error " + err);
+			} else {
+				res.send(result.rows);
+			}
+		});
+	});
+});
+
+/* ---------------------------------------------------------------- */
 
 app.use('/api', router);
 app.listen(app.get('port'), function() {
