@@ -15,9 +15,10 @@ app.use(express.static(__dirname + '/public'));
 router.get('/', function(req, res, next) {
 	next();
 })
+
 /* -------- REST API -------- */
 
-/* ######## DEBUG ######## */
+/* -------- DEBUG -------- */
 
 router.get('/', function(req, res) {
 	console.log(process.env.DATABASE_URL);
@@ -49,14 +50,13 @@ router.get('/db', function(req, res) {
 	});
 });
 
-/* ######## POLL ######## */
+/* -------- POLL -------- */
 
+// retrieve all polls in the table
 router.get('/poll', function(req, res) {
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-
-		console.log("#### pg.connect #### " + client);
+		// console.log("#### pg.connect #### " + client);
 		var queryString = "SELECT * FROM polls";
-		
 		client.query(queryString, function(err, result) {
 			done();
 			if (err) {
@@ -69,9 +69,10 @@ router.get('/poll', function(req, res) {
 	});
 });
 
-router.get('/poll/:id', function(req, res) {
+// retrieve a poll with the passed in poll_id
+router.get('/poll/:poll_id', function(req, res) {
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-		var queryString = "SELECT * FROM polls WHERE poll_id=" + req.params.id + ";";
+		var queryString = "SELECT * FROM polls WHERE poll_id=" + req.params.poll_id + ";";
 		
 		client.query(queryString, function(err, result) {
 			done();
@@ -85,13 +86,57 @@ router.get('/poll/:id', function(req, res) {
 	});
 });
 
+// insert a poll created by a user (poll creator)
 router.post('/poll', function(req, res) {
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
 		var queryString
-		 = "INSERT INTO polls (creator_id, q_text, allow_multiple_responses) VALUES ('"
-			+ req.body.creator_id + "', '" 
-			+ req.body.question + "', '"
-			+ req.body.allow_multiple_responses + "');";
+			= "INSERT INTO polls (creator_id, q_text, allow_multiple_responses) VALUES ('"
+				+ req.body.creator_id + "', '" 
+				+ req.body.question + "', '"
+				+ req.body.allow_multiple_responses + "');";
+
+		client.query(queryString, function(err, result) {
+			done();
+			if (err) {
+				console.error(err);
+				res.send("Error " + err);
+			} else {
+				res.send(result.rows);
+			}
+		});
+	});
+});
+
+/* -------- USER -------- */
+
+// create a user, user_id should be unique
+router.post('/user', function(req, res) {
+	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+		var queryString
+			= "INSERT INTO users (user_id, f_name, l_name) VALUES ('"
+				+ req.body.user_id + "', '" 
+				+ req.body.f_name + "', '"
+				+ req.body.l_name + "');";
+
+		client.query(queryString, function(err, result) {
+			done();
+			if (err) {
+				console.error(err);
+				res.send("Error " + err);
+			} else {
+				res.send(result.rows);
+			}
+		});
+	});
+});
+
+// update user info
+router.put('/user', function(req, res) {
+	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+		var queryString
+			= "UPDATE users SET f_name='" + req.body.f_name
+				+ "', l_name='" + req.body.l_name + "'" 
+				+ " WHERE poll_id='" + req.body.poll_id + "';";
 
 		client.query(queryString, function(err, result) {
 			done();
