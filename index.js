@@ -52,7 +52,6 @@ router.get('/db', function(req, res) {
 /* ######## POLL ######## */
 
 router.get('/poll', function(req, res) {
-	console.log("#### dbcred #### " + process.env.DATABASE_URL);
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
 
 		console.log("#### pg.connect #### " + client);
@@ -88,8 +87,11 @@ router.get('/poll/:id', function(req, res) {
 
 router.post('/poll', function(req, res) {
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-		var queryString = "INSERT INTO poll (creator_id, question) VALUES ('"
-		+ req.body.creator_id + "', '" + req.body.question + "');";
+		var queryString
+		 = "INSERT INTO polls (creator_id, q_text, allow_multiple_responses) VALUES ('"
+			+ req.body.creator_id + "', '" 
+			+ req.body.question + "', '"
+			+ req.body.allow_multiple_responses + "');";
 
 		client.query(queryString, function(err, result) {
 			done();
