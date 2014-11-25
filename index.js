@@ -75,7 +75,7 @@ router.get('/poll/:poll_id', function(req, res) {
 				console.error(err);
 				res.send("Error " + err);
 			} else {
-				res.send(result.rows);
+				res.send(result.rows[0]);
 			}
 		});
 	});
