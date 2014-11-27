@@ -1,0 +1,3 @@
+[submodule "snappoll-nodejs-api-backend"]
+	path = snappoll-nodejs-api-backend
+	url = git@heroku.com:snappoll.git
