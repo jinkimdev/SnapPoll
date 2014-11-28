@@ -1,4 +1,4 @@
-package dev.jinkim.snappollandroidclient.model;
+package dev.jinkim.snappollandroid.model;
 
 import java.util.Date;
 

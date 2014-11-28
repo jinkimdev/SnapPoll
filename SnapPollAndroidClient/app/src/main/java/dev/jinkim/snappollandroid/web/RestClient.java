@@ -1,4 +1,4 @@
-package dev.jinkim.snappollandroidclient.web;
+package dev.jinkim.snappollandroid.web;
 
 
 import com.google.gson.FieldNamingPolicy;
@@ -7,7 +7,7 @@ import com.google.gson.GsonBuilder;
 
 import java.util.List;
 
-import dev.jinkim.snappollandroidclient.model.Poll;
+import dev.jinkim.snappollandroid.model.Poll;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;

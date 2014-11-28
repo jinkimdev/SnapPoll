@@ -1,4 +1,4 @@
-package dev.jinkim.snappollandroidclient;
+package dev.jinkim.snappollandroid.ui;
 
 
 import android.app.Activity;
@@ -21,6 +21,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import dev.jinkim.snappollandroid.R;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -102,8 +104,8 @@ public class NavigationDrawerFragment extends Fragment {
                 android.R.layout.simple_list_item_activated_1,
                 android.R.id.text1,
                 new String[]{
-                        getString(R.string.title_section1),
-                        getString(R.string.title_section2),
+                        getString(R.string.title_create_poll),
+                        getString(R.string.title_respond),
                         getString(R.string.title_section3),
                 }));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);

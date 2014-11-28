@@ -1,4 +1,4 @@
-package dev.jinkim.snappollandroidclient;
+package dev.jinkim.snappollandroid;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
