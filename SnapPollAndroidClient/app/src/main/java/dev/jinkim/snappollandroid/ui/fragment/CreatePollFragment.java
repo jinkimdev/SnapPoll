@@ -1,12 +1,17 @@
 package dev.jinkim.snappollandroid.ui.fragment;
 
 import android.app.Fragment;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
 
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.model.Poll;
@@ -20,12 +25,22 @@ import retrofit.client.Response;
  */
 public class CreatePollFragment extends Fragment {
 
-    public static final String TAG = "CreatePollFragment";
+    public static final String TAG = "#### CreatePollFragment";
+
+    private static final int REQ_CODE_PICK_IMAGE = 1;
+    public static final int RESULT_OK = -1;
+
+    private Button btnTest;
+    private Button btnAttachImage;
+    private ImageView ivThumbnail;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.frag_create_poll, container, false);
+
+        ivThumbnail = (ImageView) rootView.findViewById(R.id.iv_thumbnail);
 
         Button btnTest = (Button) rootView.findViewById(R.id.btn_test);
         btnTest.setOnClickListener(new View.OnClickListener() {
@@ -34,7 +49,40 @@ public class CreatePollFragment extends Fragment {
                 test();
             }
         });
+
+        btnAttachImage = (Button) rootView.findViewById(R.id.btn_attach_image);
+        btnAttachImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pickImage(v);
+            }
+        });
         return rootView;
+    }
+
+    public void pickImage(View view) {
+        Log.d(TAG, "Button clicked to pick image");
+        Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(i, REQ_CODE_PICK_IMAGE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+
+        switch (requestCode) {
+            case REQ_CODE_PICK_IMAGE:
+                if (resultCode == RESULT_OK) {
+                    Uri selectedImage = imageReturnedIntent.getData();
+                    Log.d(TAG, "Image selected: " + selectedImage.toString());
+                    updateThumbnail(selectedImage);
+                }
+        }
+    }
+
+    private void updateThumbnail(Uri selectedImage) {
+        Log.d(TAG, "In updateThumbnail");
+        Picasso.with(getActivity()).load(selectedImage).into(ivThumbnail);
     }
 
     void test() {
