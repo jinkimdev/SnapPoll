@@ -1,6 +1,9 @@
 package dev.jinkim.snappollandroid.web;
 
 
+import android.os.Build;
+import android.util.Log;
+
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -19,11 +22,17 @@ import retrofit.http.Path;
  */
 public class RestClient {
     private ApiService apiService;
-    //    private static final String BASE_URL = "http://snappoll.herokuapp.com/api/";
-    private static final String BASE_URL = "http://192.168.56.1:5000/api/"; // genymotion host ip
+    private static String BASE_URL = "http://snappoll.herokuapp.com/api/";
+//    private static final String BASE_URL = "http://192.168.56.1:5000/api/"; // genymotion host ip
+    private static String TAG = "RestClient";
 
     public RestClient() {
 
+        if (Build.FINGERPRINT.startsWith("generic")) {
+            // if running on emulator
+            Log.d(TAG, "Running on emulator - use local api end point");
+            BASE_URL = "http://192.168.56.1:5000/api/";
+        }
         Gson gson = new GsonBuilder()
                 .setFieldNamingStrategy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                 .setDateFormat("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'SSS'Z'")

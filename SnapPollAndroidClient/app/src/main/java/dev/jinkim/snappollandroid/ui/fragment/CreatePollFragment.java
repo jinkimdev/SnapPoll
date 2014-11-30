@@ -34,13 +34,16 @@ public class CreatePollFragment extends Fragment {
     private Button btnAttachImage;
     private ImageView ivThumbnail;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.frag_create_poll, container, false);
 
         ivThumbnail = (ImageView) rootView.findViewById(R.id.iv_thumbnail);
+        Picasso.with(getActivity())
+                .load(R.drawable.placeholder)
+                .placeholder(R.drawable.placeholder)
+                .into(ivThumbnail);
 
         Button btnTest = (Button) rootView.findViewById(R.id.btn_test);
         btnTest.setOnClickListener(new View.OnClickListener() {
@@ -62,8 +65,10 @@ public class CreatePollFragment extends Fragment {
 
     public void pickImage(View view) {
         Log.d(TAG, "Button clicked to pick image");
-        Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(i, REQ_CODE_PICK_IMAGE);
+//        Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Intent myIntent = new Intent(Intent.ACTION_GET_CONTENT, null);
+        myIntent.setType("image/*");
+        startActivityForResult(myIntent, REQ_CODE_PICK_IMAGE);
     }
 
     @Override
@@ -81,9 +86,21 @@ public class CreatePollFragment extends Fragment {
     }
 
     private void updateThumbnail(Uri selectedImage) {
-        Log.d(TAG, "In updateThumbnail");
+        Log.d(TAG, "updateThumbnail");
+
         Picasso.with(getActivity()).load(selectedImage).into(ivThumbnail);
     }
+
+//    void setImage(Uri imageUri) {
+//
+//
+//        mImageUri = imageUri;
+//        mImagePreviewBitmap = BitmapUtils.decodeSampledBitmapFromUri(imageUri, 400, 400);
+//        if (getView() != null) {
+//            ((ImageView) getView().findViewById(R.id.choose_image_preview)).setImageBitmap(mImagePreviewBitmap);
+//            new MyImgurUploadTask(imageUri).execute();
+//        }
+//    }
 
     void test() {
         RestClient rest = new RestClient();

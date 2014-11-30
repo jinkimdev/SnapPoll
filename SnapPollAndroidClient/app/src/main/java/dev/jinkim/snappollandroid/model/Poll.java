@@ -13,5 +13,6 @@ public class Poll {
     public Date pollTimestamp;
     public boolean active;
     public boolean multipleResponseAllowed;
-
+    public String referenceUrl;
+    public String referenceDeleteHash;
 }
