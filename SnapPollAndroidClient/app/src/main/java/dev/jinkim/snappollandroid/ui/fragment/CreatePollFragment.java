@@ -43,6 +43,7 @@ public class CreatePollFragment extends Fragment {
         Picasso.with(getActivity())
                 .load(R.drawable.placeholder)
                 .placeholder(R.drawable.placeholder)
+                .fit().centerInside()
                 .into(ivThumbnail);
 
         Button btnTest = (Button) rootView.findViewById(R.id.btn_test);
@@ -88,7 +89,10 @@ public class CreatePollFragment extends Fragment {
     private void updateThumbnail(Uri selectedImage) {
         Log.d(TAG, "updateThumbnail");
 
-        Picasso.with(getActivity()).load(selectedImage).into(ivThumbnail);
+        Picasso.with(getActivity())
+                .load(selectedImage)
+                .fit().centerInside()
+                .into(ivThumbnail);
     }
 
 //    void setImage(Uri imageUri) {

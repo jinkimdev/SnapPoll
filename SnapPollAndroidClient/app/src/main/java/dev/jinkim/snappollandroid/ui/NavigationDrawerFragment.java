@@ -58,6 +58,7 @@ public class NavigationDrawerFragment extends Fragment {
 
     private int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
+
     private boolean mUserLearnedDrawer;
 
     public NavigationDrawerFragment() {
@@ -70,7 +71,9 @@ public class NavigationDrawerFragment extends Fragment {
         // Read in the flag indicating whether or not the user has demonstrated awareness of the
         // drawer. See PREF_USER_LEARNED_DRAWER for details.
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        mUserLearnedDrawer = sp.getBoolean(PREF_USER_LEARNED_DRAWER, false);
+//        mUserLearnedDrawer = sp.getBoolean(PREF_USER_LEARNED_DRAWER, false);
+        /* TODO: CHANGE THIS FOR PRODUCTION */
+        mUserLearnedDrawer = true;
 
         if (savedInstanceState != null) {
             mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);

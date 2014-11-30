@@ -69,6 +69,9 @@
             android:id="@+id/iv_thumbnail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="0dp" />
+            android:layout_marginTop="0dp"
+            android:padding="10dp"
+            android:layout_gravity="center_horizontal"
+            android:scaleType="centerInside"/>
     </LinearLayout>
 </ScrollView>
