@@ -12,6 +12,8 @@ import retrofit.mime.TypedFile;
 
 /**
  * Created by Jin on 11/23/14.
+ * <p/>
+ * Upload an image to Imgur hosting using Retrofit
  */
 public class ImgurRestClient {
     private ApiService apiService;
@@ -22,7 +24,6 @@ public class ImgurRestClient {
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(BASE_URL)
                 .build();
-
         apiService = restAdapter.create(ApiService.class);
     }
 
@@ -31,11 +32,16 @@ public class ImgurRestClient {
     }
 
     public interface ApiService {
-
+        // Retrofit uses @Multipart for a file uploading
         @Multipart
         @POST("/image")
-//        void uploadImage(@Body TypedFile file, Callback<ImgurResponse> cb);
+        // Imgur OAuth takes authorization header in form of ("Authorization Client-ID xxxxxxxx...")
+        // for anonymous upload
+        // Retrofit takes a file to upload in a TypedFile(file and MIME type)
         void uploadImage(@Header("Authorization") String clientId,
-                         @Part("image") TypedFile file, Callback<ImgurResponse> cb);
+                         @Part("image") TypedFile file,
+                         @Part("title") String title, @Part("description") String desc,
+                         Callback<ImgurResponse> cb);
+        // TODO: Add title and description to uploaded image
     }
 }

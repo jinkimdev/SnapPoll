@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.jinkim.snappollandroid.util;
+package dev.jinkim.snappollandroid.util.efilechooser;
 
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;
@@ -38,7 +38,15 @@ import java.io.FileFilter;
 import java.text.DecimalFormat;
 import java.util.Comparator;
 
-import dev.jinkim.snappollandroid.util.LocalStorageProvider;
+/**
+ * Created by Jin on 12/2/14.
+ *
+ * Util class used to get real path of a chosen image file.
+ *
+ * Reference - open source eFileChooser library:
+ *      https://github.com/iPaulPro/aFileChooser
+ */
+
 /**
  * @version 2009-07-03
  * @author Peli

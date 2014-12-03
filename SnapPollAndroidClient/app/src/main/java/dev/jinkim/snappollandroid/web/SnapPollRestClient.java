@@ -14,19 +14,22 @@ import dev.jinkim.snappollandroid.model.Poll;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
+import retrofit.http.Field;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
+import retrofit.http.POST;
 import retrofit.http.Path;
 
 /**
  * Created by Jin on 11/23/14.
  */
-public class RestClient {
+public class SnapPollRestClient {
     private ApiService apiService;
     private static String BASE_URL = "http://snappoll.herokuapp.com/api/";
-//    private static final String BASE_URL = "http://192.168.56.1:5000/api/"; // genymotion host ip
+    //    private static final String BASE_URL = "http://192.168.56.1:5000/api/"; // genymotion host ip
     private static String TAG = "RestClient";
 
-    public RestClient() {
+    public SnapPollRestClient() {
 
         if (Build.FINGERPRINT.startsWith("generic")) {
             // if running on emulator
@@ -56,5 +59,14 @@ public class RestClient {
 
         @GET("/poll/{poll_id}")
         void getPoll(@Path("poll_id") int pollId, Callback<Poll> cb);
+
+        @FormUrlEncoded
+        @POST("/poll")
+        void postPoll(@Field("creator_id") String creatorId,
+                      @Field("title") String title,
+                      @Field("question") String question,
+                      @Field("multiple_response_allowed") Boolean multiple,
+                      @Field("reference_url") String url,
+                      @Field("reference_delete_hash") String deleteHash, Callback<Poll> cb);
     }
 }

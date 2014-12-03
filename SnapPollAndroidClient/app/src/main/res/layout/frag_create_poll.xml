@@ -12,6 +12,7 @@
         android:orientation="vertical">
 
         <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:id="@+id/et_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -22,6 +23,7 @@
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
         <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:id="@+id/et_question"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -39,8 +41,10 @@
             android:text="Allow multiple responses?" />
 
         <Switch
+            android:id="@+id/sw_multiple"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:checked="false"/>
 
         <TextView
             android:id="@+id/lbl_attributes"
@@ -87,7 +91,6 @@
             custom:pb_colorPressed="@color/blue_pressed"
             custom:pb_colorProgress="@color/purple_progress"
             custom:pb_textComplete="Success"
-            custom:pb_textProgress="Uploading the Image"
             custom:pb_textError="Error"
             custom:pb_colorError="@color/red_error" />
 

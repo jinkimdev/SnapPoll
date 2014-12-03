@@ -1,12 +1,13 @@
+package dev.jinkim.snappollandroid.util.efilechooser;
 
-package dev.jinkim.snappollandroid.util;
-
+import android.annotation.TargetApi;
 import android.content.res.AssetFileDescriptor;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.os.Build;
 import android.os.CancellationSignal;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
@@ -16,12 +17,22 @@ import android.provider.DocumentsProvider;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+
+/**
+ * Created by Jin on 12/2/14.
+ * <p/>
+ * Util class used to get real path of a chosen image file.
+ * <p/>
+ * Reference - open source eFileChooser library:
+ * https://github.com/iPaulPro/aFileChooser
+ */
+
+@TargetApi(Build.VERSION_CODES.KITKAT)
 public class LocalStorageProvider extends DocumentsProvider {
 
     public static final String AUTHORITY = "com.ianhanniballake.localstorage.documents";
@@ -29,7 +40,7 @@ public class LocalStorageProvider extends DocumentsProvider {
     /**
      * Default root projection: everything but Root.COLUMN_MIME_TYPES
      */
-    private final static String[] DEFAULT_ROOT_PROJECTION = new String[] {
+    private final static String[] DEFAULT_ROOT_PROJECTION = new String[]{
             Root.COLUMN_ROOT_ID,
             Root.COLUMN_FLAGS, Root.COLUMN_TITLE, Root.COLUMN_DOCUMENT_ID, Root.COLUMN_ICON,
             Root.COLUMN_AVAILABLE_BYTES
@@ -38,7 +49,7 @@ public class LocalStorageProvider extends DocumentsProvider {
      * Default document projection: everything but Document.COLUMN_ICON and
      * Document.COLUMN_SUMMARY
      */
-    private final static String[] DEFAULT_DOCUMENT_PROJECTION = new String[] {
+    private final static String[] DEFAULT_DOCUMENT_PROJECTION = new String[]{
             Document.COLUMN_DOCUMENT_ID,
             Document.COLUMN_DISPLAY_NAME, Document.COLUMN_FLAGS, Document.COLUMN_MIME_TYPE,
             Document.COLUMN_SIZE,

@@ -2,6 +2,8 @@ package dev.jinkim.snappollandroid.imgur;
 
 /**
  * Created by Jin on 11/30/14.
+ *
+ * Define constants used for image uploading on Imgur hosting.
  */
 public class ImgurConstants {
 
