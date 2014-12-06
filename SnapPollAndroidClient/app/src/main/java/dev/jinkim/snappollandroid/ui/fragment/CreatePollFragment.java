@@ -23,7 +23,6 @@ import java.io.File;
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.imgur.ImgurConstants;
 import dev.jinkim.snappollandroid.model.ImgurResponse;
-import dev.jinkim.snappollandroid.model.ImgurResponseData;
 import dev.jinkim.snappollandroid.model.Poll;
 import dev.jinkim.snappollandroid.util.efilechooser.FileUtils;
 import dev.jinkim.snappollandroid.web.ImgurRestClient;
@@ -165,7 +164,7 @@ public class CreatePollFragment extends Fragment {
         File file = FileUtils.getFile(getActivity(), uriSelectedImage);
 
         //TODO: Catch exception and handle it
-        TypedFile tf = new TypedFile("image/jpeg", file);
+        TypedFile tf = new TypedFile("image/*", file);
 
         ImgurRestClient imgurRest = new ImgurRestClient();
         imgurRest.getApiService().uploadImage("Client-ID " + ImgurConstants.MY_IMGUR_CLIENT_ID,

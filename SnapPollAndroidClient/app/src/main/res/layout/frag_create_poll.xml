@@ -1,7 +1,9 @@
+<!--<com.gc.materialdesign.views.ScrollView xmlns:android="http://schemas.android.com/apk/res/android"--><!--xmlns:custom="http://schemas.android.com/apk/res-auto"--><!--xmlns:materialdesign="http://schemas.android.com/apk/res-auto"--><!--android:id="@+id/scroll"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent">-->
+
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -10,6 +12,13 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
         android:orientation="vertical">
+
+        <!--<com.gc.materialdesign.views.Switch-->
+        <!--android:id="@+id/switchView"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+
+        <!--android:background="#1E88E5" />-->
 
         <com.wrapp.floatlabelededittext.FloatLabeledEditText
             android:id="@+id/et_title"
@@ -44,7 +53,16 @@
             android:id="@+id/sw_multiple"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="false"/>
+            android:checked="false" />
+
+        <!--<dev.jinkim.snappollandroid.ui.widget.switchbutton.SwitchButton-->
+        <!--android:id="@+id/sb_use_long"-->
+        <!--style="@style/SwitchButton"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:padding="16dp"-->
+        <!--custom:onColor="#FF22FF"-->
+        <!--android:focusable="false" />-->
 
         <TextView
             android:id="@+id/lbl_attributes"
@@ -95,4 +113,5 @@
             custom:pb_colorError="@color/red_error" />
 
     </LinearLayout>
+    <!--</com.gc.materialdesign.views.ScrollView>-->
 </ScrollView>
