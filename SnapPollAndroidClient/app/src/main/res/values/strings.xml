@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">SnapPoll</string>
     <string name="title_create_poll">Create a Poll</string>
     <string name="title_respond">Respond</string>
-    <string name="title_section3">Section 3</string>
+    <string name="title_section3">Debug-Login</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
     <string name="action_settings">Settings</string>
     <string name="image_description">Image reference from Snap Poll. https://github.com/jinkim608/SnapPoll</string>
+    <string name="btn_logout_from_google">Logout from Google</string>
+    <string name="btn_revoke_access">Revoke Access</string>
+    <string name="title_profile">Profile</string>
 
 </resources>

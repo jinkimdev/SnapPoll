@@ -14,6 +14,7 @@ import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.ui.NavigationDrawerFragment;
 import dev.jinkim.snappollandroid.ui.fragment.CreatePollFragment;
 import dev.jinkim.snappollandroid.ui.fragment.RespondFragment;
+import dev.jinkim.snappollandroid.ui.fragment.UserProfileFragment;
 
 
 public class MainActivity extends Activity
@@ -71,6 +72,14 @@ public class MainActivity extends Activity
             case 2:
                 Intent in = new Intent(this, LoginActivity.class);
                 startActivity(in);
+                break;
+
+            case 3:
+                Fragment profileFrag = fm.findFragmentByTag(UserProfileFragment.TAG);
+                if (profileFrag == null) {
+                    profileFrag = new UserProfileFragment();
+                }
+                fm.beginTransaction().replace(R.id.container, profileFrag, UserProfileFragment.TAG).commit();
                 break;
 
             default:

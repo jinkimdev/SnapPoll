@@ -37,7 +37,7 @@ import retrofit.mime.TypedFile;
  */
 public class CreatePollFragment extends Fragment {
 
-    public static final String TAG = "#### CreatePollFragment";
+    public static final String TAG = "CreatePollFragment ####";
 
     private static final int REQ_CODE_PICK_IMAGE = 1;
     public static final int RESULT_OK = -1;
