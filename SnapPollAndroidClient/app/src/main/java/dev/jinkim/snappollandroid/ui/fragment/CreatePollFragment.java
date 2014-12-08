@@ -1,17 +1,17 @@
 package dev.jinkim.snappollandroid.ui.fragment;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import com.dd.processbutton.iml.ActionProcessButton;
@@ -42,14 +42,13 @@ public class CreatePollFragment extends Fragment {
     private static final int REQ_CODE_PICK_IMAGE = 1;
     public static final int RESULT_OK = -1;
 
-    private Button btnTest;
     private Button btnAttachImage;
     private ActionProcessButton btnSubmit;
 
     /* poll data */
     private FloatLabeledEditText etQuestion;
     private FloatLabeledEditText etTitle;
-    private Switch swMultiple;
+    private SwitchCompat swMultiple;
 
     private ImageView ivThumbnail;
 
@@ -72,7 +71,7 @@ public class CreatePollFragment extends Fragment {
     private void initializeViews(View v) {
         etQuestion = (FloatLabeledEditText) v.findViewById(R.id.et_question);
         etTitle = (FloatLabeledEditText) v.findViewById(R.id.et_title);
-        swMultiple = (Switch) v.findViewById(R.id.sw_multiple);
+        swMultiple = (SwitchCompat) v.findViewById(R.id.sw_multiple);
 
         ivThumbnail = (ImageView) v.findViewById(R.id.iv_thumbnail);
         Picasso.with(getActivity())
@@ -97,23 +96,6 @@ public class CreatePollFragment extends Fragment {
                     updateProcessButton(1, "Uploading image");
                     uploadImage(uriSelectedImage, title);
                 }
-            }
-        });
-
-        btnTest = (Button) v.findViewById(R.id.btn_test);
-        btnTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                btnSubmit.setProgress(100);
-//                test();
-
-//                updateProcessButton(50, "Submitting poll");
-//                ImgurResponse ir = new ImgurResponse();
-//                ImgurResponseData id = new ImgurResponseData();
-//                id.link = "http://i.imgur.com/Q7B42Eo.gif";
-//                ir.data = id;
-//                submitPoll(ir);
-
             }
         });
 
@@ -231,34 +213,5 @@ public class CreatePollFragment extends Fragment {
                         updateProcessButton(-1, "Submission failed");
                     }
                 });
-    }
-
-    void test() {
-        SnapPollRestClient rest = new SnapPollRestClient();
-//            rest.getApiService().getPolls(new Callback<List<Poll>>() {
-//                @Override
-//                public void success(List<Poll> polls, Response response) {
-//                    Log.d("####", "Polls: " + polls.get(0).question);
-//                    Log.d("####", "Time: " + polls.get(0).pollTimestamp);
-//                }
-//
-//                @Override
-//                public void failure(RetrofitError retrofitError) {
-//                    // Log error here since request failed
-//                    Log.d("####", "" + retrofitError.toString());
-//                }
-//            });
-
-        rest.getApiService().getPoll(6, new Callback<Poll>() {
-            @Override
-            public void success(Poll poll, Response response) {
-                Log.d("####", "Poll by id: " + poll.question);
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-
-            }
-        });
     }
 }

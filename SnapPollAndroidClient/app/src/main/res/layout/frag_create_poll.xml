@@ -23,18 +23,22 @@
         <com.wrapp.floatlabelededittext.FloatLabeledEditText
             android:id="@+id/et_title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp">
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:textColorHint="@color/text_primary"
                 android:hint="Poll Title" />
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
         <com.wrapp.floatlabelededittext.FloatLabeledEditText
             android:id="@+id/et_question"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp">
 
             <EditText
                 android:layout_width="match_parent"
@@ -43,50 +47,51 @@
                 android:hint="Question" />
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
-        <TextView
-            android:id="@+id/lbl_allow_multiple"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Allow multiple responses?" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <Switch
-            android:id="@+id/sw_multiple"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="false" />
+            <TextView
+                android:id="@+id/lbl_allow_multiple"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="24dp"
+                android:layout_marginBottom="16dp"
+                android:text="Allow multiple responses?" />
 
-        <!--<dev.jinkim.snappollandroid.ui.widget.switchbutton.SwitchButton-->
-        <!--android:id="@+id/sb_use_long"-->
-        <!--style="@style/SwitchButton"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:padding="16dp"-->
-        <!--custom:onColor="#FF22FF"-->
-        <!--android:focusable="false" />-->
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/sw_multiple"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/lbl_allow_multiple"
+                android:layout_marginBottom="16dp"
+                android:checked="false" />
 
-        <TextView
-            android:id="@+id/lbl_attributes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add attributes" />
+            <TextView
+                android:id="@+id/lbl_attributes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/lbl_allow_multiple"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="24dp"
+                android:text="Add attributes" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="+"
-            android:id="@+id/btn_add_attributes" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+"
+                android:layout_below="@id/lbl_allow_multiple"
+                android:layout_toRightOf="@id/lbl_allow_multiple"
+                android:id="@+id/btn_add_attributes" />
+
+        </RelativeLayout>
+
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Attach an Image"
             android:id="@+id/btn_attach_image" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_test"
-            android:text="TEST" />
 
         <ImageView
             android:id="@+id/iv_thumbnail"
