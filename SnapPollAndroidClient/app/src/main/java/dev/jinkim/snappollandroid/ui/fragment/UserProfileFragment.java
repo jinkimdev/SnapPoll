@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import dev.jinkim.snappollandroid.R;
+import dev.jinkim.snappollandroid.app.App;
 import dev.jinkim.snappollandroid.model.User;
 import dev.jinkim.snappollandroid.session.SessionManager;
 import dev.jinkim.snappollandroid.util.image.CircleTransform;
@@ -37,16 +38,19 @@ public class UserProfileFragment extends Fragment {
 
         initializeViews(rootView);
 
-        if (session.isLoggedIn()) {
-            User user = session.getUserFromSession();
-            updateProfilePic(user.getPhotoUrl());
+        displayUserInfo();
 
-            tvName.setText(user.getFullName());
-            tvEmail.setText(user.getEmail());
-
-        }
 
         return rootView;
+    }
+
+    private void displayUserInfo() {
+        User user = App.getInstance().getCurrentUser();
+        if (user != null) {
+            updateProfilePic(user.getPhotoUrl());
+            tvName.setText(user.getFullName());
+            tvEmail.setText(user.getEmail());
+        }
     }
 
     private void initializeViews(View v) {
