@@ -17,7 +17,6 @@ import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.app.App;
 import dev.jinkim.snappollandroid.model.Poll;
 import dev.jinkim.snappollandroid.model.User;
-import dev.jinkim.snappollandroid.session.SessionManager;
 import dev.jinkim.snappollandroid.ui.adapter.MyPollListAdapter;
 import dev.jinkim.snappollandroid.util.image.CircleTransform;
 import dev.jinkim.snappollandroid.web.SnapPollRestClient;
@@ -30,11 +29,7 @@ import retrofit.client.Response;
  */
 public class MyPollsFragment extends ListFragment {
 
-    public static final String TAG = "UserProfileFragment ####";
-
-    private ImageView ivProfilePic;
-    private TextView tvName;
-    private TextView tvEmail;
+    public static final String TAG = "MyPollsFragment ####";
 
     MyPollListAdapter adapter;
 
@@ -42,14 +37,11 @@ public class MyPollsFragment extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.frag_user_profile, container, false);
+        View rootView = inflater.inflate(R.layout.frag_tab_my_polls, container, false);
 
         adapter = new MyPollListAdapter(getActivity(), null);
         setListAdapter(adapter);
 
-        initializeViews(rootView);
-
-        displayUserInfo();
         retrievePolls();
 
         return rootView;
@@ -79,29 +71,6 @@ public class MyPollsFragment extends ListFragment {
         adapter.clear();
         adapter.setPollsWithSections(polls);
         adapter.notifyDataSetChanged();
-    }
-
-    private void displayUserInfo() {
-        User user = App.getInstance().getCurrentUser(getActivity());
-        if (user != null) {
-            updateProfilePic(user.getPhotoUrl());
-            tvName.setText(user.getFullName());
-            tvEmail.setText(user.getEmail());
-        }
-    }
-
-    private void initializeViews(View v) {
-        ivProfilePic = (ImageView) v.findViewById(R.id.iv_profile_pic);
-        tvName = (TextView) v.findViewById(R.id.tv_name);
-        tvEmail = (TextView) v.findViewById(R.id.tv_email);
-    }
-
-
-    private void updateProfilePic(String photoUrl) {
-        Picasso.with(getActivity())
-                .load(photoUrl)
-                .transform(new CircleTransform())
-                .into(ivProfilePic);
     }
 
 }

@@ -30,7 +30,7 @@ public class InvitedPollsFragment extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.frag_respond_backup, container, false);
+        View rootView = inflater.inflate(R.layout.frag_tab_invited_polls, container, false);
 
         adapter = new InvitedPollListAdapter(getActivity(), new ArrayList<Poll>());
         setListAdapter(adapter);

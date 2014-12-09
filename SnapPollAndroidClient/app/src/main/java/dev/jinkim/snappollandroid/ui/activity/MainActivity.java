@@ -15,6 +15,7 @@ import dev.jinkim.snappollandroid.ui.NavigationDrawerFragment;
 import dev.jinkim.snappollandroid.ui.fragment.CreatePollFragment;
 import dev.jinkim.snappollandroid.ui.fragment.MyPollsFragment;
 import dev.jinkim.snappollandroid.ui.fragment.PollsTabFragment;
+import dev.jinkim.snappollandroid.ui.fragment.ProfileFragment;
 
 
 public class MainActivity extends ActionBarActivity
@@ -81,9 +82,9 @@ public class MainActivity extends ActionBarActivity
             case 3:
                 Fragment profileFrag = fm.findFragmentByTag(MyPollsFragment.TAG);
                 if (profileFrag == null) {
-                    profileFrag = new MyPollsFragment();
+                    profileFrag = new ProfileFragment();
                 }
-                fm.beginTransaction().replace(R.id.container, profileFrag, MyPollsFragment.TAG).commit();
+                fm.beginTransaction().replace(R.id.container, profileFrag, ProfileFragment.TAG).commit();
                 break;
 
             default:
