@@ -50,6 +50,7 @@ public class MyPollsFragment extends ListFragment {
             @Override
             public void success(List<Poll> polls, Response response) {
                 Log.d(TAG, "GET /poll/my/:user_id success.");
+
                 updateList(polls);
             }
 

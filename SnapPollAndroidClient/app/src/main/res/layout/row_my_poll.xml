@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp">
+
+    <ImageView
+        android:id="@+id/iv_poll_thumbnail"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:scaleType="center"
+        android:src="@drawable/placeholder" />
+
+    <RelativeLayout
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#D0FFFFFF">
+
+        <TextView
+            android:id="@+id/tv_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="8dp"
+            android:textColor="#000"
+            android:text="What is your favorite restaurant in Midtown?" />
+
+        <TextView
+            android:id="@+id/tv_num_response"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_question"
+            android:layout_marginLeft="16dp"
+            android:textColor="#555"
+            android:text="12 responses" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

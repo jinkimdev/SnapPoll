@@ -125,10 +125,10 @@ public class MyPollListAdapter extends BaseAdapter {
             case TYPE_POLL:
                 if (view == null) {
                     pollHolder = new InvitedPollListAdapter.ViewHolder();
-                    view = inflater.inflate(R.layout.row_poll, null);
-                    pollHolder.tvCreator = (TextView) view.findViewById(R.id.tv_creator_name);
-                    pollHolder.tvQuestion = (TextView) view.findViewById(R.id.tv_question);
+                    view = inflater.inflate(R.layout.row_my_poll, null);
                     pollHolder.ivPollThumbnail = (ImageView) view.findViewById(R.id.iv_poll_thumbnail);
+                    pollHolder.tvQuestion = (TextView) view.findViewById(R.id.tv_question);
+
                     view.setTag(pollHolder);
 
                 } else {
@@ -136,13 +136,12 @@ public class MyPollListAdapter extends BaseAdapter {
                 }
 
                 Poll p = (Poll) item;
-                pollHolder.tvCreator.setText(p.getCreatorId());
                 pollHolder.tvQuestion.setText(p.getQuestion());
                 Picasso.with(mActivity).load(p.getReferenceUrl())
                         .into(pollHolder.ivPollThumbnail);
+
                 break;
         }
-
         return view;
 
     }
