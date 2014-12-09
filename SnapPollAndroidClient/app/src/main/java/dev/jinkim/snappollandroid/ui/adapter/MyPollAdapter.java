@@ -136,8 +136,7 @@ public class MyPollAdapter extends BaseAdapter {
                 pollHolder.tvCreator.setText(p.getCreatorId());
                 pollHolder.tvQuestion.setText(p.getQuestion());
                 Picasso.with(mActivity).load(p.getReferenceUrl())
-                        .resize(120, 120)
-                        .centerCrop().into(pollHolder.ivPollThumbnail);
+                        .into(pollHolder.ivPollThumbnail);
                 break;
         }
 

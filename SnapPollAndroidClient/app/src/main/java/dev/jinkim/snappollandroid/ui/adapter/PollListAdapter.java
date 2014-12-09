@@ -62,9 +62,7 @@ public class PollListAdapter extends ArrayAdapter<Poll> {
         holder.tvCreator.setText(creator);
         holder.tvQuestion.setText(question);
         Picasso.with(context).load(referenceUrl)
-                .resize(160, 160)
-//                .transform()
-                .centerCrop().into(holder.ivPollThumbnail);
+                .into(holder.ivPollThumbnail);
 
         return rowView;
     }

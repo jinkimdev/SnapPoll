@@ -1,33 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp">
+    android:layout_height="80dp">
 
     <ImageView
         android:id="@+id/iv_poll_thumbnail"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginRight="16dp"
-        android:layout_alignParentLeft="true"
-        android:src="@drawable/googleplus" />
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:scaleType="center"
+        android:src="@drawable/placeholder" />
 
-    <TextView
-        android:id="@+id/tv_question"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/iv_poll_thumbnail"
-        android:textColor="#555"
-        android:text="What is your favorite restaurant in Midtown?" />
+    <RelativeLayout
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#D0FFFFFF">
 
-    <TextView
-        android:id="@+id/tv_creator_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_question"
-        android:layout_toRightOf="@id/iv_poll_thumbnail"
-        android:textColor="#AAA"
-        android:text="From Jin" />
+        <ImageView
+            android:id="@+id/iv_creator_thumbnail"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginRight="24dp"
+            android:src="@drawable/googleplus" />
+
+        <TextView
+            android:id="@+id/tv_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/iv_creator_thumbnail"
+            android:textColor="#000"
+            android:text="What is your favorite restaurant in Midtown?" />
+
+        <TextView
+            android:id="@+id/tv_creator_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_question"
+            android:layout_toRightOf="@id/iv_creator_thumbnail"
+            android:textColor="#555"
+            android:text="From Jin" />
+
+    </RelativeLayout>
+
+
 
 
 </RelativeLayout>
