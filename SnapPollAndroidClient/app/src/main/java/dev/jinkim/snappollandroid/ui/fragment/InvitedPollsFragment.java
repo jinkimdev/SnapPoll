@@ -13,7 +13,7 @@ import java.util.List;
 
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.model.Poll;
-import dev.jinkim.snappollandroid.ui.adapter.PollListAdapter;
+import dev.jinkim.snappollandroid.ui.adapter.InvitedPollListAdapter;
 import dev.jinkim.snappollandroid.web.SnapPollRestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -22,17 +22,17 @@ import retrofit.client.Response;
 /**
  * Created by Jin on 11/27/14.
  */
-public class RespondFragment extends ListFragment {
+public class InvitedPollsFragment extends ListFragment {
 
     public static final String TAG = "RespondFragment ####";
-    PollListAdapter adapter;
+    InvitedPollListAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.frag_respond, container, false);
+        View rootView = inflater.inflate(R.layout.frag_respond_backup, container, false);
 
-        adapter = new PollListAdapter(getActivity(), new ArrayList<Poll>());
+        adapter = new InvitedPollListAdapter(getActivity(), new ArrayList<Poll>());
         setListAdapter(adapter);
 
         Log.d(TAG, "onCreateView, adapter set.");

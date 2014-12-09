@@ -22,14 +22,14 @@ import dev.jinkim.snappollandroid.model.User;
 /**
  * Created by Jin on 12/5/14.
  */
-public class MyPollAdapter extends BaseAdapter {
+public class MyPollListAdapter extends BaseAdapter {
     private static final int TYPE_POLL = 0;
     private static final int TYPE_SECTION = 1;
     private Activity mActivity;
     private List<MyPollItem> list;
     private static LayoutInflater inflater;
 
-    public MyPollAdapter(Activity activity, List<Poll> polls) {
+    public MyPollListAdapter(Activity activity, List<Poll> polls) {
         mActivity = activity;
         inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -95,7 +95,7 @@ public class MyPollAdapter extends BaseAdapter {
         View view = convertView;
         final MyPollItem item = list.get(position);
 
-        PollListAdapter.ViewHolder pollHolder;
+        InvitedPollListAdapter.ViewHolder pollHolder;
         SectionViewHolder sectionHolder;
 
         switch (type) {
@@ -121,7 +121,7 @@ public class MyPollAdapter extends BaseAdapter {
 
             case TYPE_POLL:
                 if (view == null) {
-                    pollHolder = new PollListAdapter.ViewHolder();
+                    pollHolder = new InvitedPollListAdapter.ViewHolder();
                     view = inflater.inflate(R.layout.row_poll, null);
                     pollHolder.tvCreator = (TextView) view.findViewById(R.id.tv_creator_name);
                     pollHolder.tvQuestion = (TextView) view.findViewById(R.id.tv_question);
@@ -129,7 +129,7 @@ public class MyPollAdapter extends BaseAdapter {
                     view.setTag(pollHolder);
 
                 } else {
-                    pollHolder = (PollListAdapter.ViewHolder) view.getTag();
+                    pollHolder = (InvitedPollListAdapter.ViewHolder) view.getTag();
                 }
 
                 Poll p = (Poll) item;

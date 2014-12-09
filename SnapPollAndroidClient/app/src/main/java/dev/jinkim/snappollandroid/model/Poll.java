@@ -2,12 +2,12 @@ package dev.jinkim.snappollandroid.model;
 
 import java.util.Date;
 
-import dev.jinkim.snappollandroid.ui.adapter.MyPollAdapter;
+import dev.jinkim.snappollandroid.ui.adapter.MyPollListAdapter;
 
 /**
  * Created by Jin on 11/23/14.
  */
-public class Poll implements MyPollAdapter.MyPollItem {
+public class Poll implements MyPollListAdapter.MyPollItem {
     public int pollId;
     public String creatorId = "";
     public String title = "";

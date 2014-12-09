@@ -18,7 +18,7 @@ import dev.jinkim.snappollandroid.app.App;
 import dev.jinkim.snappollandroid.model.Poll;
 import dev.jinkim.snappollandroid.model.User;
 import dev.jinkim.snappollandroid.session.SessionManager;
-import dev.jinkim.snappollandroid.ui.adapter.MyPollAdapter;
+import dev.jinkim.snappollandroid.ui.adapter.MyPollListAdapter;
 import dev.jinkim.snappollandroid.util.image.CircleTransform;
 import dev.jinkim.snappollandroid.web.SnapPollRestClient;
 import retrofit.Callback;
@@ -28,26 +28,23 @@ import retrofit.client.Response;
 /**
  * Created by Jin on 11/27/14.
  */
-public class UserProfileFragment extends ListFragment {
+public class MyPollsFragment extends ListFragment {
 
     public static final String TAG = "UserProfileFragment ####";
-
-    private SessionManager session;
 
     private ImageView ivProfilePic;
     private TextView tvName;
     private TextView tvEmail;
 
-    MyPollAdapter adapter;
+    MyPollListAdapter adapter;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.frag_user_profile, container, false);
-        session = new SessionManager(getActivity());
 
-        adapter = new MyPollAdapter(getActivity(), null);
+        adapter = new MyPollListAdapter(getActivity(), null);
         setListAdapter(adapter);
 
         initializeViews(rootView);

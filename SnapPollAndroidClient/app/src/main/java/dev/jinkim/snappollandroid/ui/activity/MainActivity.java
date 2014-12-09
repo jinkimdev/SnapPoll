@@ -13,8 +13,8 @@ import android.view.MenuItem;
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.ui.NavigationDrawerFragment;
 import dev.jinkim.snappollandroid.ui.fragment.CreatePollFragment;
-import dev.jinkim.snappollandroid.ui.fragment.RespondFragment;
-import dev.jinkim.snappollandroid.ui.fragment.UserProfileFragment;
+import dev.jinkim.snappollandroid.ui.fragment.MyPollsFragment;
+import dev.jinkim.snappollandroid.ui.fragment.PollsTabFragment;
 
 
 public class MainActivity extends ActionBarActivity
@@ -43,6 +43,10 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+//        PollsFragment pollsFrag = new PollsFragment();
+//        getSupportFragmentManager().beginTransaction()
+//                .add(R.id.item_detail_container, pollsFrag).commit();
     }
 
     @Override
@@ -62,11 +66,11 @@ public class MainActivity extends ActionBarActivity
                 break;
 
             case 1:
-                Fragment respondFrag = fm.findFragmentByTag(RespondFragment.TAG);
+                Fragment respondFrag = fm.findFragmentByTag(PollsTabFragment.TAG);
                 if (respondFrag == null) {
-                    respondFrag = new RespondFragment();
+                    respondFrag = new PollsTabFragment();
                 }
-                fm.beginTransaction().replace(R.id.container, respondFrag, RespondFragment.TAG).commit();
+                fm.beginTransaction().replace(R.id.container, respondFrag, PollsTabFragment.TAG).commit();
                 break;
 
             case 2:
@@ -75,11 +79,11 @@ public class MainActivity extends ActionBarActivity
                 break;
 
             case 3:
-                Fragment profileFrag = fm.findFragmentByTag(UserProfileFragment.TAG);
+                Fragment profileFrag = fm.findFragmentByTag(MyPollsFragment.TAG);
                 if (profileFrag == null) {
-                    profileFrag = new UserProfileFragment();
+                    profileFrag = new MyPollsFragment();
                 }
-                fm.beginTransaction().replace(R.id.container, profileFrag, UserProfileFragment.TAG).commit();
+                fm.beginTransaction().replace(R.id.container, profileFrag, MyPollsFragment.TAG).commit();
                 break;
 
             default:

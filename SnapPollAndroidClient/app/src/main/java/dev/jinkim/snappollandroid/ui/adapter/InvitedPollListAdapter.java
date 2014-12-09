@@ -18,18 +18,19 @@ import dev.jinkim.snappollandroid.model.Poll;
 /**
  * Created by Jin on 12/5/14.
  */
-public class PollListAdapter extends ArrayAdapter<Poll> {
+public class InvitedPollListAdapter extends ArrayAdapter<Poll> {
 
     private Context context;
     private List<Poll> polls;
 
     static class ViewHolder {
         public ImageView ivPollThumbnail;
+        public ImageView ivCreatorThumbnail;
         public TextView tvCreator;
         public TextView tvQuestion;
     }
 
-    public PollListAdapter(Context context, List<Poll> polls) {
+    public InvitedPollListAdapter(Context context, List<Poll> polls) {
         super(context, R.layout.row_poll, polls);
         this.context = context;
         this.polls = polls;
@@ -67,4 +68,3 @@ public class PollListAdapter extends ArrayAdapter<Poll> {
         return rowView;
     }
 }
-
