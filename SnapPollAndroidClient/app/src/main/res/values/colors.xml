@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="text_primary">#555</color>
-    <color name="divider">#AAA</color>
+    <color name="divider">#CCC</color>
 </resources>

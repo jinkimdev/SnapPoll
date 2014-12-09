@@ -2,10 +2,12 @@ package dev.jinkim.snappollandroid.model;
 
 import java.util.Date;
 
+import dev.jinkim.snappollandroid.ui.adapter.MyPollAdapter;
+
 /**
  * Created by Jin on 11/23/14.
  */
-public class Poll {
+public class Poll implements MyPollAdapter.MyPollItem {
     public int pollId;
     public String creatorId = "";
     public String title = "";
@@ -86,5 +88,15 @@ public class Poll {
 
     public void setReferenceDeleteHash(String referenceDeleteHash) {
         this.referenceDeleteHash = referenceDeleteHash;
+    }
+
+    @Override
+    public boolean isPoll() {
+        return true;
+    }
+
+    @Override
+    public boolean isSection() {
+        return false;
     }
 }

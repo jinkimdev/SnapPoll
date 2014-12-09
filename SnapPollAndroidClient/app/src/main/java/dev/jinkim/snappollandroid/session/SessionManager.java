@@ -36,7 +36,7 @@ public class SessionManager {
     public static final String SESSION_USER_PHOTO_URL = "userPhotoUrl";
 
     public SessionManager(Context context) {
-        this.mContext = context;
+        mContext = context;
         pref = mContext.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = pref.edit();
     }

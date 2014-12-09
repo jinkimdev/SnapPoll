@@ -101,6 +101,8 @@ public class LoginActivity extends ActionBarActivity {
 
                         // Update the UI after signin
                         updateUI(true);
+
+                        // TODO: WHERE SHOULD I DO POST /login
                     }
 
                     @Override

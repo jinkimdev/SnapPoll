@@ -21,9 +21,11 @@ import com.wrapp.floatlabelededittext.FloatLabeledEditText;
 import java.io.File;
 
 import dev.jinkim.snappollandroid.R;
+import dev.jinkim.snappollandroid.app.App;
 import dev.jinkim.snappollandroid.imgur.ImgurConstants;
 import dev.jinkim.snappollandroid.model.ImgurResponse;
 import dev.jinkim.snappollandroid.model.Poll;
+import dev.jinkim.snappollandroid.model.User;
 import dev.jinkim.snappollandroid.util.efilechooser.FileUtils;
 import dev.jinkim.snappollandroid.web.ImgurRestClient;
 import dev.jinkim.snappollandroid.web.SnapPollRestClient;
@@ -188,8 +190,10 @@ public class CreatePollFragment extends Fragment {
             // TODO: HANDLE ERROR
         }
 
+        User u = App.getInstance().getCurrentUser(getActivity());
+
         Poll p = new Poll();
-        p.setCreatorId("gb");
+        p.setCreatorId(u.getEmail());
         p.setQuestion(etQuestion.getEditText().getText().toString());
         p.setTitle(etTitle.getEditText().getText().toString());
         p.setActive(true);

@@ -34,13 +34,13 @@ public class App extends Application {
      * Return current user if logged in and retrieved from session
      * otherwise return null
      */
-    public User getCurrentUser() {
+    public User getCurrentUser(Context aContext) {
         if (currentUser != null) {
             return currentUser;
         }
 
         if (session == null) {
-            session = new SessionManager(context);
+            session = new SessionManager(aContext);
         }
         return session.getUserFromSession();
     }
