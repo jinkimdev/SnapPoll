@@ -12,7 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dev.jinkim.snappollandroid.R;
+import dev.jinkim.snappollandroid.app.App;
 import dev.jinkim.snappollandroid.model.Poll;
+import dev.jinkim.snappollandroid.model.User;
 import dev.jinkim.snappollandroid.ui.adapter.InvitedPollListAdapter;
 import dev.jinkim.snappollandroid.web.SnapPollRestClient;
 import retrofit.Callback;
@@ -43,18 +45,19 @@ public class InvitedPollsFragment extends ListFragment {
     }
 
     private void retrievePolls() {
+        User u = App.getInstance().getCurrentUser(getActivity());
+
         SnapPollRestClient rest = new SnapPollRestClient();
-        rest.getApiService().getPolls(new Callback<List<Poll>>() {
+        rest.getApiService().getInvitedPolls(u.getEmail(), new Callback<List<Poll>>() {
             @Override
             public void success(List<Poll> polls, Response response) {
-                Log.d(TAG, "GET /poll success.");
+                Log.d(TAG, "GET /poll/invited success.");
                 updateList(polls);
-
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Log.d(TAG, "GET /poll failed.");
+                Log.d(TAG, "GET /poll/invited failed.");
 
             }
         });

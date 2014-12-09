@@ -60,6 +60,12 @@ public class SnapPollRestClient {
         @GET("/poll/{poll_id}")
         void getPoll(@Path("poll_id") int pollId, Callback<Poll> cb);
 
+        @GET("/poll/my/{user_id}")
+        void getMyPolls(@Path("user_id") String userId, Callback<List<Poll>> cb);
+
+        @GET("/poll/invited/{user_id}")
+        void getInvitedPolls(@Path("user_id") String userId, Callback<List<Poll>> cb);
+
         @FormUrlEncoded
         @POST("/poll")
         void postPoll(@Field("creator_id") String creatorId,
@@ -68,5 +74,9 @@ public class SnapPollRestClient {
                       @Field("multiple_response_allowed") Boolean multiple,
                       @Field("reference_url") String url,
                       @Field("reference_delete_hash") String deleteHash, Callback<Poll> cb);
+
+//        @FormUrlEncoded
+//        @POST("/user")
+//        void createUser(@Field("user_id") String )
     }
 }

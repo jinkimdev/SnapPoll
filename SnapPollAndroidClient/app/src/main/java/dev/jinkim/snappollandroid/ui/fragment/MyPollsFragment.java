@@ -6,10 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -18,7 +14,6 @@ import dev.jinkim.snappollandroid.app.App;
 import dev.jinkim.snappollandroid.model.Poll;
 import dev.jinkim.snappollandroid.model.User;
 import dev.jinkim.snappollandroid.ui.adapter.MyPollListAdapter;
-import dev.jinkim.snappollandroid.util.image.CircleTransform;
 import dev.jinkim.snappollandroid.web.SnapPollRestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -32,7 +27,6 @@ public class MyPollsFragment extends ListFragment {
     public static final String TAG = "MyPollsFragment ####";
 
     MyPollListAdapter adapter;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,19 +43,19 @@ public class MyPollsFragment extends ListFragment {
 
     //TODO: retrieve polls + creator first name
     private void retrievePolls() {
+        User u = App.getInstance().getCurrentUser(getActivity());
+
         SnapPollRestClient rest = new SnapPollRestClient();
-        rest.getApiService().getPolls(new Callback<List<Poll>>() {
+        rest.getApiService().getMyPolls(u.getEmail(), new Callback<List<Poll>>() {
             @Override
             public void success(List<Poll> polls, Response response) {
-                Log.d(TAG, "GET /poll success.");
+                Log.d(TAG, "GET /poll/my/:user_id success.");
                 updateList(polls);
-
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Log.d(TAG, "GET /poll failed.");
-
+                Log.d(TAG, "GET /poll/my/:user_id fail.");
             }
         });
 

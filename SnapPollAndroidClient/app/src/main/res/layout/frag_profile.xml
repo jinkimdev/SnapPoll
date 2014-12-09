@@ -43,4 +43,10 @@
 
     <View style="@style/divider" />
 
+    <TextView
+        android:id="@+id/lbl_settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SETTINGS" />
+
 </LinearLayout>

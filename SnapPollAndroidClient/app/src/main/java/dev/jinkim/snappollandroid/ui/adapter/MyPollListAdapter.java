@@ -52,19 +52,22 @@ public class MyPollListAdapter extends BaseAdapter {
         User u = App.getInstance().getCurrentUser(mActivity);
 
         list = new ArrayList<MyPollItem>();
-        list.add(new Section("Invited"));
+        list.add(new Section("Open"));
         for (Poll p : polls) {
-            if (!p.getCreatorId().equals(u.getEmail())) {
+            if (p.getCreatorId().equals(u.getEmail()) && p.isActive()) {
                 list.add(p);
             }
         }
 
-        list.add(new Section("My Polls"));
+        //TODO: empty row for "open" section
+        list.add(new Section("Closed"));
         for (Poll p : polls) {
-            if (p.getCreatorId().equals(u.getEmail())) {
+            if (p.getCreatorId().equals(u.getEmail()) && !p.isActive()) {
                 list.add(p);
             }
         }
+
+        //TODO: empty row for "closed" section
     }
 
     public int getCount() {

@@ -49,7 +49,7 @@ public class ProfileFragment extends Fragment {
         if (user != null) {
             tvName.setText(user.getFullName());
             tvEmail.setText(user.getEmail());
-            updateProfilePic(user.getPhotoUrl());
+            updateProfilePic(user.getProfilePicUrl());
         }
     }
 

@@ -10,6 +10,9 @@ import dev.jinkim.snappollandroid.ui.adapter.MyPollListAdapter;
 public class Poll implements MyPollListAdapter.MyPollItem {
     public int pollId;
     public String creatorId = "";
+    public String creatorLastName = "";
+    public String creatorFirstName = "";
+    public String creatorProfilePicUrl = "";
     public String title = "";
     public String question = "";
     public Date pollTimestamp;
@@ -88,6 +91,30 @@ public class Poll implements MyPollListAdapter.MyPollItem {
 
     public void setReferenceDeleteHash(String referenceDeleteHash) {
         this.referenceDeleteHash = referenceDeleteHash;
+    }
+
+    public String getCreatorLastName() {
+        return creatorLastName;
+    }
+
+    public void setCreatorLastName(String creatorLastName) {
+        this.creatorLastName = creatorLastName;
+    }
+
+    public String getCreatorFirstName() {
+        return creatorFirstName;
+    }
+
+    public void setCreatorFirstName(String creatorFirstName) {
+        this.creatorFirstName = creatorFirstName;
+    }
+
+    public String getCreatorProfilePicUrl() {
+        return creatorProfilePicUrl;
+    }
+
+    public void setCreatorProfilePicUrl(String creatorProfilePicUrl) {
+        this.creatorProfilePicUrl = creatorProfilePicUrl;
     }
 
     @Override

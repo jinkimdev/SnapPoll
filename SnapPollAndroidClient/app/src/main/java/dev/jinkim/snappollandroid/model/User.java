@@ -10,7 +10,7 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
-    private String photoUrl;
+    private String profilePicUrl;
 
     /**
      * Populate User fields with the passed in Person object
@@ -33,11 +33,11 @@ public class User {
             lastName = name.getFamilyName();
         }
         if (p.hasImage()) {
-            photoUrl = p.getImage().getUrl();
+            profilePicUrl = p.getImage().getUrl();
             // by default the profile url gives 50x50 px image only
             // we can replace the value with whatever dimension we want by
             // replacing sz=X
-            photoUrl = photoUrl.substring(0, photoUrl.length() - 2) + 200;
+            profilePicUrl = profilePicUrl.substring(0, profilePicUrl.length() - 2) + 200;
         }
     }
 
@@ -57,12 +57,12 @@ public class User {
         this.email = email;
     }
 
-    public String getPhotoUrl() {
-        return photoUrl;
+    public String getProfilePicUrl() {
+        return profilePicUrl;
     }
 
-    public void setPhotoUrl(String photoUrl) {
-        this.photoUrl = photoUrl;
+    public void setProfilePicUrl(String profilePicUrl) {
+        this.profilePicUrl = profilePicUrl;
     }
 
     public String getFirstName() {
