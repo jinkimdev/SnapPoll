@@ -21,6 +21,7 @@ More info including possible use cases and architecture is [in the wiki](https:/
 
 API calls are documented [in this page](https://github.com/jinkim608/SnapPoll/wiki/REST-API-on-Node.js).
 
+
 ####PostgreSQL Backend Database
 DB contains users, polls, responses tables. Details of the DB schema are documented [in this page](https://github.com/jinkim608/SnapPoll/wiki/Database-(PostgreSQL)).
 
