@@ -16,13 +16,13 @@ More info including possible use cases and architecture is [in the wiki](https:/
 
 ##Components
 
-####Node.js REST API
+####REST API (Node.js)
 **API end point** used in the demo: http://snappoll.herokuapp.com/api
 
 API calls are documented [in this page](https://github.com/jinkim608/SnapPoll/wiki/REST-API-on-Node.js).
 
 
-####PostgreSQL Backend Database
+#### Database Backend (PostgreSQL)
 DB contains users, polls, responses tables. Details of the DB schema are documented [in this page](https://github.com/jinkim608/SnapPoll/wiki/Database-(PostgreSQL)).
 
 ####Android Client
