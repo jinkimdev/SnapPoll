@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:scaleType="center"
-        android:src="@drawable/placeholder" />
+        android:src="@drawable/ic_img_placeholder" />
 
     <RelativeLayout
         android:padding="16dp"

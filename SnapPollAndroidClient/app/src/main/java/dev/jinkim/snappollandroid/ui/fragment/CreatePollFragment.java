@@ -77,8 +77,8 @@ public class CreatePollFragment extends Fragment {
 
         ivThumbnail = (ImageView) v.findViewById(R.id.iv_thumbnail);
         Picasso.with(getActivity())
-                .load(R.drawable.placeholder)
-                .placeholder(R.drawable.placeholder)
+                .load(R.drawable.ic_img_placeholder)
+                .placeholder(R.drawable.ic_img_placeholder)
                 .fit().centerInside()
                 .into(ivThumbnail);
 

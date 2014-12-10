@@ -6,22 +6,22 @@
     <ImageView
         android:id="@+id/iv_poll_thumbnail"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="80dp"
         android:scaleType="center"
-        android:src="@drawable/placeholder" />
+        android:src="@drawable/ic_img_placeholder" />
 
     <RelativeLayout
         android:padding="16dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#D0FFFFFF">
+        android:background="#30FFFFFF">
 
         <TextView
             android:id="@+id/tv_question"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="4dp"
             android:textColor="#000"
             android:text="What is your favorite restaurant in Midtown?" />
 
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_question"
             android:layout_marginLeft="16dp"
-            android:textColor="#555"
+            android:textColor="#606060"
             android:text="12 responses" />
 
     </RelativeLayout>

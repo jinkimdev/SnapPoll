@@ -20,19 +20,6 @@
 
         <!--android:background="#1E88E5" />-->
 
-        <com.wrapp.floatlabelededittext.FloatLabeledEditText
-            android:id="@+id/et_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp">
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:textColorHint="@color/text_primary"
-                android:hint="Poll Title" />
-        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
         <com.wrapp.floatlabelededittext.FloatLabeledEditText
             android:id="@+id/et_question"
@@ -45,6 +32,20 @@
                 android:layout_height="wrap_content"
                 android:maxLines="3"
                 android:hint="Question" />
+        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:id="@+id/et_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:textColorHint="@color/text_primary"
+                android:hint="Poll Title (optional)" />
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
         <RelativeLayout
@@ -90,14 +91,14 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Attach an Image"
+            android:text="Select Image"
             android:id="@+id/btn_attach_image" />
 
         <ImageView
             android:id="@+id/iv_thumbnail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_margin="8dp"
             android:layout_gravity="center_horizontal"
             android:scaleType="centerInside" />
 
@@ -105,7 +106,9 @@
             android:id="@+id/btn_submit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
             android:text="Submit"
             android:textColor="@android:color/white"
             android:textSize="18sp"

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -19,6 +20,7 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
+import com.squareup.picasso.Picasso;
 
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.model.User;
@@ -45,6 +47,8 @@ public class LoginActivity extends ActionBarActivity {
     private boolean mSignInClicked;
     private ConnectionResult mConnectionResult;
 
+    private ImageView ivLogo;
+
     private SessionManager session;
 
     private Activity mActivity;
@@ -63,6 +67,10 @@ public class LoginActivity extends ActionBarActivity {
 
 
         setContentView(R.layout.activity_login);
+
+//        ivLogo = (ImageView) findViewById(R.id.iv_logo);
+//        Picasso.with(this).load(R.drawable.ic)
+//                .fit().into(ivLogo);
 
         btnGoogleSignIn = (SignInButton) findViewById(R.id.btn_sign_in);
         btnGoogleSignIn.setOnClickListener(new View.OnClickListener() {
