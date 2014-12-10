@@ -7,6 +7,7 @@ A Mobile Polling Interaction with Visual Reference
 Jinhyun Kim (dev.jinkim@gmail.com)
 
 
+![](https://github.com/jinkim608/SnapPoll/blob/master/Assets/Screens/resized_create_poll.png)
 
 ##Overview
 
