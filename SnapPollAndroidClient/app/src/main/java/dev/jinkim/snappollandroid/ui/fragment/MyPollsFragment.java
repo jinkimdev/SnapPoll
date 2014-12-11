@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -45,21 +46,24 @@ public class MyPollsFragment extends ListFragment {
     private void retrievePolls() {
         User u = App.getInstance().getCurrentUser(getActivity());
 
-        SnapPollRestClient rest = new SnapPollRestClient();
-        rest.getApiService().getMyPolls(u.getEmail(), new Callback<List<Poll>>() {
-            @Override
-            public void success(List<Poll> polls, Response response) {
-                Log.d(TAG, "GET /poll/my/:user_id success.");
+        if (u != null) {
+            SnapPollRestClient rest = new SnapPollRestClient();
+            rest.getApiService().getMyPolls(u.getEmail(), new Callback<List<Poll>>() {
+                @Override
+                public void success(List<Poll> polls, Response response) {
+                    Log.d(TAG, "GET /poll/my/:user_id success.");
 
-                updateList(polls);
-            }
+                    updateList(polls);
+                }
 
-            @Override
-            public void failure(RetrofitError error) {
-                Log.d(TAG, "GET /poll/my/:user_id fail.");
-            }
-        });
-
+                @Override
+                public void failure(RetrofitError error) {
+                    Log.d(TAG, "GET /poll/my/:user_id fail.");
+                }
+            });
+        } else {
+            Toast.makeText(getActivity(), "Please sign in to see your polls", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void updateList(List<Poll> polls) {
