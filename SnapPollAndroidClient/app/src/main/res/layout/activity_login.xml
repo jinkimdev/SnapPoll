@@ -104,10 +104,9 @@
             android:id="@+id/fb_login_button"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="12dp"
             facebook:confirm_logout="false"
-            facebook:fetch_user_info="true"
-            android:padding="1dp"/>
+            facebook:fetch_user_info="true"/>
 
         <com.google.android.gms.common.SignInButton
             android:id="@+id/btn_sign_in"
