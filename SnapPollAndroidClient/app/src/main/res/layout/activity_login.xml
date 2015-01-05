@@ -1,5 +1,6 @@
 <!-- A DrawerLayout is intended to be used as the top-level content view using match_parent for both width and height to consume the full space available. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:facebook="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -18,7 +19,7 @@
             android:layout_gravity="center_horizontal"
             android:src="@drawable/ic"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="40dp"/>
+            android:layout_marginBottom="40dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -45,7 +46,7 @@
             android:text="Sign in with"
             android:textColor="#AAA"
             android:textSize="18sp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -99,10 +100,18 @@
         <!--android:textSize="20sp" />-->
 
         <!--</LinearLayout>-->
+        <com.facebook.widget.LoginButton
+            android:id="@+id/fb_login_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            facebook:confirm_logout="false"
+            facebook:fetch_user_info="true"
+            android:padding="1dp"/>
 
         <com.google.android.gms.common.SignInButton
             android:id="@+id/btn_sign_in"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_margin="10dp"

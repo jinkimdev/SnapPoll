@@ -12,5 +12,6 @@
     <string name="btn_logout_from_google">Logout from Google</string>
     <string name="btn_revoke_access">Revoke Access</string>
     <string name="title_profile">Profile</string>
+    <string name="facebook_app_id">1013877905305125</string>
 
 </resources>

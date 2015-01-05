@@ -1,5 +1,6 @@
 package dev.jinkim.snappollandroid.model;
 
+import com.facebook.model.GraphUser;
 import com.google.android.gms.plus.model.people.Person;
 
 /**
@@ -13,7 +14,7 @@ public class User {
     private String profilePicUrl;
 
     /**
-     * Populate User fields with the passed in Person object
+     * Populate User fields with the passed in Person object (Google+)
      * Reference: https://developer.android.com/reference/com/google/android/gms/plus/model/people/Person.html
      *
      * @param p Google Plus Person model
@@ -39,6 +40,29 @@ public class User {
             // replacing sz=X
             profilePicUrl = profilePicUrl.substring(0, profilePicUrl.length() - 2) + 200;
         }
+    }
+
+    /**
+     * Populate User fields with the passed in GraphUser object (Facebook SDK)
+     * Reference: https://developers.facebook.com/docs/reference/android/current/interface/GraphUser/
+     *
+     * @param fbUser Facebook GraphUser model
+     */
+    public User(GraphUser fbUser) {
+
+        if (fbUser.getId() != null) {
+            fullName = fbUser.getName();
+            firstName = fbUser.getFirstName();
+            lastName = fbUser.getLastName();
+            profilePicUrl = getFbProfilePicUrl(fbUser.getId());
+        }
+
+    }
+
+    /* Generate FB profile picture url based on passed in user id */
+    private String getFbProfilePicUrl(String id) {
+//        return "http://graph.facebook.com/" + id + "/picture?type=large&redirect=false";
+        return "http://graph.facebook.com/" + id + "/picture?type=large";
     }
 
     public String getFullName() {

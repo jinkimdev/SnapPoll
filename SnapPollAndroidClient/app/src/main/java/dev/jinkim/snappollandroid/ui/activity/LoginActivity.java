@@ -7,11 +7,15 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.UiLifecycleHelper;
+import com.facebook.model.GraphUser;
+import com.facebook.widget.LoginButton;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.SignInButton;
@@ -20,7 +24,6 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
-import com.squareup.picasso.Picasso;
 
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.model.User;
@@ -34,10 +37,13 @@ public class LoginActivity extends ActionBarActivity {
     private static final int RC_SIGN_IN = 0;
     private static final String TAG = "LoginActivity ####";
 
-    private SignInButton btnGoogleSignIn;
+    private LoginButton btnFacebookLogin;
+    private SignInButton btnGoogleLogin;
     private Button btnSignOut;
     private Button btnRevokeAccess;
     private GoogleApiClient mGoogleApiClient;
+
+    private UiLifecycleHelper uiHelper;
 
     /**
      * A flag indicating that a PendingIntent is in progress and prevents us
@@ -57,6 +63,10 @@ public class LoginActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // facebook login
+        uiHelper = new UiLifecycleHelper(this, statusCallback);
+        uiHelper.onCreate(savedInstanceState);
+
         // hide action bar
 //        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         getSupportActionBar().hide();
@@ -72,8 +82,24 @@ public class LoginActivity extends ActionBarActivity {
 //        Picasso.with(this).load(R.drawable.ic)
 //                .fit().into(ivLogo);
 
-        btnGoogleSignIn = (SignInButton) findViewById(R.id.btn_sign_in);
-        btnGoogleSignIn.setOnClickListener(new View.OnClickListener() {
+        btnFacebookLogin = (LoginButton) findViewById(R.id.fb_login_button);
+        btnFacebookLogin.setUserInfoChangedCallback(new LoginButton.UserInfoChangedCallback() {
+            @Override
+            public void onUserInfoFetched(GraphUser fbUser) {
+                if (fbUser != null) {
+                    Log.d(TAG, "Facebook: " + fbUser.getName());
+                    User user = new User(fbUser);
+                    session.createLoginSession(user);
+
+                } else {
+                    Log.d(TAG, "Facebook: Not logged in");
+
+                }
+            }
+        });
+
+        btnGoogleLogin = (SignInButton) findViewById(R.id.btn_sign_in);
+        btnGoogleLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signInWithGplus();
@@ -107,7 +133,7 @@ public class LoginActivity extends ActionBarActivity {
                         // Get user's information
                         getProfileInformation();
 
-                        // Update the UI after signin
+                        // Update the UI after sign in
                         updateUI(true);
 
                         // TODO: WHERE SHOULD I DO POST /login
@@ -145,6 +171,18 @@ public class LoginActivity extends ActionBarActivity {
 
     }
 
+    private Session.StatusCallback statusCallback = new Session.StatusCallback() {
+        @Override
+        public void call(Session session, SessionState state,
+                         Exception exception) {
+            if (state.isOpened()) {
+                Log.d("FacebookSampleActivity", "Facebook session opened");
+            } else if (state.isClosed()) {
+                Log.d("FacebookSampleActivity", "Facebook session closed");
+            }
+        }
+    };
+
     protected void onStart() {
         super.onStart();
         mGoogleApiClient.connect();
@@ -174,9 +212,10 @@ public class LoginActivity extends ActionBarActivity {
 
 
     @Override
-    protected void onActivityResult(int requestCode, int responseCode, Intent intent) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        uiHelper.onActivityResult(requestCode, resultCode, intent);
         if (requestCode == RC_SIGN_IN) {
-            if (responseCode != RESULT_OK) {
+            if (resultCode != RESULT_OK) {
                 mSignInClicked = false;
             }
 
@@ -194,12 +233,12 @@ public class LoginActivity extends ActionBarActivity {
      */
     private void updateUI(boolean isSignedIn) {
         if (isSignedIn) {
-            btnGoogleSignIn.setVisibility(View.GONE);
+            btnGoogleLogin.setVisibility(View.GONE);
             btnSignOut.setVisibility(View.VISIBLE);
             btnRevokeAccess.setVisibility(View.VISIBLE);
 //            llProfileLayout.setVisibility(View.VISIBLE);
         } else {
-            btnGoogleSignIn.setVisibility(View.VISIBLE);
+            btnGoogleLogin.setVisibility(View.VISIBLE);
             btnSignOut.setVisibility(View.GONE);
             btnRevokeAccess.setVisibility(View.GONE);
 //            llProfileLayout.setVisibility(View.GONE);
@@ -273,7 +312,8 @@ public class LoginActivity extends ActionBarActivity {
                     });
         }
     }
-//
+
+    //
 //    /**
 //     * Background Async task to load user profile picture from url
 //     */
@@ -301,5 +341,28 @@ public class LoginActivity extends ActionBarActivity {
 //            bmImage.setImageBitmap(result);
 //        }
 //    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        uiHelper.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        uiHelper.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        uiHelper.onDestroy();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedState) {
+        super.onSaveInstanceState(savedState);
+        uiHelper.onSaveInstanceState(savedState);
+    }
 
 }
