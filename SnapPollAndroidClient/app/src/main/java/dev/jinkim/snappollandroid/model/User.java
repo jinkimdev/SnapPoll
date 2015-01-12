@@ -61,7 +61,6 @@ public class User {
 
     /* Generate FB profile picture url based on passed in user id */
     private String getFbProfilePicUrl(String id) {
-//        return "http://graph.facebook.com/" + id + "/picture?type=large&redirect=false";
         return "http://graph.facebook.com/" + id + "/picture?type=large";
     }
 

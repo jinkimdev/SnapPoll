@@ -75,31 +75,6 @@
                 android:textSize="20sp" />
         </LinearLayout>
 
-        <!--<LinearLayout-->
-        <!--android:id="@+id/ll_btn_google"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:minWidth="200dp"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:layout_gravity="center_horizontal"-->
-        <!--android:paddingLeft="10dp"-->
-        <!--android:background="#D0D0D0">-->
-
-        <!--<ImageView-->
-        <!--android:layout_width="30dp"-->
-        <!--android:layout_height="30dp"-->
-        <!--android:layout_margin="10dp"-->
-        <!--android:src="@drawable/googleplus" />-->
-
-        <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_margin="10dp"-->
-        <!--android:layout_gravity="center_vertical"-->
-        <!--android:text="Google+"-->
-        <!--android:textSize="20sp" />-->
-
-        <!--</LinearLayout>-->
         <com.facebook.widget.LoginButton
             android:id="@+id/fb_login_button"
             android:layout_width="fill_parent"

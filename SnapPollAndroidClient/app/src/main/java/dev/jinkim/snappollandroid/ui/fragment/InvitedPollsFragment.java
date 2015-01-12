@@ -1,13 +1,18 @@
 package dev.jinkim.snappollandroid.ui.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +21,7 @@ import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.app.App;
 import dev.jinkim.snappollandroid.model.Poll;
 import dev.jinkim.snappollandroid.model.User;
+import dev.jinkim.snappollandroid.ui.activity.PollDetailActivity;
 import dev.jinkim.snappollandroid.ui.adapter.InvitedPollListAdapter;
 import dev.jinkim.snappollandroid.web.SnapPollRestClient;
 import retrofit.Callback;
@@ -28,7 +34,8 @@ import retrofit.client.Response;
 public class InvitedPollsFragment extends ListFragment {
 
     public static final String TAG = "RespondFragment ####";
-    InvitedPollListAdapter adapter;
+    private InvitedPollListAdapter adapter;
+    private ListView lvPolls;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,6 +51,28 @@ public class InvitedPollsFragment extends ListFragment {
 
         return rootView;
     }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        lvPolls = getListView();
+        lvPolls.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Poll p = (Poll) parent.getAdapter().getItem(position);
+                Log.d(TAG, "Poll selected: " + p.getCreatorId() + " - " + p.getQuestion());
+
+                Intent in = new Intent(getActivity(), PollDetailActivity.class);
+                Gson gson = new Gson();
+                String pollJson = gson.toJson(p);
+                in.putExtra("Poll", pollJson);
+
+                startActivity(in);
+            }
+        });
+    }
+
 
     private void retrievePolls() {
         User u = App.getInstance().getCurrentUser(getActivity());
