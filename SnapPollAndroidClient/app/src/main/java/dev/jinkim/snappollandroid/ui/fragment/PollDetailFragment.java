@@ -3,12 +3,12 @@ package dev.jinkim.snappollandroid.ui.fragment;
 import android.app.Fragment;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.view.ViewTreeObserver;
 
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -16,8 +16,8 @@ import com.squareup.picasso.Target;
 
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.model.Poll;
-import it.sephiroth.android.library.imagezoom.ImageViewTouch;
-import it.sephiroth.android.library.imagezoom.ImageViewTouchBase;
+import dev.jinkim.snappollandroid.util.DimensionUtil;
+import dev.jinkim.snappollandroid.util.image.TouchImageView;
 
 /**
  * Created by Jin on 1/11/15.
@@ -26,9 +26,8 @@ public class PollDetailFragment extends Fragment {
 
     public static final String TAG = "PollDetailFragment ####";
 
-    private ImageView ivPollImage;
     private Poll p;
-    private ImageViewTouch mImage;
+    private TouchImageView tivRef;
 
     private Target target = new Target() {
         @Override
@@ -38,12 +37,10 @@ public class PollDetailFragment extends Fragment {
 
         @Override
         public void onBitmapFailed(Drawable errorDrawable) {
-
         }
 
         @Override
         public void onPrepareLoad(Drawable placeHolderDrawable) {
-
         }
     };
 
@@ -73,41 +70,42 @@ public class PollDetailFragment extends Fragment {
     }
 
     private void initializeViews(View v) {
-        ivPollImage = (ImageView) v.findViewById(R.id.iv_poll_img);
-        mImage = (ImageViewTouch) v.findViewById(R.id.image);
+        tivRef = (TouchImageView) v.findViewById(R.id.tiv_ref);
 
         //TODO: CHECK IF p is null
-//        Picasso pic = Picasso.with(getActivity());
-//        pic.setIndicatorsEnabled(true);
-//        pic.load(p.getReferenceUrl())
-//                .resize(1000, 0)
-//                .placeholder(R.drawable.ic_img_placeholder)
-//                .into(ivPollImage);
-
         // load bitmap into target
         Picasso.with(getActivity()).load(p.getReferenceUrl()).into(target);
-
-
     }
 
     private void loadImage(Bitmap bitmap) {
 
-        // set the default image display type
-        mImage.setDisplayType(ImageViewTouchBase.DisplayType.FIT_IF_BIGGER);
-        mImage.setImageBitmap(bitmap, null, -1, 8f);
-        mImage.setOnDrawableChangedListener(
-                new ImageViewTouchBase.OnDrawableChangeListener() {
-                    @Override
-                    public void onDrawableChanged(final Drawable drawable) {
-                        Log.v(TAG, "image scale: " + mImage.getScale() + "/" + mImage.getMinScale());
-                        Log.v(TAG, "scale type: " + mImage.getDisplayType() + "/" + mImage.getScaleType());
+        final int imgWidth = bitmap.getWidth();
+        final int imgHeight = bitmap.getHeight();
 
+        tivRef.setImageBitmap(bitmap);
+
+        ViewTreeObserver viewTreeObserver = tivRef.getViewTreeObserver();
+        if (viewTreeObserver.isAlive()) {
+            viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+                        tivRef.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                    } else {
+                        tivRef.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     }
+
+                    // image view width and height within the content container (below action bar)
+                    float contentWid = tivRef.getWidth();
+                    float contentHt = tivRef.getHeight();
+
+                    DimensionUtil screen = new DimensionUtil(getActivity());
+
+                    float centerZoomRatio = screen.getCenterZoomRatio(contentWid, contentHt, imgWidth, imgHeight);
+
+                    tivRef.setZoom(centerZoomRatio);
                 }
-        );
-
-//        mImage.setDisplayType(ImageViewTouchBase.DisplayType.FIT_IF_BIGGER);
+            });
+        }
     }
-
-
 }

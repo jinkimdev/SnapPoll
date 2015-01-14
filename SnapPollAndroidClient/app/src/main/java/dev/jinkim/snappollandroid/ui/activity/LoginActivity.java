@@ -257,7 +257,7 @@ public class LoginActivity extends ActionBarActivity {
                 String userPhotoUrl = currentPerson.getImage().getUrl();
                 String userEmail = Plus.AccountApi.getAccountName(mGoogleApiClient);
 
-                Log.e(TAG, "Name: " + userFirstName + ", email: " + userEmail
+                Log.d(TAG, "Name: " + userFirstName + ", email: " + userEmail
                         + ", Image: " + userPhotoUrl);
 
                 User user = new User(currentPerson);

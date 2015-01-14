@@ -8,17 +8,9 @@
         android:layout_height="wrap_content"
         android:text="Poll Detail Fragment" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:id="@+id/iv_poll_img" />
-
-    <it.sephiroth.android.library.imagezoom.ImageViewTouch
-        android:id="@+id/image"
-        android:background="#AAA"
+    <dev.jinkim.snappollandroid.util.image.TouchImageView
+        android:id="@+id/tiv_ref"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-
+        android:layout_height="match_parent" />
+    <!--android:adjustViewBounds="true"-->
 </RelativeLayout>
