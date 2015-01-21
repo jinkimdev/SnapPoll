@@ -1,16 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:sothree="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sliding_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:gravity="bottom"
+    sothree:panelHeight="50dp"
+    sothree:shadowHeight="10dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Poll Detail Fragment" />
-
-    <dev.jinkim.snappollandroid.util.image.TouchImageView
-        android:id="@+id/tiv_ref"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-    <!--android:adjustViewBounds="true"-->
-</RelativeLayout>
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Poll Detail Fragment" />
+
+        <dev.jinkim.snappollandroid.util.image.TouchImageView
+            android:id="@+id/tiv_ref"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <!--android:adjustViewBounds="true"-->
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#D0FFFFFF"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/detail_container_question"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:padding="4dp">
+
+            <ImageView
+                android:id="@+id/detail_iv_profile_pic"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_alignParentLeft="true" />
+
+            <TextView
+                android:id="@+id/detail_tv_question"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:maxLines="2"
+                android:layout_toRightOf="@id/detail_iv_profile_pic"
+                android:layout_marginLeft="20dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/detail_container_attributes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="4dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Attributes, stats\n\n\na\n\n\nb\n\nc" />
+        </RelativeLayout>
+
+    </LinearLayout>
+</com.sothree.slidinguppanel.SlidingUpPanelLayout>

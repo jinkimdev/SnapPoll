@@ -1,5 +1,6 @@
 package dev.jinkim.snappollandroid.ui.fragment;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -9,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -28,6 +31,10 @@ public class PollDetailFragment extends Fragment {
 
     private Poll p;
     private TouchImageView tivRef;
+    private ImageView ivProfile;
+    private TextView tvQuestion;
+
+    private Activity mActivity;
 
     private Target target = new Target() {
         @Override
@@ -48,6 +55,7 @@ public class PollDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.frag_poll_detail, container, false);
+        mActivity = getActivity();
 
         loadPollFromArguments();
 
@@ -71,10 +79,14 @@ public class PollDetailFragment extends Fragment {
 
     private void initializeViews(View v) {
         tivRef = (TouchImageView) v.findViewById(R.id.tiv_ref);
+        ivProfile = (ImageView) v.findViewById(R.id.detail_iv_profile_pic);
+        tvQuestion = (TextView) v.findViewById(R.id.detail_tv_question);
 
         //TODO: CHECK IF p is null
+        tvQuestion.setText(p.getQuestion());
         // load bitmap into target
-        Picasso.with(getActivity()).load(p.getReferenceUrl()).into(target);
+        Picasso.with(mActivity).load(p.getReferenceUrl()).into(target);
+        Picasso.with(mActivity).load(p.getCreatorProfilePicUrl()).into(ivProfile);
     }
 
     private void loadImage(Bitmap bitmap) {

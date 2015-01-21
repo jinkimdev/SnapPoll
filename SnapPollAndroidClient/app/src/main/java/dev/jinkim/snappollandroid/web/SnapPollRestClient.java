@@ -33,7 +33,7 @@ public class SnapPollRestClient {
 
         if (Build.FINGERPRINT.startsWith("generic")) {
             // if running on emulator
-            Log.d(TAG, "Running on emulator - use local api end point");
+//            Log.d(TAG, "Running on emulator - use local api end point");
 
             // Uncomment the following line to use the local backend and db
 //            BASE_URL = "http://192.168.56.1:5000/api/";

@@ -9,6 +9,7 @@
         <!--<item name="android:button">@style/Widget.AppCompat.ActionButton</item>-->
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/text_primary</item>
+        <item name="android:windowActionBarOverlay">true</item>
 
     </style>
 
