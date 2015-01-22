@@ -48,7 +48,7 @@ public class MyPollsFragment extends ListFragment {
 
         if (u != null) {
             SnapPollRestClient rest = new SnapPollRestClient();
-            rest.getApiService().getMyPolls(u.getEmail(), new Callback<List<Poll>>() {
+            rest.getApiService().getMyPolls(u.getUserId(), new Callback<List<Poll>>() {
                 @Override
                 public void success(List<Poll> polls, Response response) {
                     Log.d(TAG, "GET /poll/my/:user_id success.");

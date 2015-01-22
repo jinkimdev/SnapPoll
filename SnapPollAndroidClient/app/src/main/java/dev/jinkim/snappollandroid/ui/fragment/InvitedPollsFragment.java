@@ -79,7 +79,7 @@ public class InvitedPollsFragment extends ListFragment {
 
         if (u != null) {
             SnapPollRestClient rest = new SnapPollRestClient();
-            rest.getApiService().getInvitedPolls(u.getEmail(), new Callback<List<Poll>>() {
+            rest.getApiService().getInvitedPolls(u.getUserId(), new Callback<List<Poll>>() {
                 @Override
                 public void success(List<Poll> polls, Response response) {
                     Log.d(TAG, "GET /poll/invited success.");

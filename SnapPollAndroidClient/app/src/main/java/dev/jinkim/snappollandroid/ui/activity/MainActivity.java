@@ -6,9 +6,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.plus.Plus;
 
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.ui.NavigationDrawerFragment;
@@ -18,7 +20,7 @@ import dev.jinkim.snappollandroid.ui.fragment.PollsTabFragment;
 import dev.jinkim.snappollandroid.ui.fragment.ProfileFragment;
 
 
-public class MainActivity extends ActionBarActivity
+public class MainActivity extends SnapPollBaseActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     /**
@@ -152,4 +154,22 @@ public class MainActivity extends ActionBarActivity
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
     }
 
+    public GoogleApiClient getGoogleApiClient() {
+        return mGoogleApiClient;
+    }
+
+    public void revokeGoogleAccess() {
+        revokeGplusAccess();
+        session.validateLogin();
+    }
+
+    public void signOutFromGplus() {
+        if (mGoogleApiClient.isConnected()) {
+            Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
+            mGoogleApiClient.disconnect();
+            mGoogleApiClient.connect();
+//            updateUI(false);
+            session.validateLogin();
+        }
+    }
 }

@@ -2,9 +2,7 @@ package dev.jinkim.snappollandroid.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,32 +14,32 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.plus.Plus;
-import com.google.android.gms.plus.model.people.Person;
+import com.squareup.otto.Subscribe;
 
 import dev.jinkim.snappollandroid.R;
+import dev.jinkim.snappollandroid.event.GoogleApiClientConnectedEvent;
+import dev.jinkim.snappollandroid.event.RevokeGplusAccessEvent;
 import dev.jinkim.snappollandroid.model.User;
 import dev.jinkim.snappollandroid.session.SessionManager;
+import dev.jinkim.snappollandroid.web.SnapPollRestClient;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by Jin on 11/27/14.
  */
-public class LoginActivity extends ActionBarActivity {
+public class LoginActivity extends SnapPollBaseActivity {
 
-    private static final int RC_SIGN_IN = 0;
     private static final String TAG = "LoginActivity ####";
 
     private LoginButton btnFacebookLogin;
     private SignInButton btnGoogleLogin;
     private Button btnSignOut;
     private Button btnRevokeAccess;
-    private GoogleApiClient mGoogleApiClient;
+//    private GoogleApiClient mGoogleApiClient;
 
     private UiLifecycleHelper uiHelper;
 
@@ -50,14 +48,16 @@ public class LoginActivity extends ActionBarActivity {
      * from starting further intents.
      */
     private boolean mIntentInProgress;
-    private boolean mSignInClicked;
-    private ConnectionResult mConnectionResult;
+//    private boolean mSignInClicked;
+//    private ConnectionResult mConnectionResult;
 
     private ImageView ivLogo;
 
     private SessionManager session;
 
     private Activity mActivity;
+
+    private boolean googleConnectedOnLogin = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,13 +68,10 @@ public class LoginActivity extends ActionBarActivity {
         uiHelper.onCreate(savedInstanceState);
 
         // hide action bar
-//        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         getSupportActionBar().hide();
-
 
         mActivity = this;
         session = new SessionManager(mActivity);
-
 
         setContentView(R.layout.activity_login);
 
@@ -89,11 +86,12 @@ public class LoginActivity extends ActionBarActivity {
                 if (fbUser != null) {
                     Log.d(TAG, "Facebook: " + fbUser.getName());
                     User user = new User(fbUser);
-                    session.createLoginSession(user);
+
+                    loginUserToApi(user);
+                    session.createLoginSession("facebook", user);
 
                 } else {
                     Log.d(TAG, "Facebook: Not logged in");
-
                 }
             }
         });
@@ -122,53 +120,6 @@ public class LoginActivity extends ActionBarActivity {
             }
         });
 
-        // Initializing google plus api client
-        mGoogleApiClient = new GoogleApiClient.Builder(mActivity)
-                .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
-                    @Override
-                    public void onConnected(Bundle bundle) {
-                        mSignInClicked = false;
-                        Toast.makeText(mActivity, "User is connected!", Toast.LENGTH_LONG).show();
-
-                        // Get user's information
-                        getProfileInformation();
-
-                        // Update the UI after sign in
-                        updateUI(true);
-
-                        // TODO: WHERE SHOULD I DO POST /login
-                    }
-
-                    @Override
-                    public void onConnectionSuspended(int i) {
-                        mGoogleApiClient.connect();
-                        updateUI(false);
-                    }
-                })
-                .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
-                    @Override
-                    public void onConnectionFailed(ConnectionResult connectionResult) {
-                        if (!connectionResult.hasResolution()) {
-                            GooglePlayServicesUtil.getErrorDialog(connectionResult.getErrorCode(), mActivity,
-                                    0).show();
-                            return;
-                        }
-
-                        if (!mIntentInProgress) {
-                            // Store the ConnectionResult for later usage
-                            mConnectionResult = connectionResult;
-
-                            if (mSignInClicked) {
-                                // The user has already clicked 'sign-in' so we attempt to
-                                // resolve all
-                                // errors until the user is signed in, or they cancel.
-                                resolveSignInError();
-                            }
-                        }
-                    }
-                }).addApi(Plus.API)
-                .addScope(Plus.SCOPE_PLUS_LOGIN).build();
-
     }
 
     private Session.StatusCallback statusCallback = new Session.StatusCallback() {
@@ -183,32 +134,21 @@ public class LoginActivity extends ActionBarActivity {
         }
     };
 
-    protected void onStart() {
-        super.onStart();
-        mGoogleApiClient.connect();
-    }
 
-    protected void onStop() {
-        super.onStop();
-        if (mGoogleApiClient.isConnected()) {
-            mGoogleApiClient.disconnect();
-        }
-    }
-
-    /**
-     * Method to resolve any signin errors
-     */
-    private void resolveSignInError() {
-        if (mConnectionResult.hasResolution()) {
-            try {
-                mIntentInProgress = true;
-                mConnectionResult.startResolutionForResult(this, RC_SIGN_IN);
-            } catch (IntentSender.SendIntentException e) {
-                mIntentInProgress = false;
-                mGoogleApiClient.connect();
-            }
-        }
-    }
+//    /**
+//     * Method to resolve any signin errors
+//     */
+//    private void resolveSignInError() {
+//        if (mConnectionResult.hasResolution()) {
+//            try {
+//                mIntentInProgress = true;
+//                mConnectionResult.startResolutionForResult(this, RC_SIGN_IN);
+//            } catch (IntentSender.SendIntentException e) {
+//                mIntentInProgress = false;
+//                mGoogleApiClient.connect();
+//            }
+//        }
+//    }
 
 
     @Override
@@ -246,34 +186,6 @@ public class LoginActivity extends ActionBarActivity {
     }
 
     /**
-     * Fetching user's information name, email, profile pic
-     */
-    private void getProfileInformation() {
-        try {
-            if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
-                Person currentPerson = Plus.PeopleApi
-                        .getCurrentPerson(mGoogleApiClient);
-                String userFirstName = currentPerson.getName().getGivenName();
-                String userPhotoUrl = currentPerson.getImage().getUrl();
-                String userEmail = Plus.AccountApi.getAccountName(mGoogleApiClient);
-
-                Log.d(TAG, "Name: " + userFirstName + ", email: " + userEmail
-                        + ", Image: " + userPhotoUrl);
-
-                User user = new User(currentPerson);
-                user.setEmail(userEmail);
-                session.createLoginSession(user);
-
-            } else {
-                Toast.makeText(getApplicationContext(),
-                        "Person information is null", Toast.LENGTH_LONG).show();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * Sign-in into google
      */
     private void signInWithGplus() {
@@ -295,52 +207,6 @@ public class LoginActivity extends ActionBarActivity {
         }
     }
 
-    /**
-     * Revoking access from google
-     */
-    private void revokeGplusAccess() {
-        if (mGoogleApiClient.isConnected()) {
-            Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
-            Plus.AccountApi.revokeAccessAndDisconnect(mGoogleApiClient)
-                    .setResultCallback(new ResultCallback<Status>() {
-                        @Override
-                        public void onResult(Status arg0) {
-                            Log.e(TAG, "User access revoked!");
-                            mGoogleApiClient.connect();
-                            updateUI(false);
-                        }
-                    });
-        }
-    }
-
-    //
-//    /**
-//     * Background Async task to load user profile picture from url
-//     */
-//    private class LoadProfileImage extends AsyncTask<String, Void, Bitmap> {
-//        ImageView bmImage;
-//
-//        public LoadProfileImage(ImageView bmImage) {
-//            this.bmImage = bmImage;
-//        }
-//
-//        protected Bitmap doInBackground(String... urls) {
-//            String urldisplay = urls[0];
-//            Bitmap mIcon11 = null;
-//            try {
-//                InputStream in = new java.net.URL(urldisplay).openStream();
-//                mIcon11 = BitmapFactory.decodeStream(in);
-//            } catch (Exception e) {
-//                Log.e("Error", e.getMessage());
-//                e.printStackTrace();
-//            }
-//            return mIcon11;
-//        }
-//
-//        protected void onPostExecute(Bitmap result) {
-//            bmImage.setImageBitmap(result);
-//        }
-//    }
     @Override
     public void onResume() {
         super.onResume();
@@ -363,6 +229,61 @@ public class LoginActivity extends ActionBarActivity {
     public void onSaveInstanceState(Bundle savedState) {
         super.onSaveInstanceState(savedState);
         uiHelper.onSaveInstanceState(savedState);
+    }
+
+    private void loginUserToApi(User user) {
+        SnapPollRestClient.ApiService rest = new SnapPollRestClient().getApiService();
+        rest.loginUser(user, new Callback<Object>() {
+            @Override
+            public void success(Object user, Response response) {
+                if (user != null) {
+                    Toast.makeText(mActivity, "Logged in to SnapPoll.", Toast.LENGTH_SHORT).show();
+                    moveToMainScreen();
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d(TAG, "Could not connect to SnapPoll API login");
+            }
+        });
+    }
+
+    private void moveToMainScreen() {
+        //TODO: initiate the main activity here
+        Intent in = new Intent(this, MainActivity.class);
+        startActivity(in);
+
+        this.finish();
+    }
+
+    @Subscribe
+    public void onGoogleApiClientConnected(GoogleApiClientConnectedEvent event) {
+        Log.d(TAG, "Received GoogleApiClientConnectedEvent");
+
+        if (!googleConnectedOnLogin) {
+            // set this so subscribe will only get events from BaseActivity of Login, not Main
+            googleConnectedOnLogin = true;
+
+            if (event.success) {
+                User u = getProfileInformation();
+                Log.d(TAG, "Google user: " + u.getFirstName() + " " + u.getLastName());
+
+                loginUserToApi(u);
+
+            } else {
+                updateUI(false);
+            }
+        }
+    }
+
+
+    @Subscribe
+    public void onRevokeGoogleAccess(RevokeGplusAccessEvent event) {
+        Log.d(TAG, "Received RevokeGplusAccessEvent");
+
+        updateUI(false);
+
     }
 
 }

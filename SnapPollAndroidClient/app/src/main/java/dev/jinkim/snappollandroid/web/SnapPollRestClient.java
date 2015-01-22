@@ -11,9 +11,11 @@ import com.google.gson.GsonBuilder;
 import java.util.List;
 
 import dev.jinkim.snappollandroid.model.Poll;
+import dev.jinkim.snappollandroid.model.User;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
+import retrofit.http.Body;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
@@ -36,7 +38,7 @@ public class SnapPollRestClient {
 //            Log.d(TAG, "Running on emulator - use local api end point");
 
             // Uncomment the following line to use the local backend and db
-//            BASE_URL = "http://192.168.56.1:5000/api/";
+            BASE_URL = "http://192.168.56.1:5000/api/";
         }
         Gson gson = new GsonBuilder()
                 .setFieldNamingStrategy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
@@ -77,8 +79,7 @@ public class SnapPollRestClient {
                       @Field("reference_url") String url,
                       @Field("reference_delete_hash") String deleteHash, Callback<Poll> cb);
 
-//        @FormUrlEncoded
-//        @POST("/user")
-//        void createUser(@Field("user_id") String )
+        @POST("/user")
+        void loginUser(@Body User user, Callback<Object> cb);
     }
 }

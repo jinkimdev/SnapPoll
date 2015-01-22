@@ -28,7 +28,9 @@ public class SessionManager {
 
     /* All Shared Preferences Keys */
 
-    private static final String SESSION_LOGGED_IN = "loggedIn";
+    private static final String SESSION_GPLUS_LOGGED_IN = "gPlusLoggedIn";
+    private static final String SESSION_FACEBOOK_LOGGED_IN = "facebookLoggedIn";
+
     // store User model object
     public static final String SESSION_USER = "user";
     public static final String SESSION_USER_NAME = "userName";
@@ -44,9 +46,13 @@ public class SessionManager {
     /**
      * Create login session
      */
-    public void createLoginSession(String name, String email, String photoUrl) {
+    public void createLoginSession(String service, String name, String email, String photoUrl) {
         // Storing login value as TRUE
-        editor.putBoolean(SESSION_LOGGED_IN, true);
+        if (service.equals("gPlus")) {
+            editor.putBoolean(SESSION_GPLUS_LOGGED_IN, true);
+        } else if (service.equals("facebook")) {
+            editor.putBoolean(SESSION_FACEBOOK_LOGGED_IN, true);
+        }
         editor.putString(SESSION_USER_NAME, name);
         editor.putString(SESSION_USER_EMAIL, email);
         editor.putString(SESSION_USER_PHOTO_URL, photoUrl);
@@ -56,11 +62,16 @@ public class SessionManager {
     }
 
     /**
-     * Create login session with passed in User model
+     * Create login session with passed in User model and service
      */
-    public void createLoginSession(User user) {
+    public void createLoginSession(String service, User user) {
         // Storing login value as TRUE
-        editor.putBoolean(SESSION_LOGGED_IN, true);
+
+        if (service.equals("gPlus")) {
+            editor.putBoolean(SESSION_GPLUS_LOGGED_IN, true);
+        } else if (service.equals("facebook")) {
+            editor.putBoolean(SESSION_FACEBOOK_LOGGED_IN, true);
+        }
 
         Gson gson = new Gson();
         String userJson = gson.toJson(user);
@@ -71,7 +82,9 @@ public class SessionManager {
     }
 
     public User getUserFromSession() {
-        if (!(pref.getBoolean(SESSION_LOGGED_IN, false))) {
+        if (!(pref.getBoolean(SESSION_GPLUS_LOGGED_IN, false)
+                || pref.getBoolean(SESSION_FACEBOOK_LOGGED_IN, false))) {
+            /* Not logged into any service */
             // TODO: throw exception?
             return null;
         }
@@ -113,10 +126,20 @@ public class SessionManager {
     }
 
     /**
-     * Check login status from shared preference
+     * Check the login status of both Google+ and Facebook.
      */
     public boolean isLoggedIn() {
-        return pref.getBoolean(SESSION_LOGGED_IN, false);
+        return (pref.getBoolean(SESSION_GPLUS_LOGGED_IN, false)
+                || pref.getBoolean(SESSION_FACEBOOK_LOGGED_IN, false));
+    }
+
+    /**
+     * Check the login status, and if signed in for neither, redirect to LoginActivity
+     */
+    public void validateLogin() {
+        if (isLoggedIn()) {
+            logoutUser();
+        }
     }
 
     /**
@@ -135,4 +158,5 @@ public class SessionManager {
 
         mContext.startActivity(i);
     }
+
 }

@@ -2,15 +2,23 @@ package dev.jinkim.snappollandroid.model;
 
 import com.facebook.model.GraphUser;
 import com.google.android.gms.plus.model.people.Person;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by Jin on 12/7/14.
  */
 public class User {
+
     private String fullName;
+
+    @SerializedName("f_name")
     private String firstName;
+
+    @SerializedName("l_name")
     private String lastName;
-    private String email;
+
+    @SerializedName("user_id")
+    private String userId;
     private String profilePicUrl;
 
     /**
@@ -51,12 +59,12 @@ public class User {
     public User(GraphUser fbUser) {
 
         if (fbUser.getId() != null) {
+            userId = fbUser.getId();
             fullName = fbUser.getName();
             firstName = fbUser.getFirstName();
             lastName = fbUser.getLastName();
             profilePicUrl = getFbProfilePicUrl(fbUser.getId());
         }
-
     }
 
     /* Generate FB profile picture url based on passed in user id */
@@ -72,12 +80,12 @@ public class User {
         this.fullName = fullName;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getProfilePicUrl() {

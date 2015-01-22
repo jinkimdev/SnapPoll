@@ -193,7 +193,7 @@ public class CreatePollFragment extends Fragment {
         User u = App.getInstance().getCurrentUser(getActivity());
 
         Poll p = new Poll();
-        p.setCreatorId(u.getEmail());
+        p.setCreatorId(u.getUserId());
         p.setQuestion(etQuestion.getEditText().getText().toString());
         p.setTitle(etTitle.getEditText().getText().toString());
         p.setActive(true);
