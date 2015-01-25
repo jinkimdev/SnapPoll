@@ -75,6 +75,10 @@ public class TouchImageView extends ImageView {
     //
     private Matrix matrix, prevMatrix;
 
+    public PointF getMarkerLocation() {
+        return snapPollMarkerLocation;
+    }
+
     private static enum State {NONE, DRAG, ZOOM, FLING, ANIMATE_ZOOM}
 
     ;

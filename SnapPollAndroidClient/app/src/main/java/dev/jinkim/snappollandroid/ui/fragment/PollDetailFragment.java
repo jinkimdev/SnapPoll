@@ -7,6 +7,7 @@ import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.squareup.picasso.Target;
 
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.model.Poll;
+import dev.jinkim.snappollandroid.model.Response;
 import dev.jinkim.snappollandroid.util.DimensionUtil;
 import dev.jinkim.snappollandroid.util.image.TouchImageView;
 
@@ -31,6 +33,7 @@ public class PollDetailFragment extends Fragment {
     public static final String TAG = "PollDetailFragment ####";
 
     private Poll currentPoll;
+
     private TouchImageView tivRef;
     private ImageView ivProfile;
     private TextView tvQuestion;
@@ -120,5 +123,23 @@ public class PollDetailFragment extends Fragment {
                 }
             });
         }
+    }
+
+    private PointF getMarkerLocation() {
+        return tivRef.getMarkerLocation();
+    }
+
+    private Response makeResponse() {
+        Poll p = currentPoll;
+        PointF loc = getMarkerLocation();
+
+        if (loc == null) {
+            //TODO: error, cannot submit response!
+            Log.d(TAG, "Response selection is null");
+        }
+
+        //TODO: update attribute choice
+        Response currentResponse = new Response(p.pollId, loc.x, loc.y, p.getCreatorId(), -1);
+        return currentResponse;
     }
 }
