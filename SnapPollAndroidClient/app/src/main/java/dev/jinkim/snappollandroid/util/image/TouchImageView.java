@@ -1,3 +1,10 @@
+/**
+ * Jinhyun Kim 1/24/2015
+ *
+ * - Changed two conversion methods to public
+ * - Added drawing markers for PollResponse indication (single tap)
+ */
+
 /*
  * TouchImageView.java
  * By: Michael Ortiz
@@ -16,8 +23,10 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
@@ -37,7 +46,11 @@ import android.widget.ImageView;
 import android.widget.OverScroller;
 import android.widget.Scroller;
 
+import dev.jinkim.snappollandroid.R;
+
 public class TouchImageView extends ImageView {
+
+    public static final String TAG = "TouchImageView ####";
 
     private static final String DEBUG = "DEBUG";
 
@@ -98,6 +111,11 @@ public class TouchImageView extends ImageView {
     private GestureDetector.OnDoubleTapListener doubleTapListener = null;
     private OnTouchListener userTouchListener = null;
     private OnTouchImageViewListener touchImageViewListener = null;
+
+    private PointF snapPollMarkerLocation;
+    private Bitmap snapPollMarker;
+    private float snapPollMarkerWidth;
+    private float snapPollMarkerHeight;
 
     public TouchImageView(Context context) {
         super(context);
@@ -286,7 +304,46 @@ public class TouchImageView extends ImageView {
             setZoom(delayedZoomVariables.scale, delayedZoomVariables.focusX, delayedZoomVariables.focusY, delayedZoomVariables.scaleType);
             delayedZoomVariables = null;
         }
+
+        canvas.restore();
+
         super.onDraw(canvas);
+
+        drawMarker(canvas);
+    }
+
+    public void setMarkerLocation(PointF markerLocation) {
+        if (markerLocation == null) {
+            return;
+        }
+
+        snapPollMarkerLocation = markerLocation;
+        this.invalidate();
+    }
+
+    private void drawMarker(Canvas canvas) {
+
+        if (snapPollMarkerLocation == null) {
+            return;
+        }
+
+        if (snapPollMarker == null) {
+            snapPollMarker = BitmapFactory.decodeResource(getResources(),
+                    R.drawable.marker);
+            snapPollMarkerWidth = snapPollMarker.getWidth();
+            snapPollMarkerHeight = snapPollMarker.getHeight();
+        }
+
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setFilterBitmap(true);
+
+        // TODO: scale down the marker image?
+
+        canvas.drawBitmap(snapPollMarker,
+                snapPollMarkerLocation.x - (snapPollMarkerWidth / 2),
+                snapPollMarkerLocation.y - snapPollMarkerHeight,
+                paint);
     }
 
     @Override
@@ -412,8 +469,6 @@ public class TouchImageView extends ImageView {
     /**
      * Set zoom parameters equal to another TouchImageView. Including scale, position,
      * and ScaleType.
-     *
-     *
      */
     public void setZoom(TouchImageView img) {
         PointF center = img.getScrollPosition();
@@ -769,6 +824,11 @@ public class TouchImageView extends ImageView {
             if (doubleTapListener != null) {
                 return doubleTapListener.onSingleTapConfirmed(e);
             }
+
+            // on single tap, set the marker location
+            PointF pF = transformCoordTouchToBitmap(e.getX(), e.getY(), false);
+            setMarkerLocation(pF);
+
             return performClick();
         }
 
@@ -1076,7 +1136,7 @@ public class TouchImageView extends ImageView {
      *                     to the bounds of the bitmap size.
      * @return Coordinates of the point touched, in the coordinate system of the original drawable.
      */
-    private PointF transformCoordTouchToBitmap(float x, float y, boolean clipToBitmap) {
+    public PointF transformCoordTouchToBitmap(float x, float y, boolean clipToBitmap) {
         matrix.getValues(m);
         float origW = getDrawable().getIntrinsicWidth();
         float origH = getDrawable().getIntrinsicHeight();
@@ -1101,7 +1161,7 @@ public class TouchImageView extends ImageView {
      * @param by y-coordinate in original bitmap coordinate system
      * @return Coordinates of the point in the view's coordinate system.
      */
-    private PointF transformCoordBitmapToTouch(float bx, float by) {
+    public PointF transformCoordBitmapToTouch(float bx, float by) {
         matrix.getValues(m);
         float origW = getDrawable().getIntrinsicWidth();
         float origH = getDrawable().getIntrinsicHeight();
@@ -1282,6 +1342,7 @@ public class TouchImageView extends ImageView {
             this.focusY = focusY;
             this.scaleType = scaleType;
         }
+
     }
 
     private void printMatrixInfo() {

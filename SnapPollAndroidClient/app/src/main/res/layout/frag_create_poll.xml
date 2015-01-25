@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="24dp"
                 android:layout_marginBottom="16dp"
-                android:text="Allow multiple responses?" />
+                android:text="Allow multiple selections?" />
 
             <android.support.v7.widget.SwitchCompat
                 android:id="@+id/sw_multiple"

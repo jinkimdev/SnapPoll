@@ -3,6 +3,7 @@ package dev.jinkim.snappollandroid.ui.fragment;
 import android.app.Activity;
 import android.app.Fragment;
 import android.graphics.Bitmap;
+import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,7 +30,7 @@ public class PollDetailFragment extends Fragment {
 
     public static final String TAG = "PollDetailFragment ####";
 
-    private Poll p;
+    private Poll currentPoll;
     private TouchImageView tivRef;
     private ImageView ivProfile;
     private TextView tvQuestion;
@@ -74,7 +75,7 @@ public class PollDetailFragment extends Fragment {
     private void loadPollFromArguments() {
         String pollJson = getArguments().getString("Poll", null);
         Gson gson = new Gson();
-        p = gson.fromJson(pollJson, Poll.class);
+        currentPoll = gson.fromJson(pollJson, Poll.class);
     }
 
     private void initializeViews(View v) {
@@ -82,11 +83,11 @@ public class PollDetailFragment extends Fragment {
         ivProfile = (ImageView) v.findViewById(R.id.detail_iv_profile_pic);
         tvQuestion = (TextView) v.findViewById(R.id.detail_tv_question);
 
-        //TODO: CHECK IF p is null
-        tvQuestion.setText(p.getQuestion());
+        //TODO: CHECK IF currentPoll is null
+        tvQuestion.setText(currentPoll.getQuestion());
         // load bitmap into target
-        Picasso.with(mActivity).load(p.getReferenceUrl()).into(target);
-        Picasso.with(mActivity).load(p.getCreatorProfilePicUrl()).into(ivProfile);
+        Picasso.with(mActivity).load(currentPoll.getReferenceUrl()).into(target);
+        Picasso.with(mActivity).load(currentPoll.getCreatorProfilePicUrl()).into(ivProfile);
     }
 
     private void loadImage(Bitmap bitmap) {
