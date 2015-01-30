@@ -28,6 +28,9 @@ import dev.jinkim.snappollandroid.model.Poll;
 import dev.jinkim.snappollandroid.model.Response;
 import dev.jinkim.snappollandroid.util.DimensionUtil;
 import dev.jinkim.snappollandroid.util.image.TouchImageView;
+import dev.jinkim.snappollandroid.web.SnapPollRestClient;
+import retrofit.Callback;
+import retrofit.RetrofitError;
 
 /**
  * Created by Jin on 1/11/15.
@@ -135,7 +138,9 @@ public class PollDetailFragment extends Fragment {
         return tivRef.getMarkerLocation();
     }
 
-    private Response makeResponse() {
+    private void submitResponse() {
+//        Toast.makeText(mActivity, "Submitting Response!", Toast.LENGTH_SHORT).show();
+
         Poll p = currentPoll;
         PointF loc = getMarkerLocation();
 
@@ -146,7 +151,20 @@ public class PollDetailFragment extends Fragment {
 
         //TODO: update attribute choice
         Response currentResponse = new Response(p.pollId, loc.x, loc.y, p.getCreatorId(), -1);
-        return currentResponse;
+
+        Log.d(TAG, "Submitting response API call");
+        SnapPollRestClient rest = new SnapPollRestClient();
+        rest.getApiService().submitResponse(currentResponse, new Callback<Response>() {
+            @Override
+            public void success(Response pollResponse, retrofit.client.Response response2) {
+                Toast.makeText(mActivity, "SUCCESS - Response submitted!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d(TAG, "Response submission failed: " + error);
+            }
+        });
     }
 
     @Override
@@ -162,9 +180,10 @@ public class PollDetailFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.action_submit:
 
-                Toast.makeText(mActivity, "Submit Response!", Toast.LENGTH_SHORT).show();
+                submitResponse();
 
                 return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }

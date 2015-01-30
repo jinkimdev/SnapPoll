@@ -11,6 +11,7 @@ import com.google.gson.GsonBuilder;
 import java.util.List;
 
 import dev.jinkim.snappollandroid.model.Poll;
+import dev.jinkim.snappollandroid.model.Response;
 import dev.jinkim.snappollandroid.model.User;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -28,7 +29,7 @@ import retrofit.http.Path;
 public class SnapPollRestClient {
     private ApiService apiService;
     private static String BASE_URL = "http://snappoll.herokuapp.com/api/";
-    private final boolean USE_PRODUCTION_ENDPOINT = false;
+    private final boolean USE_PRODUCTION_ENDPOINT = true;
     private static final String LOCAL_ENDPOINT = "http://192.168.56.1:5000/api/"; // genymotion host ip
     private static String TAG = "RestClient";
 
@@ -42,8 +43,9 @@ public class SnapPollRestClient {
                 .create();
 
         RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(BASE_URL)
+                .setEndpoint(endpoint)
                 .setConverter(new GsonConverter(gson))
+                .setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
 
         apiService = restAdapter.create(ApiService.class);
@@ -68,6 +70,8 @@ public class SnapPollRestClient {
     }
 
     public interface ApiService {
+
+        /* POLL */
         @GET("/poll")
         void getPolls(Callback<List<Poll>> cb);
 
@@ -89,7 +93,19 @@ public class SnapPollRestClient {
                       @Field("reference_url") String url,
                       @Field("reference_delete_hash") String deleteHash, Callback<Poll> cb);
 
+        /* USER */
         @POST("/user")
         void loginUser(@Body User user, Callback<Object> cb);
+
+        /* RESPONSE */
+        @POST("/response")
+        void submitResponse(@Body Response response, Callback<Response> cb);
+//        void submitResponse(@Field("poll_id") String pollId,
+//                            @Field("user_id") String userId,
+//                            @Field("x") float x,
+//                            @Field("y") float y,
+//                            @Field("attribute_choice") int attributeChoice,
+//                            Callback<Response> cb);
+
     }
 }
