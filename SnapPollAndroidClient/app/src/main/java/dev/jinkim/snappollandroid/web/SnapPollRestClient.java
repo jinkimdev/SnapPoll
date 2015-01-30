@@ -38,7 +38,7 @@ public class SnapPollRestClient {
 //            Log.d(TAG, "Running on emulator - use local api end point");
 
             // Uncomment the following line to use the local backend and db
-            BASE_URL = "http://192.168.56.1:5000/api/";
+//            BASE_URL = "http://192.168.56.1:5000/api/";
         }
         Gson gson = new GsonBuilder()
                 .setFieldNamingStrategy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
