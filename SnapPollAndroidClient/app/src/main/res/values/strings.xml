@@ -14,5 +14,6 @@
     <string name="title_profile">Profile</string>
     <string name="facebook_app_id">1013877905305125</string>
     <string name="action_submit">Submit Response</string>
+    <string name="action_new_poll">New Poll</string>
 
 </resources>

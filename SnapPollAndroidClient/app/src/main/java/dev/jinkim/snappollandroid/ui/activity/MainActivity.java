@@ -2,6 +2,7 @@ package dev.jinkim.snappollandroid.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
@@ -46,10 +47,6 @@ public class MainActivity extends SnapPollBaseActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
-
-//        PollsFragment pollsFrag = new PollsFragment();
-//        getSupportFragmentManager().beginTransaction()
-//                .add(R.id.item_detail_container, pollsFrag).commit();
     }
 
     @Override
@@ -60,15 +57,8 @@ public class MainActivity extends SnapPollBaseActivity
         fm.findFragmentByTag("");
 
         switch (position) {
-            case 0:
-                Fragment createFrag = fm.findFragmentByTag(CreatePollFragment.TAG);
-                if (createFrag == null) {
-                    createFrag = new CreatePollFragment();
-                }
-                fm.beginTransaction().replace(R.id.container, createFrag, CreatePollFragment.TAG).commit();
-                break;
 
-            case 1:
+            case 0:
                 Fragment respondFrag = fm.findFragmentByTag(PollsTabFragment.TAG);
                 if (respondFrag == null) {
                     respondFrag = new PollsTabFragment();
@@ -76,12 +66,7 @@ public class MainActivity extends SnapPollBaseActivity
                 fm.beginTransaction().replace(R.id.container, respondFrag, PollsTabFragment.TAG).commit();
                 break;
 
-            case 2:
-                Intent in = new Intent(this, LoginActivity.class);
-                startActivity(in);
-                break;
-
-            case 3:
+            case 1:
                 Fragment profileFrag = fm.findFragmentByTag(MyPollsFragment.TAG);
                 if (profileFrag == null) {
                     profileFrag = new ProfileFragment();
@@ -101,14 +86,11 @@ public class MainActivity extends SnapPollBaseActivity
 
     public void onSectionAttached(int number) {
         switch (number) {
-            case 1:
-                mTitle = getString(R.string.title_create_poll);
-                break;
-            case 2:
+            case 0:
                 mTitle = getString(R.string.title_respond);
                 break;
-            case 3:
-                mTitle = getString(R.string.title_section3);
+            case 1:
+                mTitle = getString(R.string.title_profile);
                 break;
         }
     }
@@ -127,7 +109,7 @@ public class MainActivity extends SnapPollBaseActivity
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.main, menu);
+            getMenuInflater().inflate(R.menu.menu_main, menu);
             restoreActionBar();
             return true;
         }
@@ -141,11 +123,11 @@ public class MainActivity extends SnapPollBaseActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_new_poll) {
+            Intent in = new Intent(this, CreatePollActivity.class);
+            startActivity(in);
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
