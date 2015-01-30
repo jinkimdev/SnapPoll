@@ -3,6 +3,8 @@ package dev.jinkim.snappollandroid.ui.activity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import dev.jinkim.snappollandroid.R;
@@ -43,15 +45,5 @@ public class PollDetailActivity extends ActionBarActivity {
             getFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, detailFragment).commit();
         }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                this.finish();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }
