@@ -2,13 +2,11 @@ package dev.jinkim.snappollandroid.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
-import android.view.MenuItem;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
@@ -116,20 +114,10 @@ public class MainActivity extends SnapPollBaseActivity
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        if (id == R.id.action_new_poll) {
-            Intent in = new Intent(this, CreatePollActivity.class);
-            startActivity(in);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        return super.onOptionsItemSelected(item);
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {

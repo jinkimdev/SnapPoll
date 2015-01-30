@@ -1,11 +1,13 @@
 package dev.jinkim.snappollandroid.ui.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -13,7 +15,7 @@ import java.util.List;
 
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.model.Poll;
-import dev.jinkim.snappollandroid.ui.adapter.InvitedPollListAdapter;
+import dev.jinkim.snappollandroid.ui.activity.CreatePollActivity;
 import dev.jinkim.snappollandroid.web.SnapPollRestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -51,6 +53,7 @@ public class PollsTabFragment extends Fragment {
                 MyPollsFragment.class, null);
 
 //        retrievePolls();
+        setHasOptionsMenu(true);
 
         return rootView;
     }
@@ -78,6 +81,21 @@ public class PollsTabFragment extends Fragment {
 //        adapter.clear();
 //        adapter.addAll(polls);
 //        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if (id == R.id.action_new_poll) {
+            Intent in = new Intent(getActivity(), CreatePollActivity.class);
+            startActivity(in);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

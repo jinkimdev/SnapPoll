@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -13,6 +15,8 @@ import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
+
+import java.util.zip.Inflater;
 
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.app.App;
@@ -49,6 +53,8 @@ public class ProfileFragment extends Fragment {
         initializeViews(rootView);
 
         displayUserInfo();
+
+        setHasOptionsMenu(true);
 
         return rootView;
     }
@@ -99,4 +105,13 @@ public class ProfileFragment extends Fragment {
 //        updateUI(false);
 
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+        // hide the main actionbar menu
+        menu.setGroupVisible(R.id.main_menu_group, false);
+    }
+
 }

@@ -252,8 +252,8 @@ public class LoginActivity extends SnapPollBaseActivity {
     }
 
     private void moveToMainScreen() {
-        //TODO: initiate the main activity here
         Intent in = new Intent(this, MainActivity.class);
+        // Prevent from double login (when both Google+ and Facebook login sessions are available
         if (!loginActive) {
             startActivity(in);
             loginActive = true;
