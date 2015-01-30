@@ -39,6 +39,8 @@ public class LoginActivity extends SnapPollBaseActivity {
     private SignInButton btnGoogleLogin;
     private Button btnSignOut;
     private Button btnRevokeAccess;
+
+    private boolean loginActive = false;
 //    private GoogleApiClient mGoogleApiClient;
 
     private UiLifecycleHelper uiHelper;
@@ -252,7 +254,10 @@ public class LoginActivity extends SnapPollBaseActivity {
     private void moveToMainScreen() {
         //TODO: initiate the main activity here
         Intent in = new Intent(this, MainActivity.class);
-        startActivity(in);
+        if (!loginActive) {
+            startActivity(in);
+            loginActive = true;
+        }
 
         this.finish();
     }
