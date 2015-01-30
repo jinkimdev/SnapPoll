@@ -28,18 +28,14 @@ import retrofit.http.Path;
 public class SnapPollRestClient {
     private ApiService apiService;
     private static String BASE_URL = "http://snappoll.herokuapp.com/api/";
-    //    private static final String BASE_URL = "http://192.168.56.1:5000/api/"; // genymotion host ip
+    private final boolean USE_PRODUCTION_ENDPOINT = false;
+    private static final String LOCAL_ENDPOINT = "http://192.168.56.1:5000/api/"; // genymotion host ip
     private static String TAG = "RestClient";
 
     public SnapPollRestClient() {
 
-        if (Build.FINGERPRINT.startsWith("generic")) {
-            // if running on emulator
-//            Log.d(TAG, "Running on emulator - use local api end point");
+        String endpoint = chooseEndpoint(USE_PRODUCTION_ENDPOINT);
 
-            // Uncomment the following line to use the local backend and db
-//            BASE_URL = "http://192.168.56.1:5000/api/";
-        }
         Gson gson = new GsonBuilder()
                 .setFieldNamingStrategy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                 .setDateFormat("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'SSS'Z'")
@@ -51,6 +47,20 @@ public class SnapPollRestClient {
                 .build();
 
         apiService = restAdapter.create(ApiService.class);
+    }
+
+    private String chooseEndpoint(boolean useProduction) {
+
+        if (!useProduction) {
+            if (Build.FINGERPRINT.startsWith("generic")) {
+                // if running on emulator
+                Log.d(TAG, "Running on emulator - use local api end point");
+
+                // Uncomment the following line to use the local backend and db
+                return LOCAL_ENDPOINT;
+            }
+        }
+        return BASE_URL;
     }
 
     public ApiService getApiService() {
