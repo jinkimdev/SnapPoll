@@ -1,6 +1,5 @@
 package dev.jinkim.snappollandroid.ui.fragment;
 
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
@@ -17,15 +16,17 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.squareup.otto.Bus;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import dev.jinkim.snappollandroid.R;
+import dev.jinkim.snappollandroid.event.ResponseSubmittedEvent;
 import dev.jinkim.snappollandroid.model.Poll;
 import dev.jinkim.snappollandroid.model.Response;
+import dev.jinkim.snappollandroid.ui.activity.PollDetailActivity;
 import dev.jinkim.snappollandroid.util.DimensionUtil;
 import dev.jinkim.snappollandroid.util.image.TouchImageView;
 import dev.jinkim.snappollandroid.web.SnapPollRestClient;
@@ -45,7 +46,7 @@ public class PollDetailFragment extends Fragment {
     private ImageView ivProfile;
     private TextView tvQuestion;
 
-    private Activity mActivity;
+    private PollDetailActivity mActivity;
 
     private Target target = new Target() {
         @Override
@@ -68,7 +69,7 @@ public class PollDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.frag_poll_detail, container, false);
         setHasOptionsMenu(true);
 
-        mActivity = getActivity();
+        mActivity = (PollDetailActivity) getActivity();
 
         loadPollFromArguments();
 
@@ -157,7 +158,9 @@ public class PollDetailFragment extends Fragment {
         rest.getApiService().submitResponse(currentResponse, new Callback<Response>() {
             @Override
             public void success(Response pollResponse, retrofit.client.Response response2) {
-                Toast.makeText(mActivity, "SUCCESS - Response submitted!", Toast.LENGTH_SHORT).show();
+                Bus bus = mActivity.getEventBus();
+                bus.post(new ResponseSubmittedEvent());
+                mActivity.finish();
             }
 
             @Override
@@ -179,15 +182,12 @@ public class PollDetailFragment extends Fragment {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.action_submit:
-
                 submitResponse();
-
                 return true;
 
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-
 
 }

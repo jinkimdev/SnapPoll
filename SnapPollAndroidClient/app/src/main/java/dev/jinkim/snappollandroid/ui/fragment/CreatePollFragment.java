@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.dd.processbutton.iml.ActionProcessButton;
+import com.squareup.otto.Bus;
 import com.squareup.picasso.Picasso;
 import com.wrapp.floatlabelededittext.FloatLabeledEditText;
 
@@ -22,10 +23,12 @@ import java.io.File;
 
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.app.App;
+import dev.jinkim.snappollandroid.event.PollSubmittedEvent;
 import dev.jinkim.snappollandroid.imgur.ImgurConstants;
 import dev.jinkim.snappollandroid.model.ImgurResponse;
 import dev.jinkim.snappollandroid.model.Poll;
 import dev.jinkim.snappollandroid.model.User;
+import dev.jinkim.snappollandroid.ui.activity.CreatePollActivity;
 import dev.jinkim.snappollandroid.util.efilechooser.FileUtils;
 import dev.jinkim.snappollandroid.web.ImgurRestClient;
 import dev.jinkim.snappollandroid.web.SnapPollRestClient;
@@ -57,13 +60,15 @@ public class CreatePollFragment extends Fragment {
     private Uri uriSelectedImage;
 
     private Resources resource;
+    private CreatePollActivity mActivity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.frag_create_poll, container, false);
 
-        resource = getActivity().getResources();
+        mActivity = (CreatePollActivity) getActivity();
+        resource = mActivity.getResources();
 
         initializeViews(rootView);
 
@@ -209,6 +214,9 @@ public class CreatePollFragment extends Fragment {
                     public void success(Poll poll, Response response) {
                         Log.d(TAG, "Success: pollId: " + poll.getPollId() + " uploaded to SnapPoll database");
                         updateProcessButton(100, "Poll submitted");
+                        Bus bus = mActivity.getEventBus();
+                        bus.post(new PollSubmittedEvent());
+                        mActivity.finish();
                     }
 
                     @Override

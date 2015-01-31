@@ -6,12 +6,16 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
 import android.view.Menu;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
+import com.squareup.otto.Subscribe;
 
 import dev.jinkim.snappollandroid.R;
+import dev.jinkim.snappollandroid.event.PollSubmittedEvent;
+import dev.jinkim.snappollandroid.event.ResponseSubmittedEvent;
 import dev.jinkim.snappollandroid.ui.NavigationDrawerFragment;
 import dev.jinkim.snappollandroid.ui.fragment.CreatePollFragment;
 import dev.jinkim.snappollandroid.ui.fragment.MyPollsFragment;
@@ -21,6 +25,8 @@ import dev.jinkim.snappollandroid.ui.fragment.ProfileFragment;
 
 public class MainActivity extends SnapPollBaseActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+
+    private static final String TAG = "MainActivity ####";
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -45,6 +51,14 @@ public class MainActivity extends SnapPollBaseActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        bus.register(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        bus.unregister(this);
     }
 
     @Override
@@ -142,4 +156,17 @@ public class MainActivity extends SnapPollBaseActivity
             session.validateLogin();
         }
     }
+
+    @Subscribe
+    public void onResponseSubmittedEvent(ResponseSubmittedEvent event) {
+        Log.d(TAG, "Received response submitted event!");
+        displaySnackBar("Response submitted");
+    }
+
+    @Subscribe
+    public void onPollSubmittedEvent(PollSubmittedEvent event) {
+        Log.d(TAG, "Received poll submitted event!");
+        displaySnackBar("Poll created");
+    }
+
 }

@@ -6,13 +6,18 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 
+import com.squareup.otto.Bus;
+
 import dev.jinkim.snappollandroid.R;
+import dev.jinkim.snappollandroid.event.BusProvider;
 import dev.jinkim.snappollandroid.ui.fragment.CreatePollFragment;
 
 /**
  * Created by Jin on 1/11/15.
  */
 public class CreatePollActivity extends ActionBarActivity {
+
+    private Bus bus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +49,15 @@ public class CreatePollActivity extends ActionBarActivity {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, createPollFragment).commit();
         }
+
+        bus = BusProvider.getInstance();
+        bus.register(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        bus.unregister(this);
     }
 
     @Override
@@ -55,6 +69,10 @@ public class CreatePollActivity extends ActionBarActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public Bus getEventBus() {
+        return bus;
     }
 
 }

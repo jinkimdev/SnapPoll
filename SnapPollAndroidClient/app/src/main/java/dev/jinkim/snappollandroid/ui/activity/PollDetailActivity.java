@@ -3,8 +3,9 @@ package dev.jinkim.snappollandroid.ui.activity;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
+
+import com.squareup.otto.Bus;
 
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.ui.fragment.PollDetailFragment;
@@ -12,12 +13,13 @@ import dev.jinkim.snappollandroid.ui.fragment.PollDetailFragment;
 /**
  * Created by Jin on 1/11/15.
  */
-public class PollDetailActivity extends ActionBarActivity {
+public class PollDetailActivity extends SnapPollBaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_poll_detail);
+
 
         ActionBar actionBar = getSupportActionBar();
 
@@ -44,6 +46,13 @@ public class PollDetailActivity extends ActionBarActivity {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, detailFragment).commit();
         }
+        bus.register(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        bus.unregister(this);
     }
 
     @Override
@@ -56,4 +65,10 @@ public class PollDetailActivity extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    public Bus getEventBus() {
+        return bus;
+    }
+
+
 }

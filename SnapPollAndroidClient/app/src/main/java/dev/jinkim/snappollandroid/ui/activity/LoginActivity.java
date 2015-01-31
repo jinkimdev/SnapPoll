@@ -122,6 +122,7 @@ public class LoginActivity extends SnapPollBaseActivity {
             }
         });
 
+        bus.register(this);
     }
 
     private Session.StatusCallback statusCallback = new Session.StatusCallback() {
@@ -225,6 +226,7 @@ public class LoginActivity extends SnapPollBaseActivity {
     public void onDestroy() {
         super.onDestroy();
         uiHelper.onDestroy();
+        bus.unregister(this);
     }
 
     @Override

@@ -2,11 +2,14 @@ package dev.jinkim.snappollandroid.ui.activity;
 
 import android.app.Activity;
 import android.content.IntentSender;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
+import com.gc.materialdesign.widgets.SnackBar;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -166,7 +169,6 @@ public class SnapPollBaseActivity extends ActionBarActivity {
     protected void onStart() {
         super.onStart();
         mGoogleApiClient.connect();
-        bus.register(this);
     }
 
     protected void onStop() {
@@ -174,7 +176,24 @@ public class SnapPollBaseActivity extends ActionBarActivity {
         if (mGoogleApiClient.isConnected()) {
             mGoogleApiClient.disconnect();
         }
-        bus.unregister(this);
+    }
+
+
+    protected void displaySnackBar(String msg, String btnText, View.OnClickListener listener) {
+        SnackBar snackBar;
+        if (btnText != null) {
+            snackBar = new SnackBar(this, msg, btnText, listener);
+        } else {
+            snackBar = new SnackBar(this, msg);
+        }
+        snackBar.show();
+    }
+
+    protected void displaySnackBar(String msg) {
+        SnackBar snackBar = new SnackBar(this, msg);
+        // TODO: Use theme color of resource
+        snackBar.setBackgroundSnackBar(Color.parseColor("#555"));
+        snackBar.show();
     }
 
 }
