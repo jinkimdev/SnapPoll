@@ -28,6 +28,7 @@ import dev.jinkim.snappollandroid.model.Poll;
 import dev.jinkim.snappollandroid.model.Response;
 import dev.jinkim.snappollandroid.ui.activity.PollDetailActivity;
 import dev.jinkim.snappollandroid.util.DimensionUtil;
+import dev.jinkim.snappollandroid.util.image.CircleTransform;
 import dev.jinkim.snappollandroid.util.image.TouchImageView;
 import dev.jinkim.snappollandroid.web.SnapPollRestClient;
 import retrofit.Callback;
@@ -45,8 +46,12 @@ public class PollDetailFragment extends Fragment {
     private TouchImageView tivRef;
     private ImageView ivProfile;
     private TextView tvQuestion;
+    private TextView tvCreatorName;
 
     private PollDetailActivity mActivity;
+
+    // true for viewing the poll result, false for responding to a poll
+    private boolean viewResultMode = false;
 
     private Target target = new Target() {
         @Override
@@ -73,7 +78,10 @@ public class PollDetailFragment extends Fragment {
 
         loadPollFromArguments();
 
-        initializeViews(rootView);
+        initializeViewsForResponse(rootView);
+//        initializeViewsForResult(rootView);
+
+
 
         return rootView;
     }
@@ -91,17 +99,33 @@ public class PollDetailFragment extends Fragment {
         currentPoll = gson.fromJson(pollJson, Poll.class);
     }
 
-    private void initializeViews(View v) {
+    private void initializeViewsForResponse(View v) {
         tivRef = (TouchImageView) v.findViewById(R.id.tiv_ref);
         ivProfile = (ImageView) v.findViewById(R.id.detail_iv_profile_pic);
         tvQuestion = (TextView) v.findViewById(R.id.detail_tv_question);
+        tvCreatorName = (TextView) v.findViewById(R.id.detail_tv_creator_name);
 
         //TODO: CHECK IF currentPoll is null
         tvQuestion.setText(currentPoll.getQuestion());
+        tvCreatorName.setText(currentPoll.getCreatorFirstName() + " " + currentPoll.creatorLastName);
+
         // load bitmap into target
         Picasso.with(mActivity).load(currentPoll.getReferenceUrl()).into(target);
-        Picasso.with(mActivity).load(currentPoll.getCreatorProfilePicUrl()).into(ivProfile);
+        Picasso.with(mActivity).load(currentPoll.getCreatorProfilePicUrl())
+                .transform(new CircleTransform()).into(ivProfile);
     }
+
+//    private void initializeViewsForResult(View v) {
+//        tivRef = (TouchImageView) v.findViewById(R.id.tiv_ref);
+//        ivProfile = (ImageView) v.findViewById(R.id.detail_iv_profile_pic);
+//        tvQuestion = (TextView) v.findViewById(R.id.detail_tv_question);
+//
+//        //TODO: CHECK IF currentPoll is null
+//        tvQuestion.setText(currentPoll.getQuestion());
+//        // load bitmap into target
+//        Picasso.with(mActivity).load(currentPoll.getReferenceUrl()).into(target);
+//        Picasso.with(mActivity).load(currentPoll.getCreatorProfilePicUrl()).into(ivProfile);
+//    }
 
     private void loadImage(Bitmap bitmap) {
 

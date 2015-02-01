@@ -1,27 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:sothree="http://schemas.android.com/apk/res-auto"
+<com.sothree.slidinguppanel.SlidingUpPanelLayout
+    xmlns:sothree="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/sliding_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="bottom"
-    sothree:panelHeight="50dp"
+    sothree:panelHeight="70dp"
     sothree:shadowHeight="10dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Poll Detail Fragment" />
+        android:layout_height="match_parent"
+        android:padding="8dp">
 
         <dev.jinkim.snappollandroid.util.image.TouchImageView
             android:id="@+id/tiv_ref"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-        <!--android:adjustViewBounds="true"-->
 
     </RelativeLayout>
 
@@ -34,13 +30,14 @@
         <RelativeLayout
             android:id="@+id/detail_container_question"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:padding="4dp">
+            android:layout_height="70dp"
+            android:padding="8dp">
 
             <ImageView
                 android:id="@+id/detail_iv_profile_pic"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:layout_marginRight="12dp"
                 android:layout_alignParentLeft="true" />
 
             <TextView
@@ -49,8 +46,21 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:maxLines="2"
+                android:textSize="13sp"
+                android:textColor="#000000"
+                android:layout_toRightOf="@id/detail_iv_profile_pic" />
+
+            <TextView
+                android:id="@+id/detail_tv_creator_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:textSize="11sp"
+                android:textColor="#777"
+                android:layout_marginTop="4dp"
                 android:layout_toRightOf="@id/detail_iv_profile_pic"
-                android:layout_marginLeft="20dp" />
+                android:layout_below="@id/detail_tv_question" />
+
         </RelativeLayout>
 
         <RelativeLayout

@@ -54,6 +54,12 @@ public class TouchImageView extends ImageView {
 
     private static final String DEBUG = "DEBUG";
 
+    /**
+     * set true if PollDetailFragment is to respond to a poll
+     * set false if it is to view the poll result
+     */
+    private boolean markerEnabled = true;
+
     //
     // SuperMin and SuperMax multipliers. Determine how much the image can be
     // zoomed below or above the zoom boundaries, before animating back to the
@@ -1353,5 +1359,10 @@ public class TouchImageView extends ImageView {
         float[] n = new float[9];
         matrix.getValues(n);
         Log.d(DEBUG, "Scale: " + n[Matrix.MSCALE_X] + " TransX: " + n[Matrix.MTRANS_X] + " TransY: " + n[Matrix.MTRANS_Y]);
+    }
+
+
+    public void setMarkerEnabled(boolean markerEnabled) {
+        this.markerEnabled = markerEnabled;
     }
 }

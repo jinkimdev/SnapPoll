@@ -192,7 +192,7 @@ public class SnapPollBaseActivity extends ActionBarActivity {
     protected void displaySnackBar(String msg) {
         SnackBar snackBar = new SnackBar(this, msg);
         // TODO: Use theme color of resource
-        snackBar.setBackgroundSnackBar(Color.parseColor("#555"));
+        snackBar.setBackgroundSnackBar(Color.parseColor("#555555"));
         snackBar.show();
     }
 
