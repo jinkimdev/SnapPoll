@@ -18,6 +18,7 @@ import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.app.App;
 import dev.jinkim.snappollandroid.model.Poll;
 import dev.jinkim.snappollandroid.model.User;
+import dev.jinkim.snappollandroid.util.UriUtil;
 
 /**
  * Created by Jin on 12/5/14.
@@ -140,7 +141,12 @@ public class MyPollListAdapter extends BaseAdapter {
 
                 Poll p = (Poll) item;
                 pollHolder.tvQuestion.setText(p.getQuestion());
-                Picasso.with(mActivity).load(p.getReferenceUrl())
+
+                // append 'l' for large-sized thumbnail from Imgur
+                UriUtil util = new UriUtil();
+                // TODO: Find optimal thumbnail type based on device screen
+                String referenceUrl = util.convertImgurThumbnail(p.getReferenceUrl(), 'l');
+                Picasso.with(mActivity).load(referenceUrl)
                         .into(pollHolder.ivPollThumbnail);
                 break;
         }

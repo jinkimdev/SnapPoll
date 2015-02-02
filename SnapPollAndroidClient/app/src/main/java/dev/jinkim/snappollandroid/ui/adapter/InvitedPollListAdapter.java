@@ -14,6 +14,7 @@ import java.util.List;
 
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.model.Poll;
+import dev.jinkim.snappollandroid.util.UriUtil;
 import dev.jinkim.snappollandroid.util.image.CircleTransform;
 
 /**
@@ -60,12 +61,18 @@ public class InvitedPollListAdapter extends ArrayAdapter<Poll> {
         Poll p = polls.get(position);
         String creator = p.getCreatorFirstName();
         String question = p.getQuestion();
-        String referenceUrl = p.getReferenceUrl();
+
+        // append 'l' for large-sized thumbnail from Imgur
+        UriUtil util = new UriUtil();
+        // TODO: Find optimal thumbnail type based on device screen
+        String referenceUrl = util.convertImgurThumbnail(p.getReferenceUrl(), 'l');
 
         holder.tvCreator.setText(creator);
         holder.tvQuestion.setText(question);
+
         Picasso.with(context).load(referenceUrl)
                 .into(holder.ivPollThumbnail);
+
 
         String url = p.getCreatorProfilePicUrl();
 

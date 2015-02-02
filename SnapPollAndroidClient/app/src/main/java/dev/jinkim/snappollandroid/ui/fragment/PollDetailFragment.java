@@ -30,6 +30,7 @@ import dev.jinkim.snappollandroid.model.Poll;
 import dev.jinkim.snappollandroid.model.Response;
 import dev.jinkim.snappollandroid.ui.activity.PollDetailActivity;
 import dev.jinkim.snappollandroid.util.DimensionUtil;
+import dev.jinkim.snappollandroid.util.UriUtil;
 import dev.jinkim.snappollandroid.util.image.CircleTransform;
 import dev.jinkim.snappollandroid.util.image.TouchImageView;
 import dev.jinkim.snappollandroid.web.SnapPollRestClient;
@@ -154,7 +155,9 @@ public class PollDetailFragment extends Fragment {
 
         tvQuestion.setText(currentPoll.getQuestion());
         // load bitmap into target
-        Picasso.with(mActivity).load(currentPoll.getReferenceUrl()).into(target);
+        UriUtil util = new UriUtil();
+        String imgUrl = util.convertImgurThumbnail(currentPoll.getReferenceUrl(), 'h');
+        Picasso.with(mActivity).load(imgUrl).into(target);
 
         // handle when pic url is empty string
         if (currentPoll.getCreatorProfilePicUrl().equals("")) {
