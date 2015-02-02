@@ -87,7 +87,7 @@ public class TouchImageView extends ImageView {
     private Matrix matrix, prevMatrix;
 
     public PointF getMarkerLocation() {
-        return snapPollMarkerLocation;
+        return snapPollSelectionLocation;
     }
 
     private static enum State {NONE, DRAG, ZOOM, FLING, ANIMATE_ZOOM}
@@ -127,10 +127,14 @@ public class TouchImageView extends ImageView {
     private OnTouchListener userTouchListener = null;
     private OnTouchImageViewListener touchImageViewListener = null;
 
-    private PointF snapPollMarkerLocation;
-    private Bitmap snapPollMarker;
-    private float snapPollMarkerWidth;
-    private float snapPollMarkerHeight;
+    private PointF snapPollSelectionLocation;
+    private Bitmap snapPollSelectionMarker;
+    private float snapPollSelectionMarkerWidth;
+    private float snapPollSelectionMarkerHeight;
+
+    private Bitmap snapPollResponseMarker;
+    private float snapPollResponseMarkerSize = 5f;
+
 
     public TouchImageView(Context context) {
         super(context);
@@ -146,6 +150,89 @@ public class TouchImageView extends ImageView {
         super(context, attrs, defStyle);
         sharedConstructing(context);
     }
+
+    public void setSelectionMarkerLocation(PointF markerLocation) {
+        if (markerLocation == null) {
+            return;
+        }
+
+        snapPollSelectionLocation = markerLocation;
+        this.invalidate();
+    }
+
+    public void setResponses(List<Response> responses) {
+        pollResponses = responses;
+    }
+
+    public void setMarkerEnabled(boolean markerEnabled) {
+        this.markerEnabled = markerEnabled;
+    }
+
+    private void drawResponses(Canvas canvas) {
+        Paint paint = new Paint();
+//        paint.setStyle(Paint.Style.FILL_AND_STROKE);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setColor(Color.CYAN);
+        paint.setStrokeWidth(3f);
+        paint.setAlpha(155);
+        paint.setAntiAlias(true);
+
+        if (pollResponses != null) {
+            for (Response resp : pollResponses) {
+                canvas.drawCircle(
+                        resp.getX() - snapPollResponseMarkerSize/2,
+                        resp.getY() - snapPollResponseMarkerSize/2,
+                        snapPollResponseMarkerSize, paint);
+            }
+        }
+    }
+
+    private void drawSelectionMarker(Canvas canvas) {
+
+        if (snapPollSelectionLocation == null) {
+            return;
+        }
+
+        if (snapPollSelectionMarker == null) {
+            snapPollSelectionMarker = BitmapFactory.decodeResource(getResources(),
+                    R.drawable.marker);
+            snapPollSelectionMarkerWidth = snapPollSelectionMarker.getWidth();
+            snapPollSelectionMarkerHeight = snapPollSelectionMarker.getHeight();
+        }
+
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setFilterBitmap(true);
+
+        // TODO: scale down the marker image?
+
+        canvas.drawBitmap(snapPollSelectionMarker,
+                snapPollSelectionLocation.x - (snapPollSelectionMarkerWidth / 2),
+                snapPollSelectionLocation.y - snapPollSelectionMarkerHeight,
+                paint);
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        onDrawReady = true;
+        imageRenderedAtLeastOnce = true;
+        if (delayedZoomVariables != null) {
+            setZoom(delayedZoomVariables.scale, delayedZoomVariables.focusX, delayedZoomVariables.focusY, delayedZoomVariables.scaleType);
+            delayedZoomVariables = null;
+        }
+
+        canvas.restore();
+
+        super.onDraw(canvas);
+
+        if (markerEnabled) {
+            drawSelectionMarker(canvas);
+        } else {
+            drawResponses(canvas);
+        }
+    }
+
+
 
     private void sharedConstructing(Context context) {
         super.setClickable(true);
@@ -311,79 +398,6 @@ public class TouchImageView extends ImageView {
         super.onRestoreInstanceState(state);
     }
 
-    @Override
-    protected void onDraw(Canvas canvas) {
-        onDrawReady = true;
-        imageRenderedAtLeastOnce = true;
-        if (delayedZoomVariables != null) {
-            setZoom(delayedZoomVariables.scale, delayedZoomVariables.focusX, delayedZoomVariables.focusY, delayedZoomVariables.scaleType);
-            delayedZoomVariables = null;
-        }
-
-        canvas.restore();
-
-        super.onDraw(canvas);
-
-        if (markerEnabled) {
-            drawMarker(canvas);
-        } else {
-            drawResponses(canvas);
-        }
-    }
-
-    public void setMarkerLocation(PointF markerLocation) {
-        if (markerLocation == null) {
-            return;
-        }
-
-        snapPollMarkerLocation = markerLocation;
-        this.invalidate();
-    }
-
-    public void setResponses(List<Response> responses) {
-        pollResponses = responses;
-    }
-
-    private void drawResponses(Canvas canvas) {
-        Paint paint = new Paint();
-//        paint.setStyle(Paint.Style.FILL_AND_STROKE);
-        paint.setColor((Color.parseColor("#5FEDF5")));
-
-        if (pollResponses != null) {
-            for (Response resp : pollResponses) {
-                canvas.drawCircle(resp.getX(), resp.getY(), 8f, paint);
-            }
-        }
-    }
-
-    private void drawMarker(Canvas canvas) {
-
-        if (snapPollMarkerLocation == null) {
-            return;
-        }
-
-        if (snapPollMarker == null) {
-            snapPollMarker = BitmapFactory.decodeResource(getResources(),
-                    R.drawable.marker);
-            snapPollMarkerWidth = snapPollMarker.getWidth();
-            snapPollMarkerHeight = snapPollMarker.getHeight();
-        }
-
-        Paint paint = new Paint();
-        paint.setAntiAlias(true);
-        paint.setFilterBitmap(true);
-
-        // TODO: scale down the marker image?
-
-        canvas.drawBitmap(snapPollMarker,
-                snapPollMarkerLocation.x - (snapPollMarkerWidth / 2),
-                snapPollMarkerLocation.y - snapPollMarkerHeight,
-                paint);
-    }
-
-    public void setMarkerEnabled(boolean markerEnabled) {
-        this.markerEnabled = markerEnabled;
-    }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -866,7 +880,7 @@ public class TouchImageView extends ImageView {
 
             // on single tap, set the marker location
             PointF pF = transformCoordTouchToBitmap(e.getX(), e.getY(), false);
-            setMarkerLocation(pF);
+            setSelectionMarkerLocation(pF);
 
             return performClick();
         }
