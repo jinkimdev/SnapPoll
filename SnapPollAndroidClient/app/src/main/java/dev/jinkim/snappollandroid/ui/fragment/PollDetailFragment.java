@@ -121,8 +121,8 @@ public class PollDetailFragment extends Fragment {
 
     private void loadDataFromArguments() {
         String pollJson = getArguments().getString("Poll", null);
-//        viewResultMode = getArguments().getBoolean("ViewResultMode", false);
-        viewResultMode = true;
+        viewResultMode = getArguments().getBoolean("ViewResultMode", false);
+//        viewResultMode = true;
 
         Gson gson = new Gson();
         currentPoll = gson.fromJson(pollJson, Poll.class);
@@ -155,8 +155,15 @@ public class PollDetailFragment extends Fragment {
         tvQuestion.setText(currentPoll.getQuestion());
         // load bitmap into target
         Picasso.with(mActivity).load(currentPoll.getReferenceUrl()).into(target);
-        Picasso.with(mActivity).load(currentPoll.getCreatorProfilePicUrl())
-                .transform(new CircleTransform()).into(ivProfile);
+
+        // handle when pic url is empty string
+        if (currentPoll.getCreatorProfilePicUrl().equals("")) {
+            Picasso.with(mActivity).load(R.drawable.ic_placeholder_profile)
+                    .into(ivProfile);
+        } else {
+            Picasso.with(mActivity).load(currentPoll.getCreatorProfilePicUrl())
+                    .transform(new CircleTransform()).into(ivProfile);
+        }
     }
 
 //    private void initializeViewsForResult(View v) {

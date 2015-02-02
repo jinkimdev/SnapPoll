@@ -74,8 +74,13 @@ public class MyPollListAdapter extends BaseAdapter {
         return list.size();
     }
 
-    public Object getItem(int position) {
-        return position;
+    public Poll getItem(int position) {
+        MyPollItem pollItem = list.get(position);
+        if (pollItem.isPoll()) {
+            return (Poll) pollItem;
+        }
+
+        return null;
     }
 
     public long getItemId(int position) {

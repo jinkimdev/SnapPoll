@@ -53,9 +53,11 @@ public class InvitedPollsFragment extends ListFragment {
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated (View view, Bundle savedInstanceState) {
+        initializeViews();
+    }
 
+    private void initializeViews() {
         lvPolls = getListView();
         lvPolls.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

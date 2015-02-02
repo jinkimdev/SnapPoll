@@ -2,7 +2,8 @@
  * Jinhyun Kim 1/24/2015
  *
  * - Changed two conversion methods to public
- * - Added drawing markers for PollResponse indication (single tap)
+ * - Added drawing selection markers for PollResponse indication (single tap)
+ * - Added drawing response markers for poll result
  */
 
 /*
@@ -134,6 +135,7 @@ public class TouchImageView extends ImageView {
 
     private Bitmap snapPollResponseMarker;
     private float snapPollResponseMarkerSize = 5f;
+    private String snapPollResponseMarkerColor = String.format("#%06X", 0xFFFFFF & Color.RED);
 
 
     public TouchImageView(Context context) {
@@ -151,30 +153,21 @@ public class TouchImageView extends ImageView {
         sharedConstructing(context);
     }
 
-    public void setSelectionMarkerLocation(PointF markerLocation) {
-        if (markerLocation == null) {
-            return;
-        }
+    public void setResponseMarkerColor(Color color) {
 
-        snapPollSelectionLocation = markerLocation;
-        this.invalidate();
     }
 
     public void setResponses(List<Response> responses) {
         pollResponses = responses;
     }
 
-    public void setMarkerEnabled(boolean markerEnabled) {
-        this.markerEnabled = markerEnabled;
-    }
-
     private void drawResponses(Canvas canvas) {
         Paint paint = new Paint();
 //        paint.setStyle(Paint.Style.FILL_AND_STROKE);
         paint.setStyle(Paint.Style.STROKE);
-        paint.setColor(Color.CYAN);
+        paint.setColor(Color.parseColor(snapPollResponseMarkerColor));
         paint.setStrokeWidth(3f);
-        paint.setAlpha(155);
+        paint.setAlpha(170);
         paint.setAntiAlias(true);
 
         if (pollResponses != null) {
@@ -185,6 +178,19 @@ public class TouchImageView extends ImageView {
                         snapPollResponseMarkerSize, paint);
             }
         }
+    }
+
+    public void setSelectionMarkerLocation(PointF markerLocation) {
+        if (markerLocation == null) {
+            return;
+        }
+
+        snapPollSelectionLocation = markerLocation;
+        this.invalidate();
+    }
+
+    public void setMarkerEnabled(boolean markerEnabled) {
+        this.markerEnabled = markerEnabled;
     }
 
     private void drawSelectionMarker(Canvas canvas) {

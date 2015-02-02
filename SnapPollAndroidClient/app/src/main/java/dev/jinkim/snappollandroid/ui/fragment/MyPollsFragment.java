@@ -1,12 +1,17 @@
 package dev.jinkim.snappollandroid.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -14,6 +19,7 @@ import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.app.App;
 import dev.jinkim.snappollandroid.model.Poll;
 import dev.jinkim.snappollandroid.model.User;
+import dev.jinkim.snappollandroid.ui.activity.PollDetailActivity;
 import dev.jinkim.snappollandroid.ui.adapter.MyPollListAdapter;
 import dev.jinkim.snappollandroid.web.SnapPollRestClient;
 import retrofit.Callback;
@@ -27,7 +33,8 @@ public class MyPollsFragment extends ListFragment {
 
     public static final String TAG = "MyPollsFragment ####";
 
-    MyPollListAdapter adapter;
+    private MyPollListAdapter adapter;
+    private ListView lvMyPolls;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,6 +47,31 @@ public class MyPollsFragment extends ListFragment {
         retrievePolls();
 
         return rootView;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        initializeViews();
+    }
+
+    private void initializeViews() {
+        lvMyPolls = getListView();
+        lvMyPolls.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Poll p = adapter.getItem(position);
+                Log.d(TAG, "Poll selected: " + p.getCreatorId() + " - " + p.getQuestion());
+
+                Intent in = new Intent(getActivity(), PollDetailActivity.class);
+                Gson gson = new Gson();
+                String pollJson = gson.toJson(p);
+                in.putExtra("Poll", pollJson);
+                in.putExtra("ViewResultMode", true);
+
+                startActivity(in);
+            }
+        });
     }
 
     //TODO: retrieve polls + creator first name
