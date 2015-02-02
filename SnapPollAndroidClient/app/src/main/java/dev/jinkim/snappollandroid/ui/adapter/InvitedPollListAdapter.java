@@ -58,7 +58,7 @@ public class InvitedPollListAdapter extends ArrayAdapter<Poll> {
         // fill data
         ViewHolder holder = (ViewHolder) rowView.getTag();
         Poll p = polls.get(position);
-        String creator = p.getCreatorId();
+        String creator = p.getCreatorFirstName();
         String question = p.getQuestion();
         String referenceUrl = p.getReferenceUrl();
 
@@ -72,7 +72,7 @@ public class InvitedPollListAdapter extends ArrayAdapter<Poll> {
         if (url != null && !url.isEmpty()) {
             Picasso.with(context).load(url)
                     .transform(new CircleTransform())
-                    .placeholder(R.drawable.googleplus)
+                    .placeholder(R.drawable.ic_placeholder_profile)
                     .into(holder.ivCreatorThumbnail);
         }
 

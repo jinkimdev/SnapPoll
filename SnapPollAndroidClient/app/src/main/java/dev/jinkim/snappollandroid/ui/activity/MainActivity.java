@@ -99,10 +99,10 @@ public class MainActivity extends SnapPollBaseActivity
     public void onSectionAttached(int number) {
         switch (number) {
             case 0:
-                mTitle = getString(R.string.title_respond);
+                mTitle = getString(R.string.nav_drawer_title_polls);
                 break;
             case 1:
-                mTitle = getString(R.string.title_profile);
+                mTitle = getString(R.string.nav_drawer_title_profile);
                 break;
         }
     }
@@ -127,11 +127,6 @@ public class MainActivity extends SnapPollBaseActivity
         }
         return super.onCreateOptionsMenu(menu);
     }
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        return super.onOptionsItemSelected(item);
-//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {

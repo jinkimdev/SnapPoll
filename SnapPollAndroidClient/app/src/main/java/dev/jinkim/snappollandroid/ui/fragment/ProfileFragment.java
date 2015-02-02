@@ -94,6 +94,7 @@ public class ProfileFragment extends Fragment {
         Picasso.with(getActivity())
                 .load(photoUrl)
                 .transform(new CircleTransform())
+                .placeholder(R.drawable.ic_placeholder_profile)
                 .into(ivProfilePic);
     }
 
