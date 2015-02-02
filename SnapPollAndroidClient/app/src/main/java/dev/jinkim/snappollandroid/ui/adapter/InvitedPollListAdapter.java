@@ -47,7 +47,7 @@ public class InvitedPollListAdapter extends ArrayAdapter<Poll> {
             // configure view holder
             ViewHolder viewHolder = new ViewHolder();
             viewHolder.ivPollThumbnail = (ImageView) rowView
-                    .findViewById(R.id.iv_poll_thumbnail);
+                    .findViewById(R.id.invited_poll_iv_poll_thumbnail);
             viewHolder.ivCreatorThumbnail = (ImageView) rowView.findViewById(R.id.iv_creator_thumbnail);
             viewHolder.tvCreator = (TextView) rowView.findViewById(R.id.tv_creator_name);
             viewHolder.tvQuestion = (TextView) rowView.findViewById(R.id.tv_question);

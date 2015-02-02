@@ -1,40 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="80dp">
+    android:layout_height="80dp"
+    android:background="#D0FFFFFF">
 
     <ImageView
-        android:id="@+id/iv_poll_thumbnail"
+        android:id="@+id/my_poll_iv_poll_thumbnail"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:scaleType="center"
         android:src="@drawable/ic_placeholder_image" />
 
     <RelativeLayout
-        android:padding="16dp"
+        android:padding="10dp"
+        android:layout_toRightOf="@id/iv_creator_thumbnail"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#30FFFFFF">
+        android:layout_height="80dp"
+        android:background="#D0FFFFFF">
 
         <TextView
-            android:id="@+id/tv_question"
+            android:id="@+id/my_poll_tv_question"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginBottom="4dp"
             android:textColor="#000"
+            android:layout_marginBottom="4dp"
             android:text="What is your favorite restaurant in Midtown?" />
 
         <TextView
-            android:id="@+id/tv_num_response"
+            android:id="@+id/my_poll_tv_num_response"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_question"
-            android:layout_marginLeft="16dp"
-            android:textColor="#606060"
-            android:text="12 responses" />
+            android:layout_below="@id/my_poll_tv_question"
+            android:textColor="#555"
+            android:textSize="12sp"
+            android:text="12" />
+
+        <TextView
+            android:id="@+id/my_poll_lbl_num_response"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/my_poll_tv_question"
+            android:layout_toRightOf="@id/my_poll_tv_num_response"
+            android:textColor="#555"
+            android:textSize="12sp"
+            android:text=" response(s)" />
 
     </RelativeLayout>
-
 
 </RelativeLayout>
