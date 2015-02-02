@@ -61,6 +61,32 @@
                 android:layout_toRightOf="@id/detail_iv_profile_pic"
                 android:layout_below="@id/detail_tv_question" />
 
+            <TextView
+                android:id="@+id/detail_lbl_num_responses"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:textSize="11sp"
+                android:textColor="#777"
+                android:layout_marginTop="4dp"
+                android:layout_toRightOf="@id/detail_iv_profile_pic"
+                android:layout_below="@id/detail_tv_question"
+                android:text="Responses: "
+                android:visibility="invisible"/>
+
+            <TextView
+                android:id="@+id/detail_tv_num_responses"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:textSize="11sp"
+                android:textColor="#777"
+                android:layout_marginTop="4dp"
+                android:layout_toRightOf="@id/detail_lbl_num_responses"
+                android:layout_below="@id/detail_tv_question"
+                android:text="0"
+                android:visibility="invisible"/>
+
         </RelativeLayout>
 
         <RelativeLayout

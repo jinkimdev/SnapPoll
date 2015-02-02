@@ -22,6 +22,8 @@ import com.squareup.otto.Bus;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import java.util.List;
+
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.event.ResponseSubmittedEvent;
 import dev.jinkim.snappollandroid.model.Poll;
@@ -45,8 +47,10 @@ public class PollDetailFragment extends Fragment {
 
     private TouchImageView tivRef;
     private ImageView ivProfile;
-    private TextView tvQuestion;
     private TextView tvCreatorName;
+    private TextView tvQuestion;
+    private TextView tvNumResponses;
+    private TextView lblNumResponses;
 
     private PollDetailActivity mActivity;
 
@@ -76,14 +80,36 @@ public class PollDetailFragment extends Fragment {
 
         mActivity = (PollDetailActivity) getActivity();
 
-        loadPollFromArguments();
+        // load selected poll and view result mode
+        loadDataFromArguments();
 
         initializeViewsForResponse(rootView);
 //        initializeViewsForResult(rootView);
 
-
+        if (viewResultMode) {
+            loadResponses();
+        }
 
         return rootView;
+    }
+
+    private void loadResponses() {
+        SnapPollRestClient.ApiService rest = new SnapPollRestClient().getApiService();
+        rest.getPollResponses(currentPoll.getPollId(), new Callback<List<Response>>() {
+            @Override
+            public void success(List<Response> responses, retrofit.client.Response response) {
+                tvNumResponses.setText(String.valueOf(responses.size()));
+                tivRef.setResponses(responses);
+                tivRef.invalidate();
+
+                Log.d(TAG, "Responses retrieved: " + responses.size());
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
     }
 
 
@@ -93,8 +119,11 @@ public class PollDetailFragment extends Fragment {
         super.onDestroy();
     }
 
-    private void loadPollFromArguments() {
+    private void loadDataFromArguments() {
         String pollJson = getArguments().getString("Poll", null);
+//        viewResultMode = getArguments().getBoolean("ViewResultMode", false);
+        viewResultMode = true;
+
         Gson gson = new Gson();
         currentPoll = gson.fromJson(pollJson, Poll.class);
     }
@@ -104,11 +133,26 @@ public class PollDetailFragment extends Fragment {
         ivProfile = (ImageView) v.findViewById(R.id.detail_iv_profile_pic);
         tvQuestion = (TextView) v.findViewById(R.id.detail_tv_question);
         tvCreatorName = (TextView) v.findViewById(R.id.detail_tv_creator_name);
+        tvNumResponses = (TextView) v.findViewById(R.id.detail_tv_num_responses);
+        lblNumResponses = (TextView) v.findViewById(R.id.detail_lbl_num_responses);
+
+
+        if (viewResultMode) {
+            tivRef.setMarkerEnabled(false);
+            tvNumResponses.setVisibility(View.VISIBLE);
+            lblNumResponses.setVisibility(View.VISIBLE);
+            tvNumResponses.setText("1");
+            tvCreatorName.setVisibility(View.INVISIBLE);
+        } else {
+            tivRef.setMarkerEnabled(true);
+            tvCreatorName.setVisibility(View.VISIBLE);
+            tvCreatorName.setText(currentPoll.getCreatorFirstName() + " " + currentPoll.getCreatorLastName());
+            tvNumResponses.setVisibility(View.INVISIBLE);
+        }
 
         //TODO: CHECK IF currentPoll is null
-        tvQuestion.setText(currentPoll.getQuestion());
-        tvCreatorName.setText(currentPoll.getCreatorFirstName() + " " + currentPoll.creatorLastName);
 
+        tvQuestion.setText(currentPoll.getQuestion());
         // load bitmap into target
         Picasso.with(mActivity).load(currentPoll.getReferenceUrl()).into(target);
         Picasso.with(mActivity).load(currentPoll.getCreatorProfilePicUrl())

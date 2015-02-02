@@ -25,6 +25,7 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PointF;
@@ -46,7 +47,10 @@ import android.widget.ImageView;
 import android.widget.OverScroller;
 import android.widget.Scroller;
 
+import java.util.List;
+
 import dev.jinkim.snappollandroid.R;
+import dev.jinkim.snappollandroid.model.Response;
 
 public class TouchImageView extends ImageView {
 
@@ -59,6 +63,7 @@ public class TouchImageView extends ImageView {
      * set false if it is to view the poll result
      */
     private boolean markerEnabled = true;
+    private List<Response> pollResponses;
 
     //
     // SuperMin and SuperMax multipliers. Determine how much the image can be
@@ -319,7 +324,11 @@ public class TouchImageView extends ImageView {
 
         super.onDraw(canvas);
 
-        drawMarker(canvas);
+        if (markerEnabled) {
+            drawMarker(canvas);
+        } else {
+            drawResponses(canvas);
+        }
     }
 
     public void setMarkerLocation(PointF markerLocation) {
@@ -329,6 +338,22 @@ public class TouchImageView extends ImageView {
 
         snapPollMarkerLocation = markerLocation;
         this.invalidate();
+    }
+
+    public void setResponses(List<Response> responses) {
+        pollResponses = responses;
+    }
+
+    private void drawResponses(Canvas canvas) {
+        Paint paint = new Paint();
+//        paint.setStyle(Paint.Style.FILL_AND_STROKE);
+        paint.setColor((Color.parseColor("#5FEDF5")));
+
+        if (pollResponses != null) {
+            for (Response resp : pollResponses) {
+                canvas.drawCircle(resp.getX(), resp.getY(), 8f, paint);
+            }
+        }
     }
 
     private void drawMarker(Canvas canvas) {
@@ -354,6 +379,10 @@ public class TouchImageView extends ImageView {
                 snapPollMarkerLocation.x - (snapPollMarkerWidth / 2),
                 snapPollMarkerLocation.y - snapPollMarkerHeight,
                 paint);
+    }
+
+    public void setMarkerEnabled(boolean markerEnabled) {
+        this.markerEnabled = markerEnabled;
     }
 
     @Override
@@ -1361,8 +1390,4 @@ public class TouchImageView extends ImageView {
         Log.d(DEBUG, "Scale: " + n[Matrix.MSCALE_X] + " TransX: " + n[Matrix.MTRANS_X] + " TransY: " + n[Matrix.MTRANS_Y]);
     }
 
-
-    public void setMarkerEnabled(boolean markerEnabled) {
-        this.markerEnabled = markerEnabled;
-    }
 }

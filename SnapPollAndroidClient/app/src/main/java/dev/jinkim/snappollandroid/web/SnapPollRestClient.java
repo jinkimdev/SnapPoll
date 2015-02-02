@@ -107,5 +107,9 @@ public class SnapPollRestClient {
 //                            @Field("attribute_choice") int attributeChoice,
 //                            Callback<Response> cb);
 
+        /* RESULT (RESPONSES FOR A POLL) */
+        @GET("/result/{poll_id}")
+        void getPollResponses(@Path("poll_id") int pollId, Callback<List<Response>> cb);
+
     }
 }
