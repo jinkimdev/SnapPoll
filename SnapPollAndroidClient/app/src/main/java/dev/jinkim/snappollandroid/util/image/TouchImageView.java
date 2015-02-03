@@ -88,7 +88,7 @@ public class TouchImageView extends ImageView {
     private Matrix matrix, prevMatrix;
 
     public PointF getMarkerLocation() {
-        return snapPollSelectionLocation;
+        return spSelectorCoords;
     }
 
     private static enum State {NONE, DRAG, ZOOM, FLING, ANIMATE_ZOOM}
@@ -128,14 +128,15 @@ public class TouchImageView extends ImageView {
     private OnTouchListener userTouchListener = null;
     private OnTouchImageViewListener touchImageViewListener = null;
 
-    private PointF snapPollSelectionLocation;
-    private Bitmap snapPollSelectionMarker;
-    private float snapPollSelectionMarkerWidth;
-    private float snapPollSelectionMarkerHeight;
+    private PointF spSelectorCoords;
+    private Bitmap spSelectorBmp;
+    private Bitmap spScaledSelectorBmp;
 
-    private Bitmap snapPollResponseMarker;
-    private float snapPollResponseMarkerSize = 5f;
-    private String snapPollResponseMarkerColor = String.format("#%06X", 0xFFFFFF & Color.RED);
+    private float spScaledSelectorWidth;
+    private float spScaledSelectorHeight;
+
+    private float spResponseMarkerSize = 5f;
+    private String spResponseMarkerColor = String.format("#%06X", 0xFFFFFF & Color.RED);
 
 
     public TouchImageView(Context context) {
@@ -154,7 +155,6 @@ public class TouchImageView extends ImageView {
     }
 
     public void setResponseMarkerColor(Color color) {
-
     }
 
     public void setResponses(List<Response> responses) {
@@ -165,7 +165,7 @@ public class TouchImageView extends ImageView {
         Paint paint = new Paint();
 //        paint.setStyle(Paint.Style.FILL_AND_STROKE);
         paint.setStyle(Paint.Style.STROKE);
-        paint.setColor(Color.parseColor(snapPollResponseMarkerColor));
+        paint.setColor(Color.parseColor(spResponseMarkerColor));
         paint.setStrokeWidth(3f);
         paint.setAlpha(170);
         paint.setAntiAlias(true);
@@ -173,49 +173,74 @@ public class TouchImageView extends ImageView {
         if (pollResponses != null) {
             for (Response resp : pollResponses) {
                 canvas.drawCircle(
-                        resp.getX() - snapPollResponseMarkerSize/2,
-                        resp.getY() - snapPollResponseMarkerSize/2,
-                        snapPollResponseMarkerSize, paint);
+                        resp.getX() - spResponseMarkerSize / 2,
+                        resp.getY() - spResponseMarkerSize / 2,
+                        spResponseMarkerSize, paint);
             }
         }
     }
 
-    public void setSelectionMarkerLocation(PointF markerLocation) {
-        if (markerLocation == null) {
+    public void setSelectorCoords(PointF selectorCoords) {
+        if (selectorCoords == null) {
             return;
         }
 
-        snapPollSelectionLocation = markerLocation;
+        spSelectorCoords = selectorCoords;
         this.invalidate();
     }
 
-    public void setMarkerEnabled(boolean markerEnabled) {
+    public void setSelectorEnabled(boolean markerEnabled) {
         this.markerEnabled = markerEnabled;
     }
 
-    private void drawSelectionMarker(Canvas canvas) {
+    private void setupSelectorBitmap() {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inScaled = false;
 
-        if (snapPollSelectionLocation == null) {
+        spSelectorBmp = BitmapFactory.decodeResource(getResources(),
+                R.drawable.marker, options);
+
+        // TODO: Find optimal marker size (scale) based on screen
+        spScaledSelectorBmp = Bitmap.createScaledBitmap(
+                spSelectorBmp, 128, 128, true);
+
+        spScaledSelectorWidth = spScaledSelectorBmp.getWidth();
+        spScaledSelectorHeight = spScaledSelectorBmp.getHeight();
+    }
+
+    private void drawSelector(Canvas canvas) {
+
+        if (spSelectorCoords == null) {
             return;
         }
 
-        if (snapPollSelectionMarker == null) {
-            snapPollSelectionMarker = BitmapFactory.decodeResource(getResources(),
-                    R.drawable.marker);
-            snapPollSelectionMarkerWidth = snapPollSelectionMarker.getWidth();
-            snapPollSelectionMarkerHeight = snapPollSelectionMarker.getHeight();
+        if (spSelectorBmp == null) {
+            setupSelectorBitmap();
         }
 
-        Paint paint = new Paint();
-        paint.setAntiAlias(true);
-        paint.setFilterBitmap(true);
+        // convert coords (rel to image) into coords (rel to screen) for the markers
+        PointF scrCoords = transformCoordBitmapToTouch(spSelectorCoords.x, spSelectorCoords.y);
 
-        // TODO: scale down the marker image?
+        // draw circle around touch (selection) point
+        Paint circlePaint = new Paint();
+        circlePaint.setStyle(Paint.Style.STROKE);
+        circlePaint.setColor(Color.parseColor(spResponseMarkerColor));
+        circlePaint.setStrokeWidth(12f);
+        circlePaint.setAlpha(170);
+        circlePaint.setAntiAlias(true);
 
-        canvas.drawBitmap(snapPollSelectionMarker,
-                snapPollSelectionLocation.x - (snapPollSelectionMarkerWidth / 2),
-                snapPollSelectionLocation.y - snapPollSelectionMarkerHeight,
-                paint);
+        canvas.drawCircle(scrCoords.x, scrCoords.y, 30f, circlePaint);
+
+        // draw selector marker pin above touch (selection) point
+        Paint selectorPaint = new Paint();
+        selectorPaint.setAntiAlias(true);
+        selectorPaint.setFilterBitmap(true);
+        selectorPaint.setDither(true);
+
+        canvas.drawBitmap(spScaledSelectorBmp,
+                scrCoords.x - (spScaledSelectorWidth / 2),
+                scrCoords.y - spScaledSelectorHeight,
+                selectorPaint);
     }
 
     @Override
@@ -227,17 +252,16 @@ public class TouchImageView extends ImageView {
             delayedZoomVariables = null;
         }
 
+        canvas.save();
+        super.onDraw(canvas);
         canvas.restore();
 
-        super.onDraw(canvas);
-
         if (markerEnabled) {
-            drawSelectionMarker(canvas);
+            drawSelector(canvas);
         } else {
             drawResponses(canvas);
         }
     }
-
 
 
     private void sharedConstructing(Context context) {
@@ -886,7 +910,7 @@ public class TouchImageView extends ImageView {
 
             // on single tap, set the marker location
             PointF pF = transformCoordTouchToBitmap(e.getX(), e.getY(), false);
-            setSelectionMarkerLocation(pF);
+            setSelectorCoords(pF);
 
             return performClick();
         }

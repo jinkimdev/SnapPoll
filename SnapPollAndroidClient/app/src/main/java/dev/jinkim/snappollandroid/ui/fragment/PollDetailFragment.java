@@ -139,13 +139,13 @@ public class PollDetailFragment extends Fragment {
 
 
         if (viewResultMode) {
-            tivRef.setMarkerEnabled(false);
+            tivRef.setSelectorEnabled(false);
             tvNumResponses.setVisibility(View.VISIBLE);
             lblNumResponses.setVisibility(View.VISIBLE);
             tvNumResponses.setText("1");
             tvCreatorName.setVisibility(View.INVISIBLE);
         } else {
-            tivRef.setMarkerEnabled(true);
+            tivRef.setSelectorEnabled(true);
             tvCreatorName.setVisibility(View.VISIBLE);
             tvCreatorName.setText(currentPoll.getCreatorFirstName() + " " + currentPoll.getCreatorLastName());
             tvNumResponses.setVisibility(View.INVISIBLE);
