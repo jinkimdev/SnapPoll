@@ -135,7 +135,7 @@ public class TouchImageView extends ImageView {
     private float spScaledSelectorWidth;
     private float spScaledSelectorHeight;
 
-    private float spResponseMarkerSize = 5f;
+    private float spResponseMarkerSize = 30f;
     private String spResponseMarkerColor = String.format("#%06X", 0xFFFFFF & Color.RED);
 
 
@@ -162,20 +162,21 @@ public class TouchImageView extends ImageView {
     }
 
     private void drawResponses(Canvas canvas) {
-        Paint paint = new Paint();
+        Paint circlePaint = new Paint();
 //        paint.setStyle(Paint.Style.FILL_AND_STROKE);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setColor(Color.parseColor(spResponseMarkerColor));
-        paint.setStrokeWidth(3f);
-        paint.setAlpha(170);
-        paint.setAntiAlias(true);
+        circlePaint.setStyle(Paint.Style.STROKE);
+        circlePaint.setColor(Color.parseColor(spResponseMarkerColor));
+        circlePaint.setStrokeWidth(12f);
+        circlePaint.setAlpha(170);
+        circlePaint.setAntiAlias(true);
 
         if (pollResponses != null) {
             for (Response resp : pollResponses) {
+                PointF scrCoords = transformCoordBitmapToTouch(resp.getX(), resp.getY());
                 canvas.drawCircle(
-                        resp.getX() - spResponseMarkerSize / 2,
-                        resp.getY() - spResponseMarkerSize / 2,
-                        spResponseMarkerSize, paint);
+                        scrCoords.x - spResponseMarkerSize / 2,
+                        scrCoords.y - spResponseMarkerSize / 2,
+                        spResponseMarkerSize, circlePaint);
             }
         }
     }

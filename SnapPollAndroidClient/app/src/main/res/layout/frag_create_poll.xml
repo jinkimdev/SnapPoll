@@ -13,14 +13,6 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         android:orientation="vertical">
 
-        <!--<com.gc.materialdesign.views.Switch-->
-        <!--android:id="@+id/switchView"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-
-        <!--android:background="#1E88E5" />-->
-
-
         <com.wrapp.floatlabelededittext.FloatLabeledEditText
             android:id="@+id/et_question"
             android:layout_width="match_parent"
@@ -78,12 +70,30 @@
                 android:text="Add attributes" />
 
             <Button
+                android:id="@+id/btn_add_attribute"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="+"
                 android:layout_below="@id/lbl_allow_multiple"
-                android:layout_toRightOf="@id/lbl_allow_multiple"
-                android:id="@+id/btn_add_attributes" />
+                android:layout_toRightOf="@id/lbl_allow_multiple" />
+
+            <Button
+                android:id="@+id/btn_grab_attributes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Grab"
+                android:layout_below="@id/lbl_allow_multiple"
+                android:layout_toRightOf="@id/btn_add_attribute" />
+
+            <LinearLayout
+                android:id="@+id/container_attributes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/btn_add_attribute"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical" />
 
         </RelativeLayout>
 

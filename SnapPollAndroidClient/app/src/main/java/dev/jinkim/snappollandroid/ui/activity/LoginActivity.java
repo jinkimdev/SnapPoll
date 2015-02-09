@@ -50,8 +50,6 @@ public class LoginActivity extends SnapPollBaseActivity {
      * from starting further intents.
      */
     private boolean mIntentInProgress;
-//    private boolean mSignInClicked;
-//    private ConnectionResult mConnectionResult;
 
     private ImageView ivLogo;
 

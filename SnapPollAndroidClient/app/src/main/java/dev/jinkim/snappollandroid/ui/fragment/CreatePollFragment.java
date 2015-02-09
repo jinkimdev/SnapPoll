@@ -1,5 +1,6 @@
 package dev.jinkim.snappollandroid.ui.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
@@ -11,7 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.dd.processbutton.iml.ActionProcessButton;
@@ -20,6 +23,8 @@ import com.squareup.picasso.Picasso;
 import com.wrapp.floatlabelededittext.FloatLabeledEditText;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.app.App;
@@ -47,8 +52,9 @@ public class CreatePollFragment extends Fragment {
     private static final int REQ_CODE_PICK_IMAGE = 1;
     public static final int RESULT_OK = -1;
 
-    private Button btnAttachImage;
+    private Button btnAttachImage, btnAddAttribute, btnGrab;
     private ActionProcessButton btnSubmit;
+    private LinearLayout llAttributes;
 
     /* poll data */
     private FloatLabeledEditText etQuestion;
@@ -61,6 +67,8 @@ public class CreatePollFragment extends Fragment {
 
     private Resources resource;
     private CreatePollActivity mActivity;
+
+    private List<AttributeLineItem> attributes;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -79,6 +87,8 @@ public class CreatePollFragment extends Fragment {
         etQuestion = (FloatLabeledEditText) v.findViewById(R.id.et_question);
         etTitle = (FloatLabeledEditText) v.findViewById(R.id.et_title);
         swMultiple = (SwitchCompat) v.findViewById(R.id.sw_multiple);
+
+        llAttributes = (LinearLayout) v.findViewById(R.id.container_attributes);
 
         ivThumbnail = (ImageView) v.findViewById(R.id.iv_thumbnail);
         Picasso.with(getActivity())
@@ -113,6 +123,69 @@ public class CreatePollFragment extends Fragment {
                 pickImage(v);
             }
         });
+
+        btnAddAttribute = (Button) v.findViewById(R.id.btn_add_attribute);
+        btnAddAttribute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addAttributeLine(v);
+            }
+        });
+
+        btnGrab = (Button) v.findViewById(R.id.btn_grab_attributes);
+        btnGrab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                grabAttributes();
+            }
+        });
+    }
+
+    private void grabAttributes() {
+        if (llAttributes == null) {
+            return;
+        }
+
+        for (int i = 0; i < llAttributes.getChildCount(); i++) {
+            View c = llAttributes.getChildAt(i);
+            FloatLabeledEditText etAttributeName = (FloatLabeledEditText) c.findViewById(R.id.et_attribute_name);
+            Log.d(TAG, "## Attr: " + etAttributeName.getEditText().getText().toString());
+        }
+    }
+
+    private void addAttributeLine(View rootView) {
+        LayoutInflater vi = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View row = vi.inflate(R.layout.row_poll_attribute, null);
+
+        // fill in any details dynamically here
+        FloatLabeledEditText etAttributeName = (FloatLabeledEditText) row.findViewById(R.id.et_attribute_name);
+//        etAttributeName.getEditText().setText("My Attribute");
+        final Button btnRemoveAttribute = (Button) row.findViewById(R.id.btn_attribute_remove);
+        btnRemoveAttribute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                llAttributes.removeView(row);
+                Log.d(TAG, "Attributes: " + llAttributes.getChildCount());
+            }
+        });
+
+        // add objects to the list
+        if (attributes == null) {
+            attributes = new ArrayList<AttributeLineItem>();
+//            row.setTag(0);
+
+        }
+
+        // insert into main view
+        llAttributes.addView(row, 0, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+
+
+        AttributeLineItem line = new AttributeLineItem();
+        line.setEditText(etAttributeName.getEditText());
+        line.setAttributeColor("#FCC");
+
+        attributes.add(line);
     }
 
     public void pickImage(View view) {
@@ -225,5 +298,26 @@ public class CreatePollFragment extends Fragment {
                         updateProcessButton(-1, "Submission failed");
                     }
                 });
+    }
+
+    public static class AttributeLineItem {
+        private String attributeColor;
+        private EditText editText;
+
+        public String getAttributeColor() {
+            return attributeColor;
+        }
+
+        public void setAttributeColor(String attributeColor) {
+            this.attributeColor = attributeColor;
+        }
+
+        public EditText getEditText() {
+            return editText;
+        }
+
+        public void setEditText(EditText editText) {
+            this.editText = editText;
+        }
     }
 }
