@@ -1,12 +1,16 @@
 package dev.jinkim.snappollandroid.model;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by Jin on 2/9/15.
  */
 public class PollAttribute {
-    int attributeId;
-    String attributeName;
-    String attributeColor;
+    public int attributeId;
+    @SerializedName("attribute_name")
+    public String attributeName;
+    @SerializedName("attribute_color_hex")
+    public String attributeColorHex;
 
     public int getAttributeId() {
         return attributeId;
@@ -24,11 +28,11 @@ public class PollAttribute {
         this.attributeName = attributeName;
     }
 
-    public String getAttributeColor() {
-        return attributeColor;
+    public String getAttributeColorHex() {
+        return attributeColorHex;
     }
 
-    public void setAttributeColor(String attributeColor) {
-        this.attributeColor = attributeColor;
+    public void setAttributeColorHex(String attributeColorHex) {
+        this.attributeColorHex = attributeColorHex;
     }
 }

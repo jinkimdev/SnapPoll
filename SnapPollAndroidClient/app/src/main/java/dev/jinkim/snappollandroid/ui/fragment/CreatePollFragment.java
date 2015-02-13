@@ -32,6 +32,7 @@ import dev.jinkim.snappollandroid.event.PollSubmittedEvent;
 import dev.jinkim.snappollandroid.imgur.ImgurConstants;
 import dev.jinkim.snappollandroid.model.ImgurResponse;
 import dev.jinkim.snappollandroid.model.Poll;
+import dev.jinkim.snappollandroid.model.PollAttribute;
 import dev.jinkim.snappollandroid.model.User;
 import dev.jinkim.snappollandroid.ui.activity.CreatePollActivity;
 import dev.jinkim.snappollandroid.util.efilechooser.FileUtils;
@@ -47,7 +48,7 @@ import retrofit.mime.TypedFile;
  */
 public class CreatePollFragment extends Fragment {
 
-    public static final String TAG = "CreatePollFragment ####";
+    public static final String TAG = "CreatePollFragment";
 
     private static final int REQ_CODE_PICK_IMAGE = 1;
     public static final int RESULT_OK = -1;
@@ -141,16 +142,27 @@ public class CreatePollFragment extends Fragment {
         });
     }
 
-    private void grabAttributes() {
+    private List<PollAttribute> grabAttributes() {
         if (llAttributes == null) {
-            return;
+            return null;
         }
+
+        List<PollAttribute> attributeList = new ArrayList<PollAttribute>();
 
         for (int i = 0; i < llAttributes.getChildCount(); i++) {
             View c = llAttributes.getChildAt(i);
             FloatLabeledEditText etAttributeName = (FloatLabeledEditText) c.findViewById(R.id.et_attribute_name);
-            Log.d(TAG, "## Attr: " + etAttributeName.getEditText().getText().toString());
+
+            PollAttribute at = new PollAttribute();
+            at.setAttributeName(etAttributeName.getEditText().getText().toString());
+            // TODO: Grab color from picker or set default value
+            at.setAttributeColorHex("#5555FF");
+            attributeList.add(at);
+
+            Log.d(TAG, "## Attr: " + at);
         }
+
+        return attributeList;
     }
 
     private void addAttributeLine(View rootView) {
@@ -178,7 +190,6 @@ public class CreatePollFragment extends Fragment {
 
         // insert into main view
         llAttributes.addView(row, 0, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-
 
 
         AttributeLineItem line = new AttributeLineItem();
@@ -278,26 +289,27 @@ public class CreatePollFragment extends Fragment {
         p.setMultipleResponseAllowed(swMultiple.isChecked());
         p.setReferenceUrl(resp.data.getLink());
         p.setReferenceDeleteHash(resp.data.getDeletehash());
+        p.setAttributes(grabAttributes());
 
-        SnapPollRestClient rest = new SnapPollRestClient();
-        rest.getApiService().postPoll(p.getCreatorId(), p.getTitle(), p.getQuestion(),
-                p.isMultipleResponseAllowed(), p.getReferenceUrl(), p.getReferenceDeleteHash(),
-                new Callback<Poll>() {
-                    @Override
-                    public void success(Poll poll, Response response) {
-                        Log.d(TAG, "Success: pollId: " + poll.getPollId() + " uploaded to SnapPoll database");
-                        updateProcessButton(100, "Poll submitted");
-                        Bus bus = mActivity.getEventBus();
-                        bus.post(new PollSubmittedEvent());
-                        mActivity.finish();
-                    }
+        SnapPollRestClient.ApiService rest = new SnapPollRestClient().getApiService();
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Log.d(TAG, "Failure: Poll not uploaded: " + error.toString());
-                        updateProcessButton(-1, "Submission failed");
-                    }
-                });
+
+        rest.postPoll(p, new Callback<Poll>() {
+            @Override
+            public void success(Poll poll, Response response) {
+                Log.d(TAG, "Success: pollId: " + poll.getPollId() + " uploaded to SnapPoll database");
+                updateProcessButton(100, "Poll submitted");
+                Bus bus = mActivity.getEventBus();
+                bus.post(new PollSubmittedEvent());
+                mActivity.finish();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d(TAG, "Failure: Poll not uploaded: " + error.toString());
+                updateProcessButton(-1, "Submission failed");
+            }
+        });
     }
 
     public static class AttributeLineItem {

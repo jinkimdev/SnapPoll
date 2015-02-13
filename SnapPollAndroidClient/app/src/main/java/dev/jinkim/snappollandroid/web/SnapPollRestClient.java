@@ -11,6 +11,7 @@ import com.google.gson.GsonBuilder;
 import java.util.List;
 
 import dev.jinkim.snappollandroid.model.Poll;
+import dev.jinkim.snappollandroid.model.PollAttribute;
 import dev.jinkim.snappollandroid.model.Response;
 import dev.jinkim.snappollandroid.model.User;
 import retrofit.Callback;
@@ -29,7 +30,7 @@ import retrofit.http.Path;
 public class SnapPollRestClient {
     private ApiService apiService;
     private static String BASE_URL = "http://snappoll.herokuapp.com/api/";
-    private final boolean USE_PRODUCTION_ENDPOINT = true;
+    private final boolean USE_PRODUCTION_ENDPOINT = false;
     private static final String LOCAL_ENDPOINT = "http://192.168.56.1:5000/api/"; // genymotion host ip
     private static String TAG = "RestClient";
 
@@ -84,14 +85,8 @@ public class SnapPollRestClient {
         @GET("/poll/invited/{user_id}")
         void getInvitedPolls(@Path("user_id") String userId, Callback<List<Poll>> cb);
 
-        @FormUrlEncoded
         @POST("/poll")
-        void postPoll(@Field("creator_id") String creatorId,
-                      @Field("title") String title,
-                      @Field("question") String question,
-                      @Field("multiple_response_allowed") Boolean multiple,
-                      @Field("reference_url") String url,
-                      @Field("reference_delete_hash") String deleteHash, Callback<Poll> cb);
+        void postPoll(@Body Poll poll, Callback<Poll> cb);
 
         /* USER */
         @POST("/user")

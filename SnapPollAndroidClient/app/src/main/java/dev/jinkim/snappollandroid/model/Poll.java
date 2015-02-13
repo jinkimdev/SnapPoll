@@ -1,6 +1,7 @@
 package dev.jinkim.snappollandroid.model;
 
 import java.util.Date;
+import java.util.List;
 
 import dev.jinkim.snappollandroid.ui.adapter.MyPollListAdapter;
 
@@ -20,6 +21,7 @@ public class Poll implements MyPollListAdapter.MyPollItem {
     public boolean multipleResponseAllowed = false;
     public String referenceUrl = "";
     public String referenceDeleteHash = "";
+    public List<PollAttribute> attributes;
 
     public int getPollId() {
         return pollId;
@@ -125,5 +127,13 @@ public class Poll implements MyPollListAdapter.MyPollItem {
     @Override
     public boolean isSection() {
         return false;
+    }
+
+    public List<PollAttribute> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(List<PollAttribute> attributes) {
+        this.attributes = attributes;
     }
 }
