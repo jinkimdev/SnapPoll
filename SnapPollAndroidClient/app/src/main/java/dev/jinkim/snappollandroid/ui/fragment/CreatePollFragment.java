@@ -9,6 +9,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -17,7 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.dd.processbutton.iml.ActionProcessButton;
+import com.gc.materialdesign.views.ProgressBarIndeterminate;
 import com.squareup.otto.Bus;
 import com.squareup.picasso.Picasso;
 import com.wrapp.floatlabelededittext.FloatLabeledEditText;
@@ -54,8 +57,8 @@ public class CreatePollFragment extends Fragment {
     public static final int RESULT_OK = -1;
 
     private Button btnAttachImage, btnAddAttribute, btnGrab;
-    private ActionProcessButton btnSubmit;
     private LinearLayout llAttributes;
+    private ProgressBarIndeterminate progressBar;
 
     /* poll data */
     private FloatLabeledEditText etQuestion;
@@ -69,22 +72,27 @@ public class CreatePollFragment extends Fragment {
     private Resources resource;
     private CreatePollActivity mActivity;
 
+    private Poll currentPoll;
+    private ImgurResponse currentImgurResponse;
     private List<AttributeLineItem> attributes;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.frag_create_poll, container, false);
+        setHasOptionsMenu(true);
 
         mActivity = (CreatePollActivity) getActivity();
         resource = mActivity.getResources();
 
         initializeViews(rootView);
 
+
         return rootView;
     }
 
     private void initializeViews(View v) {
+        progressBar = (ProgressBarIndeterminate) v.findViewById(R.id.pb_create_poll_upload_progress);
         etQuestion = (FloatLabeledEditText) v.findViewById(R.id.et_question);
         etTitle = (FloatLabeledEditText) v.findViewById(R.id.et_title);
         swMultiple = (SwitchCompat) v.findViewById(R.id.sw_multiple);
@@ -97,25 +105,6 @@ public class CreatePollFragment extends Fragment {
                 .placeholder(R.drawable.ic_placeholder_image)
                 .fit().centerInside()
                 .into(ivThumbnail);
-
-        btnSubmit = (ActionProcessButton) v.findViewById(R.id.btn_submit);
-        btnSubmit.setMode(ActionProcessButton.Mode.ENDLESS);
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String title = etQuestion.getEditText().getText().toString();
-
-                //TODO: Upload image to imgur
-                //TODO when url is retrieved, make another call to POST /poll
-                // grab info on poll
-                if (uriSelectedImage == null) {
-                    Toast.makeText(getActivity(), "Please select an image", Toast.LENGTH_SHORT).show();
-                } else {
-                    updateProcessButton(1, "Uploading image");
-                    uploadImage(uriSelectedImage, title);
-                }
-            }
-        });
 
         btnAttachImage = (Button) v.findViewById(R.id.btn_attach_image);
         btnAttachImage.setOnClickListener(new View.OnClickListener() {
@@ -217,6 +206,10 @@ public class CreatePollFragment extends Fragment {
                     uriSelectedImage = imageReturnedIntent.getData();
                     Log.d(TAG, "Image selected: " + uriSelectedImage.toString());
                     updateThumbnail(uriSelectedImage);
+
+                    // clear previously uploaded imgur response
+                    if (currentImgurResponse != null)
+                        currentImgurResponse = null;
                 }
         }
     }
@@ -232,45 +225,38 @@ public class CreatePollFragment extends Fragment {
 
     private void uploadImage(Uri uriSelectedImage, String imageTitle) {
 
-        updateProcessButton(1, "Uploading image");
-        //TODO: Check if this util works with various versions of Android
-        File file = FileUtils.getFile(getActivity(), uriSelectedImage);
+        // if the image is already uploaded
+        if (currentImgurResponse != null) {
+            submitPoll(currentImgurResponse);
 
-        //TODO: Catch exception and handle it
-        TypedFile tf = new TypedFile("image/*", file);
-
-        ImgurRestClient imgurRest = new ImgurRestClient();
-        imgurRest.getApiService().uploadImage("Client-ID " + ImgurConstants.MY_IMGUR_CLIENT_ID,
-                tf, imageTitle, resource.getString(R.string.image_description),
-                new Callback<ImgurResponse>() {
-                    @Override
-                    public void success(ImgurResponse imgurResponse, Response response) {
-                        Log.d(TAG, "Success: Image uploaded to Imgur");
-                        Log.d(TAG, "Imgur link: " + imgurResponse.data.link);
-                        Log.d(TAG, "Imgur deleteHash: " + imgurResponse.data.deletehash);
-
-                        updateProcessButton(50, "Submitting poll...");
-                        submitPoll(imgurResponse);
-                        // TODO: EventBus event onImageUploadSuccessEvent -- pass Response object
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Log.d(TAG, "Failure: Image not uploaded to Imgur");
-                    }
-                });
-    }
-
-    private void updateProcessButton(int prog, String msg) {
-        if (prog == -1) {
-            btnSubmit.setError(msg);
         } else {
-            btnSubmit.setProgress(prog);
-            btnSubmit.setText(msg);
+            //TODO: Check if this util works with various versions of Android
+            File file = FileUtils.getFile(getActivity(), uriSelectedImage);
+
+            //TODO: Catch exception and handle it
+            TypedFile tf = new TypedFile("image/*", file);
+
+            ImgurRestClient imgurRest = new ImgurRestClient();
+            imgurRest.getApiService().uploadImage("Client-ID " + ImgurConstants.MY_IMGUR_CLIENT_ID,
+                    tf, imageTitle, resource.getString(R.string.image_description),
+                    new Callback<ImgurResponse>() {
+                        @Override
+                        public void success(ImgurResponse imgurResponse, Response response) {
+                            currentImgurResponse = imgurResponse;
+                            Log.d(TAG, "Success: Image uploaded to Imgur");
+                            Log.d(TAG, "Imgur link: " + currentImgurResponse.data.link);
+                            Log.d(TAG, "Imgur deleteHash: " + currentImgurResponse.data.deletehash);
+
+                            submitPoll(currentImgurResponse);
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {
+                            Log.d(TAG, "Failure: Image not uploaded to Imgur");
+                        }
+                    });
         }
-        if (prog == 100) {
-            btnSubmit.setEnabled(false);
-        }
+
     }
 
     private void submitPoll(ImgurResponse resp) {
@@ -281,35 +267,69 @@ public class CreatePollFragment extends Fragment {
 
         User u = App.getInstance().getCurrentUser(getActivity());
 
-        Poll p = new Poll();
-        p.setCreatorId(u.getUserId());
-        p.setQuestion(etQuestion.getEditText().getText().toString());
-        p.setTitle(etTitle.getEditText().getText().toString());
-        p.setActive(true);
-        p.setMultipleResponseAllowed(swMultiple.isChecked());
-        p.setReferenceUrl(resp.data.getLink());
-        p.setReferenceDeleteHash(resp.data.getDeletehash());
-        p.setAttributes(grabAttributes());
+        currentPoll = new Poll();
+        currentPoll.setCreatorId(u.getUserId());
+        currentPoll.setQuestion(etQuestion.getEditText().getText().toString());
+        currentPoll.setTitle(etTitle.getEditText().getText().toString());
+        currentPoll.setActive(true);
+        currentPoll.setMultipleResponseAllowed(swMultiple.isChecked());
+        currentPoll.setReferenceUrl(resp.data.getLink());
+        currentPoll.setReferenceDeleteHash(resp.data.getDeletehash());
+        currentPoll.setAttributes(grabAttributes());
 
         SnapPollRestClient.ApiService rest = new SnapPollRestClient().getApiService();
 
 
-        rest.postPoll(p, new Callback<Poll>() {
+        rest.postPoll(currentPoll, new Callback<Poll>() {
             @Override
             public void success(Poll poll, Response response) {
                 Log.d(TAG, "Success: pollId: " + poll.getPollId() + " uploaded to SnapPoll database");
-                updateProcessButton(100, "Poll submitted");
                 Bus bus = mActivity.getEventBus();
                 bus.post(new PollSubmittedEvent());
+                progressBar.setVisibility(View.INVISIBLE);
                 mActivity.finish();
             }
 
             @Override
             public void failure(RetrofitError error) {
+                // TODO: failure message for user
                 Log.d(TAG, "Failure: Poll not uploaded: " + error.toString());
-                updateProcessButton(-1, "Submission failed");
             }
         });
+    }
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+        inflater.inflate(R.menu.menu_create_poll, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_poll_detail_submit:
+
+                String title = etQuestion.getEditText().getText().toString();
+
+                //TODO: Upload image to imgur
+                //TODO when url is retrieved, make another call to POST /poll
+                // grab info on poll
+                if (uriSelectedImage == null) {
+                    Toast.makeText(getActivity(), "Please select an image", Toast.LENGTH_SHORT).show();
+                } else {
+                    progressBar.setVisibility(View.VISIBLE);
+
+                    uploadImage(uriSelectedImage, title);
+                }
+
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public static class AttributeLineItem {

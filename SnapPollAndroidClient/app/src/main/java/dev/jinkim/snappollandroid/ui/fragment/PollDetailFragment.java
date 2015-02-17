@@ -113,7 +113,6 @@ public class PollDetailFragment extends Fragment {
         });
     }
 
-
     @Override
     public void onDestroy() {  // could be in onPause or onStop
         Picasso.with(getActivity()).cancelRequest(target);
@@ -136,7 +135,6 @@ public class PollDetailFragment extends Fragment {
         tvCreatorName = (TextView) v.findViewById(R.id.detail_tv_creator_name);
         tvNumResponses = (TextView) v.findViewById(R.id.detail_tv_num_responses);
         lblNumResponses = (TextView) v.findViewById(R.id.detail_lbl_num_responses);
-
 
         if (viewResultMode) {
             tivRef.setSelectorEnabled(false);
@@ -259,7 +257,7 @@ public class PollDetailFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
-            case R.id.action_submit:
+            case R.id.action_poll_detail_submit:
                 submitResponse();
                 return true;
 

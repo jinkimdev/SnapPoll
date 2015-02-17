@@ -1,135 +1,129 @@
 <!--<com.gc.materialdesign.views.ScrollView xmlns:android="http://schemas.android.com/apk/res/android"--><!--xmlns:custom="http://schemas.android.com/apk/res-auto"--><!--xmlns:materialdesign="http://schemas.android.com/apk/res-auto"--><!--android:id="@+id/scroll"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent">-->
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <com.gc.materialdesign.views.ProgressBarIndeterminate
+        android:id="@+id/pb_create_poll_upload_progress"
+        android:layout_width="fill_parent"
+        android:layout_marginTop="1dp"
+        android:layout_height="3dp"
+        android:background="#ff1a61ff"
+        android:layout_alignParentTop="true"
+        android:visibility="invisible" />
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <com.wrapp.floatlabelededittext.FloatLabeledEditText
-            android:id="@+id/et_question"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp">
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:orientation="vertical">
 
-            <EditText
+            <com.wrapp.floatlabelededittext.FloatLabeledEditText
+                android:id="@+id/et_question"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="3"
-                android:hint="Question" />
-        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+                android:layout_marginBottom="16dp">
 
-        <com.wrapp.floatlabelededittext.FloatLabeledEditText
-            android:id="@+id/et_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="3"
+                    android:hint="Question" />
+            </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
-            <EditText
+            <com.wrapp.floatlabelededittext.FloatLabeledEditText
+                android:id="@+id/et_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:textColorHint="@color/text_primary"
-                android:hint="Poll Title (optional)" />
-        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+                android:layout_marginBottom="8dp">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:textColorHint="@color/text_primary"
+                    android:hint="Poll Title (optional)" />
+            </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
-            <TextView
-                android:id="@+id/lbl_allow_multiple"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="24dp"
-                android:layout_marginBottom="16dp"
-                android:text="Allow multiple selections?" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <android.support.v7.widget.SwitchCompat
-                android:id="@+id/sw_multiple"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/lbl_allow_multiple"
-                android:layout_marginBottom="16dp"
-                android:checked="false" />
+                <TextView
+                    android:id="@+id/lbl_allow_multiple"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="Allow multiple selections?" />
 
-            <TextView
-                android:id="@+id/lbl_attributes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/lbl_allow_multiple"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="24dp"
-                android:text="Add attributes" />
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/sw_multiple"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/lbl_allow_multiple"
+                    android:layout_marginBottom="16dp"
+                    android:checked="false" />
+
+                <TextView
+                    android:id="@+id/lbl_attributes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/lbl_allow_multiple"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="24dp"
+                    android:text="Add attributes" />
+
+                <Button
+                    android:id="@+id/btn_add_attribute"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+"
+                    android:layout_below="@id/lbl_allow_multiple"
+                    android:layout_toRightOf="@id/lbl_allow_multiple" />
+
+                <Button
+                    android:id="@+id/btn_grab_attributes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Grab"
+                    android:layout_below="@id/lbl_allow_multiple"
+                    android:layout_toRightOf="@id/btn_add_attribute" />
+
+                <LinearLayout
+                    android:id="@+id/container_attributes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/btn_add_attribute"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="vertical" />
+
+            </RelativeLayout>
+
 
             <Button
-                android:id="@+id/btn_add_attribute"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="+"
-                android:layout_below="@id/lbl_allow_multiple"
-                android:layout_toRightOf="@id/lbl_allow_multiple" />
+                android:text="Select Image"
+                android:id="@+id/btn_attach_image" />
 
-            <Button
-                android:id="@+id/btn_grab_attributes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Grab"
-                android:layout_below="@id/lbl_allow_multiple"
-                android:layout_toRightOf="@id/btn_add_attribute" />
-
-            <LinearLayout
-                android:id="@+id/container_attributes"
+            <ImageView
+                android:id="@+id/iv_thumbnail"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/btn_add_attribute"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:orientation="vertical" />
+                android:layout_height="120dp"
+                android:layout_margin="8dp"
+                android:layout_gravity="center_horizontal"
+                android:scaleType="centerInside" />
 
-        </RelativeLayout>
-
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Select Image"
-            android:id="@+id/btn_attach_image" />
-
-        <ImageView
-            android:id="@+id/iv_thumbnail"
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:layout_margin="8dp"
-            android:layout_gravity="center_horizontal"
-            android:scaleType="centerInside" />
-
-        <com.dd.processbutton.iml.ActionProcessButton
-            android:id="@+id/btn_submit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="16dp"
-            android:text="Submit"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            custom:pb_colorComplete="@color/green_complete"
-            custom:pb_colorNormal="@color/blue_normal"
-            custom:pb_colorPressed="@color/blue_pressed"
-            custom:pb_colorProgress="@color/purple_progress"
-            custom:pb_textComplete="Success"
-            custom:pb_textError="Error"
-            custom:pb_colorError="@color/red_error" />
-
-    </LinearLayout>
-    <!--</com.gc.materialdesign.views.ScrollView>-->
-</ScrollView>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

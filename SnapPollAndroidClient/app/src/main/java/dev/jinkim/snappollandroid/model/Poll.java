@@ -22,6 +22,7 @@ public class Poll implements MyPollListAdapter.MyPollItem {
     public String referenceUrl = "";
     public String referenceDeleteHash = "";
     public List<PollAttribute> attributes;
+    public int numResponses;
 
     public int getPollId() {
         return pollId;
@@ -136,4 +137,13 @@ public class Poll implements MyPollListAdapter.MyPollItem {
     public void setAttributes(List<PollAttribute> attributes) {
         this.attributes = attributes;
     }
+
+    public int getNumResponses() {
+        return numResponses;
+    }
+
+    public void setNumResponses(int numResponses) {
+        this.numResponses = numResponses;
+    }
+
 }

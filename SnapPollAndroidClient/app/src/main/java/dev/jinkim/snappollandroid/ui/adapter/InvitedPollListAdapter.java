@@ -30,6 +30,7 @@ public class InvitedPollListAdapter extends ArrayAdapter<Poll> {
         public ImageView ivCreatorThumbnail;
         public TextView tvCreator;
         public TextView tvQuestion;
+        public TextView tvNumResponses;
     }
 
     public InvitedPollListAdapter(Context context, List<Poll> polls) {

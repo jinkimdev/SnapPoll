@@ -95,12 +95,6 @@ public class SnapPollRestClient {
         /* RESPONSE */
         @POST("/response")
         void submitResponse(@Body Response response, Callback<Response> cb);
-//        void submitResponse(@Field("poll_id") String pollId,
-//                            @Field("user_id") String userId,
-//                            @Field("x") float x,
-//                            @Field("y") float y,
-//                            @Field("attribute_choice") int attributeChoice,
-//                            Callback<Response> cb);
 
         /* RESULT (RESPONSES FOR A POLL) */
         @GET("/result/{poll_id}")

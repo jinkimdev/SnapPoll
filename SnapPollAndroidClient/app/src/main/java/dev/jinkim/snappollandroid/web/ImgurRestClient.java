@@ -16,6 +16,7 @@ import retrofit.mime.TypedFile;
  * Upload an image to Imgur hosting using Retrofit
  */
 public class ImgurRestClient {
+
     private ApiService apiService;
     private static String BASE_URL = "https://api.imgur.com/3";
     private static String TAG = "ImgurRestClient";
@@ -40,8 +41,8 @@ public class ImgurRestClient {
         // Retrofit takes a file to upload in a TypedFile(file and MIME type)
         void uploadImage(@Header("Authorization") String clientId,
                          @Part("image") TypedFile file,
-                         @Part("title") String title, @Part("description") String desc,
+                         @Part("title") String title,
+                         @Part("description") String desc,
                          Callback<ImgurResponse> cb);
-        // TODO: Add title and description to uploaded image
     }
 }

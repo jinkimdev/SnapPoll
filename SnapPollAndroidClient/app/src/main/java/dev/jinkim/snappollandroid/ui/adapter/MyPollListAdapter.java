@@ -133,6 +133,7 @@ public class MyPollListAdapter extends BaseAdapter {
                     view = inflater.inflate(R.layout.row_my_poll, null);
                     pollHolder.ivPollThumbnail = (ImageView) view.findViewById(R.id.my_poll_iv_poll_thumbnail);
                     pollHolder.tvQuestion = (TextView) view.findViewById(R.id.my_poll_tv_question);
+                    pollHolder.tvNumResponses = (TextView) view.findViewById(R.id.my_poll_tv_num_response);
                     view.setTag(pollHolder);
 
                 } else {
@@ -141,6 +142,7 @@ public class MyPollListAdapter extends BaseAdapter {
 
                 Poll p = (Poll) item;
                 pollHolder.tvQuestion.setText(p.getQuestion());
+                pollHolder.tvNumResponses.setText(String.valueOf(p.getNumResponses()));
 
                 // append 'l' for large-sized thumbnail from Imgur
                 UriUtil util = new UriUtil();
