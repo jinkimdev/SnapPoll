@@ -151,12 +151,12 @@ public class SessionManager {
         editor.commit();
 
         // After logout redirect user to Loing Activity
-        Intent i = new Intent(mContext, LoginActivity.class);
+        Intent in = new Intent(mContext, LoginActivity.class);
 
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-        mContext.startActivity(i);
+        mContext.startActivity(in);
     }
 
 }

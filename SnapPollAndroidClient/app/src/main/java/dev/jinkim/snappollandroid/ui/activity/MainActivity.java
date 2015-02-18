@@ -149,6 +149,7 @@ public class MainActivity extends SnapPollBaseActivity
             mGoogleApiClient.connect();
 //            updateUI(false);
             session.validateLogin();
+            this.finish();
         }
     }
 

@@ -87,7 +87,6 @@ public class CreatePollFragment extends Fragment {
 
         initializeViews(rootView);
 
-
         return rootView;
     }
 
