@@ -15,27 +15,18 @@
         android:text="-"
         android:textSize="24sp"
         android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentRight="true" />
 
     <LinearLayout
         android:layout_toLeftOf="@id/btn_attribute_remove"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <View
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginRight="20dp"
-            android:id="@+id/view_color_indicator"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="6dp"
-            android:background="#F0C" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <com.wrapp.floatlabelededittext.FloatLabeledEditText
             android:id="@+id/et_attribute_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/view_color_indicator"
             float:fletPadding="2dp">
 
             <EditText

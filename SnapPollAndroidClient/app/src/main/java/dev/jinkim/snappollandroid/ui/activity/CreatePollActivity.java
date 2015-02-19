@@ -57,7 +57,7 @@ public class CreatePollActivity extends ActionBarActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        bus.unregister(this);
+        if (bus != null) bus.unregister(this);
     }
 
     @Override

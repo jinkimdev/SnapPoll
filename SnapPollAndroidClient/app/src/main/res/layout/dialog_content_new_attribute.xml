@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:float="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="4dp">
+
+    <TextView
+        android:id="@+id/lbl_indicator_color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:textSize="12sp"
+        android:text="Indicator Color" />
+
+    <Spinner
+        android:id="@+id/sp_color_picker"
+        android:layout_marginLeft="14dp"
+        android:layout_toRightOf="@id/lbl_indicator_color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp" />
+
+    <com.wrapp.floatlabelededittext.FloatLabeledEditText
+        android:id="@+id/et_attribute_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_below="@id/lbl_indicator_color"
+        float:fletPadding="2dp">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textSize="12sp"
+            android:textColorHint="@color/text_primary"
+            android:hint="Attribute Name" />
+
+    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+
+</RelativeLayout>

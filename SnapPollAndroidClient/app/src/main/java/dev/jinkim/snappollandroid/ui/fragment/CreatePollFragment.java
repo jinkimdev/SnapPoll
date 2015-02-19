@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,8 +19,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.gc.materialdesign.views.ProgressBarIndeterminate;
 import com.squareup.otto.Bus;
 import com.squareup.picasso.Picasso;
@@ -38,6 +41,7 @@ import dev.jinkim.snappollandroid.model.Poll;
 import dev.jinkim.snappollandroid.model.PollAttribute;
 import dev.jinkim.snappollandroid.model.User;
 import dev.jinkim.snappollandroid.ui.activity.CreatePollActivity;
+import dev.jinkim.snappollandroid.ui.adapter.ColorSpinnerAdapter;
 import dev.jinkim.snappollandroid.util.efilechooser.FileUtils;
 import dev.jinkim.snappollandroid.web.ImgurRestClient;
 import dev.jinkim.snappollandroid.web.SnapPollRestClient;
@@ -117,6 +121,7 @@ public class CreatePollFragment extends Fragment {
         btnAddAttribute.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                showAddAttributeDialog();
                 addAttributeLine(v);
             }
         });
@@ -130,6 +135,36 @@ public class CreatePollFragment extends Fragment {
         });
     }
 
+    private void showAddAttributeDialog() {
+
+        // set up custom view for dialog - color indicator, edit text
+        LayoutInflater vi = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View row = vi.inflate(R.layout.dialog_content_new_attribute, null);
+
+        EditText etAttributeName = ((FloatLabeledEditText) row.findViewById(R.id.et_attribute_name)).getEditText();
+
+        // set up spinner color picker
+        List<Pair<String, String>> listColor = new ArrayList<Pair<String, String>>();
+        listColor.add(new Pair("Red", "#FF0000"));
+        listColor.add(new Pair("Yellow", "#FFFF00"));
+
+        Spinner spColorPicker = (Spinner) row.findViewById(R.id.sp_color_picker);
+        spColorPicker.setAdapter(new ColorSpinnerAdapter(mActivity, R.layout.dialog_content_new_attribute, listColor));
+
+        // set up dialog
+        boolean wrapInScrollView = true;
+        new MaterialDialog.Builder(mActivity)
+                .title("New Attribute")
+//                .content(R.string.content)
+//                .content("Content")
+                .customView(row, wrapInScrollView)
+                .positiveText("Save")
+//                .positiveText(R.string.agree)
+                .negativeText("Cancel")
+//                .negativeText(R.string.disagree)
+                .show();
+    }
+
     private List<PollAttribute> grabAttributes() {
         if (llAttributes == null) {
             return null;
@@ -140,6 +175,8 @@ public class CreatePollFragment extends Fragment {
         for (int i = 0; i < llAttributes.getChildCount(); i++) {
             View c = llAttributes.getChildAt(i);
             FloatLabeledEditText etAttributeName = (FloatLabeledEditText) c.findViewById(R.id.et_attribute_name);
+
+            View v = c.findViewById(R.id.view_spinner_color_indicator);
 
             PollAttribute at = new PollAttribute();
             at.setAttributeName(etAttributeName.getEditText().getText().toString());
@@ -155,7 +192,7 @@ public class CreatePollFragment extends Fragment {
 
     private void addAttributeLine(View rootView) {
         LayoutInflater vi = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View row = vi.inflate(R.layout.row_poll_attribute, null);
+        final View row = vi.inflate(R.layout.row_poll_attribute_line_item, null);
 
         // fill in any details dynamically here
         FloatLabeledEditText etAttributeName = (FloatLabeledEditText) row.findViewById(R.id.et_attribute_name);
