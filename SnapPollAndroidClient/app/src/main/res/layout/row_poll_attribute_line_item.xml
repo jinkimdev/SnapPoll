@@ -1,45 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:float="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="4dp">
+    android:padding="8dp">
 
-    <Button
-        android:id="@+id/btn_attribute_remove"
+    <View
+        android:id="@+id/view_attribute_line_color_indicator"
         android:layout_width="30dp"
         android:layout_height="30dp"
+        android:layout_marginLeft="0dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:background="#FF00FF" />
+
+    <ImageView
+        android:id="@+id/iv_btn_attribute_line_remove"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
-        android:text="-"
-        android:textSize="24sp"
+        android:src="@drawable/ic_action_remove"
+        android:background="#00FFFFFF"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true" />
 
-    <LinearLayout
-        android:layout_toLeftOf="@id/btn_attribute_remove"
+    <ImageView
+        android:id="@+id/iv_btn_attribute_line_edit"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="20dp"
+        android:src="@drawable/ic_action_edit"
+        android:background="#00FFFFFF"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/iv_btn_attribute_line_remove" />
+
+    <TextView
+        android:id="@+id/tv_attribute_line_attribute_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <com.wrapp.floatlabelededittext.FloatLabeledEditText
-            android:id="@+id/et_attribute_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            float:fletPadding="2dp">
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:textSize="12sp"
-                android:textColorHint="@color/text_primary"
-                android:hint="Attribute Name" />
-
-        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
-
-    </LinearLayout>
+        android:layout_centerVertical="true"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_toRightOf="@id/view_attribute_line_color_indicator"
+        android:layout_toLeftOf="@id/iv_btn_attribute_line_edit"
+        android:text="Attribute Name" />
 
 
 </RelativeLayout>

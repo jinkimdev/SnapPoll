@@ -42,7 +42,7 @@
                 android:id="@+id/et_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp">
+                android:layout_marginBottom="18dp">
 
                 <EditText
                     android:layout_width="match_parent"
@@ -54,7 +54,8 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingLeft="4dp">
 
                 <TextView
                     android:id="@+id/lbl_allow_multiple"
@@ -73,42 +74,36 @@
                     android:checked="false" />
 
                 <TextView
-                    android:id="@+id/lbl_attributes"
+                    android:id="@+id/lbl_add_attributes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/lbl_allow_multiple"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="24dp"
+                    android:layout_marginRight="18dp"
                     android:text="Add attributes" />
 
-                <Button
-                    android:id="@+id/btn_add_attribute"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="+"
+                <ImageView
+                    android:id="@+id/iv_btn_add_attribute"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_marginBottom="-8dp"
+                    android:src="@drawable/ic_add"
+                    android:layout_alignBottom="@id/lbl_add_attributes"
                     android:layout_below="@id/lbl_allow_multiple"
-                    android:layout_toRightOf="@id/lbl_allow_multiple" />
-
-                <Button
-                    android:id="@+id/btn_grab_attributes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Grab"
-                    android:layout_below="@id/lbl_allow_multiple"
-                    android:layout_toRightOf="@id/btn_add_attribute" />
+                    android:layout_toRightOf="@id/lbl_add_attributes" />
 
                 <LinearLayout
                     android:id="@+id/container_attributes"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/btn_add_attribute"
+                    android:layout_below="@id/iv_btn_add_attribute"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginBottom="10dp"
                     android:orientation="vertical" />
 
             </RelativeLayout>
-
 
             <Button
                 android:layout_width="wrap_content"
@@ -125,5 +120,7 @@
                 android:scaleType="centerInside" />
 
         </LinearLayout>
+
     </ScrollView>
+
 </RelativeLayout>

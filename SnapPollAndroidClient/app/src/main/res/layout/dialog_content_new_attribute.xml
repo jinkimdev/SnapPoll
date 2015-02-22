@@ -9,7 +9,7 @@
         android:id="@+id/lbl_indicator_color"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="5dp"
         android:layout_marginBottom="4dp"
         android:textSize="12sp"
         android:text="Indicator Color" />
@@ -39,6 +39,5 @@
             android:hint="Attribute Name" />
 
     </com.wrapp.floatlabelededittext.FloatLabeledEditText>
-
 
 </RelativeLayout>
