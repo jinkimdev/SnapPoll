@@ -74,14 +74,14 @@
                     android:checked="false" />
 
                 <TextView
-                    android:id="@+id/lbl_add_attributes"
+                    android:id="@+id/lbl_attributes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/lbl_allow_multiple"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="24dp"
                     android:layout_marginRight="18dp"
-                    android:text="Add attributes" />
+                    android:text="Attributes" />
 
                 <ImageView
                     android:id="@+id/iv_btn_add_attribute"
@@ -89,9 +89,9 @@
                     android:layout_height="22dp"
                     android:layout_marginBottom="-8dp"
                     android:src="@drawable/ic_add"
-                    android:layout_alignBottom="@id/lbl_add_attributes"
+                    android:layout_alignBottom="@id/lbl_attributes"
                     android:layout_below="@id/lbl_allow_multiple"
-                    android:layout_toRightOf="@id/lbl_add_attributes" />
+                    android:layout_toRightOf="@id/lbl_attributes" />
 
                 <LinearLayout
                     android:id="@+id/container_attributes"

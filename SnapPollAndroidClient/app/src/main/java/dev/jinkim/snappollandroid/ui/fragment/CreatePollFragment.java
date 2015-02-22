@@ -1,6 +1,7 @@
 package dev.jinkim.snappollandroid.ui.fragment;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -87,6 +88,8 @@ public class CreatePollFragment extends Fragment {
 
     private List<Pair<String, String>> listColor;
 
+    private boolean showingDialog = false;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -136,7 +139,6 @@ public class CreatePollFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 showAddAttributeDialog();
-//                addAttributeLine(v);
             }
         });
     }
@@ -144,85 +146,107 @@ public class CreatePollFragment extends Fragment {
     private void showEditAttributeDialog(String name, String colorHex,
                                          final TextView tvNameSelected, final View colorIndicatorSelected) {
 
-        // set up custom view for dialog - color indicator, edit text
-        LayoutInflater vi = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View row = vi.inflate(R.layout.dialog_content_new_attribute, null);
+        // prevent multiple dialogs
+        if (!showingDialog) {
+            showingDialog = true;
+
+            // set up custom view for dialog - color indicator, edit text
+            LayoutInflater vi = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            final View row = vi.inflate(R.layout.dialog_content_new_attribute, null);
 
         /* display dialog with current values */
-        final EditText etAttributeName = ((FloatLabeledEditText) row.findViewById(R.id.et_attribute_name)).getEditText();
-        etAttributeName.setText(name);
+            final EditText etAttributeName = ((FloatLabeledEditText) row.findViewById(R.id.et_attribute_name)).getEditText();
+            etAttributeName.setText(name);
 
-        List<Pair<String, String>> colors = new ArrayList<Pair<String, String>>(listColor);
+            List<Pair<String, String>> colors = new ArrayList<Pair<String, String>>(listColor);
 
-        // set up spinner color picker
-        if (colorHex != null) {
-            colors.add(0, new Pair("Unchanged", (String) colorIndicatorSelected.getTag()));
-        }
+            // set up spinner color picker
+            if (colorHex != null) {
+                colors.add(0, new Pair("Unchanged", (String) colorIndicatorSelected.getTag()));
+            }
 
-        final Spinner spColorPicker = (Spinner) row.findViewById(R.id.sp_color_picker);
-        spColorPicker.setAdapter(new ColorSpinnerAdapter(mActivity, R.layout.dialog_content_new_attribute, colors));
+            final Spinner spColorPicker = (Spinner) row.findViewById(R.id.sp_color_picker);
+            spColorPicker.setAdapter(new ColorSpinnerAdapter(mActivity, R.layout.dialog_content_new_attribute, colors));
 
-        // set up dialog
-        String dialogTitle = "Edit Attribute";
+            // set up dialog
+            String dialogTitle = "Edit Attribute";
 
-        boolean wrapInScrollView = true;
-        new MaterialDialog.Builder(mActivity)
-                .title(dialogTitle)
-                .customView(row, wrapInScrollView)
-                .positiveText("Save")
+            boolean wrapInScrollView = true;
+            new MaterialDialog.Builder(mActivity)
+                    .title(dialogTitle)
+                    .customView(row, wrapInScrollView)
+                    .positiveText("Save")
 //                .positiveText(R.string.agree)
-                .negativeText("Cancel")
+                    .negativeText("Cancel")
 //                .negativeText(R.string.disagree)
-                .callback(new MaterialDialog.ButtonCallback() {
-                    @Override
-                    public void onPositive(MaterialDialog dialog) {
+                    .callback(new MaterialDialog.ButtonCallback() {
+                        @Override
+                        public void onPositive(MaterialDialog dialog) {
                         /* reflect edit made on the attribute line */
-                        Pair selected = (Pair<String, String>) spColorPicker.getSelectedItem();
-                        tvNameSelected.setText(etAttributeName.getText().toString());
-                        colorIndicatorSelected.setBackgroundColor(Color.parseColor((String) selected.second));
-                        colorIndicatorSelected.setTag((String) selected.second);
-                    }
-                })
-                .show();
+                            Pair selected = (Pair<String, String>) spColorPicker.getSelectedItem();
+                            tvNameSelected.setText(etAttributeName.getText().toString());
+                            colorIndicatorSelected.setBackgroundColor(Color.parseColor((String) selected.second));
+                            colorIndicatorSelected.setTag((String) selected.second);
+                        }
+                    })
+                    .dismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            showingDialog = false;
+                        }
+                    })
+                    .show();
+        }
     }
 
     private void showAddAttributeDialog() {
 
-        // set up custom view for dialog - color indicator, edit text
-        LayoutInflater vi = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View row = vi.inflate(R.layout.dialog_content_new_attribute, null);
+        // prevent multiple dialogs
+        if (!showingDialog) {
+            showingDialog = true;
 
-        final EditText etAttributeName = ((FloatLabeledEditText) row.findViewById(R.id.et_attribute_name)).getEditText();
+            // set up custom view for dialog - color indicator, edit text
+            LayoutInflater vi = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            final View row = vi.inflate(R.layout.dialog_content_new_attribute, null);
 
-        // set up spinner color picker
-        List<Pair<String, String>> colors = new ArrayList<Pair<String, String>>(listColor);
+            final EditText etAttributeName = ((FloatLabeledEditText) row.findViewById(R.id.et_attribute_name)).getEditText();
 
-        final Spinner spColorPicker = (Spinner) row.findViewById(R.id.sp_color_picker);
-        spColorPicker.setAdapter(new ColorSpinnerAdapter(mActivity, R.layout.dialog_content_new_attribute, colors));
+            // set up spinner color picker
+            List<Pair<String, String>> colors = new ArrayList<Pair<String, String>>(listColor);
 
-        // set up dialog
-        String dialogTitle = "New Attribute";
+            final Spinner spColorPicker = (Spinner) row.findViewById(R.id.sp_color_picker);
+            spColorPicker.setAdapter(new ColorSpinnerAdapter(mActivity, R.layout.dialog_content_new_attribute, colors));
 
-        boolean wrapInScrollView = true;
-        new MaterialDialog.Builder(mActivity)
-                .title(dialogTitle)
-                .customView(row, wrapInScrollView)
-                .positiveText("Save")
+            // set up dialog
+            String dialogTitle = "New Attribute";
+
+            boolean wrapInScrollView = true;
+            new MaterialDialog.Builder(mActivity)
+                    .title(dialogTitle)
+                    .customView(row, wrapInScrollView)
+                    .positiveText("Save")
 //                .positiveText(R.string.agree)
-                .negativeText("Cancel")
+                    .negativeText("Cancel")
 //                .negativeText(R.string.disagree)
-                .callback(new MaterialDialog.ButtonCallback() {
-                    @Override
-                    public void onPositive(MaterialDialog dialog) {
-                        Pair selected = (Pair<String, String>) spColorPicker.getSelectedItem();
+                    .callback(new MaterialDialog.ButtonCallback() {
+                        @Override
+                        public void onPositive(MaterialDialog dialog) {
+                            Pair selected = (Pair<String, String>) spColorPicker.getSelectedItem();
 
-                        Log.d(TAG, "## Attr Dialog - " + (String) selected.second
-                                + ", " + etAttributeName.getText().toString());
+                            Log.d(TAG, "## Attr Dialog - " + (String) selected.second
+                                    + ", " + etAttributeName.getText().toString());
 
-                        addAttributeLine((String) selected.second, etAttributeName.getText().toString());
-                    }
-                })
-                .show();
+                            addAttributeLine((String) selected.second, etAttributeName.getText().toString());
+                        }
+                    })
+                    .dismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            showingDialog = false;
+                        }
+                    })
+                    .show();
+        }
     }
 
     private void addAttributeLine(final String colorHex, final String attributeName) {
