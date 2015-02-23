@@ -63,7 +63,7 @@ public class CreatePollFragment extends Fragment {
     private static final int REQ_CODE_PICK_IMAGE = 1;
     public static final int RESULT_OK = -1;
 
-    private Button btnAttachImage;
+    private ImageView btnSelectImage;
     private ImageView btnAddAttribute;
     private LinearLayout llAttributes;
     private ProgressBarIndeterminate progressBar;
@@ -120,14 +120,14 @@ public class CreatePollFragment extends Fragment {
         llAttributes = (LinearLayout) v.findViewById(R.id.container_attributes);
 
         ivThumbnail = (ImageView) v.findViewById(R.id.iv_thumbnail);
-        Picasso.with(getActivity())
-                .load(R.drawable.ic_placeholder_image)
-                .placeholder(R.drawable.ic_placeholder_image)
-                .fit().centerInside()
-                .into(ivThumbnail);
+//        Picasso.with(getActivity())
+//                .load(R.drawable.ic_placeholder_image)
+//                .placeholder(R.drawable.ic_placeholder_image)
+//                .fit().centerInside()
+//                .into(ivThumbnail);
 
-        btnAttachImage = (Button) v.findViewById(R.id.btn_attach_image);
-        btnAttachImage.setOnClickListener(new View.OnClickListener() {
+        btnSelectImage = (ImageView) v.findViewById(R.id.iv_btn_select_image);
+        btnSelectImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 pickImage(v);
@@ -355,9 +355,11 @@ public class CreatePollFragment extends Fragment {
     private void updateThumbnail(Uri selectedImage) {
         Log.d(TAG, "updateThumbnail");
 
+        ivThumbnail.setVisibility(View.VISIBLE);
+
         Picasso.with(getActivity())
                 .load(selectedImage)
-                .fit().centerInside()
+                .fit().centerCrop()
                 .into(ivThumbnail);
     }
 
