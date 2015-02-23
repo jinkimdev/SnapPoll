@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -74,6 +75,7 @@ public class CreatePollFragment extends Fragment {
     private SwitchCompat swMultiple;
 
     private ImageView ivThumbnail;
+    private FrameLayout flThumbnailContainer;
 
     private Uri uriSelectedImage;
 
@@ -119,12 +121,8 @@ public class CreatePollFragment extends Fragment {
 
         llAttributes = (LinearLayout) v.findViewById(R.id.container_attributes);
 
+        flThumbnailContainer = (FrameLayout) v.findViewById(R.id.fl_thumbnail_container);
         ivThumbnail = (ImageView) v.findViewById(R.id.iv_thumbnail);
-//        Picasso.with(getActivity())
-//                .load(R.drawable.ic_placeholder_image)
-//                .placeholder(R.drawable.ic_placeholder_image)
-//                .fit().centerInside()
-//                .into(ivThumbnail);
 
         btnSelectImage = (ImageView) v.findViewById(R.id.iv_btn_select_image);
         btnSelectImage.setOnClickListener(new View.OnClickListener() {
@@ -355,7 +353,7 @@ public class CreatePollFragment extends Fragment {
     private void updateThumbnail(Uri selectedImage) {
         Log.d(TAG, "updateThumbnail");
 
-        ivThumbnail.setVisibility(View.VISIBLE);
+        flThumbnailContainer.setVisibility(View.VISIBLE);
 
         Picasso.with(getActivity())
                 .load(selectedImage)
