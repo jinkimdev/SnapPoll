@@ -46,13 +46,12 @@ public class NewPollImageFragment extends Fragment {
         ivImage = (ImageView) view.findViewById(R.id.new_poll_image_iv_thumbnail);
 
         if (selectedImageUri != null) {
-
-            Picasso.with(getActivity())
+            Picasso.with(mActivity)
                     .load(selectedImageUri)
                     .fit().centerCrop()
                     .into(ivImage);
         } else {
-            Picasso.with(getActivity())
+            Picasso.with(mActivity)
                     .load(R.drawable.ic_placeholder_image)
                     .fit().centerCrop()
                     .into(ivImage);

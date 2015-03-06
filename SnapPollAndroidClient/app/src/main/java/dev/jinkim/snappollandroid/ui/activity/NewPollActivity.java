@@ -115,7 +115,9 @@ public class NewPollActivity extends ActionBarActivity {
         }
 
         ft.addToBackStack(NewPollImageFragment.TAG);
+        ft.setCustomAnimations(R.anim.anim_enter_from_right, R.anim.anim_exit_to_right,R.anim.anim_enter_from_right, R.anim.anim_exit_to_right);
         ft.replace(R.id.new_poll_fragment_container, frag, NewPollDetailFragment.TAG);
         ft.commit();
     }
+
 }
