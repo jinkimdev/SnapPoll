@@ -37,7 +37,6 @@ public class NewPollImageFragment extends Fragment {
         mActivity = (NewPollActivity) getActivity();
 
         initializeViews(rootView);
-//        mActivity.invalidateOptionsMenu();
 
         return rootView;
     }
@@ -52,20 +51,9 @@ public class NewPollImageFragment extends Fragment {
                     .into(ivImage);
         } else {
             Picasso.with(mActivity)
-                    .load(R.drawable.ic_placeholder_image)
-                    .fit().centerCrop()
+                    .load("http://www.zenenzo.com/wp-content/uploads/placeholder_png.jpg")
+                    .fit()
                     .into(ivImage);
         }
     }
-//
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        super.onCreateOptionsMenu(menu, inflater);
-//
-//        menu.clear();
-//        inflater.inflate(R.menu.menu_new_poll, menu);
-//
-//        MenuItem item = menu.findItem(R.id.action_poll_detail_submit);
-//        item.setVisible(false);
-//    }
 }

@@ -31,7 +31,7 @@ public class NewPollActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_poll);
+        setContentView(R.layout.activity_new_poll);
 
         ActionBar actionBar = getSupportActionBar();
 

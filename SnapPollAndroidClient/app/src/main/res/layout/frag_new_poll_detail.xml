@@ -2,7 +2,136 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#AAA">
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:orientation="vertical">
+
+            <com.wrapp.floatlabelededittext.FloatLabeledEditText
+                android:id="@+id/et_question"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="3"
+                    android:hint="Question" />
+            </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+            <com.wrapp.floatlabelededittext.FloatLabeledEditText
+                android:id="@+id/et_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="18dp">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:textColorHint="@color/text_primary"
+                    android:hint="Poll Title (optional)" />
+            </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="4dp">
+
+                <TextView
+                    android:id="@+id/lbl_allow_multiple"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="Allow multiple selections?" />
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/sw_multiple"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/lbl_allow_multiple"
+                    android:layout_marginBottom="16dp"
+                    android:checked="false" />
+
+                <TextView
+                    android:id="@+id/lbl_attributes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/lbl_allow_multiple"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="24dp"
+                    android:layout_marginRight="18dp"
+                    android:text="Attributes" />
+
+                <ImageView
+                    android:id="@+id/iv_btn_add_attribute"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_marginBottom="-8dp"
+                    android:src="@drawable/ic_add"
+                    android:layout_alignBottom="@id/lbl_attributes"
+                    android:layout_below="@id/lbl_allow_multiple"
+                    android:layout_toRightOf="@id/lbl_attributes" />
+
+                <LinearLayout
+                    android:id="@+id/container_attributes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/iv_btn_add_attribute"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="vertical" />
+
+                <TextView
+                    android:id="@+id/lbl_attach_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/container_attributes"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginRight="18dp"
+                    android:text="Attach Image" />
+
+                <ImageView
+                    android:id="@+id/iv_btn_select_image"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:layout_marginBottom="-2dp"
+                    android:src="@drawable/ic_folder_image"
+                    android:layout_alignBottom="@id/lbl_attach_image"
+                    android:layout_toRightOf="@id/lbl_attach_image" />
+            </RelativeLayout>
+
+            <FrameLayout
+                android:id="@+id/fl_thumbnail_container"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:padding="8dp"
+                android:background="#DDD"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/iv_thumbnail"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:scaleType="centerInside" />
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>
