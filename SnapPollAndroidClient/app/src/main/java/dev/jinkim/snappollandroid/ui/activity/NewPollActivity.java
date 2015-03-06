@@ -1,6 +1,7 @@
 package dev.jinkim.snappollandroid.ui.activity;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
@@ -16,6 +17,7 @@ import com.squareup.otto.Bus;
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.event.BusProvider;
 import dev.jinkim.snappollandroid.ui.fragment.NewPollDetailFragment;
+import dev.jinkim.snappollandroid.ui.fragment.NewPollFriendsFragment;
 import dev.jinkim.snappollandroid.ui.fragment.NewPollImageFragment;
 
 /**
@@ -91,7 +93,22 @@ public class NewPollActivity extends ActionBarActivity {
 
                 Log.d(TAG, "NEXT CLICKED");
 
-                moveToNewPollDetail();
+                Fragment f = getSupportFragmentManager().findFragmentById(R.id.new_poll_fragment_container);
+                if (f instanceof NewPollImageFragment) {
+                    // do something with f
+                    Log.d(TAG, "Navigate from Image -> Detail");
+                    navigateToNewPollDetail();
+
+                } else if (f instanceof NewPollDetailFragment) {
+                    Log.d(TAG, "Navigate from Detail -> Friends");
+                    navigateToNewPollFriends();
+
+                } else {
+                    // FriendsFragment
+                    Log.d(TAG, "Showing NewPollFriendsFragment");
+
+                }
+
 
                 return true;
         }
@@ -102,7 +119,7 @@ public class NewPollActivity extends ActionBarActivity {
         return bus;
     }
 
-    public void moveToNewPollDetail() {
+    public void navigateToNewPollDetail() {
 
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -115,8 +132,28 @@ public class NewPollActivity extends ActionBarActivity {
         }
 
         ft.addToBackStack(NewPollImageFragment.TAG);
-        ft.setCustomAnimations(R.anim.anim_enter_from_right, R.anim.anim_exit_to_right,R.anim.anim_enter_from_right, R.anim.anim_exit_to_right);
+        ft.setCustomAnimations(R.anim.anim_enter_from_right, R.anim.anim_exit_to_left, R.anim.anim_enter_from_left, R.anim.anim_exit_to_right);
         ft.replace(R.id.new_poll_fragment_container, frag, NewPollDetailFragment.TAG);
+        ft.commit();
+    }
+
+    public void navigateToNewPollFriends() {
+
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+
+        NewPollFriendsFragment frag =
+                (NewPollFriendsFragment) fm.findFragmentByTag(NewPollFriendsFragment.TAG);
+
+        if (frag == null) {
+            frag = new NewPollFriendsFragment();
+        }
+
+        ft.addToBackStack(NewPollFriendsFragment.TAG);
+        ft.setCustomAnimations(R.anim.anim_enter_from_right, R.anim.anim_exit_to_left, R.anim.anim_enter_from_left, R.anim.anim_exit_to_right);
+//        ft.setCustomAnimations(R.anim.anim_enter_from_right, R.anim.anim_empty);
+
+        ft.replace(R.id.new_poll_fragment_container, frag, NewPollFriendsFragment.TAG);
         ft.commit();
     }
 
