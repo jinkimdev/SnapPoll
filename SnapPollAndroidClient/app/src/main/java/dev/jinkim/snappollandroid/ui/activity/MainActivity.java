@@ -17,7 +17,7 @@ import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.event.PollSubmittedEvent;
 import dev.jinkim.snappollandroid.event.ResponseSubmittedEvent;
 import dev.jinkim.snappollandroid.ui.NavigationDrawerFragment;
-import dev.jinkim.snappollandroid.ui.fragment.CreatePollFragment;
+import dev.jinkim.snappollandroid.ui.fragment.NewPollImageReferenceFragment;
 import dev.jinkim.snappollandroid.ui.fragment.MyPollsFragment;
 import dev.jinkim.snappollandroid.ui.fragment.PollsTabFragment;
 import dev.jinkim.snappollandroid.ui.fragment.ProfileFragment;
@@ -87,11 +87,11 @@ public class MainActivity extends SnapPollBaseActivity
                 break;
 
             default:
-                Fragment defaultFrag = fm.findFragmentByTag(CreatePollFragment.TAG);
+                Fragment defaultFrag = fm.findFragmentByTag(NewPollImageReferenceFragment.TAG);
                 if (defaultFrag == null) {
-                    defaultFrag = new CreatePollFragment();
+                    defaultFrag = new NewPollImageReferenceFragment();
                 }
-                fm.beginTransaction().replace(R.id.container, defaultFrag, CreatePollFragment.TAG).commit();
+                fm.beginTransaction().replace(R.id.container, defaultFrag, NewPollImageReferenceFragment.TAG).commit();
                 break;
         }
     }

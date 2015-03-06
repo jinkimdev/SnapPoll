@@ -26,7 +26,7 @@ public class PollDetailActivity extends SnapPollBaseActivity {
         actionBar.setDisplayUseLogoEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        if (findViewById(R.id.fragment_container) != null) {
+        if (findViewById(R.id.new_poll_fragment_container) != null) {
 
             // However, if we're being restored from a previous state,
             // then we don't need to do anything and should return or else
@@ -44,7 +44,7 @@ public class PollDetailActivity extends SnapPollBaseActivity {
 
             // Add the fragment to the 'fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, detailFragment).commit();
+                    .add(R.id.new_poll_fragment_container, detailFragment).commit();
         }
         bus.register(this);
     }

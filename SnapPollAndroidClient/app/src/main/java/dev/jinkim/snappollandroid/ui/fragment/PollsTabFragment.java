@@ -15,7 +15,7 @@ import java.util.List;
 
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.model.Poll;
-import dev.jinkim.snappollandroid.ui.activity.CreatePollActivity;
+import dev.jinkim.snappollandroid.ui.activity.NewPollActivity;
 import dev.jinkim.snappollandroid.web.SnapPollRestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -91,7 +91,7 @@ public class PollsTabFragment extends Fragment {
         int id = item.getItemId();
 
         if (id == R.id.action_new_poll) {
-            Intent in = new Intent(getActivity(), CreatePollActivity.class);
+            Intent in = new Intent(getActivity(), NewPollActivity.class);
             startActivity(in);
             return true;
         }

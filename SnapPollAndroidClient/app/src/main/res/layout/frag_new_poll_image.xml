@@ -1,0 +1,23 @@
+<!--<com.gc.materialdesign.views.ScrollView xmlns:android="http://schemas.android.com/apk/res/android"--><!--xmlns:custom="http://schemas.android.com/apk/res-auto"--><!--xmlns:materialdesign="http://schemas.android.com/apk/res-auto"--><!--android:id="@+id/scroll"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent">-->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/fl_thumbnail_container"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:padding="8dp"
+        android:background="#DDD"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/new_poll_image_iv_thumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:scaleType="centerInside" />
+    </FrameLayout>
+
+</RelativeLayout>

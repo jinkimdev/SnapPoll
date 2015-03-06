@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.util.Pair;
@@ -17,14 +18,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.gc.materialdesign.views.ProgressBarIndeterminate;
@@ -44,7 +43,7 @@ import dev.jinkim.snappollandroid.model.ImgurResponse;
 import dev.jinkim.snappollandroid.model.Poll;
 import dev.jinkim.snappollandroid.model.PollAttribute;
 import dev.jinkim.snappollandroid.model.User;
-import dev.jinkim.snappollandroid.ui.activity.CreatePollActivity;
+import dev.jinkim.snappollandroid.ui.activity.NewPollActivity;
 import dev.jinkim.snappollandroid.ui.adapter.ColorSpinnerAdapter;
 import dev.jinkim.snappollandroid.util.efilechooser.FileUtils;
 import dev.jinkim.snappollandroid.web.ImgurRestClient;
@@ -57,7 +56,7 @@ import retrofit.mime.TypedFile;
 /**
  * Created by Jin on 11/27/14.
  */
-public class CreatePollFragment extends Fragment {
+public class NewPollImageReferenceFragment extends Fragment {
 
     public static final String TAG = "CreatePollFragment";
 
@@ -80,7 +79,7 @@ public class CreatePollFragment extends Fragment {
     private Uri uriSelectedImage;
 
     private Resources resource;
-    private CreatePollActivity mActivity;
+    private NewPollActivity mActivity;
 
     private Poll currentPoll;
     private ImgurResponse currentImgurResponse;
@@ -95,10 +94,10 @@ public class CreatePollFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.frag_create_poll, container, false);
+        rootView = inflater.inflate(R.layout.frag_new_poll, container, false);
         setHasOptionsMenu(true);
 
-        mActivity = (CreatePollActivity) getActivity();
+        mActivity = (NewPollActivity) getActivity();
         resource = mActivity.getResources();
 
         initializeViews(rootView);
@@ -448,21 +447,33 @@ public class CreatePollFragment extends Fragment {
             case R.id.action_poll_detail_submit:
 
                 String title = etQuestion.getEditText().getText().toString();
+//
+//                // grab info on poll
+//                if (uriSelectedImage == null) {
+//                    Toast.makeText(getActivity(), "Please select an image", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    progressBar.setVisibility(View.VISIBLE);
+//
+//                    uploadImage(uriSelectedImage, title);
+//                }
 
-                // grab info on poll
-                if (uriSelectedImage == null) {
-                    Toast.makeText(getActivity(), "Please select an image", Toast.LENGTH_SHORT).show();
-                } else {
-                    progressBar.setVisibility(View.VISIBLE);
-
-                    uploadImage(uriSelectedImage, title);
-                }
+                // FACEBOOK FRIEND PICKER SCREEN
+                startChooseFriendScreen();
 
                 return true;
 
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void startChooseFriendScreen() {
+        Fragment fragment = new Fragment();
+// Insert the fragment by replacing any existing fragment
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.new_poll_fragment_container, fragment)
+                .commit();
     }
 
     public static class AttributeLineItem {
