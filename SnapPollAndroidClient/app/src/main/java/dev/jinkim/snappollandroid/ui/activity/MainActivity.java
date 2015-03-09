@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.Menu;
 
+import com.facebook.Session;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 import com.squareup.otto.Subscribe;
@@ -16,11 +17,12 @@ import com.squareup.otto.Subscribe;
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.event.PollSubmittedEvent;
 import dev.jinkim.snappollandroid.event.ResponseSubmittedEvent;
+import dev.jinkim.snappollandroid.session.SessionManager;
 import dev.jinkim.snappollandroid.ui.NavigationDrawerFragment;
-import dev.jinkim.snappollandroid.ui.newpoll.NewPollImageReferenceFragment;
 import dev.jinkim.snappollandroid.ui.fragment.MyPollsFragment;
 import dev.jinkim.snappollandroid.ui.fragment.PollsTabFragment;
 import dev.jinkim.snappollandroid.ui.fragment.ProfileFragment;
+import dev.jinkim.snappollandroid.ui.newpoll.NewPollImageReferenceFragment;
 
 
 public class MainActivity extends SnapPollBaseActivity
@@ -148,8 +150,37 @@ public class MainActivity extends SnapPollBaseActivity
             mGoogleApiClient.disconnect();
             mGoogleApiClient.connect();
 //            updateUI(false);
-            session.validateLogin();
-            this.finish();
+
+            if (session.logoutUser()) {
+                this.finish();
+            }
+        }
+    }
+
+    /**
+     * Logout From Facebook
+     */
+    public void signOutFromFacebook() {
+        Session session = Session.getActiveSession();
+        if (session != null) {
+
+            if (!session.isClosed()) {
+                session.closeAndClearTokenInformation();
+                SessionManager appSession = new SessionManager(this);
+                if (appSession.logoutUser()) {
+                    this.finish();
+                }
+            }
+        } else {
+
+            session = new Session(this);
+            Session.setActiveSession(session);
+
+            session.closeAndClearTokenInformation();
+            SessionManager appSession = new SessionManager(this);
+            if (appSession.logoutUser()) {
+                this.finish();
+            }
         }
     }
 
@@ -164,5 +195,4 @@ public class MainActivity extends SnapPollBaseActivity
         Log.d(TAG, "Received poll submitted event!");
         displaySnackBar("Poll created");
     }
-
 }

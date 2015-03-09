@@ -3,6 +3,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
     android:paddingTop="@dimen/activity_vertical_margin">
 
     <RelativeLayout
@@ -49,28 +51,49 @@
         android:layout_height="wrap_content"
         android:text="Google+" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <Button
+        android:id="@+id/profile_btn_signout_google"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_signout_from_google"
+        android:visibility="visible"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="10dp" />
 
-        <Button
-            android:id="@+id/profile_btn_google_sign_out"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/btn_logout_from_google"
-            android:visibility="visible"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="10dp" />
+    <Button
+        android:id="@+id/profile_btn_google_revoke_access"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="@string/btn_revoke_access"
+        android:visibility="visible" />
 
-        <Button
-            android:id="@+id/profile_btn_google_revoke_access"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/btn_revoke_access"
-            android:layout_toRightOf="@id/profile_btn_google_sign_out"
-            android:visibility="visible" />
 
-    </RelativeLayout>
+    <View style="@style/divider" />
+
+    <TextView
+        android:id="@+id/profile_lbl_facebook"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Facebook" />
+
+    <Button
+        android:id="@+id/profile_btn_signout_facebook"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_signout_from_facebook"
+        android:visibility="visible"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="20dp" />
+
+    <!--<Button-->
+    <!--android:id="@+id/profile_btn_google_revoke_access"-->
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="@string/btn_revoke_access"-->
+    <!--android:layout_toRightOf="@id/profile_btn_google_sign_out"-->
+    <!--android:visibility="visible" />-->
+
 
     <TextView
         android:id="@+id/lbl_settings"

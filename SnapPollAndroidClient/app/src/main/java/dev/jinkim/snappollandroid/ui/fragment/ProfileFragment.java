@@ -16,8 +16,6 @@ import android.widget.Toast;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
-import java.util.zip.Inflater;
-
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.app.App;
 import dev.jinkim.snappollandroid.event.RevokeGplusAccessEvent;
@@ -36,7 +34,9 @@ public class ProfileFragment extends Fragment {
     private TextView tvName;
     private TextView tvEmail;
 
-    private Button btnSignOut;
+    private Button btnSignOutGoogle;
+    private Button btnSignOutFacebook;
+
     private Button btnRevokeAccess;
 
     private MainActivity mActivity;
@@ -63,16 +63,23 @@ public class ProfileFragment extends Fragment {
         ivProfilePic = (ImageView) v.findViewById(R.id.iv_profile_pic);
         tvName = (TextView) v.findViewById(R.id.tv_name);
         tvEmail = (TextView) v.findViewById(R.id.tv_email);
-        btnSignOut = (Button) v.findViewById(R.id.profile_btn_google_sign_out);
-        btnRevokeAccess = (Button) v.findViewById(R.id.profile_btn_google_revoke_access);
-
-        btnSignOut.setOnClickListener(new View.OnClickListener() {
+        btnSignOutGoogle = (Button) v.findViewById(R.id.profile_btn_signout_google);
+        btnSignOutGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mActivity.signOutFromGplus();
             }
         });
 
+        btnSignOutFacebook = (Button) v.findViewById(R.id.profile_btn_signout_facebook);
+        btnSignOutFacebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mActivity.signOutFromFacebook();
+            }
+        });
+
+        btnRevokeAccess = (Button) v.findViewById(R.id.profile_btn_google_revoke_access);
         btnRevokeAccess.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

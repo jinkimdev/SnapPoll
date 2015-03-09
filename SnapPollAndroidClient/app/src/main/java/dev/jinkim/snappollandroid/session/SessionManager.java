@@ -145,7 +145,7 @@ public class SessionManager {
     /**
      * Clear session details
      */
-    public void logoutUser() {
+    public boolean logoutUser() {
         // Clearing all data from Shared Preferences
         editor.clear();
         editor.commit();
@@ -157,6 +157,8 @@ public class SessionManager {
         in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         mContext.startActivity(in);
+
+        return true;
     }
 
 }

@@ -13,7 +13,8 @@
     <string name="action_new_poll">New Poll</string>
 
     <string name="image_description">Image reference from Snap Poll. https://github.com/jinkim608/SnapPoll</string>
-    <string name="btn_logout_from_google">Logout from Google</string>
+    <string name="btn_signout_from_google">Sign out from Google</string>
+    <string name="btn_signout_from_facebook">Sign out from Facebook</string>
     <string name="btn_revoke_access">Revoke Access</string>
 
     <string name="facebook_app_id">1013877905305125</string>
