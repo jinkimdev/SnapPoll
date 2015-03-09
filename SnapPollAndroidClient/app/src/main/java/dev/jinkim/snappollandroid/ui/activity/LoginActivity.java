@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.facebook.Request;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
@@ -17,6 +18,8 @@ import com.facebook.widget.LoginButton;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.plus.Plus;
 import com.squareup.otto.Subscribe;
+
+import java.util.Arrays;
 
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.event.GoogleApiClientConnectedEvent;
@@ -53,7 +56,7 @@ public class LoginActivity extends SnapPollBaseActivity {
 
     private ImageView ivLogo;
 
-    private SessionManager session;
+    private SessionManager appSession;
 
     private Activity mActivity;
 
@@ -71,7 +74,7 @@ public class LoginActivity extends SnapPollBaseActivity {
         getSupportActionBar().hide();
 
         mActivity = this;
-        session = new SessionManager(mActivity);
+        appSession = new SessionManager(mActivity);
 
         setContentView(R.layout.activity_login);
 
@@ -88,7 +91,7 @@ public class LoginActivity extends SnapPollBaseActivity {
                     User user = new User(fbUser);
 
                     loginUserToApi(user);
-                    session.createLoginSession("facebook", user);
+                    appSession.createLoginSession("facebook", user);
 
                 } else {
                     Log.d(TAG, "Facebook: Not logged in");

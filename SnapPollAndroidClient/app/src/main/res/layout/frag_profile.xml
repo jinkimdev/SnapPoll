@@ -15,29 +15,31 @@
 
         <ImageView
             android:id="@+id/iv_profile_pic"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginRight="20dp" />
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginRight="30dp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/iv_profile_pic"
             android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="22sp"
-                android:layout_marginBottom="16dp" />
+                android:textSize="22sp" />
 
             <TextView
                 android:id="@+id/tv_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:layout_marginTop="16dp"
+                android:visibility="gone" />
 
         </LinearLayout>
 
@@ -45,11 +47,28 @@
 
     <View style="@style/divider" />
 
-    <TextView
-        android:id="@+id/lbl_gplus"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Google+" />
+        android:layout_margin="10dp">
+
+        <ImageView
+            android:id="@+id/profile_iv_googleplus"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/googleplus" />
+
+        <TextView
+            android:id="@+id/profile_tv_status_googleplus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/profile_iv_googleplus"
+            android:layout_centerVertical="true"
+            android:text="Signed in"
+            android:textColor="#00AA00" />
+
+    </RelativeLayout>
 
     <Button
         android:id="@+id/profile_btn_signout_google"
@@ -71,11 +90,28 @@
 
     <View style="@style/divider" />
 
-    <TextView
-        android:id="@+id/profile_lbl_facebook"
-        android:layout_width="wrap_content"
+
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Facebook" />
+        android:layout_margin="10dp">
+
+        <ImageView
+            android:id="@+id/profile_iv_facebook"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/facebook" />
+
+        <TextView
+            android:id="@+id/profile_tv_status_facebook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/profile_iv_facebook"
+            android:layout_centerVertical="true"
+            android:text="Signed in"
+            android:textColor="#00AA00" />
+    </RelativeLayout>
 
     <Button
         android:id="@+id/profile_btn_signout_facebook"

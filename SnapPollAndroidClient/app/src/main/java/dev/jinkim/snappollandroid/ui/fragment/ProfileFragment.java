@@ -1,5 +1,6 @@
 package dev.jinkim.snappollandroid.ui.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -20,6 +21,7 @@ import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.app.App;
 import dev.jinkim.snappollandroid.event.RevokeGplusAccessEvent;
 import dev.jinkim.snappollandroid.model.User;
+import dev.jinkim.snappollandroid.session.SessionManager;
 import dev.jinkim.snappollandroid.ui.activity.MainActivity;
 import dev.jinkim.snappollandroid.util.image.CircleTransform;
 
@@ -31,8 +33,8 @@ public class ProfileFragment extends Fragment {
     public static final String TAG = "UserProfileFragment ####";
 
     private ImageView ivProfilePic;
-    private TextView tvName;
-    private TextView tvEmail;
+    private TextView tvName, tvEmail;
+    private TextView tvStatusGPlus, tvStatusFacebook;
 
     private Button btnSignOutGoogle;
     private Button btnSignOutFacebook;
@@ -40,6 +42,7 @@ public class ProfileFragment extends Fragment {
     private Button btnRevokeAccess;
 
     private MainActivity mActivity;
+    private SessionManager session;
 
 //    private GoogleApiClient mGoogleApiClient;
 
@@ -49,6 +52,7 @@ public class ProfileFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.frag_profile, container, false);
         mActivity = (MainActivity) getActivity();
 //        mGoogleApiClient = mActivity.getGoogleApiClient();
+        session = mActivity.getAppSession();
 
         initializeViews(rootView);
 
@@ -86,6 +90,28 @@ public class ProfileFragment extends Fragment {
                 mActivity.revokeGoogleAccess();
             }
         });
+
+        /* sign in status */
+        tvStatusGPlus = (TextView) v.findViewById(R.id.profile_tv_status_googleplus);
+        if (!session.isSignedIntoGPlus()) {
+            tvStatusGPlus.setText("Not signed in");
+            tvStatusGPlus.setTextColor(Color.parseColor("#555555"));
+
+            //TODO: SHOW G+ SIGN IN BUTTON
+
+            btnSignOutGoogle.setEnabled(false);
+            btnRevokeAccess.setEnabled(false);
+        }
+
+        tvStatusFacebook = (TextView) v.findViewById(R.id.profile_tv_status_facebook);
+        if (!session.isSignedIntoFacebook()) {
+            tvStatusFacebook.setText("Not signed in");
+            tvStatusFacebook.setTextColor(Color.parseColor("#555555"));
+
+            //TODO: SHOW FB SIGN IN BUTTON
+
+            btnSignOutFacebook.setEnabled(false);
+        }
     }
 
     private void displayUserInfo() {

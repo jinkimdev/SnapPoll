@@ -40,6 +40,8 @@ public class MainActivity extends SnapPollBaseActivity
      */
     private CharSequence mTitle;
 
+    private SessionManager appSession;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +57,9 @@ public class MainActivity extends SnapPollBaseActivity
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
         bus.register(this);
+
+        appSession = new SessionManager(this);
+
     }
 
     @Override
@@ -151,6 +156,7 @@ public class MainActivity extends SnapPollBaseActivity
             mGoogleApiClient.connect();
 //            updateUI(false);
 
+            //TODO: use validateLogin
             if (session.logoutUser()) {
                 this.finish();
             }
@@ -167,6 +173,8 @@ public class MainActivity extends SnapPollBaseActivity
             if (!session.isClosed()) {
                 session.closeAndClearTokenInformation();
                 SessionManager appSession = new SessionManager(this);
+
+                //TODO: use validateLogin
                 if (appSession.logoutUser()) {
                     this.finish();
                 }
@@ -178,6 +186,8 @@ public class MainActivity extends SnapPollBaseActivity
 
             session.closeAndClearTokenInformation();
             SessionManager appSession = new SessionManager(this);
+
+            //TODO: use validateLogin
             if (appSession.logoutUser()) {
                 this.finish();
             }
@@ -194,5 +204,9 @@ public class MainActivity extends SnapPollBaseActivity
     public void onPollSubmittedEvent(PollSubmittedEvent event) {
         Log.d(TAG, "Received poll submitted event!");
         displaySnackBar("Poll created");
+    }
+
+    public SessionManager getAppSession() {
+        return appSession;
     }
 }

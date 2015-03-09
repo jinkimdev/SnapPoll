@@ -125,16 +125,23 @@ public class SessionManager {
         }
     }
 
+    public boolean isSignedIntoFacebook() {
+        return pref.getBoolean(SESSION_FACEBOOK_LOGGED_IN, false);
+    }
+
+    public boolean isSignedIntoGPlus() {
+        return pref.getBoolean(SESSION_GPLUS_LOGGED_IN, false);
+    }
+
     /**
      * Check the login status of both Google+ and Facebook.
      */
     public boolean isLoggedIn() {
-        return (pref.getBoolean(SESSION_GPLUS_LOGGED_IN, false)
-                || pref.getBoolean(SESSION_FACEBOOK_LOGGED_IN, false));
+        return (isSignedIntoFacebook() || isSignedIntoGPlus());
     }
 
     /**
-     * Check the login status, and if signed in for neither, redirect to LoginActivity
+     * Check the login status, and if signed in for neither G+ nor Fb, redirect to LoginActivity
      */
     public void validateLogin() {
         if (isLoggedIn()) {
