@@ -1,4 +1,4 @@
-package dev.jinkim.snappollandroid.ui.fragment;
+package dev.jinkim.snappollandroid.ui.newpoll;
 
 
 import android.os.Bundle;
@@ -16,12 +16,17 @@ import dev.jinkim.snappollandroid.R;
 public class NewPollFriendsFragment extends Fragment {
 
     public static String TAG = "NewPollFriendsFragment";
+    private NewPollActivity mActivity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.frag_new_poll_friends, container, false);
+
+        mActivity = (NewPollActivity) getActivity();
+
+        mActivity.getSupportActionBar().setTitle("Invite to Poll");
 
         Log.d(TAG, "In NewPollFriendsFragment");
 

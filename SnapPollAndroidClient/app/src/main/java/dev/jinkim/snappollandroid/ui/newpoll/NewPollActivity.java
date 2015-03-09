@@ -1,4 +1,4 @@
-package dev.jinkim.snappollandroid.ui.activity;
+package dev.jinkim.snappollandroid.ui.newpoll;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,27 +15,38 @@ import com.squareup.otto.Bus;
 
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.event.BusProvider;
-import dev.jinkim.snappollandroid.ui.fragment.NewPollDetailFragment;
-import dev.jinkim.snappollandroid.ui.fragment.NewPollFriendsFragment;
-import dev.jinkim.snappollandroid.ui.fragment.NewPollImageFragment;
+import dev.jinkim.snappollandroid.ui.activity.SnapPollBaseActivity;
 
 /**
  * Created by Jin on 1/11/15.
  */
-public class NewPollActivity extends ActionBarActivity {
+public class NewPollActivity extends SnapPollBaseActivity {
 
     public static String TAG = "NewPollActivity";
     private Bus bus;
+    private NewPollController controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_poll);
 
-        ActionBar actionBar = getSupportActionBar();
+        controller = new NewPollController();
 
-        actionBar.setDisplayUseLogoEnabled(false);
+        ActionBar actionBar = getSupportActionBar();
+//        actionBar.setTitle("New Poll");
+////
+//
+        actionBar.setLogo(R.drawable.ic);
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        actionBar.setHomeButtonEnabled(true);
+
+////        actionBar.setDisplayOptions(ActionBar.DISPLAY_USE_LOGO);
+//        actionBar.setDisplayUseLogoEnabled(true);
+//
+//        actionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_USE_LOGO);
+//        actionBar.setIcon(R.drawable.ic);
 
         if (findViewById(R.id.new_poll_fragment_container) != null) {
 
@@ -82,26 +92,38 @@ public class NewPollActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
 
-                NavUtils.navigateUpFromSameTask(this);
+        Fragment f = getSupportFragmentManager().findFragmentById(R.id.new_poll_fragment_container);
+
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up button
+            case android.R.id.home:
+                if (f instanceof NewPollImageFragment) {
+                    // if we are on ImageFrag, up button will take you back to the MainActivity
+                    NavUtils.navigateUpFromSameTask(this);
+                } else {
+                    /* Clicking up button will bring you to the previous frag -- need to user test */
+                    this.onBackPressed();
+                }
                 return true;
 
             case R.id.action_new_poll_next:
 
-                Log.d(TAG, "NEXT CLICKED");
-
-                Fragment f = getSupportFragmentManager().findFragmentById(R.id.new_poll_fragment_container);
                 if (f instanceof NewPollImageFragment) {
-                    // do something with f
-                    Log.d(TAG, "Navigate from Image -> Detail");
-                    navigateToNewPollDetail();
+                    if (controller.getUriSelectedImg() == null) {
+                        displaySnackBar("Image reference is not selected");
+                    } else {
+                        Log.d(TAG, "Navigate from Image -> Detail");
+                        navigateToNewPollDetail();
+                    }
 
                 } else if (f instanceof NewPollDetailFragment) {
-                    Log.d(TAG, "Navigate from Detail -> Friends");
-                    navigateToNewPollFriends();
+                    if (((NewPollDetailFragment) f).saveNewPollDetails()) {
+                        Log.d(TAG, "Navigate from Detail -> Friends");
+                        navigateToNewPollFriends();
+                    } else {
+                        displaySnackBar("Poll question is empty");
+                    }
 
                 } else {
                     // FriendsFragment
@@ -117,6 +139,10 @@ public class NewPollActivity extends ActionBarActivity {
 
     public Bus getEventBus() {
         return bus;
+    }
+
+    public NewPollController getController() {
+        return controller;
     }
 
     public void navigateToNewPollDetail() {

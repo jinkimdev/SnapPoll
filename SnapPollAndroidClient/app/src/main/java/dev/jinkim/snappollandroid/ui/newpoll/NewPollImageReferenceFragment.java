@@ -1,4 +1,4 @@
-package dev.jinkim.snappollandroid.ui.fragment;
+package dev.jinkim.snappollandroid.ui.newpoll;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -43,7 +43,6 @@ import dev.jinkim.snappollandroid.model.ImgurResponse;
 import dev.jinkim.snappollandroid.model.Poll;
 import dev.jinkim.snappollandroid.model.PollAttribute;
 import dev.jinkim.snappollandroid.model.User;
-import dev.jinkim.snappollandroid.ui.activity.NewPollActivity;
 import dev.jinkim.snappollandroid.ui.adapter.ColorSpinnerAdapter;
 import dev.jinkim.snappollandroid.util.efilechooser.FileUtils;
 import dev.jinkim.snappollandroid.web.ImgurRestClient;

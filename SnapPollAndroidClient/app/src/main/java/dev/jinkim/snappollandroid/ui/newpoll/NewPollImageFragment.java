@@ -1,4 +1,4 @@
-package dev.jinkim.snappollandroid.ui.fragment;
+package dev.jinkim.snappollandroid.ui.newpoll;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -14,7 +14,6 @@ import com.gc.materialdesign.views.ButtonFloat;
 import com.squareup.picasso.Picasso;
 
 import dev.jinkim.snappollandroid.R;
-import dev.jinkim.snappollandroid.ui.activity.NewPollActivity;
 
 /**
  * Created by Jin on 3/6/15.
@@ -33,6 +32,8 @@ public class NewPollImageFragment extends Fragment {
     private ButtonFloat btnChooseImage;
     private Uri uriSelectedImage;
 
+    private NewPollController controller;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,6 +42,9 @@ public class NewPollImageFragment extends Fragment {
         setHasOptionsMenu(true);
 
         mActivity = (NewPollActivity) getActivity();
+        controller = mActivity.getController();
+
+        mActivity.getSupportActionBar().setTitle("Select Image");
 
         initializeViews(rootView);
 
@@ -87,7 +91,12 @@ public class NewPollImageFragment extends Fragment {
                 if (resultCode == RESULT_OK) {
                     uriSelectedImage = imageReturnedIntent.getData();
                     Log.d(TAG, "Image selected: " + uriSelectedImage.toString());
+
+                    // display selected image
                     updateThumbnail(uriSelectedImage);
+
+                    // save the image in the controller
+                    controller.setUriSelectedImg(uriSelectedImage);
 //
 //                    // clear previously uploaded imgur response
 //                    if (currentImgurResponse != null)

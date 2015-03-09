@@ -1,4 +1,4 @@
-package dev.jinkim.snappollandroid.ui.fragment;
+package dev.jinkim.snappollandroid.ui.newpoll;
 
 
 import android.content.Context;
@@ -10,6 +10,7 @@ import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -19,6 +20,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.squareup.picasso.Picasso;
 import com.wrapp.floatlabelededittext.FloatLabeledEditText;
 
 import java.util.ArrayList;
@@ -26,9 +28,7 @@ import java.util.List;
 
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.model.PollAttribute;
-import dev.jinkim.snappollandroid.ui.activity.NewPollActivity;
 import dev.jinkim.snappollandroid.ui.adapter.ColorSpinnerAdapter;
-import dev.jinkim.snappollandroid.ui.fragment.NewPollImageReferenceFragment.AttributeLineItem;
 
 /**
  * Created by Jin on 3/6/15.
@@ -38,6 +38,7 @@ public class NewPollDetailFragment extends Fragment {
     public static String TAG = "NewPollDetailFragment";
     private NewPollActivity mActivity;
 
+    private ImageView ivImageBackground;
     private ImageView btnAddAttribute;
     private LinearLayout llAttributes;
 
@@ -51,6 +52,8 @@ public class NewPollDetailFragment extends Fragment {
 
     private List<Pair<String, String>> listColor;
 
+    private NewPollController controller;
+
     private View rootView;
 
     @Override
@@ -62,6 +65,9 @@ public class NewPollDetailFragment extends Fragment {
         Log.d(TAG, "In NewPollDetailFragment");
 
         mActivity = (NewPollActivity) getActivity();
+        controller = mActivity.getController();
+
+        mActivity.getSupportActionBar().setTitle("Enter Detail");
 
         // set up spinner color picker
         listColor = new ArrayList<Pair<String, String>>();
@@ -72,12 +78,23 @@ public class NewPollDetailFragment extends Fragment {
 
         initializeViews(rootView);
 
+        setHasOptionsMenu(true);
+
 
         return rootView;
     }
 
     private void initializeViews(View v) {
 //        progressBar = (ProgressBarIndeterminate) v.findViewById(R.id.pb_create_poll_upload_progress);
+
+        ivImageBackground = (ImageView) v.findViewById(R.id.new_poll_detail_iv_background_image);
+        if (controller.getUriSelectedImg() != null) {
+            Picasso.with(mActivity)
+                    .load(controller.getUriSelectedImg())
+                    .fit().centerCrop()
+                    .into(ivImageBackground);
+        }
+
         etQuestion = (FloatLabeledEditText) v.findViewById(R.id.et_question);
         etTitle = (FloatLabeledEditText) v.findViewById(R.id.et_title);
         swMultiple = (SwitchCompat) v.findViewById(R.id.sw_multiple);
@@ -233,13 +250,13 @@ public class NewPollDetailFragment extends Fragment {
 
         // add objects to the list
         if (attributes == null) {
-            attributes = new ArrayList<AttributeLineItem>();
+            attributes = new ArrayList<NewPollImageReferenceFragment.AttributeLineItem>();
         }
 
         // insert into main view
         llAttributes.addView(row, 0, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
-        AttributeLineItem line = new AttributeLineItem();
+        NewPollImageReferenceFragment.AttributeLineItem line = new NewPollImageReferenceFragment.AttributeLineItem();
         line.setAttributeColorHex(colorHex);
         line.setAttributeName(attributeName);
 
@@ -275,4 +292,46 @@ public class NewPollDetailFragment extends Fragment {
 
         return attributeList;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+
+//                NavUtils.navigateUpFromSameTask(this);
+                return true;
+
+            case R.id.action_new_poll_next:
+
+                saveNewPollDetails();
+
+                return true;
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Grab details and save into the controller
+     *
+     * @return false    if question is null or empty
+     * true    otherwise
+     */
+    public boolean saveNewPollDetails() {
+
+        String q = etQuestion.getEditText().getText().toString();
+        if (q.equals("")) {
+            return false;
+        }
+
+        controller.setQuestion(etQuestion.getEditText().getText().toString());
+        controller.setTitle(etTitle.getEditText().getText().toString());
+        controller.setMultipleResponseAllowed(swMultiple.isChecked());
+        controller.setAttributes(grabAttributes());
+
+        return true;
+    }
+
 }

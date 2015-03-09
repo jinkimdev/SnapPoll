@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.IntentSender;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
@@ -30,7 +31,7 @@ import dev.jinkim.snappollandroid.session.SessionManager;
  */
 public class SnapPollBaseActivity extends ActionBarActivity {
 
-    private static final String TAG = "SnapPollBaseActivity ####";
+    private static final String TAG = "SnapPollBaseActivity";
 
     private Activity mActivity;
     protected SessionManager session;
@@ -47,6 +48,8 @@ public class SnapPollBaseActivity extends ActionBarActivity {
     protected boolean mSignInClicked;
     protected ConnectionResult mConnectionResult;
 
+    protected ActionBar actionBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +57,10 @@ public class SnapPollBaseActivity extends ActionBarActivity {
         mActivity = this;
         session = new SessionManager(mActivity);
         bus = BusProvider.getInstance();
+
+        actionBar = getSupportActionBar();
+
+        actionBar.setHomeButtonEnabled(true);
 
         // Initializing google plus api client
         mGoogleApiClient = new GoogleApiClient.Builder(mActivity)

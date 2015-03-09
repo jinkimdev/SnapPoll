@@ -15,7 +15,7 @@ import java.util.List;
 
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.model.Poll;
-import dev.jinkim.snappollandroid.ui.activity.NewPollActivity;
+import dev.jinkim.snappollandroid.ui.newpoll.NewPollActivity;
 import dev.jinkim.snappollandroid.web.SnapPollRestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;

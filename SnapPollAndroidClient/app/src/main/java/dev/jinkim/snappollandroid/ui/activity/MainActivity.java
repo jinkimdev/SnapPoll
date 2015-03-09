@@ -17,7 +17,7 @@ import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.event.PollSubmittedEvent;
 import dev.jinkim.snappollandroid.event.ResponseSubmittedEvent;
 import dev.jinkim.snappollandroid.ui.NavigationDrawerFragment;
-import dev.jinkim.snappollandroid.ui.fragment.NewPollImageReferenceFragment;
+import dev.jinkim.snappollandroid.ui.newpoll.NewPollImageReferenceFragment;
 import dev.jinkim.snappollandroid.ui.fragment.MyPollsFragment;
 import dev.jinkim.snappollandroid.ui.fragment.PollsTabFragment;
 import dev.jinkim.snappollandroid.ui.fragment.ProfileFragment;
