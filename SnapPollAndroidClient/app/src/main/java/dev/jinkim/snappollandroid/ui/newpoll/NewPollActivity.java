@@ -30,25 +30,10 @@ public class NewPollActivity extends SnapPollBaseActivity {
     private Bus bus;
     private NewPollController controller;
 
-    /* FACEBOOK */
-    private static final String USER_SKIPPED_LOGIN_KEY = "user_skipped_login";
-    private boolean isResumed = false;
-    private boolean userSkippedLogin = false;
-    private UiLifecycleHelper uiHelper;
-    private Session.StatusCallback callback = new Session.StatusCallback() {
-        @Override
-        public void call(Session session, SessionState state, Exception exception) {
-//            onSessionStateChange(session, state, exception);
-        }
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_poll);
-
-        uiHelper = new UiLifecycleHelper(this, callback);
-        uiHelper.onCreate(savedInstanceState);
 
         controller = new NewPollController();
 
@@ -96,7 +81,6 @@ public class NewPollActivity extends SnapPollBaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         if (bus != null) bus.unregister(this);
-        uiHelper.onDestroy();
     }
 
     @Override
@@ -207,30 +191,22 @@ public class NewPollActivity extends SnapPollBaseActivity {
     @Override
     public void onResume() {
         super.onResume();
-        uiHelper.onResume();
-        isResumed = true;
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        uiHelper.onPause();
-        isResumed = false;
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        uiHelper.onActivityResult(requestCode, resultCode, data);
     }
 
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        uiHelper.onSaveInstanceState(outState);
-
-        outState.putBoolean(USER_SKIPPED_LOGIN_KEY, userSkippedLogin);
     }
 
 
