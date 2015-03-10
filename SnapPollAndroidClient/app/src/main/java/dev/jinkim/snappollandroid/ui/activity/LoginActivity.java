@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.facebook.Request;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
@@ -18,8 +17,6 @@ import com.facebook.widget.LoginButton;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.plus.Plus;
 import com.squareup.otto.Subscribe;
-
-import java.util.Arrays;
 
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.event.GoogleApiClientConnectedEvent;
@@ -83,6 +80,8 @@ public class LoginActivity extends SnapPollBaseActivity {
 //                .fit().into(ivLogo);
 
         btnFacebookLogin = (LoginButton) findViewById(R.id.fb_login_button);
+        // TODO: Temporarily unavailable
+        btnFacebookLogin.setEnabled(false);
         btnFacebookLogin.setUserInfoChangedCallback(new LoginButton.UserInfoChangedCallback() {
             @Override
             public void onUserInfoFetched(GraphUser fbUser) {
@@ -285,13 +284,11 @@ public class LoginActivity extends SnapPollBaseActivity {
         }
     }
 
-
     @Subscribe
     public void onRevokeGoogleAccess(RevokeGplusAccessEvent event) {
         Log.d(TAG, "Received RevokeGplusAccessEvent");
 
         updateUI(false);
-
     }
 
 }

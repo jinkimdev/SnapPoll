@@ -32,9 +32,6 @@
             android:name=".ui.activity.MainActivity"
             android:label="@string/app_name" />
 
-        <activity android:name=".ui.newpoll.FacebookFriendPickerActivity"
-            android:label="Select Friends!" />
-
         <activity
             android:name=".ui.activity.PollDetailActivity"
             android:parentActivityName=".ui.activity.MainActivity" />
