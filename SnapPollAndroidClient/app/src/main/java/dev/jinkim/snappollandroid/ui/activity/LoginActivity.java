@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.facebook.Request;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
@@ -83,6 +82,7 @@ public class LoginActivity extends SnapPollBaseActivity {
 //                .fit().into(ivLogo);
 
         btnFacebookLogin = (LoginButton) findViewById(R.id.fb_login_button);
+        btnFacebookLogin.setReadPermissions(Arrays.asList("user_friends"));
         btnFacebookLogin.setUserInfoChangedCallback(new LoginButton.UserInfoChangedCallback() {
             @Override
             public void onUserInfoFetched(GraphUser fbUser) {
