@@ -7,10 +7,8 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
-import com.gc.materialdesign.widgets.SnackBar;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -18,6 +16,8 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.listeners.ActionClickListener;
 import com.squareup.otto.Bus;
 
 import dev.jinkim.snappollandroid.event.BusProvider;
@@ -186,21 +186,21 @@ public class SnapPollBaseActivity extends ActionBarActivity {
     }
 
 
-    protected void displaySnackBar(String msg, String btnText, View.OnClickListener listener) {
-        SnackBar snackBar;
-        if (btnText != null) {
-            snackBar = new SnackBar(this, msg, btnText, listener);
-        } else {
-            snackBar = new SnackBar(this, msg);
-        }
-        snackBar.show();
+    protected void displaySnackBar(String msg, String btnText, ActionClickListener listener) {
+
+        Snackbar.with(mActivity)
+                .text(msg)
+                .color(Color.parseColor("#CCC"))
+                .actionLabel(btnText)
+                .actionListener(listener)
+                .show(this);
     }
 
     protected void displaySnackBar(String msg) {
-        SnackBar snackBar = new SnackBar(this, msg);
-        // TODO: Use theme color of resource
-        snackBar.setBackgroundSnackBar(Color.parseColor("#555555"));
-        snackBar.show();
+        Snackbar.with(mActivity)
+                .text(msg)
+                .color(Color.parseColor("#CCC"))
+                .show(this);
     }
 
 }

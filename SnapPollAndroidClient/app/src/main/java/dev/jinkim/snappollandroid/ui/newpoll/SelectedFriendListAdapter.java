@@ -67,9 +67,9 @@ public class SelectedFriendListAdapter extends ArrayAdapter<RowFriend> {
                 friends.remove(position);
                 notifyDataSetChanged();
                 //TODO: SNACKBAR MESSAGE?
-                for (RowFriend r : mActivity.getController().getFriends()) {
-                    Log.d(TAG, r.person.getDisplayName());
-                }
+//                for (RowFriend r : mActivity.getController().getFriends()) {
+//                    Log.d(TAG, r.person.getDisplayName());
+//                }
             }
         });
 

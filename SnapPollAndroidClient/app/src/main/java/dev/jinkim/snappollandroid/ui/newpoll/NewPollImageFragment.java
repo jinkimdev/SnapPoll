@@ -53,7 +53,7 @@ public class NewPollImageFragment extends Fragment {
 
     private void initializeViews(View view) {
         ivImage = (ImageView) view.findViewById(R.id.new_poll_image_iv_thumbnail);
-        btnChooseImage = (ButtonFloat) view.findViewById(R.id.btn_choose_image);
+        btnChooseImage = (ButtonFloat) view.findViewById(R.id.fab_choose_image);
         btnChooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,4 +127,13 @@ public class NewPollImageFragment extends Fragment {
                     .into(ivImage);
         }
     }
+
+    /**
+     * takes in relative position to be animated to
+     * @param position
+     */
+    public void moveFloatButton(float position) {
+        btnChooseImage.animate().translationY(position);
+    }
+
 }

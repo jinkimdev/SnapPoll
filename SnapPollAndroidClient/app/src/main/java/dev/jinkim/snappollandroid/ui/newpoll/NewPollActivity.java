@@ -1,6 +1,7 @@
 package dev.jinkim.snappollandroid.ui.newpoll;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,10 +13,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.facebook.Session;
-import com.facebook.SessionState;
-import com.facebook.UiLifecycleHelper;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.listeners.EventListener;
 import com.squareup.otto.Bus;
 
 import dev.jinkim.snappollandroid.R;
@@ -234,5 +234,57 @@ public class NewPollActivity extends SnapPollBaseActivity {
 //        }
 //    }
 
+    @Override
+    public void displaySnackBar(String msg) {
+        Snackbar.with(this)
+                .text(msg)
+                .color(Color.parseColor("#555555"))
+                .eventListener(new EventListener() {
+                                   Fragment f = getSupportFragmentManager().findFragmentById(R.id.new_poll_fragment_container);
+
+                                   @Override
+                                   public void onShow(Snackbar snackbar) {
+
+                                       if (f instanceof NewPollImageFragment) {
+                                           ((NewPollImageFragment) f).moveFloatButton(-snackbar.getHeight());
+                                       } else if (f instanceof NewPollFriendsFragment) {
+//                                           ((NewPollFriendsFragment) f).moveFloatButton(-snackbar.getHeight());
+                                       }
+                                   }
+
+                                   @Override
+                                   public void onShowByReplace(Snackbar snackbar) {
+
+                                   }
+
+                                   @Override
+                                   public void onShown(Snackbar snackbar) {
+
+                                   }
+
+                                   @Override
+                                   public void onDismiss(Snackbar snackbar) {
+                                       Fragment f = getSupportFragmentManager().findFragmentById(R.id.new_poll_fragment_container);
+                                       if (f instanceof NewPollImageFragment) {
+                                           ((NewPollImageFragment) f).moveFloatButton(0);
+                                       } else if (f instanceof NewPollFriendsFragment) {
+//                                           ((NewPollFriendsFragment) f).moveFloatButton(-snackbar.getHeight());
+                                       }
+                                   }
+
+                                   @Override
+                                   public void onDismissByReplace(Snackbar snackbar) {
+
+                                   }
+
+                                   @Override
+                                   public void onDismissed(Snackbar snackbar) {
+
+                                   }
+                               }
+
+                )
+                .show(this);
+    }
 
 }

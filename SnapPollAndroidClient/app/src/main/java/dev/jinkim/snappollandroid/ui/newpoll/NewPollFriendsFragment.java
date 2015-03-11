@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.gc.materialdesign.views.ButtonFloat;
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
@@ -39,6 +40,9 @@ public class NewPollFriendsFragment extends Fragment {
 
     private ListView listView;
     private SelectedFriendListAdapter adapter;
+    private List<RowFriend> retrievedFriends;
+
+    private ButtonFloat fabSelectFriends;
 
 
     @Override
@@ -57,7 +61,13 @@ public class NewPollFriendsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         initViews(view);
-        retrieveFriends();
+
+        List<RowFriend> selectedFriends = controller.getFriends();
+        if (selectedFriends != null && selectedFriends.size() > 0) {
+            updateSelectedFriends(selectedFriends);
+        } else {
+            retrieveFriendsFromGPlus();
+        }
     }
 
     private void showChooseFriendsDialog(List<RowFriend> friends) {
@@ -70,6 +80,13 @@ public class NewPollFriendsFragment extends Fragment {
 
         // sparse boolean array to keep up with selected friend list
         final SparseBooleanArray selected = new SparseBooleanArray(friends.size());
+
+        for (int i = 0; i < friends.size(); i++) {
+            // if preselected from existing list, then update the sparse array
+            if (friends.get(i).selected) {
+                selected.append(i, true);
+            }
+        }
 
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         listView.setItemsCanFocus(false);
@@ -128,11 +145,25 @@ public class NewPollFriendsFragment extends Fragment {
                 })
                 .show();
         dialog.show();
-
     }
 
     private void initViews(View v) {
         listView = (ListView) v.findViewById(R.id.lv_selected_friends);
+        fabSelectFriends = (ButtonFloat) v.findViewById(R.id.fab_select_friends);
+        fabSelectFriends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (retrievedFriends != null && retrievedFriends.size() > 0) {
+                    // if friend list from G+ is available display in the dialog
+                    showChooseFriendsDialog(retrievedFriends);
+                } else {
+                    // if not available, fetch friend list from G+
+                    retrieveFriendsFromGPlus();
+                }
+            }
+        });
+
         adapter = new SelectedFriendListAdapter(mActivity, new ArrayList<RowFriend>());
         listView.setAdapter(adapter);
         listView.setItemsCanFocus(false);
@@ -142,6 +173,7 @@ public class NewPollFriendsFragment extends Fragment {
     /**
      * Update the fragment listview with the friends selected from the dialog
      * Also update the controller with the current list
+     *
      * @param selectedFriends
      */
     private void updateSelectedFriends(List<RowFriend> selectedFriends) {
@@ -159,7 +191,7 @@ public class NewPollFriendsFragment extends Fragment {
      * <p/>
      * https://developer.android.com/reference/com/google/android/gms/plus/model/people/Person.html
      */
-    private void retrieveFriends() {
+    private void retrieveFriendsFromGPlus() {
 
         GoogleApiClient mGoogleApiClient = mActivity.getGoogleApiClient();
         if (mGoogleApiClient.isConnected()) {
@@ -170,22 +202,22 @@ public class NewPollFriendsFragment extends Fragment {
                         public void onResult(People.LoadPeopleResult loadPeopleResult) {
                             if (loadPeopleResult.getStatus().getStatusCode() == CommonStatusCodes.SUCCESS) {
                                 PersonBuffer personBuffer = loadPeopleResult.getPersonBuffer();
-                                List<RowFriend> friends = new ArrayList<RowFriend>();
+                                retrievedFriends = new ArrayList<RowFriend>();
                                 try {
                                     int count = personBuffer.getCount();
                                     for (int i = 0; i < count; i++) {
                                         if (personBuffer.get(i) != null) {
                                             Log.d(TAG, "Display name: " + personBuffer.get(i).getDisplayName());
                                             RowFriend friend = new RowFriend(personBuffer.get(i).freeze());
-                                            friends.add(friend);
+                                            retrievedFriends.add(friend);
                                         }
                                     }
                                 } finally {
                                     personBuffer.close();
-                                    if (friends.size() > 0) {
-                                        controller.setFriends(friends);
+                                    if (retrievedFriends.size() > 0) {
+                                        controller.setFriends(retrievedFriends);
 //                                        Log.d(TAG, "# Friends: " + friends.size());
-                                        showChooseFriendsDialog(friends);
+                                        showChooseFriendsDialog(retrievedFriends);
                                     }
                                 }
                             } else {
@@ -194,6 +226,15 @@ public class NewPollFriendsFragment extends Fragment {
                         }
                     });
         }
+    }
+
+    /**
+     * takes in relative position to be animated to
+     *
+     * @param position
+     */
+    public void moveFloatButton(float position) {
+        fabSelectFriends.animate().translationY(position);
     }
 
 }
