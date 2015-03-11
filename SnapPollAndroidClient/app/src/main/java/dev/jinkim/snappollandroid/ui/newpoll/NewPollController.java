@@ -7,6 +7,7 @@ import com.google.android.gms.plus.model.people.Person;
 import java.util.List;
 
 import dev.jinkim.snappollandroid.model.PollAttribute;
+import dev.jinkim.snappollandroid.model.RowFriend;
 
 /**
  * Created by Jin on 3/8/15.
@@ -21,7 +22,7 @@ public class NewPollController {
     public String title;
     public List<PollAttribute> attributes;
     public boolean multipleResponseAllowed;
-    private List<Person> friends;
+    private List<RowFriend> friends;
 
     public NewPollController() {
     }
@@ -66,11 +67,11 @@ public class NewPollController {
         this.multipleResponseAllowed = multipleResponseAllowed;
     }
 
-    public void setFriends(List<Person> friends) {
+    public void setFriends(List<RowFriend> friends) {
         this.friends = friends;
     }
 
-    public List<Person> getFriends() {
+    public List<RowFriend> getFriends() {
         return friends;
     }
 }

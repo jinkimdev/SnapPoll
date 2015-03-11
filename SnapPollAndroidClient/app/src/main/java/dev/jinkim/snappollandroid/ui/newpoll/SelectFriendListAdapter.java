@@ -1,6 +1,7 @@
 package dev.jinkim.snappollandroid.ui.newpoll;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,18 +15,20 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import dev.jinkim.snappollandroid.R;
+import dev.jinkim.snappollandroid.model.RowFriend;
+import dev.jinkim.snappollandroid.util.image.CircleTransform;
 
 /**
  * Created by Jin on 3/10/15.
  */
-public class SelectFriendListAdapter extends ArrayAdapter<Person> {
+public class SelectFriendListAdapter extends ArrayAdapter<RowFriend> {
     private LayoutInflater li;
     private Context context;
 
     /**
      * Constructor from a list of items
      */
-    public SelectFriendListAdapter(Context context, List<Person> friends) {
+    public SelectFriendListAdapter(Context context, List<RowFriend> friends) {
         super(context, 0, friends);
         li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.context = context;
@@ -33,7 +36,7 @@ public class SelectFriendListAdapter extends ArrayAdapter<Person> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final Person person = getItem(position);
+        final RowFriend friend = getItem(position);
 
         ViewHolder holder;
         if (convertView == null) {
@@ -45,12 +48,23 @@ public class SelectFriendListAdapter extends ArrayAdapter<Person> {
         }
 
         // Set some view properties
-        holder.tvName.setText(person.getDisplayName());
+        holder.tvName.setText(friend.person.getDisplayName());
         Picasso.with(context)
-                .load(person.getImage().getUrl())
+                .load(friend.person.getImage().getUrl())
+                .transform(new CircleTransform())
                 .fit().centerInside()
                 .into(holder.ivProfile);
 
+
+        int color;
+        if (friend.selected) {
+            color = Color.parseColor("#8000FF00");
+            holder.ivCheck.setVisibility(View.VISIBLE);
+        } else {
+            color = Color.parseColor("#FFFFFF");
+            holder.ivCheck.setVisibility(View.INVISIBLE);
+        }
+        convertView.setBackgroundColor(color);
 
 //        // Restore the checked state properly
 //        final ListView lv = (ListView) parent;
@@ -73,11 +87,13 @@ public class SelectFriendListAdapter extends ArrayAdapter<Person> {
 
         public ImageView ivProfile;
         public TextView tvName;
+        public ImageView ivCheck;
 
 
         public ViewHolder(View root) {
             ivProfile = (ImageView) root.findViewById(R.id.choose_friend_iv_profile);
             tvName = (TextView) root.findViewById(R.id.choose_friend_tv_name);
+            ivCheck = (ImageView) root.findViewById(R.id.choose_friend_iv_check);
         }
     }
 }

@@ -6,9 +6,11 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -17,13 +19,13 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.plus.People;
 import com.google.android.gms.plus.Plus;
-import com.google.android.gms.plus.model.people.Person;
 import com.google.android.gms.plus.model.people.PersonBuffer;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import dev.jinkim.snappollandroid.R;
+import dev.jinkim.snappollandroid.model.RowFriend;
 
 /**
  * Created by Jin on 3/6/15.
@@ -55,14 +57,33 @@ public class NewPollFriendsFragment extends Fragment {
         retrieveFriends();
     }
 
-    private void showChooseFriendsDialog(List<Person> friends) {
+    private void showChooseFriendsDialog(List<RowFriend> friends) {
         // set up custom view for dialog - color indicator, edit text
         LayoutInflater vi = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View content = vi.inflate(R.layout.dialog_content_choose_friends, null);
 
-        ListView listView = (ListView) content.findViewById(R.id.friends_dialog_lv_friends);
-        SelectFriendListAdapter adapter = new SelectFriendListAdapter(mActivity, friends);
+        final ListView listView = (ListView) content.findViewById(R.id.friends_dialog_lv_friends);
+        final SelectFriendListAdapter adapter = new SelectFriendListAdapter(mActivity, friends);
+
+        // sparse boolean array to keep up with selected friend list
+        final SparseBooleanArray selected = new SparseBooleanArray(friends.size());
+
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        listView.setItemsCanFocus(false);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (adapter.getItem(position).selected) {
+                    adapter.getItem(position).selected = false;
+                    selected.delete(position);
+                } else {
+                    adapter.getItem(position).selected = true;
+                    selected.append(position, true);
+                }
+                Log.d(TAG, "Selected friend position: " + String.valueOf(position));
+                adapter.notifyDataSetChanged();
+            }
+        });
         listView.setAdapter(adapter);
 
         // set up dialog
@@ -80,6 +101,19 @@ public class NewPollFriendsFragment extends Fragment {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
                         /* update selected friends */
+                        Log.d(TAG, selected.toString());
+
+                        // TODO: grab the keys (positions) that are true in value
+                        List<RowFriend> selectedFriends = new ArrayList<RowFriend>();
+                        for (int i = 0; i < selected.size(); i++) {
+                            int position = selected.keyAt(i);
+                            if (selected.valueAt(i)) {
+                                selectedFriends.add(adapter.getItem(position));
+                            }
+                        }
+
+                        updateSelectedFriendList(selectedFriends);
+                        Log.d(TAG, "Selected friends: " + String.valueOf(selectedFriends.size()));
                     }
                 })
                 .dismissListener(new DialogInterface.OnDismissListener() {
@@ -91,6 +125,13 @@ public class NewPollFriendsFragment extends Fragment {
                 .show();
         dialog.show();
 
+    }
+
+    private void updateSelectedFriendList(List<RowFriend> selectedFriends) {
+        //TODO: update list view
+
+        // clear adapter
+        // set adapter
     }
 
     private void initViews(View v) {
@@ -117,14 +158,14 @@ public class NewPollFriendsFragment extends Fragment {
                         public void onResult(People.LoadPeopleResult loadPeopleResult) {
                             if (loadPeopleResult.getStatus().getStatusCode() == CommonStatusCodes.SUCCESS) {
                                 PersonBuffer personBuffer = loadPeopleResult.getPersonBuffer();
-                                List<Person> friends = new ArrayList<Person>();
+                                List<RowFriend> friends = new ArrayList<RowFriend>();
                                 try {
                                     int count = personBuffer.getCount();
                                     for (int i = 0; i < count; i++) {
                                         if (personBuffer.get(i) != null) {
                                             Log.d(TAG, "Display name: " + personBuffer.get(i).getDisplayName());
-                                            Person p = personBuffer.get(i).freeze();
-                                            friends.add(p);
+                                            RowFriend friend = new RowFriend(personBuffer.get(i).freeze());
+                                            friends.add(friend);
                                         }
                                     }
                                 } finally {
