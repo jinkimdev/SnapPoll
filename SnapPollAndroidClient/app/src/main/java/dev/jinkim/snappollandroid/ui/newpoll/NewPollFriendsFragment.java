@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.gc.materialdesign.views.ButtonFloat;
@@ -75,7 +76,7 @@ public class NewPollFriendsFragment extends Fragment {
         LayoutInflater vi = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View content = vi.inflate(R.layout.dialog_content_choose_friends, null);
 
-        final ListView listView = (ListView) content.findViewById(R.id.friends_dialog_lv_friends);
+
         final ChooseFriendListAdapter adapter = new ChooseFriendListAdapter(mActivity, friends);
 
         // sparse boolean array to keep up with selected friend list
@@ -88,6 +89,9 @@ public class NewPollFriendsFragment extends Fragment {
             }
         }
 
+        /* SET UP SELECT FRIENDS LIST VIEW */
+        final ListView listView = (ListView) content.findViewById(R.id.friends_dialog_lv_friends);
+        listView.setTextFilterEnabled(true);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         listView.setItemsCanFocus(false);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -95,18 +99,36 @@ public class NewPollFriendsFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (adapter.getItem(position).selected) {
                     adapter.getItem(position).selected = false;
+                    adapter.getItemFromOriginalList(adapter.getOriginalIndex(position)).selected = false;
                     selected.delete(position);
                 } else {
                     adapter.getItem(position).selected = true;
+                    adapter.getItemFromOriginalList(adapter.getOriginalIndex(position)).selected = true;
                     selected.append(position, true);
                 }
                 Log.d(TAG, "Selected friend position: " + String.valueOf(position));
+                Log.d(TAG, "Selected friend id: " + String.valueOf(id));
                 adapter.notifyDataSetChanged();
             }
         });
         listView.setAdapter(adapter);
 
-        // set up dialog
+        SearchView svSearch = (SearchView) content.findViewById(R.id.friends_dialog_sv_search);
+        svSearch.setQueryHint("Search friend from Google+");
+        svSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                adapter.getFilter().filter(s);
+                return true;
+            }
+        });
+
+        /* SET UP SELECT FRIENDS DIALOG */
         String dialogTitle = "G+ Choose friends";
 
         boolean wrapInScrollView = false;
@@ -118,6 +140,7 @@ public class NewPollFriendsFragment extends Fragment {
                 .negativeText("Cancel")
 //                .negativeText(R.string.disagree)
                 .callback(new MaterialDialog.ButtonCallback() {
+
                     @Override
                     public void onPositive(MaterialDialog dialog) {
                         /* update selected friends */
@@ -128,7 +151,9 @@ public class NewPollFriendsFragment extends Fragment {
                         for (int i = 0; i < selected.size(); i++) {
                             int position = selected.keyAt(i);
                             if (selected.valueAt(i)) {
-                                selectedFriends.add(adapter.getItem(position));
+                                // grab the selected friends from the original list (inst of filteredList)
+                                RowFriend item = adapter.getItemFromOriginalList(adapter.getOriginalIndex(position));
+                                selectedFriends.add(item);
                             }
                         }
 
