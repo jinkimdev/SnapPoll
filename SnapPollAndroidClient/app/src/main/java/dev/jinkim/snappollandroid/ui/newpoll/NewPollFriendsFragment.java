@@ -34,10 +34,11 @@ public class NewPollFriendsFragment extends Fragment {
 
     public static String TAG = "NewPollFriendsFragment";
 
-    private ListView listView;
-
     private NewPollActivity mActivity;
     private NewPollController controller;
+
+    private ListView listView;
+    private SelectedFriendListAdapter adapter;
 
 
     @Override
@@ -47,6 +48,8 @@ public class NewPollFriendsFragment extends Fragment {
         setHasOptionsMenu(true);
         mActivity = (NewPollActivity) getActivity();
         controller = mActivity.getController();
+
+        mActivity.getSupportActionBar().setTitle("Invite Friends");
 
         return rootView;
     }
@@ -63,7 +66,7 @@ public class NewPollFriendsFragment extends Fragment {
         final View content = vi.inflate(R.layout.dialog_content_choose_friends, null);
 
         final ListView listView = (ListView) content.findViewById(R.id.friends_dialog_lv_friends);
-        final SelectFriendListAdapter adapter = new SelectFriendListAdapter(mActivity, friends);
+        final ChooseFriendListAdapter adapter = new ChooseFriendListAdapter(mActivity, friends);
 
         // sparse boolean array to keep up with selected friend list
         final SparseBooleanArray selected = new SparseBooleanArray(friends.size());
@@ -112,7 +115,8 @@ public class NewPollFriendsFragment extends Fragment {
                             }
                         }
 
-                        updateSelectedFriendList(selectedFriends);
+                        updateSelectedFriends(selectedFriends);
+
                         Log.d(TAG, "Selected friends: " + String.valueOf(selectedFriends.size()));
                     }
                 })
@@ -127,17 +131,25 @@ public class NewPollFriendsFragment extends Fragment {
 
     }
 
-    private void updateSelectedFriendList(List<RowFriend> selectedFriends) {
-        //TODO: update list view
-
-        // clear adapter
-        // set adapter
+    private void initViews(View v) {
+        listView = (ListView) v.findViewById(R.id.lv_selected_friends);
+        adapter = new SelectedFriendListAdapter(mActivity, new ArrayList<RowFriend>());
+        listView.setAdapter(adapter);
+        listView.setItemsCanFocus(false);
+        listView.setChoiceMode(ListView.CHOICE_MODE_NONE);
     }
 
-    private void initViews(View v) {
-        listView = (ListView) v.findViewById(R.id.lv_friend_selection);
+    /**
+     * Update the fragment listview with the friends selected from the dialog
+     * Also update the controller with the current list
+     * @param selectedFriends
+     */
+    private void updateSelectedFriends(List<RowFriend> selectedFriends) {
+        adapter = new SelectedFriendListAdapter(mActivity, selectedFriends);
+        listView.setAdapter(null);
+        listView.setAdapter(adapter);
 
-
+        controller.setFriends(selectedFriends);
     }
 
     /**

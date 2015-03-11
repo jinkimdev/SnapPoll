@@ -127,5 +127,4 @@ public class NewPollImageFragment extends Fragment {
                     .into(ivImage);
         }
     }
-
 }

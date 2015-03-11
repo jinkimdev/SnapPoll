@@ -6,7 +6,7 @@
     android:background="#EEE">
 
     <ListView
-        android:id="@+id/lv_friend_selection"
+        android:id="@+id/lv_selected_friends"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"/>

@@ -1,7 +1,7 @@
 package dev.jinkim.snappollandroid.ui.newpoll;
 
 import android.content.Context;
-import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.plus.model.people.Person;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -21,26 +20,34 @@ import dev.jinkim.snappollandroid.util.image.CircleTransform;
 /**
  * Created by Jin on 3/10/15.
  */
-public class SelectFriendListAdapter extends ArrayAdapter<RowFriend> {
+public class SelectedFriendListAdapter extends ArrayAdapter<RowFriend> {
     private LayoutInflater li;
     private Context context;
+    private List<RowFriend> friends;
+    private NewPollActivity mActivity;
+
+    public static final String TAG = SelectedFriendListAdapter.class.getSimpleName();
 
     /**
      * Constructor from a list of items
      */
-    public SelectFriendListAdapter(Context context, List<RowFriend> friends) {
+    public SelectedFriendListAdapter(Context context, List<RowFriend> friends) {
         super(context, 0, friends);
         li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.context = context;
+        this.friends = friends;
+        if (context instanceof NewPollActivity) {
+            mActivity = (NewPollActivity) context;
+        }
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         final RowFriend friend = getItem(position);
 
         ViewHolder holder;
         if (convertView == null) {
-            convertView = li.inflate(R.layout.row_choose_friend, null);
+            convertView = li.inflate(R.layout.row_selected_friend, null);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         } else {
@@ -54,29 +61,20 @@ public class SelectFriendListAdapter extends ArrayAdapter<RowFriend> {
                 .transform(new CircleTransform())
                 .fit().centerInside()
                 .into(holder.ivProfile);
-
-
-        int color;
-        if (friend.selected) {
-            color = Color.parseColor("#8000FF00");
-            holder.ivCheck.setVisibility(View.VISIBLE);
-        } else {
-            color = Color.parseColor("#FFFFFF");
-            holder.ivCheck.setVisibility(View.INVISIBLE);
-        }
-        convertView.setBackgroundColor(color);
-
-//        // Restore the checked state properly
-//        final ListView lv = (ListView) parent;
-//        holder.layout.setChecked(lv.isItemChecked(position));
+        holder.ivRemove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                friends.remove(position);
+                notifyDataSetChanged();
+                //TODO: SNACKBAR MESSAGE?
+                for (RowFriend r : mActivity.getController().getFriends()) {
+                    Log.d(TAG, r.person.getDisplayName());
+                }
+            }
+        });
 
         return convertView;
     }
-
-//    @Override
-//    public long getItemId(int position) {
-//        return getItem(position).getId();
-//    }
 
     @Override
     public boolean hasStableIds() {
@@ -87,13 +85,13 @@ public class SelectFriendListAdapter extends ArrayAdapter<RowFriend> {
 
         public ImageView ivProfile;
         public TextView tvName;
-        public ImageView ivCheck;
+        public ImageView ivRemove;
 
 
         public ViewHolder(View root) {
-            ivProfile = (ImageView) root.findViewById(R.id.choose_friend_iv_profile);
-            tvName = (TextView) root.findViewById(R.id.choose_friend_tv_name);
-            ivCheck = (ImageView) root.findViewById(R.id.choose_friend_iv_check);
+            ivProfile = (ImageView) root.findViewById(R.id.selected_friend_iv_profile);
+            tvName = (TextView) root.findViewById(R.id.selected_friend_tv_name);
+            ivRemove = (ImageView) root.findViewById(R.id.selected_friend_iv_remove);
         }
     }
 }
