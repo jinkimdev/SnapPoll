@@ -64,7 +64,7 @@ public class NewPollImageFragment extends Fragment {
         if (selectedImageUri != null) {
             Picasso.with(mActivity)
                     .load(selectedImageUri)
-                    .centerInside()
+                    .fit().centerInside()
                     .into(ivImage);
         } else {
             Picasso.with(mActivity)
@@ -115,4 +115,17 @@ public class NewPollImageFragment extends Fragment {
                 .fit().centerInside()
                 .into(ivImage);
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (controller.getUriSelectedImg() != null) {
+            Picasso.with(mActivity)
+                    .load(controller.getUriSelectedImg())
+                    .fit().centerInside()
+                    .into(ivImage);
+        }
+    }
+
 }

@@ -334,4 +334,27 @@ public class NewPollDetailFragment extends Fragment {
         return true;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        loadNewPollDetails();
+    }
+
+    /**
+     * Load user input data during navigation
+     */
+    private void loadNewPollDetails() {
+        etQuestion.getEditText().setText(controller.getQuestion());
+        etTitle.getEditText().setText(controller.getTitle());
+        swMultiple.setChecked(controller.isMultipleResponseAllowed());
+        controller.setMultipleResponseAllowed(swMultiple.isChecked());
+
+        List<PollAttribute> attributes = controller.getAttributes();
+        if (attributes != null) {
+            for (PollAttribute a : attributes) {
+                addAttributeLine(a.getAttributeColorHex(), a.getAttributeName());
+            }
+        }
+    }
 }
