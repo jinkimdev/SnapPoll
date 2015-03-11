@@ -119,10 +119,10 @@ public class NewPollDetailFragment extends Fragment {
 
             // set up custom view for dialog - color indicator, edit text
             LayoutInflater vi = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            final View row = vi.inflate(R.layout.dialog_content_new_attribute, null);
+            final View content = vi.inflate(R.layout.dialog_content_new_attribute, null);
 
         /* display dialog with current values */
-            final EditText etAttributeName = ((FloatLabeledEditText) row.findViewById(R.id.et_attribute_name)).getEditText();
+            final EditText etAttributeName = ((FloatLabeledEditText) content.findViewById(R.id.et_attribute_name)).getEditText();
             etAttributeName.setText(name);
 
             List<Pair<String, String>> colors = new ArrayList<Pair<String, String>>(listColor);
@@ -132,7 +132,7 @@ public class NewPollDetailFragment extends Fragment {
                 colors.add(0, new Pair("Unchanged", (String) colorIndicatorSelected.getTag()));
             }
 
-            final Spinner spColorPicker = (Spinner) row.findViewById(R.id.sp_color_picker);
+            final Spinner spColorPicker = (Spinner) content.findViewById(R.id.sp_color_picker);
             spColorPicker.setAdapter(new ColorSpinnerAdapter(mActivity, R.layout.dialog_content_new_attribute, colors));
 
             // set up dialog
@@ -141,7 +141,7 @@ public class NewPollDetailFragment extends Fragment {
             boolean wrapInScrollView = true;
             new MaterialDialog.Builder(mActivity)
                     .title(dialogTitle)
-                    .customView(row, wrapInScrollView)
+                    .customView(content, wrapInScrollView)
                     .positiveText("Save")
 //                .positiveText(R.string.agree)
                     .negativeText("Cancel")

@@ -2,6 +2,8 @@ package dev.jinkim.snappollandroid.ui.newpoll;
 
 import android.net.Uri;
 
+import com.google.android.gms.plus.model.people.Person;
+
 import java.util.List;
 
 import dev.jinkim.snappollandroid.model.PollAttribute;
@@ -19,6 +21,7 @@ public class NewPollController {
     public String title;
     public List<PollAttribute> attributes;
     public boolean multipleResponseAllowed;
+    private List<Person> friends;
 
     public NewPollController() {
     }
@@ -61,5 +64,13 @@ public class NewPollController {
 
     public void setMultipleResponseAllowed(boolean multipleResponseAllowed) {
         this.multipleResponseAllowed = multipleResponseAllowed;
+    }
+
+    public void setFriends(List<Person> friends) {
+        this.friends = friends;
+    }
+
+    public List<Person> getFriends() {
+        return friends;
     }
 }

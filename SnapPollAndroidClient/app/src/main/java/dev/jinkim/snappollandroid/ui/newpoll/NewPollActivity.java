@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.squareup.otto.Bus;
 
 import dev.jinkim.snappollandroid.R;
@@ -75,6 +76,8 @@ public class NewPollActivity extends SnapPollBaseActivity {
 
         bus = BusProvider.getInstance();
         bus.register(this);
+
+
     }
 
     @Override
@@ -185,6 +188,10 @@ public class NewPollActivity extends SnapPollBaseActivity {
 
         ft.replace(R.id.new_poll_fragment_container, frag, NewPollFriendsFragment.TAG);
         ft.commit();
+    }
+
+    public GoogleApiClient getGoogleApiClient() {
+        return mGoogleApiClient;
     }
 
 
