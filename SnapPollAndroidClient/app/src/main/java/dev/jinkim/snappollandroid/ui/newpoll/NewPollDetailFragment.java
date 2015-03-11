@@ -29,13 +29,14 @@ import java.util.List;
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.model.PollAttribute;
 import dev.jinkim.snappollandroid.ui.adapter.ColorSpinnerAdapter;
+import dev.jinkim.snappollandroid.util.ColorUtil;
 
 /**
  * Created by Jin on 3/6/15.
  */
 public class NewPollDetailFragment extends Fragment {
 
-    public static String TAG = "NewPollDetailFragment";
+    public static String TAG = NewPollDetailFragment.class.getSimpleName();
     private NewPollActivity mActivity;
 
     private ImageView ivImageBackground;
@@ -67,7 +68,7 @@ public class NewPollDetailFragment extends Fragment {
         mActivity = (NewPollActivity) getActivity();
         controller = mActivity.getController();
 
-        mActivity.getSupportActionBar().setTitle("Enter Detail");
+        mActivity.getSupportActionBar().setTitle(R.string.title_poll_detail);
 
         // set up spinner color picker
         listColor = new ArrayList<Pair<String, String>>();
@@ -136,15 +137,15 @@ public class NewPollDetailFragment extends Fragment {
             spColorPicker.setAdapter(new ColorSpinnerAdapter(mActivity, R.layout.dialog_content_new_attribute, colors));
 
             // set up dialog
-            String dialogTitle = "Edit Attribute";
+            String dialogTitle = mActivity.getResources().getString(R.string.dialog_title_edit_attribute);
 
             boolean wrapInScrollView = true;
             new MaterialDialog.Builder(mActivity)
                     .title(dialogTitle)
                     .customView(content, wrapInScrollView)
-                    .positiveText("Save")
+                    .positiveText(R.string.action_save)
 //                .positiveText(R.string.agree)
-                    .negativeText("Cancel")
+                    .negativeText(R.string.action_cancel)
 //                .negativeText(R.string.disagree)
                     .callback(new MaterialDialog.ButtonCallback() {
                         @Override
@@ -185,15 +186,15 @@ public class NewPollDetailFragment extends Fragment {
             spColorPicker.setAdapter(new ColorSpinnerAdapter(mActivity, R.layout.dialog_content_new_attribute, colors));
 
             // set up dialog
-            String dialogTitle = "New Attribute";
+            String dialogTitle = mActivity.getResources().getString(R.string.dialog_title_new_attributes);
 
             boolean wrapInScrollView = true;
             new MaterialDialog.Builder(mActivity)
                     .title(dialogTitle)
                     .customView(row, wrapInScrollView)
-                    .positiveText("Save")
+                    .positiveText(R.string.action_save)
 //                .positiveText(R.string.agree)
-                    .negativeText("Cancel")
+                    .negativeText(R.string.action_cancel)
 //                .negativeText(R.string.disagree)
                     .callback(new MaterialDialog.ButtonCallback() {
                         @Override
@@ -282,7 +283,7 @@ public class NewPollDetailFragment extends Fragment {
             String colorHex = (String) v.getTag();
             if (colorHex == null) {
                 // TODO: DEFAULT COLOR VALUE
-                colorHex = "#FFA500";
+                colorHex = ColorUtil.convertToHex(mActivity.getResources().getColor(R.color.poll_attribute_default));
             }
             at.setAttributeColorHex(colorHex);
             attributeList.add(at);

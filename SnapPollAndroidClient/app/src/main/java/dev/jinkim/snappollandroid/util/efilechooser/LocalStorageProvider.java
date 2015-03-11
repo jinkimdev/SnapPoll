@@ -32,6 +32,7 @@ import java.io.IOException;
  * https://github.com/iPaulPro/aFileChooser
  */
 
+@SuppressWarnings("HardCodedStringLiteral")
 @TargetApi(Build.VERSION_CODES.KITKAT)
 public class LocalStorageProvider extends DocumentsProvider {
 

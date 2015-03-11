@@ -5,6 +5,7 @@ package dev.jinkim.snappollandroid.imgur;
  *
  * Define constants used for image uploading on Imgur hosting.
  */
+@SuppressWarnings("HardCodedStringLiteral")
 public class ImgurConstants {
 
     public static final String MY_IMGUR_CLIENT_ID = "45472778f0321aa";

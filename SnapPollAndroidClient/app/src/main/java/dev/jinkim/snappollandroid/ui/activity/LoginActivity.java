@@ -33,7 +33,7 @@ import retrofit.client.Response;
  */
 public class LoginActivity extends SnapPollBaseActivity {
 
-    private static final String TAG = "LoginActivity ####";
+    private static final String TAG = LoginActivity.class.getSimpleName();
 
     private LoginButton btnFacebookLogin;
     private SignInButton btnGoogleLogin;
@@ -90,7 +90,7 @@ public class LoginActivity extends SnapPollBaseActivity {
                     User user = new User(fbUser);
 
                     loginUserToApi(user);
-                    appSession.createLoginSession("facebook", user);
+                    appSession.createLoginSession(mActivity.getResources().getString(R.string.session_facebook), user);
 
                 } else {
                     Log.d(TAG, "Facebook: Not logged in");
@@ -241,7 +241,7 @@ public class LoginActivity extends SnapPollBaseActivity {
             @Override
             public void success(Object user, Response response) {
                 if (user != null) {
-                    Toast.makeText(mActivity, "Logged in to SnapPoll.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mActivity, R.string.msg_logged_in_snappoll, Toast.LENGTH_SHORT).show();
                     moveToMainScreen();
                 }
             }

@@ -196,6 +196,10 @@ public class SnapPollBaseActivity extends ActionBarActivity {
                 .show(this);
     }
 
+    protected void displaySnackBar(int resId) {
+        displaySnackBar(mActivity.getResources().getString(resId));
+    }
+
     protected void displaySnackBar(String msg) {
         Snackbar.with(mActivity)
                 .text(msg)

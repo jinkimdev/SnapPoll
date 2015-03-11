@@ -5,6 +5,7 @@ package dev.jinkim.snappollandroid.util;
  */
 public class ColorUtil {
     public static String convertToHex(int colorInt) {
+        //noinspection HardCodedStringLiteral
         return String.format("#%06X", (0xFFFFFF & colorInt));
     }
 }

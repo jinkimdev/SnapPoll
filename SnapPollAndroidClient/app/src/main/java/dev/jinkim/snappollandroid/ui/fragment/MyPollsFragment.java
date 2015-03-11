@@ -19,6 +19,7 @@ import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.app.App;
 import dev.jinkim.snappollandroid.model.Poll;
 import dev.jinkim.snappollandroid.model.User;
+import dev.jinkim.snappollandroid.ui.activity.MainActivity;
 import dev.jinkim.snappollandroid.ui.activity.PollDetailActivity;
 import dev.jinkim.snappollandroid.ui.adapter.MyPollListAdapter;
 import dev.jinkim.snappollandroid.web.SnapPollRestClient;
@@ -31,15 +32,17 @@ import retrofit.client.Response;
  */
 public class MyPollsFragment extends ListFragment {
 
-    public static final String TAG = "MyPollsFragment ####";
+    public static final String TAG = MyPollsFragment.class.getSimpleName();
 
     private MyPollListAdapter adapter;
     private ListView lvMyPolls;
+    private MainActivity mActivity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.frag_tab_my_polls, container, false);
+        mActivity = (MainActivity) getActivity();
 
         adapter = new MyPollListAdapter(getActivity(), null);
         setListAdapter(adapter);
@@ -66,8 +69,8 @@ public class MyPollsFragment extends ListFragment {
                 Intent in = new Intent(getActivity(), PollDetailActivity.class);
                 Gson gson = new Gson();
                 String pollJson = gson.toJson(p);
-                in.putExtra("Poll", pollJson);
-                in.putExtra("ViewResultMode", true);
+                in.putExtra(Poll.class.getName(), pollJson);
+                in.putExtra(mActivity.getResources().getString(R.string.type_view_result_mode), true);
 
                 startActivity(in);
             }
@@ -94,7 +97,7 @@ public class MyPollsFragment extends ListFragment {
                 }
             });
         } else {
-            Toast.makeText(getActivity(), "Please sign in to see your polls", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.msg_please_sign_in_to_see_polls, Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -71,10 +71,10 @@ public class ChooseFriendListAdapter extends ArrayAdapter<RowFriend> implements 
 
         int color;
         if (friend.selected) {
-            color = Color.parseColor("#8000FF00");
+            color = context.getResources().getColor(R.color.select_highlight);
             holder.ivCheck.setVisibility(View.VISIBLE);
         } else {
-            color = Color.parseColor("#FFFFFF");
+            color = context.getResources().getColor(R.color.unselect_highlight);
             holder.ivCheck.setVisibility(View.INVISIBLE);
         }
         convertView.setBackgroundColor(color);

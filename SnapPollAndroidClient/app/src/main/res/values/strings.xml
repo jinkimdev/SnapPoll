@@ -18,4 +18,20 @@
     <string name="btn_revoke_access">Revoke Access</string>
 
     <string name="facebook_app_id">1013877905305125</string>
+    <string name="msg_sign_in_to_see_polls">Please sign in to see your polls</string>
+    <string name="session_facebook">facebook</string>
+    <string name="msg_logged_in_snappoll">Logged in to SnapPoll.</string>
+    <string name="msg_response_submitted">Response submitted</string>
+    <string name="msg_poll_created">Poll created</string>
+    <string name="section_open">Open</string>
+    <string name="section_closed">Closed</string>
+    <string name="type_view_result_mode">ViewResultMode</string>
+    <string name="msg_please_sign_in_to_see_polls">Please sign in to see your polls</string>
+    <string name="msg_image_not_selected">Image reference is not selected</string>
+    <string name="msg_poll_question_empty">Poll question is empty</string>
+    <string name="title_poll_detail">Enter Detail</string>
+    <string name="dialog_title_edit_attribute">Edit Attribute</string>
+    <string name="action_save">Save</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="dialog_title_new_attributes">New Attribute</string>
 </resources>

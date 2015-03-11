@@ -14,6 +14,7 @@ import android.graphics.drawable.GradientDrawable;
  */
 public class Configuration implements Cloneable {
 
+    @SuppressWarnings("HardCodedStringLiteral")
     static class Default {
         static int DEFAULT_OFF_COLOR = Color.parseColor("#E3E3E3");
         static int DEFAULT_ON_COLOR = Color.parseColor("#02BFE7");

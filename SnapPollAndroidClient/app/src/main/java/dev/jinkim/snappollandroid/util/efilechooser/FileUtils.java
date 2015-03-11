@@ -51,6 +51,7 @@ import java.util.Comparator;
  * @author paulburke (ipaulpro)
  * @version 2013-12-11
  */
+@SuppressWarnings("HardCodedStringLiteral")
 public class FileUtils {
     private FileUtils() {
     } //private constructor to enforce Singleton pattern
@@ -58,7 +59,7 @@ public class FileUtils {
     /**
      * TAG for log messages.
      */
-    static final String TAG = "FileUtils";
+    static final String TAG = FileUtils.class.getSimpleName();
     private static final boolean DEBUG = false; // Set to true to enable logging
 
     public static final String MIME_TYPE_AUDIO = "audio/*";

@@ -28,7 +28,7 @@ import dev.jinkim.snappollandroid.ui.newpoll.NewPollImageReferenceFragment;
 public class MainActivity extends SnapPollBaseActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
-    private static final String TAG = "MainActivity ####";
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -197,13 +197,13 @@ public class MainActivity extends SnapPollBaseActivity
     @Subscribe
     public void onResponseSubmittedEvent(ResponseSubmittedEvent event) {
         Log.d(TAG, "Received response submitted event!");
-        displaySnackBar("Response submitted");
+        displaySnackBar(R.string.msg_response_submitted);
     }
 
     @Subscribe
     public void onPollSubmittedEvent(PollSubmittedEvent event) {
         Log.d(TAG, "Received poll submitted event!");
-        displaySnackBar("Poll created");
+        displaySnackBar(R.string.msg_poll_created);
     }
 
     public SessionManager getAppSession() {

@@ -27,7 +27,7 @@ import dev.jinkim.snappollandroid.ui.activity.SnapPollBaseActivity;
  */
 public class NewPollActivity extends SnapPollBaseActivity {
 
-    public static String TAG = "NewPollActivity";
+    public static String TAG = NewPollActivity.class.getSimpleName();
     private Bus bus;
     private NewPollController controller;
 
@@ -118,7 +118,7 @@ public class NewPollActivity extends SnapPollBaseActivity {
 
                 if (f instanceof NewPollImageFragment) {
                     if (controller.getUriSelectedImg() == null) {
-                        displaySnackBar("Image reference is not selected");
+                        displaySnackBar(R.string.msg_image_not_selected);
                     } else {
                         Log.d(TAG, "Navigate from Image -> Detail");
                         navigateToNewPollDetail();
@@ -129,7 +129,7 @@ public class NewPollActivity extends SnapPollBaseActivity {
                         Log.d(TAG, "Navigate from Detail -> Friends");
                         navigateToNewPollFriends();
                     } else {
-                        displaySnackBar("Poll question is empty");
+                        displaySnackBar(R.string.msg_poll_question_empty);
                     }
 
                 } else {

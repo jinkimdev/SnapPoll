@@ -13,7 +13,7 @@ public class DimensionUtil {
     private Context context;
     private Point screen;
 
-    public static final String TAG = "DimensionUtil ####";
+    public static final String TAG = DimensionUtil.class.getSimpleName();
 
     public DimensionUtil(Context ctx) {
         context = ctx;

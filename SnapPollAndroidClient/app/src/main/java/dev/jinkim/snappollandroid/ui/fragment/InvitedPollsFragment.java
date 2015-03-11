@@ -21,6 +21,7 @@ import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.app.App;
 import dev.jinkim.snappollandroid.model.Poll;
 import dev.jinkim.snappollandroid.model.User;
+import dev.jinkim.snappollandroid.ui.activity.MainActivity;
 import dev.jinkim.snappollandroid.ui.activity.PollDetailActivity;
 import dev.jinkim.snappollandroid.ui.adapter.InvitedPollListAdapter;
 import dev.jinkim.snappollandroid.web.SnapPollRestClient;
@@ -33,16 +34,19 @@ import retrofit.client.Response;
  */
 public class InvitedPollsFragment extends ListFragment {
 
-    public static final String TAG = "RespondFragment ####";
+    public static final String TAG = InvitedPollsFragment.class.getSimpleName();
     private InvitedPollListAdapter adapter;
     private ListView lvPolls;
+    private MainActivity mActivity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.frag_tab_invited_polls, container, false);
 
-        adapter = new InvitedPollListAdapter(getActivity(), new ArrayList<Poll>());
+        mActivity = (MainActivity) getActivity();
+
+        adapter = new InvitedPollListAdapter(mActivity, new ArrayList<Poll>());
         setListAdapter(adapter);
 
         Log.d(TAG, "onCreateView, adapter set.");
@@ -65,7 +69,7 @@ public class InvitedPollsFragment extends ListFragment {
                 Poll p = (Poll) parent.getAdapter().getItem(position);
                 Log.d(TAG, "Poll selected: " + p.getCreatorId() + " - " + p.getQuestion());
 
-                Intent in = new Intent(getActivity(), PollDetailActivity.class);
+                Intent in = new Intent(mActivity, PollDetailActivity.class);
                 Gson gson = new Gson();
                 String pollJson = gson.toJson(p);
                 in.putExtra("Poll", pollJson);
@@ -78,7 +82,7 @@ public class InvitedPollsFragment extends ListFragment {
 
 
     private void retrievePolls() {
-        User u = App.getInstance().getCurrentUser(getActivity());
+        User u = App.getInstance().getCurrentUser(mActivity);
 
         if (u != null) {
             SnapPollRestClient rest = new SnapPollRestClient();
@@ -96,7 +100,7 @@ public class InvitedPollsFragment extends ListFragment {
                 }
             });
         } else {
-            Toast.makeText(getActivity(), "Please sign in to see your polls", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mActivity, R.string.msg_sign_in_to_see_polls, Toast.LENGTH_SHORT).show();
         }
 
     }
