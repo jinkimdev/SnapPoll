@@ -32,9 +32,9 @@ import dev.jinkim.snappollandroid.model.RowFriend;
 /**
  * Created by Jin on 3/6/15.
  */
-public class NewPollFriendsFragment extends Fragment {
+public class NewPollInviteFragment extends Fragment {
 
-    public static String TAG = "NewPollFriendsFragment";
+    public static String TAG = NewPollInviteFragment.class.getSimpleName();
 
     private NewPollActivity mActivity;
     private NewPollController controller;
@@ -54,7 +54,7 @@ public class NewPollFriendsFragment extends Fragment {
         mActivity = (NewPollActivity) getActivity();
         controller = mActivity.getController();
 
-        mActivity.getSupportActionBar().setTitle("Invite Friends");
+        mActivity.getSupportActionBar().setTitle(R.string.title_new_poll_invite);
 
         return rootView;
     }
@@ -114,7 +114,7 @@ public class NewPollFriendsFragment extends Fragment {
         listView.setAdapter(adapter);
 
         SearchView svSearch = (SearchView) content.findViewById(R.id.friends_dialog_sv_search);
-        svSearch.setQueryHint("Search friend from Google+");
+        svSearch.setQueryHint(mActivity.getString(R.string.query_hint_search_from_gplus));
         svSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -129,15 +129,15 @@ public class NewPollFriendsFragment extends Fragment {
         });
 
         /* SET UP SELECT FRIENDS DIALOG */
-        String dialogTitle = "G+ Choose friends";
+        String dialogTitle = mActivity.getResources().getString(R.string.dialog_title_choose_frineds_gplus);
 
         boolean wrapInScrollView = false;
         MaterialDialog dialog = new MaterialDialog.Builder(mActivity)
                 .title(dialogTitle)
                 .customView(content, wrapInScrollView)
-                .positiveText("Save")
+                .positiveText(R.string.action_save)
 //                .positiveText(R.string.agree)
-                .negativeText("Cancel")
+                .negativeText(R.string.action_cancel)
 //                .negativeText(R.string.disagree)
                 .callback(new MaterialDialog.ButtonCallback() {
 

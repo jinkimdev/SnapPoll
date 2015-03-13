@@ -175,18 +175,18 @@ public class NewPollActivity extends SnapPollBaseActivity {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
 
-        NewPollFriendsFragment frag =
-                (NewPollFriendsFragment) fm.findFragmentByTag(NewPollFriendsFragment.TAG);
+        NewPollInviteFragment frag =
+                (NewPollInviteFragment) fm.findFragmentByTag(NewPollInviteFragment.TAG);
 
         if (frag == null) {
-            frag = new NewPollFriendsFragment();
+            frag = new NewPollInviteFragment();
         }
 
-        ft.addToBackStack(NewPollFriendsFragment.TAG);
+        ft.addToBackStack(NewPollInviteFragment.TAG);
         ft.setCustomAnimations(R.anim.anim_enter_from_right, R.anim.anim_exit_to_left, R.anim.anim_enter_from_left, R.anim.anim_exit_to_right);
 //        ft.setCustomAnimations(R.anim.anim_enter_from_right, R.anim.anim_empty);
 
-        ft.replace(R.id.new_poll_fragment_container, frag, NewPollFriendsFragment.TAG);
+        ft.replace(R.id.new_poll_fragment_container, frag, NewPollInviteFragment.TAG);
         ft.commit();
     }
 
@@ -247,7 +247,7 @@ public class NewPollActivity extends SnapPollBaseActivity {
 
                                        if (f instanceof NewPollImageFragment) {
                                            ((NewPollImageFragment) f).moveFloatButton(-snackbar.getHeight());
-                                       } else if (f instanceof NewPollFriendsFragment) {
+                                       } else if (f instanceof NewPollInviteFragment) {
 //                                           ((NewPollFriendsFragment) f).moveFloatButton(-snackbar.getHeight());
                                        }
                                    }
@@ -267,7 +267,7 @@ public class NewPollActivity extends SnapPollBaseActivity {
                                        Fragment f = getSupportFragmentManager().findFragmentById(R.id.new_poll_fragment_container);
                                        if (f instanceof NewPollImageFragment) {
                                            ((NewPollImageFragment) f).moveFloatButton(0);
-                                       } else if (f instanceof NewPollFriendsFragment) {
+                                       } else if (f instanceof NewPollInviteFragment) {
 //                                           ((NewPollFriendsFragment) f).moveFloatButton(-snackbar.getHeight());
                                        }
                                    }

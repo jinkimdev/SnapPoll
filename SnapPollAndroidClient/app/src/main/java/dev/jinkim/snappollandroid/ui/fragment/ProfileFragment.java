@@ -30,7 +30,7 @@ import dev.jinkim.snappollandroid.util.image.CircleTransform;
  */
 public class ProfileFragment extends Fragment {
 
-    public static final String TAG = "UserProfileFragment ####";
+    public static final String TAG = ProfileFragment.class.getSimpleName();
 
     private ImageView ivProfilePic;
     private TextView tvName, tvEmail;
@@ -94,7 +94,7 @@ public class ProfileFragment extends Fragment {
         /* sign in status */
         tvStatusGPlus = (TextView) v.findViewById(R.id.profile_tv_status_googleplus);
         if (!session.isSignedIntoGPlus()) {
-            tvStatusGPlus.setText("Not signed in");
+            tvStatusGPlus.setText(mActivity.getString(R.string.status_not_signed_in));
             tvStatusGPlus.setTextColor(Color.parseColor("#555555"));
 
             //TODO: SHOW G+ SIGN IN BUTTON
@@ -105,7 +105,7 @@ public class ProfileFragment extends Fragment {
 
         tvStatusFacebook = (TextView) v.findViewById(R.id.profile_tv_status_facebook);
         if (!session.isSignedIntoFacebook()) {
-            tvStatusFacebook.setText("Not signed in");
+            tvStatusFacebook.setText(mActivity.getString(R.string.status_not_signed_in));
             tvStatusFacebook.setTextColor(Color.parseColor("#555555"));
 
             //TODO: SHOW FB SIGN IN BUTTON
@@ -134,10 +134,9 @@ public class ProfileFragment extends Fragment {
     @Subscribe
     public void onRevokeGoogleAccess(RevokeGplusAccessEvent event) {
         Log.d(TAG, "Received RevokeGplusAccessEvent");
-        Toast.makeText(mActivity, "Revoked Google+ access.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(mActivity, R.string.msg_revoked_gplus_access, Toast.LENGTH_SHORT).show();
 
 //        updateUI(false);
-
     }
 
     @Override

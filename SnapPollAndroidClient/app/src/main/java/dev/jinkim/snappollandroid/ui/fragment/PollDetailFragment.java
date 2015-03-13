@@ -42,7 +42,7 @@ import retrofit.RetrofitError;
  */
 public class PollDetailFragment extends Fragment {
 
-    public static final String TAG = "PollDetailFragment ####";
+    public static final String TAG = PollDetailFragment.class.getSimpleName();
 
     private Poll currentPoll;
 
@@ -120,8 +120,8 @@ public class PollDetailFragment extends Fragment {
     }
 
     private void loadDataFromArguments() {
-        String pollJson = getArguments().getString("Poll", null);
-        viewResultMode = getArguments().getBoolean("ViewResultMode", false);
+        String pollJson = getArguments().getString(Poll.class.getName(), null);
+        viewResultMode = getArguments().getBoolean(mActivity.getString(R.string.key_view_result_mode), false);
 //        viewResultMode = true;
 
         Gson gson = new Gson();

@@ -54,8 +54,7 @@ import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.model.Response;
 
 public class TouchImageView extends ImageView {
-
-    public static final String TAG = "TouchImageView ####";
+    public static final String TAG = TouchImageView.class.getSimpleName();
 
     private static final String DEBUG = "DEBUG";
 

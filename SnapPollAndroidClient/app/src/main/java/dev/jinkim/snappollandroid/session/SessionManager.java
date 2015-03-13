@@ -13,8 +13,7 @@ import dev.jinkim.snappollandroid.ui.activity.LoginActivity;
  * Created by Jin on 12/7/14.
  */
 public class SessionManager {
-
-    private final String TAG = "SessionManager ####";
+    private final String TAG = SessionManager.class.getSimpleName();
 
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;

@@ -19,7 +19,7 @@ import dev.jinkim.snappollandroid.R;
  * Created by Jin on 3/6/15.
  */
 public class NewPollImageFragment extends Fragment {
-    public static final String TAG = "CreatePollFragment";
+    public static final String TAG = NewPollImageFragment.class.getSimpleName();
 
     private static final int REQ_CODE_PICK_IMAGE = 1;
     public static final int RESULT_OK = -1;
@@ -44,7 +44,7 @@ public class NewPollImageFragment extends Fragment {
         mActivity = (NewPollActivity) getActivity();
         controller = mActivity.getController();
 
-        mActivity.getSupportActionBar().setTitle("Select Image");
+        mActivity.getSupportActionBar().setTitle(R.string.title_new_poll_image_frag);
 
         initializeViews(rootView);
 
@@ -78,6 +78,7 @@ public class NewPollImageFragment extends Fragment {
         Log.d(TAG, "Button clicked to pick image");
 //        Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         Intent myIntent = new Intent(Intent.ACTION_GET_CONTENT, null);
+        //noinspection HardCodedStringLiteral
         myIntent.setType("image/*");
         startActivityForResult(myIntent, REQ_CODE_PICK_IMAGE);
     }

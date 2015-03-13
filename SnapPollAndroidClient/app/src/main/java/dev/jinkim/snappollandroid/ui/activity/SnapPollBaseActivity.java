@@ -20,6 +20,7 @@ import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.listeners.ActionClickListener;
 import com.squareup.otto.Bus;
 
+import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.event.BusProvider;
 import dev.jinkim.snappollandroid.event.GoogleApiClientConnectedEvent;
 import dev.jinkim.snappollandroid.event.RevokeGplusAccessEvent;
@@ -31,7 +32,7 @@ import dev.jinkim.snappollandroid.session.SessionManager;
  */
 public class SnapPollBaseActivity extends ActionBarActivity {
 
-    private static final String TAG = "SnapPollBaseActivity";
+    private static final String TAG = SnapPollBaseActivity.class.getSimpleName();
 
     private Activity mActivity;
     protected SessionManager session;
@@ -123,13 +124,13 @@ public class SnapPollBaseActivity extends ActionBarActivity {
                 user.setUserId(userEmail);
 
 //                loginUserToApi(user);
-                session.createLoginSession("gPlus", user);
+                session.createLoginSession(getString(R.string.key_gplus), user);
 
                 return user;
 
             } else {
                 Toast.makeText(getApplicationContext(),
-                        "Person information is null", Toast.LENGTH_LONG).show();
+                        R.string.msg_person_info_is_null, Toast.LENGTH_LONG).show();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -190,7 +191,7 @@ public class SnapPollBaseActivity extends ActionBarActivity {
 
         Snackbar.with(mActivity)
                 .text(msg)
-                .color(Color.parseColor("#CCC"))
+                .color(Color.parseColor("#CCCCCC"))
                 .actionLabel(btnText)
                 .actionListener(listener)
                 .show(this);
@@ -203,7 +204,7 @@ public class SnapPollBaseActivity extends ActionBarActivity {
     protected void displaySnackBar(String msg) {
         Snackbar.with(mActivity)
                 .text(msg)
-                .color(Color.parseColor("#CCC"))
+                .color(Color.parseColor("#CCCCCC"))
                 .show(this);
     }
 

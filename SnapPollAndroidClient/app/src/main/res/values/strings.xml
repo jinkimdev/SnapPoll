@@ -25,7 +25,7 @@
     <string name="msg_poll_created">Poll created</string>
     <string name="section_open">Open</string>
     <string name="section_closed">Closed</string>
-    <string name="type_view_result_mode">ViewResultMode</string>
+    <string name="key_view_result_mode">ViewResultMode</string>
     <string name="msg_please_sign_in_to_see_polls">Please sign in to see your polls</string>
     <string name="msg_image_not_selected">Image reference is not selected</string>
     <string name="msg_poll_question_empty">Poll question is empty</string>
@@ -34,4 +34,17 @@
     <string name="action_save">Save</string>
     <string name="action_cancel">Cancel</string>
     <string name="dialog_title_new_attributes">New Attribute</string>
+    <string name="title_new_poll_invite">Invite Friends</string>
+    <string name="query_hint_search_from_gplus">Search friend from Google+</string>
+    <string name="dialog_title_choose_frineds_gplus">G+ Choose friends</string>
+    <string name="title_new_poll_image_frag">Select Image</string>
+    <string name="key_poll">Poll</string>
+    <string name="tag_invited_polls_frag">InvitedPollsFragment</string>
+    <string name="tab_title_invited">Invited</string>
+    <string name="tab_title_my_polls">My Polls</string>
+    <string name="tag_my_polls_frag">MyPollsFragment</string>
+    <string name="status_not_signed_in">Not signed in</string>
+    <string name="msg_revoked_gplus_access">Revoked Google+ access.</string>
+    <string name="key_gplus">gPlus</string>
+    <string name="msg_person_info_is_null">Person information is null</string>
 </resources>

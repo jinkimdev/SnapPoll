@@ -15,6 +15,7 @@ import java.util.List;
 
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.model.Poll;
+import dev.jinkim.snappollandroid.ui.activity.MainActivity;
 import dev.jinkim.snappollandroid.ui.newpoll.NewPollActivity;
 import dev.jinkim.snappollandroid.web.SnapPollRestClient;
 import retrofit.Callback;
@@ -26,8 +27,9 @@ import retrofit.client.Response;
  */
 public class PollsTabFragment extends Fragment {
 
-    public static final String TAG = "PollsTabFragment ####";
+    public static final String TAG = PollsTabFragment.class.getSimpleName();
     private FragmentTabHost mTabHost;
+    private MainActivity mActivity;
 
 //    InvitedPollListAdapter adapter;
 
@@ -37,6 +39,7 @@ public class PollsTabFragment extends Fragment {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mActivity = (MainActivity) getActivity();
     }
 
     @Override
@@ -47,12 +50,13 @@ public class PollsTabFragment extends Fragment {
         mTabHost = (FragmentTabHost) rootView.findViewById(android.R.id.tabhost);
         mTabHost.setup(getActivity(), getChildFragmentManager(), android.R.id.tabcontent);
 
-        mTabHost.addTab(mTabHost.newTabSpec("InvitedPollsFragment").setIndicator("Invited"),
+        mTabHost.addTab(mTabHost.newTabSpec(mActivity.getString(R.string.tag_invited_polls_frag))
+                        .setIndicator(mActivity.getString(R.string.tab_title_invited)),
                 InvitedPollsFragment.class, null);
-        mTabHost.addTab(mTabHost.newTabSpec("MyPollsFragment").setIndicator("My Polls"),
+        mTabHost.addTab(mTabHost.newTabSpec(mActivity.getString(R.string.tag_my_polls_frag))
+                        .setIndicator(mActivity.getString(R.string.tab_title_my_polls)),
                 MyPollsFragment.class, null);
 
-//        retrievePolls();
         setHasOptionsMenu(true);
 
         return rootView;

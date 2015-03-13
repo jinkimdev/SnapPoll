@@ -70,7 +70,7 @@ public class MyPollsFragment extends ListFragment {
                 Gson gson = new Gson();
                 String pollJson = gson.toJson(p);
                 in.putExtra(Poll.class.getName(), pollJson);
-                in.putExtra(mActivity.getResources().getString(R.string.type_view_result_mode), true);
+                in.putExtra(mActivity.getResources().getString(R.string.key_view_result_mode), true);
 
                 startActivity(in);
             }
