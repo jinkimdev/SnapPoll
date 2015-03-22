@@ -36,7 +36,7 @@ public class NewPollActivity extends SnapPollBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_poll);
 
-        controller = new NewPollController();
+        controller = new NewPollController(this);
 
         ActionBar actionBar = getSupportActionBar();
 //        actionBar.setTitle("New Poll");
@@ -92,9 +92,21 @@ public class NewPollActivity extends SnapPollBaseActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_new_poll, menu);
 
-        // TODO: Determine which action button to show (next or submit)
-
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // Determine which action menu to show (next or submit)
+        Fragment f = getSupportFragmentManager().findFragmentById(R.id.new_poll_fragment_container);
+        if (f instanceof NewPollInviteFragment) {
+            MenuItem menuNext = menu.findItem(R.id.action_new_poll_next);
+            menuNext.setVisible(false);
+            MenuItem menuSubmit = menu.findItem(R.id.action_new_poll_submit);
+            menuSubmit.setVisible(true);
+        }
+
+        return true;
     }
 
     @Override
@@ -138,6 +150,11 @@ public class NewPollActivity extends SnapPollBaseActivity {
 
                 }
 
+                return true;
+
+            case R.id.action_new_poll_submit:
+                // TODO: SUBMIT LOGIC
+                controller.uploadImage();
 
                 return true;
         }

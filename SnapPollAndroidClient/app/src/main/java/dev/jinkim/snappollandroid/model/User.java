@@ -19,7 +19,10 @@ public class User {
 
     @SerializedName("user_id")
     private String userId;
+
     private String profilePicUrl;
+
+    private String gplusId;
 
     /**
      * Populate User fields with the passed in Person object (Google+)
@@ -47,6 +50,10 @@ public class User {
             // we can replace the value with whatever dimension we want by
             // replacing sz=X
             profilePicUrl = profilePicUrl.substring(0, profilePicUrl.length() - 2) + 200;
+        }
+
+        if (p.hasId()) {
+            gplusId = p.getId();
         }
     }
 
@@ -110,5 +117,13 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getGplusId() {
+        return gplusId;
+    }
+
+    public void setGplusId(String gplusId) {
+        this.gplusId = gplusId;
     }
 }

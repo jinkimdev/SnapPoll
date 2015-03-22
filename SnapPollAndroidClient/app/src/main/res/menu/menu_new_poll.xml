@@ -10,7 +10,7 @@
         android:showAsAction="always" />
 
     <item
-        android:id="@+id/action_poll_detail_submit"
+        android:id="@+id/action_new_poll_submit"
         android:title="Submit"
         android:icon="@drawable/ic_action_send_now"
         snappoll:showAsAction="always"

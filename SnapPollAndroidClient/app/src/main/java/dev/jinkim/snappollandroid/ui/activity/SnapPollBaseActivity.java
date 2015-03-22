@@ -116,6 +116,7 @@ public class SnapPollBaseActivity extends ActionBarActivity {
                 String userFirstName = currentPerson.getName().getGivenName();
                 String userPhotoUrl = currentPerson.getImage().getUrl();
                 String userEmail = Plus.AccountApi.getAccountName(mGoogleApiClient);
+                String userGpluId = currentPerson.getId();
 
                 Log.d(TAG, "Name: " + userFirstName + ", email: " + userEmail
                         + ", Image: " + userPhotoUrl);
@@ -143,6 +144,7 @@ public class SnapPollBaseActivity extends ActionBarActivity {
      * Method to resolve any signin errors
      */
     protected void resolveSignInError() {
+        // TODO: FIX NULL POINTER HERE
         if (mConnectionResult.hasResolution()) {
             try {
                 mIntentInProgress = true;

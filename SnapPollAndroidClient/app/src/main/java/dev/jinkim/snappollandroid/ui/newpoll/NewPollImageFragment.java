@@ -34,7 +34,6 @@ public class NewPollImageFragment extends Fragment {
 
     private NewPollController controller;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

@@ -359,6 +359,7 @@ public class NewPollImageReferenceFragment extends Fragment {
                 .into(ivThumbnail);
     }
 
+//    private void uploadImage(Uri uriSelectedImage, String imageTitle) {
     private void uploadImage(Uri uriSelectedImage, String imageTitle) {
 
         // if the image is already uploaded
@@ -414,7 +415,7 @@ public class NewPollImageReferenceFragment extends Fragment {
 
         SnapPollRestClient.ApiService rest = new SnapPollRestClient().getApiService();
 
-        rest.postPoll(currentPoll, new Callback<Poll>() {
+        rest.createPoll(currentPoll, new Callback<Poll>() {
             @Override
             public void success(Poll poll, Response response) {
                 Log.d(TAG, "Success: pollId: " + poll.getPollId() + " uploaded to SnapPoll database");
