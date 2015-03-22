@@ -86,7 +86,7 @@ public class SnapPollRestClient {
         void getInvitedPolls(@Path("user_id") String userId, Callback<List<Poll>> cb);
 
         @POST("/poll")
-        void postPoll(@Body Poll poll, Callback<Poll> cb);
+        void createPoll(@Body Poll poll, Callback<Poll> cb);
 
         /* USER */
         @POST("/user")
