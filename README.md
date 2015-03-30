@@ -18,7 +18,8 @@ More info including possible use cases and architecture is [in the wiki](https:/
 ##Components
 
 ####REST API (Node.js)
-**API end point** used in the demo: http://snappoll.herokuapp.com/api
+**End point** used in the demo: http://snappoll.herokuapp.com/api
+**Documentation** http://snappoll.herokuapp.com/apidoc
 
 API calls are documented [in this page](https://github.com/jinkim608/SnapPoll/wiki/REST-API-on-Node.js).
 
