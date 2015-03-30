@@ -19,9 +19,8 @@ More info including possible use cases and architecture is [in the wiki](https:/
 
 ####REST API (Node.js)
 **End point** used in the demo: http://snappoll.herokuapp.com/api
-**Documentation** http://snappoll.herokuapp.com/apidoc
 
-API calls are documented [in this page](https://github.com/jinkim608/SnapPoll/wiki/REST-API-on-Node.js).
+REST API Documentation [here](http://snappoll.herokuapp.com/apidoc).
 
 
 #### Database Backend (PostgreSQL)
