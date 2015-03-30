@@ -47,4 +47,6 @@
     <string name="msg_revoked_gplus_access">Revoked Google+ access.</string>
     <string name="key_gplus">gPlus</string>
     <string name="msg_person_info_is_null">Person information is null</string>
+    <string name="msg_no_friend_selected">Please select one or more friends to invite</string>
+    <string name="msg_poll_id_invalid">Poll id is not valid, please try uploading the poll again</string>
 </resources>

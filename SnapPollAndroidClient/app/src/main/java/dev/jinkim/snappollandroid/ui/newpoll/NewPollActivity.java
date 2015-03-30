@@ -154,7 +154,11 @@ public class NewPollActivity extends SnapPollBaseActivity {
 
             case R.id.action_new_poll_submit:
                 // TODO: SUBMIT LOGIC
-                controller.uploadImage();
+//                controller.uploadImage();
+                if (f instanceof NewPollInviteFragment) {
+//                    ((NewPollInviteFragment) f).shareOnGplus();
+                    ((NewPollInviteFragment) f).inviteFriends();
+                }
 
                 return true;
         }

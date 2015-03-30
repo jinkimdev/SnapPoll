@@ -34,6 +34,7 @@ public class NewPollController {
 
     public Uri uriSelectedImg;
 
+    public int pollId = -1;
     public String question;
     public String title;
     public List<PollAttribute> attributes;
@@ -54,6 +55,14 @@ public class NewPollController {
 
     public void setUriSelectedImg(Uri uriSelectedImg) {
         this.uriSelectedImg = uriSelectedImg;
+    }
+
+    public int getPollId() {
+        return pollId;
+    }
+
+    public void setPollId(int pollId) {
+        this.pollId = pollId;
     }
 
     public String getQuestion() {
@@ -158,7 +167,9 @@ public class NewPollController {
                 bus.post(new PollSubmittedEvent());
                 // TODO: handle progress bar
 //                progressBar.setVisibility(View.INVISIBLE);
-                mActivity.finish();
+                setPollId(poll.getPollId());
+                // TODO: update flow so POST will happen before G+ share
+//                mActivity.finish();
             }
 
             @Override

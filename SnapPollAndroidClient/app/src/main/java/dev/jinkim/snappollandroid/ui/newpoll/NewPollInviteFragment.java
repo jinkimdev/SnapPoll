@@ -3,6 +3,7 @@ package dev.jinkim.snappollandroid.ui.newpoll;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -21,6 +22,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.plus.People;
 import com.google.android.gms.plus.Plus;
+import com.google.android.gms.plus.PlusShare;
+import com.google.android.gms.plus.model.people.Person;
 import com.google.android.gms.plus.model.people.PersonBuffer;
 
 import java.util.ArrayList;
@@ -28,6 +31,10 @@ import java.util.List;
 
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.model.RowFriend;
+import dev.jinkim.snappollandroid.web.SnapPollRestClient;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by Jin on 3/6/15.
@@ -260,6 +267,82 @@ public class NewPollInviteFragment extends Fragment {
      */
     public void moveFloatButton(float position) {
         fabSelectFriends.animate().translationY(position);
+    }
+
+    public void inviteFriends() {
+        int pollId = controller.getPollId();
+
+        if (pollId == -1) {
+            mActivity.displaySnackBar(getString(R.string.msg_poll_id_invalid));
+            return;
+        }
+
+        List<RowFriend> selected = controller.getFriends();
+        List<String> listFriendIds = new ArrayList<String>();
+        for (RowFriend r : selected) {
+            listFriendIds.add(r.person.getId());
+        }
+
+        if (listFriendIds.size() < 1) {
+            mActivity.displaySnackBar(getString(R.string.msg_no_friend_selected));
+            return;
+        }
+
+        SnapPollRestClient.ApiService rest = new SnapPollRestClient().getApiService();
+        rest.inviteFriends(listFriendIds, controller.getPollId(), new Callback<Object>() {
+            @Override
+            public void success(Object o, Response response) {
+                Log.d(TAG, "Invited friends to poll: " + String.valueOf(controller.getPollId()));
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
+    }
+
+    public void shareOnGplus() {
+//        PlusShare.Builder builder = new PlusShare.Builder(mActivity);
+
+        List<Person> selectedFriends = new ArrayList<Person>();
+        for (RowFriend r : controller.getFriends()) {
+            if (r.selected) {
+                selectedFriends.add(r.person);
+            }
+        }
+
+        String pollUrl = "http://snappoll.herokuapp.com/poll/" + String.valueOf(controller.getPollId());
+//        String deepLinkString = "snappoll://view_poll/" + "poll_id=" + String.valueOf(controller.getPollId());
+        String deepLinkString = "vnd.google.deeplink://view_poll/" + "poll_id=" + String.valueOf(controller.getPollId());
+//        String deepLinkString = "intent://view_poll/#Intent;package=dev.jinkim.snappollandroid.ui.activity;"
+//                + "scheme=snappoll;end;";
+//                + String.valueOf(controller.getPollId());
+        // host view_poll
+        // scheme snappoll
+
+        Log.d(TAG, "Deep Link ID: " + deepLinkString);
+        PlusShare.Builder builder = new PlusShare.Builder(mActivity);
+
+        // Set call-to-action metadata.
+        builder.addCallToAction(
+                "VIEW", /** call-to-action button label */
+                Uri.parse(deepLinkString), /** call-to-action url (for desktop use) */
+                deepLinkString /** call to action deep-link ID (for mobile use), 512 characters or fewer */);
+
+        // Set the content url (for desktop use).
+        builder.setContentUrl(Uri.parse(deepLinkString));
+
+        // Set the target deep-link ID (for mobile use).
+        builder.setContentDeepLinkId(deepLinkString,
+                null, null, null);
+
+        // Set the share text.
+        builder.setText("View Poll: " + String.valueOf(controller.getPollId()));
+
+        startActivityForResult(builder.getIntent(), 0);
+
+
     }
 
 }
