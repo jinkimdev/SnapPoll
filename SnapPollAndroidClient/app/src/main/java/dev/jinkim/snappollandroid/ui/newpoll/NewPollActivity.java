@@ -21,6 +21,7 @@ import com.squareup.otto.Bus;
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.event.BusProvider;
 import dev.jinkim.snappollandroid.ui.activity.SnapPollBaseActivity;
+import dev.jinkim.snappollandroid.ui.fragment.InviteFriendsFragment;
 
 /**
  * Created by Jin on 1/11/15.
@@ -155,9 +156,9 @@ public class NewPollActivity extends SnapPollBaseActivity {
             case R.id.action_new_poll_submit:
                 // TODO: SUBMIT LOGIC
 //                controller.uploadImage();
-                if (f instanceof NewPollInviteFragment) {
-//                    ((NewPollInviteFragment) f).shareOnGplus();
-                    ((NewPollInviteFragment) f).inviteFriends();
+                if (f instanceof NewPollEnterDetailFragment) {
+                    controller.uploadImage();
+//                    ((NewPollInviteFragment) f).inviteFriends();
                 }
 
                 return true;
@@ -196,18 +197,18 @@ public class NewPollActivity extends SnapPollBaseActivity {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
 
-        NewPollInviteFragment frag =
-                (NewPollInviteFragment) fm.findFragmentByTag(NewPollInviteFragment.TAG);
+        InviteFriendsFragment frag =
+                (InviteFriendsFragment) fm.findFragmentByTag(InviteFriendsFragment.TAG);
 
         if (frag == null) {
-            frag = new NewPollInviteFragment();
+            frag = new InviteFriendsFragment();
         }
 
-        ft.addToBackStack(NewPollInviteFragment.TAG);
+        ft.addToBackStack(InviteFriendsFragment.TAG);
         ft.setCustomAnimations(R.anim.anim_enter_from_right, R.anim.anim_exit_to_left, R.anim.anim_enter_from_left, R.anim.anim_exit_to_right);
 //        ft.setCustomAnimations(R.anim.anim_enter_from_right, R.anim.anim_empty);
 
-        ft.replace(R.id.new_poll_fragment_container, frag, NewPollInviteFragment.TAG);
+        ft.replace(R.id.new_poll_fragment_container, frag, InviteFriendsFragment.TAG);
         ft.commit();
     }
 
@@ -268,7 +269,7 @@ public class NewPollActivity extends SnapPollBaseActivity {
 
                                        if (f instanceof NewPollSelectImageFragment) {
                                            ((NewPollSelectImageFragment) f).moveFloatButton(-snackbar.getHeight());
-                                       } else if (f instanceof NewPollInviteFragment) {
+                                       } else if (f instanceof InviteFriendsFragment) {
 //                                           ((NewPollFriendsFragment) f).moveFloatButton(-snackbar.getHeight());
                                        }
                                    }
@@ -288,7 +289,7 @@ public class NewPollActivity extends SnapPollBaseActivity {
                                        Fragment f = getSupportFragmentManager().findFragmentById(R.id.new_poll_fragment_container);
                                        if (f instanceof NewPollSelectImageFragment) {
                                            ((NewPollSelectImageFragment) f).moveFloatButton(0);
-                                       } else if (f instanceof NewPollInviteFragment) {
+                                       } else if (f instanceof InviteFriendsFragment) {
 //                                           ((NewPollFriendsFragment) f).moveFloatButton(-snackbar.getHeight());
                                        }
                                    }

@@ -1,11 +1,11 @@
-package dev.jinkim.snappollandroid.ui.newpoll;
-
+package dev.jinkim.snappollandroid.ui.fragment;
 
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -30,7 +30,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dev.jinkim.snappollandroid.R;
+import dev.jinkim.snappollandroid.model.PollInvitedFriends;
 import dev.jinkim.snappollandroid.model.RowFriend;
+import dev.jinkim.snappollandroid.ui.activity.InviteFriendsActivity;
+import dev.jinkim.snappollandroid.ui.newpoll.ChooseFriendListAdapter;
+import dev.jinkim.snappollandroid.ui.newpoll.SelectedFriendListAdapter;
 import dev.jinkim.snappollandroid.web.SnapPollRestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -39,16 +43,23 @@ import retrofit.client.Response;
 /**
  * Created by Jin on 3/6/15.
  */
-public class NewPollInviteFragment extends Fragment {
+public class InviteFriendsFragment extends Fragment {
 
-    public static String TAG = NewPollInviteFragment.class.getSimpleName();
+    public static String TAG = InviteFriendsFragment.class.getSimpleName();
 
-    private NewPollActivity mActivity;
-    private NewPollController controller;
+    private InviteFriendsActivity mActivity;
+    private int pollId;
+
+//    private NewPollController controller;
 
     private ListView listView;
     private SelectedFriendListAdapter adapter;
+    // list of Google+ friends (retrieved from Google+ API)
     private List<RowFriend> retrievedFriends;
+    // list of IDs of friends already invited to the poll (retrieved from SnapPoll API)
+    private List<String> invitedFriendIds;
+    // list of friends selected to invite from the dialog (selected from dialog)
+    private List<RowFriend> selectedFriends;
 
     private ButtonFloat fabSelectFriends;
 
@@ -58,10 +69,11 @@ public class NewPollInviteFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.frag_new_poll_friends, container, false);
         setHasOptionsMenu(true);
-        mActivity = (NewPollActivity) getActivity();
-        controller = mActivity.getController();
+        mActivity = (InviteFriendsActivity) getActivity();
+        pollId = getArguments().getInt(getString(R.string.key_poll_id));
+//        controller = mActivity.getController();
 
-        mActivity.getSupportActionBar().setTitle(R.string.title_new_poll_invite);
+        mActivity.getSupportActionBar().setTitle(R.string.title_invite_friends);
 
         return rootView;
     }
@@ -70,12 +82,20 @@ public class NewPollInviteFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         initViews(view);
 
-        List<RowFriend> selectedFriends = controller.getFriends();
-        if (selectedFriends != null && selectedFriends.size() > 0) {
-            updateSelectedFriends(selectedFriends);
-        } else {
-            retrieveFriendsFromGPlus();
-        }
+        // TODO: RETRIEVE INVITED FRIENDS
+        SnapPollRestClient.ApiService rest = new SnapPollRestClient().getApiService();
+        rest.getPollInvitedFriends(pollId, new Callback<PollInvitedFriends>() {
+            @Override
+            public void success(PollInvitedFriends pollInvitedFriends, Response response) {
+                // TODO: PARSE LIST OF FRIENDS
+                invitedFriendIds = pollInvitedFriends.friends;
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
     }
 
     private void showChooseFriendsDialog(List<RowFriend> friends) {
@@ -154,7 +174,7 @@ public class NewPollInviteFragment extends Fragment {
                         Log.d(TAG, selected.toString());
 
                         // TODO: grab the keys (positions) that are true in value
-                        List<RowFriend> selectedFriends = new ArrayList<RowFriend>();
+                        selectedFriends = new ArrayList<RowFriend>();
                         for (int i = 0; i < selected.size(); i++) {
                             int position = selected.keyAt(i);
                             if (selected.valueAt(i)) {
@@ -213,7 +233,7 @@ public class NewPollInviteFragment extends Fragment {
         listView.setAdapter(null);
         listView.setAdapter(adapter);
 
-        controller.setFriends(selectedFriends);
+//        controller.setFriends(selectedFriends);
     }
 
     /**
@@ -247,7 +267,7 @@ public class NewPollInviteFragment extends Fragment {
                                 } finally {
                                     personBuffer.close();
                                     if (retrievedFriends.size() > 0) {
-                                        controller.setFriends(retrievedFriends);
+//                                        controller.setFriends(retrievedFriends);
 //                                        Log.d(TAG, "# Friends: " + friends.size());
                                         showChooseFriendsDialog(retrievedFriends);
                                     }
@@ -270,29 +290,31 @@ public class NewPollInviteFragment extends Fragment {
     }
 
     public void inviteFriends() {
-        int pollId = controller.getPollId();
+//        int pollId = controller.getPollId();
 
         if (pollId == -1) {
             mActivity.displaySnackBar(getString(R.string.msg_poll_id_invalid));
             return;
         }
 
-        List<RowFriend> selected = controller.getFriends();
-        List<String> listFriendIds = new ArrayList<String>();
-        for (RowFriend r : selected) {
-            listFriendIds.add(r.person.getId());
+        List<String> listIds = new ArrayList<String>();
+        for (RowFriend r : selectedFriends) {
+            listIds.add(r.person.getId());
         }
 
-        if (listFriendIds.size() < 1) {
+        String friends = TextUtils.join(",", listIds);
+
+        // check selected list
+        if (listIds.size() < 1) {
             mActivity.displaySnackBar(getString(R.string.msg_no_friend_selected));
             return;
         }
 
         SnapPollRestClient.ApiService rest = new SnapPollRestClient().getApiService();
-        rest.inviteFriends(listFriendIds, controller.getPollId(), new Callback<Object>() {
+        rest.inviteFriends(pollId, friends, new Callback<Object>() {
             @Override
             public void success(Object o, Response response) {
-                Log.d(TAG, "Invited friends to poll: " + String.valueOf(controller.getPollId()));
+                Log.d(TAG, "Invited friends to poll: " + String.valueOf(pollId));
             }
 
             @Override
@@ -302,19 +324,20 @@ public class NewPollInviteFragment extends Fragment {
         });
     }
 
+    /* share this poll on Google+ with selected friends */
     public void shareOnGplus() {
 //        PlusShare.Builder builder = new PlusShare.Builder(mActivity);
 
-        List<Person> selectedFriends = new ArrayList<Person>();
-        for (RowFriend r : controller.getFriends()) {
+        List<Person> recipients = new ArrayList<Person>();
+        for (RowFriend r : selectedFriends) {
             if (r.selected) {
-                selectedFriends.add(r.person);
+                recipients.add(r.person);
             }
         }
 
-        String pollUrl = "http://snappoll.herokuapp.com/poll/" + String.valueOf(controller.getPollId());
+        String pollUrl = "http://snappoll.herokuapp.com/poll/" + String.valueOf(pollId);
 //        String deepLinkString = "snappoll://view_poll/" + "poll_id=" + String.valueOf(controller.getPollId());
-        String deepLinkString = "vnd.google.deeplink://view_poll/" + "poll_id=" + String.valueOf(controller.getPollId());
+        String deepLinkString = "vnd.google.deeplink://view_poll/" + "poll_id=" + String.valueOf(pollId);
 //        String deepLinkString = "intent://view_poll/#Intent;package=dev.jinkim.snappollandroid.ui.activity;"
 //                + "scheme=snappoll;end;";
 //                + String.valueOf(controller.getPollId());
@@ -337,8 +360,9 @@ public class NewPollInviteFragment extends Fragment {
         builder.setContentDeepLinkId(deepLinkString,
                 null, null, null);
 
+        builder.setRecipients(recipients);
         // Set the share text.
-        builder.setText("View Poll: " + String.valueOf(controller.getPollId()));
+        builder.setText("View Poll: " + String.valueOf(pollId));
 
         startActivityForResult(builder.getIntent(), 0);
 

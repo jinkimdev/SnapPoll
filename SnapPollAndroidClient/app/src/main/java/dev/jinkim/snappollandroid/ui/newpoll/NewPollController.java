@@ -1,5 +1,6 @@
 package dev.jinkim.snappollandroid.ui.newpoll;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 
@@ -17,6 +18,7 @@ import dev.jinkim.snappollandroid.model.Poll;
 import dev.jinkim.snappollandroid.model.PollAttribute;
 import dev.jinkim.snappollandroid.model.RowFriend;
 import dev.jinkim.snappollandroid.model.User;
+import dev.jinkim.snappollandroid.ui.activity.InviteFriendsActivity;
 import dev.jinkim.snappollandroid.util.efilechooser.FileUtils;
 import dev.jinkim.snappollandroid.web.ImgurRestClient;
 import dev.jinkim.snappollandroid.web.SnapPollRestClient;
@@ -172,6 +174,7 @@ public class NewPollController {
             public void success(Poll poll, Response response) {
                 int pollId = poll.getPollId();
                 Log.d(TAG, "Success: pollId: " + pollId + " uploaded to SnapPoll database");
+//                mActivity.displaySnackBar(mActivity.getString(R.string.msg_poll_created));
                 Bus bus = mActivity.getEventBus();
                 bus.post(new PollCreatedEvent());
                 // TODO: handle progress bar
@@ -179,6 +182,11 @@ public class NewPollController {
                 setPollId(pollId);
                 // TODO: LAUNCH INVITE ACTIVITY
 //                mActivity.finish();
+                Intent intent = new Intent(mActivity, InviteFriendsActivity.class);
+                intent.putExtra(mActivity.getString(R.string.key_poll_id), pollId);
+                intent.putExtra(mActivity.getString(R.string.key_show_poll_created_msg), true);
+                mActivity.startActivity(intent);
+                mActivity.finish();
             }
 
             @Override

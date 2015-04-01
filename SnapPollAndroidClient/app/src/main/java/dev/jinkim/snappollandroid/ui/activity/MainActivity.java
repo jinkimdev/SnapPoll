@@ -200,11 +200,11 @@ public class MainActivity extends SnapPollBaseActivity
         displaySnackBar(R.string.msg_response_submitted);
     }
 
-    @Subscribe
-    public void onPollSubmittedEvent(PollCreatedEvent event) {
-        Log.d(TAG, "Received poll submitted event!");
-        displaySnackBar(R.string.msg_poll_created);
-    }
+//    @Subscribe
+//    public void onPollSubmittedEvent(PollCreatedEvent event) {
+//        Log.d(TAG, "Received poll submitted event!");
+//        displaySnackBar(R.string.msg_poll_created);
+//    }
 
     public SessionManager getAppSession() {
         return appSession;

@@ -189,24 +189,24 @@ public class SnapPollBaseActivity extends ActionBarActivity {
     }
 
 
-    protected void displaySnackBar(String msg, String btnText, ActionClickListener listener) {
+    public void displaySnackBar(String msg, String btnText, ActionClickListener listener) {
 
         Snackbar.with(mActivity)
                 .text(msg)
-                .color(Color.parseColor("#CCCCCC"))
+                .color(Color.parseColor("#777777"))
                 .actionLabel(btnText)
                 .actionListener(listener)
                 .show(this);
     }
 
-    protected void displaySnackBar(int resId) {
+    public void displaySnackBar(int resId) {
         displaySnackBar(mActivity.getResources().getString(resId));
     }
 
-    protected void displaySnackBar(String msg) {
+    public void displaySnackBar(String msg) {
         Snackbar.with(mActivity)
                 .text(msg)
-                .color(Color.parseColor("#CCCCCC"))
+                .color(Color.parseColor("#777777"))
                 .show(this);
     }
 

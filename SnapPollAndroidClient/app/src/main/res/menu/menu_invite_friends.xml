@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:snappoll="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".InviteFriendsActivity">
+
+    <item
+        android:id="@+id/action_invite_friends_invite"
+        android:title="Invite"
+        snappoll:showAsAction="always"
+        android:showAsAction="always" />
+
+</menu>

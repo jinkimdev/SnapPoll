@@ -42,7 +42,11 @@
 
         <activity
             android:name="com.facebook.LoginActivity"
-            android:label="FACEBOOK LOGIN-" />
+            android:label="FACEBOOK LOGIN" />
+
+        <activity
+            android:name=".ui.activity.InviteFriendsActivity"
+            android:label="@string/title_invite_friends" />
 
         <activity android:name=".ui.activity.ParseDeepLinkActivity">
             <intent-filter>

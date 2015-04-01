@@ -22,7 +22,7 @@
     <string name="session_facebook">facebook</string>
     <string name="msg_logged_in_snappoll">Logged in to SnapPoll.</string>
     <string name="msg_response_submitted">Response submitted</string>
-    <string name="msg_poll_created">Poll created</string>
+    <string name="msg_poll_created">Poll has been created</string>
     <string name="section_open">Open</string>
     <string name="section_closed">Closed</string>
     <string name="key_view_result_mode">ViewResultMode</string>
@@ -34,7 +34,7 @@
     <string name="action_save">Save</string>
     <string name="action_cancel">Cancel</string>
     <string name="dialog_title_new_attributes">New Attribute</string>
-    <string name="title_new_poll_invite">Invite Friends</string>
+    <string name="title_invite_friends">Invite Friends</string>
     <string name="query_hint_search_from_gplus">Search friend from Google+</string>
     <string name="dialog_title_choose_frineds_gplus">G+ Choose friends</string>
     <string name="title_new_poll_image_frag">Select Image</string>
@@ -49,4 +49,6 @@
     <string name="msg_person_info_is_null">Person information is null</string>
     <string name="msg_no_friend_selected">Please select one or more friends to invite</string>
     <string name="msg_poll_id_invalid">Poll id is not valid, please try uploading the poll again</string>
+    <string name="key_poll_id">pollId</string>
+    <string name="key_show_poll_created_msg">poll_created</string>
 </resources>
