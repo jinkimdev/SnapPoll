@@ -63,15 +63,15 @@ public class NewPollActivity extends SnapPollBaseActivity {
             }
 
             // Create a new Fragment to be placed in the activity layout
-            NewPollImageFragment newPollImageFragment = new NewPollImageFragment();
+            NewPollSelectImageFragment newPollSelectImageFragment = new NewPollSelectImageFragment();
 
             // In case this activity was started with special instructions from an
             // Intent, pass the Intent's extras to the fragment as arguments
-            newPollImageFragment.setArguments(getIntent().getExtras());
+            newPollSelectImageFragment.setArguments(getIntent().getExtras());
 
             // Add the fragment to the 'fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.new_poll_fragment_container, newPollImageFragment, NewPollImageFragment.TAG).commit();
+                    .add(R.id.new_poll_fragment_container, newPollSelectImageFragment, NewPollSelectImageFragment.TAG).commit();
         }
 
         bus = BusProvider.getInstance();
@@ -99,7 +99,7 @@ public class NewPollActivity extends SnapPollBaseActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         // Determine which action menu to show (next or submit)
         Fragment f = getSupportFragmentManager().findFragmentById(R.id.new_poll_fragment_container);
-        if (f instanceof NewPollInviteFragment) {
+        if (f instanceof NewPollEnterDetailFragment) {
             MenuItem menuNext = menu.findItem(R.id.action_new_poll_next);
             menuNext.setVisible(false);
             MenuItem menuSubmit = menu.findItem(R.id.action_new_poll_submit);
@@ -117,7 +117,7 @@ public class NewPollActivity extends SnapPollBaseActivity {
         switch (item.getItemId()) {
             // Respond to the action bar's Up button
             case android.R.id.home:
-                if (f instanceof NewPollImageFragment) {
+                if (f instanceof NewPollSelectImageFragment) {
                     // if we are on ImageFrag, up button will take you back to the MainActivity
                     NavUtils.navigateUpFromSameTask(this);
                 } else {
@@ -128,7 +128,7 @@ public class NewPollActivity extends SnapPollBaseActivity {
 
             case R.id.action_new_poll_next:
 
-                if (f instanceof NewPollImageFragment) {
+                if (f instanceof NewPollSelectImageFragment) {
                     if (controller.getUriSelectedImg() == null) {
                         displaySnackBar(R.string.msg_image_not_selected);
                     } else {
@@ -136,8 +136,8 @@ public class NewPollActivity extends SnapPollBaseActivity {
                         navigateToNewPollDetail();
                     }
 
-                } else if (f instanceof NewPollDetailFragment) {
-                    if (((NewPollDetailFragment) f).saveNewPollDetails()) {
+                } else if (f instanceof NewPollEnterDetailFragment) {
+                    if (((NewPollEnterDetailFragment) f).saveNewPollDetails()) {
                         Log.d(TAG, "Navigate from Detail -> Friends");
                         navigateToNewPollFriends();
                     } else {
@@ -178,16 +178,16 @@ public class NewPollActivity extends SnapPollBaseActivity {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
 
-        NewPollDetailFragment frag =
-                (NewPollDetailFragment) fm.findFragmentByTag(NewPollDetailFragment.TAG);
+        NewPollEnterDetailFragment frag =
+                (NewPollEnterDetailFragment) fm.findFragmentByTag(NewPollEnterDetailFragment.TAG);
 
         if (frag == null) {
-            frag = new NewPollDetailFragment();
+            frag = new NewPollEnterDetailFragment();
         }
 
-        ft.addToBackStack(NewPollImageFragment.TAG);
+        ft.addToBackStack(NewPollSelectImageFragment.TAG);
         ft.setCustomAnimations(R.anim.anim_enter_from_right, R.anim.anim_exit_to_left, R.anim.anim_enter_from_left, R.anim.anim_exit_to_right);
-        ft.replace(R.id.new_poll_fragment_container, frag, NewPollDetailFragment.TAG);
+        ft.replace(R.id.new_poll_fragment_container, frag, NewPollEnterDetailFragment.TAG);
         ft.commit();
     }
 
@@ -266,8 +266,8 @@ public class NewPollActivity extends SnapPollBaseActivity {
                                    @Override
                                    public void onShow(Snackbar snackbar) {
 
-                                       if (f instanceof NewPollImageFragment) {
-                                           ((NewPollImageFragment) f).moveFloatButton(-snackbar.getHeight());
+                                       if (f instanceof NewPollSelectImageFragment) {
+                                           ((NewPollSelectImageFragment) f).moveFloatButton(-snackbar.getHeight());
                                        } else if (f instanceof NewPollInviteFragment) {
 //                                           ((NewPollFriendsFragment) f).moveFloatButton(-snackbar.getHeight());
                                        }
@@ -286,8 +286,8 @@ public class NewPollActivity extends SnapPollBaseActivity {
                                    @Override
                                    public void onDismiss(Snackbar snackbar) {
                                        Fragment f = getSupportFragmentManager().findFragmentById(R.id.new_poll_fragment_container);
-                                       if (f instanceof NewPollImageFragment) {
-                                           ((NewPollImageFragment) f).moveFloatButton(0);
+                                       if (f instanceof NewPollSelectImageFragment) {
+                                           ((NewPollSelectImageFragment) f).moveFloatButton(0);
                                        } else if (f instanceof NewPollInviteFragment) {
 //                                           ((NewPollFriendsFragment) f).moveFloatButton(-snackbar.getHeight());
                                        }

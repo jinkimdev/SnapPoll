@@ -15,7 +15,7 @@ import com.google.android.gms.plus.Plus;
 import com.squareup.otto.Subscribe;
 
 import dev.jinkim.snappollandroid.R;
-import dev.jinkim.snappollandroid.event.PollSubmittedEvent;
+import dev.jinkim.snappollandroid.event.PollCreatedEvent;
 import dev.jinkim.snappollandroid.event.ResponseSubmittedEvent;
 import dev.jinkim.snappollandroid.session.SessionManager;
 import dev.jinkim.snappollandroid.ui.NavigationDrawerFragment;
@@ -201,7 +201,7 @@ public class MainActivity extends SnapPollBaseActivity
     }
 
     @Subscribe
-    public void onPollSubmittedEvent(PollSubmittedEvent event) {
+    public void onPollSubmittedEvent(PollCreatedEvent event) {
         Log.d(TAG, "Received poll submitted event!");
         displaySnackBar(R.string.msg_poll_created);
     }

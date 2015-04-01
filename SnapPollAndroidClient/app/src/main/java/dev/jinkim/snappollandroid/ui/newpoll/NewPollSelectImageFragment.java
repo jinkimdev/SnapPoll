@@ -18,8 +18,8 @@ import dev.jinkim.snappollandroid.R;
 /**
  * Created by Jin on 3/6/15.
  */
-public class NewPollImageFragment extends Fragment {
-    public static final String TAG = NewPollImageFragment.class.getSimpleName();
+public class NewPollSelectImageFragment extends Fragment {
+    public static final String TAG = NewPollSelectImageFragment.class.getSimpleName();
 
     private static final int REQ_CODE_PICK_IMAGE = 1;
     public static final int RESULT_OK = -1;

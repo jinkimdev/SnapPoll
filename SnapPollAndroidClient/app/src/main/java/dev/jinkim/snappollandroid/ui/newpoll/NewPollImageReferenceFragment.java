@@ -37,7 +37,7 @@ import java.util.List;
 
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.app.App;
-import dev.jinkim.snappollandroid.event.PollSubmittedEvent;
+import dev.jinkim.snappollandroid.event.PollCreatedEvent;
 import dev.jinkim.snappollandroid.imgur.ImgurConstants;
 import dev.jinkim.snappollandroid.model.ImgurResponse;
 import dev.jinkim.snappollandroid.model.Poll;
@@ -420,7 +420,7 @@ public class NewPollImageReferenceFragment extends Fragment {
             public void success(Poll poll, Response response) {
                 Log.d(TAG, "Success: pollId: " + poll.getPollId() + " uploaded to SnapPoll database");
                 Bus bus = mActivity.getEventBus();
-                bus.post(new PollSubmittedEvent());
+                bus.post(new PollCreatedEvent());
                 progressBar.setVisibility(View.INVISIBLE);
                 mActivity.finish();
             }

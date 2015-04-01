@@ -34,9 +34,9 @@ import dev.jinkim.snappollandroid.util.ColorUtil;
 /**
  * Created by Jin on 3/6/15.
  */
-public class NewPollDetailFragment extends Fragment {
+public class NewPollEnterDetailFragment extends Fragment {
 
-    public static String TAG = NewPollDetailFragment.class.getSimpleName();
+    public static String TAG = NewPollEnterDetailFragment.class.getSimpleName();
     private NewPollActivity mActivity;
 
     private ImageView ivImageBackground;

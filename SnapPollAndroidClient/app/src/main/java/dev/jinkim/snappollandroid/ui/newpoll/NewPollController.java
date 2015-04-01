@@ -10,7 +10,7 @@ import java.util.List;
 
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.app.App;
-import dev.jinkim.snappollandroid.event.PollSubmittedEvent;
+import dev.jinkim.snappollandroid.event.PollCreatedEvent;
 import dev.jinkim.snappollandroid.imgur.ImgurConstants;
 import dev.jinkim.snappollandroid.model.ImgurResponse;
 import dev.jinkim.snappollandroid.model.Poll;
@@ -105,6 +105,14 @@ public class NewPollController {
         return friends;
     }
 
+    public boolean isImageUploaded() {
+        return (currentImgurResponse != null);
+    }
+
+    public boolean isPollUploaded() {
+        return (pollId != -1);
+    }
+
     public void uploadImage() {
 
         // if the image is already uploaded
@@ -162,13 +170,14 @@ public class NewPollController {
         rest.createPoll(currentPoll, new Callback<Poll>() {
             @Override
             public void success(Poll poll, Response response) {
-                Log.d(TAG, "Success: pollId: " + poll.getPollId() + " uploaded to SnapPoll database");
+                int pollId = poll.getPollId();
+                Log.d(TAG, "Success: pollId: " + pollId + " uploaded to SnapPoll database");
                 Bus bus = mActivity.getEventBus();
-                bus.post(new PollSubmittedEvent());
+                bus.post(new PollCreatedEvent());
                 // TODO: handle progress bar
 //                progressBar.setVisibility(View.INVISIBLE);
-                setPollId(poll.getPollId());
-                // TODO: update flow so POST will happen before G+ share
+                setPollId(pollId);
+                // TODO: LAUNCH INVITE ACTIVITY
 //                mActivity.finish();
             }
 
