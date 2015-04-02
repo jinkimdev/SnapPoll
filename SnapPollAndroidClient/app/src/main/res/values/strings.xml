@@ -51,4 +51,6 @@
     <string name="msg_poll_id_invalid">Poll id is not valid, please try uploading the poll again</string>
     <string name="key_poll_id">pollId</string>
     <string name="key_show_poll_created_msg">poll_created</string>
+    <string name="title_submit_response">Submit a Response</string>
+    <string name="title_view_poll_result">View Poll Result</string>
 </resources>

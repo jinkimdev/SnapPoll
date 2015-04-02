@@ -87,8 +87,12 @@ public class PollDetailFragment extends Fragment {
         initializeViewsForResponse(rootView);
 //        initializeViewsForResult(rootView);
 
+        // determine whether viewing invited poll to respond or the result of my poll
         if (viewResultMode) {
             loadResponses();
+            mActivity.getSupportActionBar().setTitle(R.string.title_view_poll_result);
+        } else {
+            mActivity.getSupportActionBar().setTitle(R.string.title_submit_response);
         }
 
         return rootView;

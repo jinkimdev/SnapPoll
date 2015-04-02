@@ -46,6 +46,7 @@
 
         <activity
             android:name=".ui.activity.InviteFriendsActivity"
+            android:parentActivityName=".ui.activity.MainActivity"
             android:label="@string/title_invite_friends" />
 
         <activity android:name=".ui.activity.ParseDeepLinkActivity">

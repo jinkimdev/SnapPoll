@@ -1,6 +1,7 @@
 package dev.jinkim.snappollandroid.ui.activity;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,6 +23,11 @@ public class InviteFriendsActivity extends SnapPollBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invite_friends);
+
+        ActionBar actionBar = getSupportActionBar();
+
+        actionBar.setDisplayUseLogoEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         int pollId = getIntent().getIntExtra(getString(R.string.key_poll_id), -1);
 
