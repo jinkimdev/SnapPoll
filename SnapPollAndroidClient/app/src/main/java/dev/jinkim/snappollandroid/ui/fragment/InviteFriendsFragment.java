@@ -67,7 +67,7 @@ public class InviteFriendsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.frag_new_poll_friends, container, false);
+        View rootView = inflater.inflate(R.layout.frag_invite_friends, container, false);
         setHasOptionsMenu(true);
         mActivity = (InviteFriendsActivity) getActivity();
         pollId = getArguments().getInt(getString(R.string.key_poll_id));
@@ -365,7 +365,6 @@ public class InviteFriendsFragment extends Fragment {
         builder.setText("View Poll: " + String.valueOf(pollId));
 
         startActivityForResult(builder.getIntent(), 0);
-
 
     }
 

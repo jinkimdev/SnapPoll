@@ -7,4 +7,11 @@
         android:title="Submit"
         android:icon="@drawable/ic_action_send_now"
         snappoll:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_poll_detail_invite"
+        android:title="Invite"
+        android:icon="@drawable/ic_fab_friends"
+        snappoll:showAsAction="always"
+        android:visible="false" />
 </menu>

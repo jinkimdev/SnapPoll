@@ -148,16 +148,19 @@ public class NewPollActivity extends SnapPollBaseActivity {
                 } else {
                     // FriendsFragment
                     Log.d(TAG, "Showing NewPollFriendsFragment");
-
                 }
-
                 return true;
 
             case R.id.action_new_poll_submit:
                 // TODO: SUBMIT LOGIC
 //                controller.uploadImage();
                 if (f instanceof NewPollEnterDetailFragment) {
-                    controller.uploadImage();
+                    if (((NewPollEnterDetailFragment) f).saveNewPollDetails()) {
+                        controller.uploadImage();
+                    } else {
+                        //TODO: ERROR - save failed
+                    }
+
 //                    ((NewPollInviteFragment) f).inviteFriends();
                 }
 

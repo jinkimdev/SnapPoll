@@ -1,5 +1,6 @@
 package dev.jinkim.snappollandroid.ui.fragment;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
@@ -23,11 +24,13 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import java.util.List;
+import java.util.zip.Inflater;
 
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.event.ResponseSubmittedEvent;
 import dev.jinkim.snappollandroid.model.Poll;
 import dev.jinkim.snappollandroid.model.Response;
+import dev.jinkim.snappollandroid.ui.activity.InviteFriendsActivity;
 import dev.jinkim.snappollandroid.ui.activity.PollDetailActivity;
 import dev.jinkim.snappollandroid.util.DimensionUtil;
 import dev.jinkim.snappollandroid.util.UriUtil;
@@ -252,9 +255,23 @@ public class PollDetailFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
+
         menu.clear();
         inflater.inflate(R.menu.menu_poll_detail, menu);
+
+        MenuItem menuInvite = menu.findItem(R.id.action_poll_detail_invite);
+        MenuItem menuSubmit = menu.findItem(R.id.action_poll_detail_submit);
+
+        if (viewResultMode) {
+            menuInvite.setVisible(true);
+            menuSubmit.setVisible(false);
+        } else {
+            menuInvite.setVisible(false);
+            menuSubmit.setVisible(true);
+        }
+
+        super.onCreateOptionsMenu(menu, inflater);
+
     }
 
     @Override
@@ -265,9 +282,21 @@ public class PollDetailFragment extends Fragment {
                 submitResponse();
                 return true;
 
+            case R.id.action_poll_detail_invite:
+                launchInviteFriendsScreen();
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void launchInviteFriendsScreen() {
+
+        Intent intent = new Intent(mActivity, InviteFriendsActivity.class);
+        intent.putExtra(mActivity.getString(R.string.key_poll_id), currentPoll.getPollId());
+        intent.putExtra(mActivity.getString(R.string.key_show_poll_created_msg), false);
+        mActivity.startActivity(intent);
     }
 
 }

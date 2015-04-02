@@ -1,6 +1,8 @@
 package dev.jinkim.snappollandroid.ui.activity;
 
+import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.Menu;
@@ -8,9 +10,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.listeners.EventListener;
 
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.ui.fragment.InviteFriendsFragment;
+import dev.jinkim.snappollandroid.ui.newpoll.NewPollSelectImageFragment;
 
 /**
  * Created by Jin on 3/31/15.
@@ -31,10 +36,6 @@ public class InviteFriendsActivity extends SnapPollBaseActivity {
 
         int pollId = getIntent().getIntExtra(getString(R.string.key_poll_id), -1);
 
-        if (getIntent().getBooleanExtra(getString(R.string.key_show_poll_created_msg), false)) {
-            // if flag is set, show poll created message here
-            displaySnackBar(getString(R.string.msg_poll_created));
-        }
         Log.d(TAG, "## pollId: " + String.valueOf(pollId));
 
         if (findViewById(R.id.invite_friends_fragment_container) != null) {
@@ -57,6 +58,12 @@ public class InviteFriendsActivity extends SnapPollBaseActivity {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.invite_friends_fragment_container, inviteFriendsFragment, InviteFriendsFragment.TAG).commit();
         }
+
+
+        if (getIntent().getBooleanExtra(getString(R.string.key_show_poll_created_msg), false)) {
+            // if flag is set, show poll created message here
+            displaySnackBar(getString(R.string.msg_poll_created));
+        }
     }
 
     public GoogleApiClient getGoogleApiClient() {
@@ -76,7 +83,7 @@ public class InviteFriendsActivity extends SnapPollBaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        InviteFriendsFragment f = (InviteFriendsFragment) getSupportFragmentManager().findFragmentById(R.id.invite_friends_fragment_container);
+        InviteFriendsFragment f = (InviteFriendsFragment) getSupportFragmentManager().findFragmentByTag(InviteFriendsFragment.TAG);
 
         switch (item.getItemId()) {
             // Respond to the action bar's Up button
@@ -85,5 +92,43 @@ public class InviteFriendsActivity extends SnapPollBaseActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void displaySnackBar(String msg) {
+        Snackbar.with(this)
+                .text(msg)
+                .color(R.color.snackbar_background)
+                .eventListener(new EventListener() {
+
+//                                   Fragment f = getSupportFragmentManager().findFragmentByTag(InviteFriendsFragment.TAG);
+
+                                   @Override
+                                   public void onShow(Snackbar snackbar) {
+                                       Fragment f = getSupportFragmentManager().findFragmentByTag(InviteFriendsFragment.TAG);
+                                       if (f instanceof InviteFriendsFragment) {
+                                           ((InviteFriendsFragment) f).moveFloatButton(-snackbar.getHeight());
+                                       }
+                                   }
+
+                                   @Override
+                                   public void onShowByReplace(Snackbar snackbar) {}
+                                   @Override
+                                   public void onShown(Snackbar snackbar) {}
+                                   @Override
+                                   public void onDismiss(Snackbar snackbar) {
+                                       Fragment f = getSupportFragmentManager().findFragmentByTag(InviteFriendsFragment.TAG);
+                                       if (f instanceof InviteFriendsFragment) {
+                                           ((InviteFriendsFragment) f).moveFloatButton(0);
+                                       }
+                                   }
+                                   @Override
+                                   public void onDismissByReplace(Snackbar snackbar) {}
+                                   @Override
+                                   public void onDismissed(Snackbar snackbar) {}
+                               }
+
+                )
+                .show(this);
     }
 }

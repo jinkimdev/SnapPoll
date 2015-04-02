@@ -91,9 +91,9 @@ public class SnapPollRestClient {
         @GET("/poll/{poll_id}/invites")
         void getPollInvitedFriends(@Path("poll_id") int pollId, Callback<PollInvitedFriends> cb);
 
+        // friends contains comma-separated string ids
         @FormUrlEncoded
         @POST("/poll/{poll_id}/invites")
-        // friends contains comma-separated string ids
         void inviteFriends(@Path("poll_id") int pollId, @Field("friends") String friends, Callback<Object> cb);
 
         /* USER */
