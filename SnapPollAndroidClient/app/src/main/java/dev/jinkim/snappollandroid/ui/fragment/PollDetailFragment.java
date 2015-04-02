@@ -146,7 +146,7 @@ public class PollDetailFragment extends Fragment {
         tvNumResponses = (TextView) v.findViewById(R.id.detail_tv_num_responses);
         lblNumResponses = (TextView) v.findViewById(R.id.detail_lbl_num_responses);
         slidingUpPanel = (SlidingUpPanelLayout) v.findViewById(R.id.sliding_layout);
-        ivExpand = (ImageView) v.findViewById(R.id.iv_expand_panel);
+        ivExpand = (ImageView) v.findViewById(R.id.detail_iv_panel_expand);
 
         if (viewResultMode) {
             tivRef.setSelectorEnabled(false);
