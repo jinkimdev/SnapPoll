@@ -58,6 +58,7 @@
             android:layout_marginBottom="20dp"
             android:paddingLeft="10dp"
             android:visibility="invisible"
+
             android:id="@+id/ll_btn_facebook">
 
             <ImageView
@@ -80,6 +81,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="12dp"
+            android:visibility="invisible"
             facebook:confirm_logout="false"
             facebook:fetch_user_info="true"/>
 

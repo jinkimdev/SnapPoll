@@ -72,7 +72,7 @@ public class InvitedPollsFragment extends ListFragment {
                 Intent in = new Intent(mActivity, PollDetailActivity.class);
                 Gson gson = new Gson();
                 String pollJson = gson.toJson(p);
-                in.putExtra("Poll", pollJson);
+                in.putExtra(Poll.class.getName(), pollJson);
                 in.putExtra("ViewResultMode", false);
 
                 startActivity(in);
