@@ -19,12 +19,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.squareup.otto.Bus;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import java.util.List;
-import java.util.zip.Inflater;
 
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.event.ResponseSubmittedEvent;
@@ -55,6 +55,9 @@ public class PollDetailFragment extends Fragment {
     private TextView tvQuestion;
     private TextView tvNumResponses;
     private TextView lblNumResponses;
+
+    private SlidingUpPanelLayout slidingUpPanel;
+    private ImageView ivExpand;
 
     private PollDetailActivity mActivity;
 
@@ -142,6 +145,8 @@ public class PollDetailFragment extends Fragment {
         tvCreatorName = (TextView) v.findViewById(R.id.detail_tv_creator_name);
         tvNumResponses = (TextView) v.findViewById(R.id.detail_tv_num_responses);
         lblNumResponses = (TextView) v.findViewById(R.id.detail_lbl_num_responses);
+        slidingUpPanel = (SlidingUpPanelLayout) v.findViewById(R.id.sliding_layout);
+        ivExpand = (ImageView) v.findViewById(R.id.iv_expand_panel);
 
         if (viewResultMode) {
             tivRef.setSelectorEnabled(false);
@@ -172,6 +177,35 @@ public class PollDetailFragment extends Fragment {
             Picasso.with(mActivity).load(currentPoll.getCreatorProfilePicUrl())
                     .transform(new CircleTransform()).into(ivProfile);
         }
+
+        // attach listener to sliding up panel
+        slidingUpPanel.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View view, float v) {
+                // TODO: Animation possible?
+            }
+
+            @Override
+            public void onPanelCollapsed(View view) {
+                ivExpand.setImageResource(R.drawable.ic_arrow_up);
+            }
+
+            @Override
+            public void onPanelExpanded(View view) {
+                ivExpand.setImageResource(R.drawable.ic_arrow_down);
+
+            }
+
+            @Override
+            public void onPanelAnchored(View view) {
+
+            }
+
+            @Override
+            public void onPanelHidden(View view) {
+
+            }
+        });
     }
 
 //    private void initializeViewsForResult(View v) {
@@ -271,7 +305,6 @@ public class PollDetailFragment extends Fragment {
         }
 
         super.onCreateOptionsMenu(menu, inflater);
-
     }
 
     @Override
