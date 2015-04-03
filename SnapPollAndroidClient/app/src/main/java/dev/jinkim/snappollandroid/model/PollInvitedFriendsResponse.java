@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by Jin on 4/1/15.
  */
-public class PollInvitedFriends {
+public class PollInvitedFriendsResponse {
     public int pollId;
     public List<String> friends;
 

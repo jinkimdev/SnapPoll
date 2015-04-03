@@ -1,4 +1,4 @@
-package dev.jinkim.snappollandroid.ui.fragment;
+package dev.jinkim.snappollandroid.ui.invite;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -30,9 +30,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dev.jinkim.snappollandroid.R;
-import dev.jinkim.snappollandroid.model.PollInvitedFriends;
+import dev.jinkim.snappollandroid.model.PollInvitedFriendsResponse;
 import dev.jinkim.snappollandroid.model.RowFriend;
-import dev.jinkim.snappollandroid.ui.activity.InviteFriendsActivity;
 import dev.jinkim.snappollandroid.ui.newpoll.ChooseFriendListAdapter;
 import dev.jinkim.snappollandroid.ui.newpoll.SelectedFriendListAdapter;
 import dev.jinkim.snappollandroid.web.SnapPollRestClient;
@@ -84,20 +83,30 @@ public class InviteFriendsFragment extends Fragment {
 
         // TODO: RETRIEVE INVITED FRIENDS
         SnapPollRestClient.ApiService rest = new SnapPollRestClient().getApiService();
-        rest.getPollInvitedFriends(pollId, new Callback<PollInvitedFriends>() {
+        rest.getPollInvitedFriends(pollId, new Callback<PollInvitedFriendsResponse>() {
             @Override
-            public void success(PollInvitedFriends pollInvitedFriends, Response response) {
+            public void success(PollInvitedFriendsResponse pollInvitedFriendsResponse, Response response) {
                 // TODO: PARSE LIST OF FRIENDS
-                invitedFriendIds = pollInvitedFriends.friends;
+                if (pollInvitedFriendsResponse != null) {
+                    invitedFriendIds = pollInvitedFriendsResponse.friends;
+                    // TODO: display list of friends
+
+                } else {
+                    retrieveFriendsFromGPlus();
+                }
+
             }
 
             @Override
             public void failure(RetrofitError error) {
-
+                retrieveFriendsFromGPlus();
             }
         });
     }
 
+    /**
+     * display list of all G+ friends so that user can choose friends to invite to the poll
+     */
     private void showChooseFriendsDialog(List<RowFriend> friends) {
         // set up custom view for dialog - color indicator, edit text
         LayoutInflater vi = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -117,7 +126,7 @@ public class InviteFriendsFragment extends Fragment {
         }
 
         /* SET UP SELECT FRIENDS LIST VIEW */
-        final ListView listView = (ListView) content.findViewById(R.id.friends_dialog_lv_friends);
+        final ListView listView = (ListView) content.findViewById(R.id.friends_dialog_lv_choose_friends);
         listView.setTextFilterEnabled(true);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         listView.setItemsCanFocus(false);
@@ -206,16 +215,18 @@ public class InviteFriendsFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if (retrievedFriends != null && retrievedFriends.size() > 0) {
-                    // if friend list from G+ is available display in the dialog
-                    showChooseFriendsDialog(retrievedFriends);
-                } else {
-                    // if not available, fetch friend list from G+
-                    retrieveFriendsFromGPlus();
-                }
+//                showInviteFriendsDialog();
+
+//              TESTING DIALOG CALLBACK
+//                if (retrievedFriends != null && retrievedFriends.size() > 0) {
+//                    // if friend list from G+ is available display in the dialog
+//                    showChooseFriendsDialog(retrievedFriends);
+//                } else {
+//                    // if not available, fetch friend list from G+
+//                    retrieveFriendsFromGPlus();
+//                }
             }
         });
-
         adapter = new SelectedFriendListAdapter(mActivity, new ArrayList<RowFriend>());
         listView.setAdapter(adapter);
         listView.setItemsCanFocus(false);
@@ -269,7 +280,10 @@ public class InviteFriendsFragment extends Fragment {
                                     if (retrievedFriends.size() > 0) {
 //                                        controller.setFriends(retrievedFriends);
 //                                        Log.d(TAG, "# Friends: " + friends.size());
-                                        showChooseFriendsDialog(retrievedFriends);
+
+//                                        showInviteFriendsDialog(retrievedFriends);
+
+//                                        showChooseFriendsDialog(retrievedFriends);
                                     }
                                 }
                             } else {
@@ -279,6 +293,8 @@ public class InviteFriendsFragment extends Fragment {
                     });
         }
     }
+
+
 
     /**
      * takes in relative position to be animated to

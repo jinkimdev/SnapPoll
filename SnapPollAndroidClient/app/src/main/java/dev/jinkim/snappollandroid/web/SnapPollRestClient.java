@@ -11,7 +11,7 @@ import com.google.gson.GsonBuilder;
 import java.util.List;
 
 import dev.jinkim.snappollandroid.model.Poll;
-import dev.jinkim.snappollandroid.model.PollInvitedFriends;
+import dev.jinkim.snappollandroid.model.PollInvitedFriendsResponse;
 import dev.jinkim.snappollandroid.model.Response;
 import dev.jinkim.snappollandroid.model.User;
 import retrofit.Callback;
@@ -89,7 +89,7 @@ public class SnapPollRestClient {
         void createPoll(@Body Poll poll, Callback<Poll> cb);
 
         @GET("/poll/{poll_id}/invites")
-        void getPollInvitedFriends(@Path("poll_id") int pollId, Callback<PollInvitedFriends> cb);
+        void getPollInvitedFriends(@Path("poll_id") int pollId, Callback<PollInvitedFriendsResponse> cb);
 
         // friends contains comma-separated string ids
         @FormUrlEncoded

@@ -1,6 +1,5 @@
-package dev.jinkim.snappollandroid.ui.fragment;
+package dev.jinkim.snappollandroid.ui.polldetail;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
@@ -18,20 +17,29 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.common.api.CommonStatusCodes;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.plus.People;
+import com.google.android.gms.plus.Plus;
+import com.google.android.gms.plus.model.people.PersonBuffer;
 import com.google.gson.Gson;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.squareup.otto.Bus;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.event.ResponseSubmittedEvent;
 import dev.jinkim.snappollandroid.model.Poll;
+import dev.jinkim.snappollandroid.model.PollInvitedFriendsResponse;
 import dev.jinkim.snappollandroid.model.Response;
-import dev.jinkim.snappollandroid.ui.activity.InviteFriendsActivity;
-import dev.jinkim.snappollandroid.ui.activity.PollDetailActivity;
+import dev.jinkim.snappollandroid.model.RowFriend;
+import dev.jinkim.snappollandroid.ui.invite.InviteFriendsController;
+import dev.jinkim.snappollandroid.ui.invite.InviteFriendsDialog;
 import dev.jinkim.snappollandroid.util.DimensionUtil;
 import dev.jinkim.snappollandroid.util.UriUtil;
 import dev.jinkim.snappollandroid.util.image.CircleTransform;
@@ -47,19 +55,23 @@ public class PollDetailFragment extends Fragment {
 
     public static final String TAG = PollDetailFragment.class.getSimpleName();
 
-    private Poll currentPoll;
+    private PollDetailActivity mActivity;
+    private InviteFriendsController inviteController;
+    private GoogleApiClient mGoogleApiClient;
 
+    private InviteFriendsDialog dialog;
+
+    private Poll currentPoll;
     private TouchImageView tivRef;
     private ImageView ivProfile;
     private TextView tvCreatorName;
     private TextView tvQuestion;
     private TextView tvNumResponses;
+
     private TextView lblNumResponses;
-
     private SlidingUpPanelLayout slidingUpPanel;
-    private ImageView ivExpand;
 
-    private PollDetailActivity mActivity;
+    private ImageView ivExpand;
 
     // true for viewing the poll result, false for responding to a poll
     private boolean viewResultMode = false;
@@ -87,6 +99,9 @@ public class PollDetailFragment extends Fragment {
 
         mActivity = (PollDetailActivity) getActivity();
 
+        inviteController = new InviteFriendsController(mActivity);
+        mGoogleApiClient = mActivity.getGoogleApiClient();
+
         // load selected poll and view result mode
         loadDataFromArguments();
 
@@ -96,7 +111,7 @@ public class PollDetailFragment extends Fragment {
         // determine whether viewing invited poll to respond or the result of my poll
         if (viewResultMode) {
             loadResponses();
-            mActivity.getSupportActionBar().setTitle(R.string.title_view_poll_result);
+            mActivity.getSupportActionBar().setTitle(R.string.title_view_my_poll_result);
         } else {
             mActivity.getSupportActionBar().setTitle(R.string.title_submit_response);
         }
@@ -316,7 +331,14 @@ public class PollDetailFragment extends Fragment {
                 return true;
 
             case R.id.action_poll_detail_invite:
-                launchInviteFriendsScreen();
+                retrievePollInvitees();
+                if (inviteController.getgPlusFriends() == null || inviteController.getgPlusFriends().size() < 1) {
+                    // retrieve google+ friends list
+                    retrieveFriendsFromGPlus();
+                } else {
+                    // if google+ friends are retrieved already, use the list to populate invite friends dialog
+                    showInviteFriendsDialog(inviteController.getgPlusFriends());
+                }
                 return true;
 
             default:
@@ -324,12 +346,91 @@ public class PollDetailFragment extends Fragment {
         }
     }
 
-    private void launchInviteFriendsScreen() {
+    private void retrievePollInvitees() {
+        List<String> inviteeIds = inviteController.getPollInviteeIds();
+        if (inviteeIds == null || inviteeIds.size() < 1) {
+            SnapPollRestClient.ApiService rest = new SnapPollRestClient().getApiService();
+            rest.getPollInvitedFriends(inviteController.getPollId(), new Callback<PollInvitedFriendsResponse>() {
+                @Override
+                public void success(PollInvitedFriendsResponse pollInvitedFriendsResponse, retrofit.client.Response response) {
+                    List<String> invitees = pollInvitedFriendsResponse.friends;
+                    if (invitees == null) {
+                        invitees = new ArrayList<String>();
+                    }
+                    inviteController.setPollInviteeIds(invitees);
+                    updateExistingInvitees(invitees);
+                }
 
-        Intent intent = new Intent(mActivity, InviteFriendsActivity.class);
-        intent.putExtra(mActivity.getString(R.string.key_poll_id), currentPoll.getPollId());
-        intent.putExtra(mActivity.getString(R.string.key_show_poll_created_msg), false);
-        mActivity.startActivity(intent);
+                @Override
+                public void failure(RetrofitError error) {
+
+                }
+            });
+        }
+
+        return;
     }
 
+    private void updateExistingInvitees(List<String> inviteeIds) {
+        if (dialog == null) {
+            return;
+        }
+
+        dialog.updateExistingInvitees(inviteeIds);
+    }
+
+    /**
+     * If GoogleApiClient is connected, make a call to get friends list
+     * <p/>
+     * List of Google+ Person model
+     * <p/>
+     * https://developer.android.com/reference/com/google/android/gms/plus/model/people/Person.html
+     */
+    private void retrieveFriendsFromGPlus() {
+
+        if (mGoogleApiClient.isConnected()) {
+
+            Plus.PeopleApi.loadVisible(mGoogleApiClient, null)
+                    .setResultCallback(new ResultCallback<People.LoadPeopleResult>() {
+                        @Override
+                        public void onResult(People.LoadPeopleResult loadPeopleResult) {
+                            if (loadPeopleResult.getStatus().getStatusCode() == CommonStatusCodes.SUCCESS) {
+                                PersonBuffer personBuffer = loadPeopleResult.getPersonBuffer();
+                                List<RowFriend> gPlusFriends = new ArrayList<RowFriend>();
+                                try {
+                                    int count = personBuffer.getCount();
+                                    for (int i = 0; i < count; i++) {
+                                        if (personBuffer.get(i) != null) {
+                                            Log.d(TAG, "Display name: " + personBuffer.get(i).getDisplayName());
+                                            RowFriend friend = new RowFriend(personBuffer.get(i).freeze());
+                                            gPlusFriends.add(friend);
+                                        }
+                                    }
+                                } finally {
+                                    personBuffer.close();
+                                    if (gPlusFriends.size() > 0) {
+//                                        controller.setFriends(retrievedFriends);
+//                                        Log.d(TAG, "# Friends: " + friends.size());
+                                        inviteController.setgPlusFriends(gPlusFriends);
+                                        showInviteFriendsDialog(gPlusFriends);
+                                    }
+                                }
+                            } else {
+                                Log.e(TAG, "Error requesting visible circles: " + loadPeopleResult.getStatus());
+                            }
+                        }
+                    });
+        }
+    }
+
+    private void showInviteFriendsDialog(List<RowFriend> retrievedFriends) {
+        dialog = new InviteFriendsDialog(mActivity, retrievedFriends);
+        dialog.showDialog(new InviteFriendsDialog.InviteFriendsCallback() {
+            @Override
+            public void onFriendsSelected(List<RowFriend> friendsSelectedFromDialog) {
+                Log.d(TAG, "Friends selected");
+                inviteController.setSelectedFriends(friendsSelectedFromDialog);
+            }
+        });
+    }
 }

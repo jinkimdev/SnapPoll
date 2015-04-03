@@ -21,7 +21,7 @@ import com.squareup.otto.Bus;
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.event.BusProvider;
 import dev.jinkim.snappollandroid.ui.activity.SnapPollBaseActivity;
-import dev.jinkim.snappollandroid.ui.fragment.InviteFriendsFragment;
+import dev.jinkim.snappollandroid.ui.invite.InviteFriendsFragment;
 
 /**
  * Created by Jin on 1/11/15.

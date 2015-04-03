@@ -1,6 +1,5 @@
-package dev.jinkim.snappollandroid.ui.activity;
+package dev.jinkim.snappollandroid.ui.invite;
 
-import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
@@ -14,8 +13,7 @@ import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.listeners.EventListener;
 
 import dev.jinkim.snappollandroid.R;
-import dev.jinkim.snappollandroid.ui.fragment.InviteFriendsFragment;
-import dev.jinkim.snappollandroid.ui.newpoll.NewPollSelectImageFragment;
+import dev.jinkim.snappollandroid.ui.activity.SnapPollBaseActivity;
 
 /**
  * Created by Jin on 3/31/15.

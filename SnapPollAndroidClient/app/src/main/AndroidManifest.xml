@@ -33,7 +33,7 @@
             android:label="@string/app_name" />
 
         <activity
-            android:name=".ui.activity.PollDetailActivity"
+            android:name=".ui.polldetail.PollDetailActivity"
             android:parentActivityName=".ui.activity.MainActivity" />
 
         <activity
@@ -45,7 +45,7 @@
             android:label="FACEBOOK LOGIN" />
 
         <activity
-            android:name=".ui.activity.InviteFriendsActivity"
+            android:name=".ui.invite.InviteFriendsActivity"
             android:parentActivityName=".ui.activity.MainActivity"
             android:label="@string/title_invite_friends" />
 
