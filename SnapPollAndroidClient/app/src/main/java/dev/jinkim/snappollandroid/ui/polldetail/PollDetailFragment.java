@@ -350,6 +350,8 @@ public class PollDetailFragment extends Fragment {
                     retrieveFriendsFromGPlus();
                 }
             });
+        } else {
+            showInviteFriendsDialog(inviteController.getgPlusFriends());
         }
         return;
     }

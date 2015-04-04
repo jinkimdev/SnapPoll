@@ -60,12 +60,6 @@ public class InviteFriendsController {
     }
 
     public void inviteSelectedFriends(List<RowFriend> selectedFriends) {
-        if (selectedFriends.size() < 1) {
-            // check selected list
-            //TODO: Message?
-//            mContext.displaySnackBar(getString(R.string.msg_no_friend_selected));
-            return;
-        }
 
         List<String> listIds = new ArrayList<String>();
 //        String ids = "";

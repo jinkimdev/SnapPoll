@@ -38,6 +38,11 @@ public class InviteFriendsDialog {
     private List<RowFriend> selectedFriends;
     private SparseBooleanArray selected;
 
+    private List<RowFriend> listAdded;
+    private List<RowFriend> listRemoved;
+
+    private boolean changed = false;
+
     public interface InviteFriendsCallback {
 
         void onFriendsSelected(List<RowFriend> friendsSelectedFromDialog);
@@ -61,8 +66,14 @@ public class InviteFriendsDialog {
 
         adapter = new ChooseFriendListAdapter(mContext, gPlusFriends);
 
-        // sparse boolean array to keep up with selected friend list
+        // sparse boolean array to keep up with selected friend list for display
         selected = new SparseBooleanArray(gPlusFriends.size());
+
+        // list of friends that are to be invited on API call
+        listAdded = new ArrayList<RowFriend>();
+        // list of friends that are to be uninvited on API call
+        listRemoved = new ArrayList<RowFriend>();
+
     }
 
     /**
@@ -71,6 +82,7 @@ public class InviteFriendsDialog {
     public void showDialog(final InviteFriendsCallback callback) {
 
         List<RowFriend> runningList = new ArrayList<RowFriend>();
+        changed = false;
 
 
         for (int i = 0; i < gPlusFriends.size(); i++) {
@@ -87,16 +99,27 @@ public class InviteFriendsDialog {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (adapter.getItem(position).selected) {
-                    adapter.getItem(position).selected = false;
+                RowFriend item = adapter.getItem(position);
+                changed = true;
+
+                if (item.selected) {
+                    item.selected = false;
                     adapter.getItemFromOriginalList(adapter.getOriginalIndex(position)).selected = false;
                     selected.delete(position);
+
+                    if (listRemoved.indexOf(item) == -1) {
+                        listRemoved.add(item);
+                    }
                 } else {
-                    adapter.getItem(position).selected = true;
+                    item.selected = true;
                     adapter.getItemFromOriginalList(adapter.getOriginalIndex(position)).selected = true;
                     selected.append(position, true);
+
+                    if (listAdded.indexOf(item) == -1) {
+                        listAdded.add(item);
+                    }
                 }
-                Log.d(TAG, "Clicked friend pos(" + String.valueOf(position) + "), id(" + String.valueOf(id) +")");
+                Log.d(TAG, "Clicked friend pos(" + String.valueOf(position) + "), id(" + String.valueOf(id) + ")");
                 adapter.notifyDataSetChanged();
             }
         });
@@ -133,29 +156,38 @@ public class InviteFriendsDialog {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
                         /* update selected friends */
-                        Log.d(TAG, selected.toString());
+                        Log.d(TAG, "selected: " + selected.toString());
 
-                        // TODO: grab the keys (positions) that are true in value
-                        selectedFriends = new ArrayList<RowFriend>();
-                        for (int i = 0; i < selected.size(); i++) {
-                            int position = selected.keyAt(i);
-                            if (selected.valueAt(i)) {
-                                // grab the selected friends from the original list (inst of filteredList)
-                                RowFriend item = adapter.getItemFromOriginalList(adapter.getOriginalIndex(position));
-                                selectedFriends.add(item);
+                        // if there is any change (item click toggle) then proceed
+                        if (changed) {
+                            Log.d(TAG, "Update list");
+                            // TODO: grab the keys (positions) that are true in value
+                            selectedFriends = new ArrayList<RowFriend>();
+                            for (int i = 0; i < selected.size(); i++) {
+                                int position = selected.keyAt(i);
+                                if (selected.valueAt(i)) {
+                                    // grab the selected friends from the original list (inst of filteredList)
+                                    RowFriend item = adapter.getItemFromOriginalList(adapter.getOriginalIndex(position));
+                                    selectedFriends.add(item);
+                                }
                             }
-                        }
 
-                        callback.onFriendsSelected(selectedFriends);
+//                        callback.onFriendsSelected(selectedFriends);
 //                        updateSelectedFriends(selectedFriends);
 
-                        Log.d(TAG, "# Selected friends: " + String.valueOf(selectedFriends.size()));
-                        if (selectedFriends.size() > 0) {
+                            Log.d(TAG, "# Selected friends: " + String.valueOf(selectedFriends.size()));
                             // add to poll_invites table
                             controller.inviteSelectedFriends(selectedFriends);
-                        }
-                    }
 
+                            // update inviteeIds in controller
+                            List<String> invitees = new ArrayList<>();
+                            for (RowFriend r : selectedFriends) {
+                                invitees.add(r.person.getId());
+                            }
+                            controller.setPollInviteeIds(invitees);
+                        }
+                        
+                    }
                 })
                 .dismissListener(new DialogInterface.OnDismissListener() {
                     @Override
