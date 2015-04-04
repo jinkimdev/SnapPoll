@@ -25,6 +25,7 @@ import dev.jinkim.snappollandroid.ui.newpoll.ChooseFriendListAdapter;
 public class InviteFriendsDialog {
     public static String TAG = InviteFriendsDialog.class.getSimpleName();
     private Context mContext;
+    private InviteFriendsController controller;
 
     private View dialogContent;
 
@@ -37,30 +38,16 @@ public class InviteFriendsDialog {
     private List<RowFriend> selectedFriends;
     private SparseBooleanArray selected;
 
-
-    /**
-     * After fetching existing invitees from poll invitees, reflect them on the list as already-invited
-     *
-     * @param inviteeIds    List of G+ ids already invited to this poll
-     */
-    public void updateExistingInvitees(List<String> inviteeIds) {
-        if (selectedFriends == null) {
-            return;
-        }
-
-        for (String idr : inviteeIds) {
-            // TODO: reflect selected UI
-            // TODO: add to selected array
-        }
-    }
-
     public interface InviteFriendsCallback {
+
         void onFriendsSelected(List<RowFriend> friendsSelectedFromDialog);
     }
 
-    public InviteFriendsDialog(Context context, List<RowFriend> retrievedFriends) {
+
+    public InviteFriendsDialog(Context context, InviteFriendsController controller, List<RowFriend> retrievedFriends) {
         mContext = context;
         gPlusFriends = retrievedFriends;
+        this.controller = controller;
         setupDialog();
     }
 
@@ -72,7 +59,7 @@ public class InviteFriendsDialog {
         listView = (ListView) dialogContent.findViewById(R.id.friends_dialog_lv_choose_friends);
         svSearch = (SearchView) dialogContent.findViewById(R.id.friends_dialog_sv_search);
 
-        ChooseFriendListAdapter adapter = new ChooseFriendListAdapter(mContext, gPlusFriends);
+        adapter = new ChooseFriendListAdapter(mContext, gPlusFriends);
 
         // sparse boolean array to keep up with selected friend list
         selected = new SparseBooleanArray(gPlusFriends.size());
@@ -83,6 +70,8 @@ public class InviteFriendsDialog {
      */
     public void showDialog(final InviteFriendsCallback callback) {
 
+        List<RowFriend> runningList = new ArrayList<RowFriend>();
+
 
         for (int i = 0; i < gPlusFriends.size(); i++) {
             // if preselected from existing list, then update the sparse array
@@ -92,7 +81,6 @@ public class InviteFriendsDialog {
         }
 
         /* SET UP SELECT FRIENDS LIST VIEW */
-
         listView.setTextFilterEnabled(true);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         listView.setItemsCanFocus(false);
@@ -108,8 +96,7 @@ public class InviteFriendsDialog {
                     adapter.getItemFromOriginalList(adapter.getOriginalIndex(position)).selected = true;
                     selected.append(position, true);
                 }
-                Log.d(TAG, "Selected friend position: " + String.valueOf(position));
-                Log.d(TAG, "Selected friend id: " + String.valueOf(id));
+                Log.d(TAG, "Clicked friend pos(" + String.valueOf(position) + "), id(" + String.valueOf(id) +")");
                 adapter.notifyDataSetChanged();
             }
         });
@@ -159,12 +146,16 @@ public class InviteFriendsDialog {
                             }
                         }
 
-
                         callback.onFriendsSelected(selectedFriends);
 //                        updateSelectedFriends(selectedFriends);
 
-                        Log.d(TAG, "Selected friends: " + String.valueOf(selectedFriends.size()));
+                        Log.d(TAG, "# Selected friends: " + String.valueOf(selectedFriends.size()));
+                        if (selectedFriends.size() > 0) {
+                            // add to poll_invites table
+                            controller.inviteSelectedFriends(selectedFriends);
+                        }
                     }
+
                 })
                 .dismissListener(new DialogInterface.OnDismissListener() {
                     @Override
@@ -174,5 +165,27 @@ public class InviteFriendsDialog {
                 })
                 .show();
         dialog.show();
+    }
+
+    /**
+     * After fetching existing invitees from poll invitees, reflect them on the list as already-invited
+     *
+     * @param inviteeIds List of G+ ids already invited to this poll
+     */
+    public void updateExistingInvitees(List<String> inviteeIds) {
+        if (selectedFriends == null) {
+            return;
+        }
+
+        for (String id : inviteeIds) {
+            for (RowFriend r : gPlusFriends) {
+                if (r.person.getId().equals(id)) {
+                    r.selected = true;
+                }
+            }
+            // TODO: reflect selected UI
+        }
+
+        adapter.notifyDataSetChanged();
     }
 }

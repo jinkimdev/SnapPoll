@@ -3,25 +3,13 @@ package dev.jinkim.snappollandroid.ui.polldetail;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
-import android.util.Log;
 import android.view.MenuItem;
 
-import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.plus.People;
-import com.google.android.gms.plus.Plus;
-import com.google.android.gms.plus.model.people.PersonBuffer;
 import com.squareup.otto.Bus;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import dev.jinkim.snappollandroid.R;
-import dev.jinkim.snappollandroid.model.RowFriend;
 import dev.jinkim.snappollandroid.ui.activity.SnapPollBaseActivity;
-import dev.jinkim.snappollandroid.ui.invite.InviteFriendsController;
-import dev.jinkim.snappollandroid.ui.invite.InviteFriendsDialog;
 
 /**
  * Created by Jin on 1/11/15.

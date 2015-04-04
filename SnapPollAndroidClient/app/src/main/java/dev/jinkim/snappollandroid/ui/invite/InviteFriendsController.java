@@ -2,10 +2,18 @@ package dev.jinkim.snappollandroid.ui.invite;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.TextUtils;
+import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.model.RowFriend;
+import dev.jinkim.snappollandroid.web.SnapPollRestClient;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by Jin on 4/3/15.
@@ -22,8 +30,6 @@ public class InviteFriendsController {
     private List<RowFriend> gPlusFriends;
     // list of IDs of friends already invited to the poll (retrieved from SnapPoll API)
     private List<String> pollInviteeIds;
-    // list of friends selected to invite from the dialog (selected from dialog)
-    private List<RowFriend> selectedFriends;
 
     public InviteFriendsController(Activity activity) {
         mContext = activity;
@@ -53,11 +59,33 @@ public class InviteFriendsController {
         this.pollInviteeIds = pollInviteeIds;
     }
 
-    public List<RowFriend> getSelectedFriends() {
-        return selectedFriends;
-    }
+    public void inviteSelectedFriends(List<RowFriend> selectedFriends) {
+        if (selectedFriends.size() < 1) {
+            // check selected list
+            //TODO: Message?
+//            mContext.displaySnackBar(getString(R.string.msg_no_friend_selected));
+            return;
+        }
 
-    public void setSelectedFriends(List<RowFriend> selectedFriends) {
-        this.selectedFriends = selectedFriends;
+        List<String> listIds = new ArrayList<String>();
+//        String ids = "";
+        // convert list of selectedFriends to comma-separated string
+        for (RowFriend r : selectedFriends) {
+            listIds.add(r.person.getId());
+        }
+        String out = TextUtils.join(",", listIds);
+
+        SnapPollRestClient.ApiService rest = new SnapPollRestClient().getApiService();
+        rest.inviteFriends(pollId, out, new Callback<Object>() {
+            @Override
+            public void success(Object o, Response response) {
+                Log.d(TAG, "## Success: invite friends to poll: " + String.valueOf(pollId));
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
     }
 }

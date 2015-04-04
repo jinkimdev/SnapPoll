@@ -36,7 +36,7 @@
     <string name="dialog_title_new_attributes">New Attribute</string>
     <string name="title_invite_friends">Invite Friends</string>
     <string name="query_hint_search_from_gplus">Search friend from Google+</string>
-    <string name="dialog_title_choose_frineds_gplus">G+ Choose friends</string>
+    <string name="dialog_title_choose_frineds_gplus">Invite Friends to Poll</string>
     <string name="title_new_poll_image_frag">Select Image</string>
     <string name="key_poll">Poll</string>
     <string name="tag_invited_polls_frag">InvitedPollsFragment</string>
