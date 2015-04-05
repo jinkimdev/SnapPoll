@@ -16,7 +16,7 @@
         android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:background="#E0FFFFFF">
+        android:background="@color/background_row_poll_translucent">
 
         <TextView
             android:id="@+id/my_poll_tv_question"
@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:textColor="#000"
+            android:textColor="@color/text_primary"
             android:layout_marginBottom="4dp"
             android:text="What is your favorite restaurant in Midtown?" />
 
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_below="@id/my_poll_tv_question"
-            android:textColor="#555"
+            android:textColor="@color/text_gray"
             android:textSize="12sp"
             android:text="12" />
 

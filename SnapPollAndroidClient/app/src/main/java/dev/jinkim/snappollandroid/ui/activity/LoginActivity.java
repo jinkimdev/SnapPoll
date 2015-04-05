@@ -75,10 +75,6 @@ public class LoginActivity extends SnapPollBaseActivity {
 
         setContentView(R.layout.activity_login);
 
-//        ivLogo = (ImageView) findViewById(R.id.iv_logo);
-//        Picasso.with(this).load(R.drawable.ic)
-//                .fit().into(ivLogo);
-
         btnFacebookLogin = (LoginButton) findViewById(R.id.fb_login_button);
         // TODO: Temporarily unavailable
         btnFacebookLogin.setEnabled(false);

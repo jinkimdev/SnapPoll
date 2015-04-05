@@ -38,16 +38,7 @@ public class InviteFriendsDialog {
     private List<RowFriend> selectedFriends;
     private SparseBooleanArray selected;
 
-    private List<RowFriend> listAdded;
-    private List<RowFriend> listRemoved;
-
     private boolean changed = false;
-
-    public interface InviteFriendsCallback {
-
-        void onFriendsSelected(List<RowFriend> friendsSelectedFromDialog);
-    }
-
 
     public InviteFriendsDialog(Context context, InviteFriendsController controller, List<RowFriend> retrievedFriends) {
         mContext = context;
@@ -69,17 +60,13 @@ public class InviteFriendsDialog {
         // sparse boolean array to keep up with selected friend list for display
         selected = new SparseBooleanArray(gPlusFriends.size());
 
-        // list of friends that are to be invited on API call
-        listAdded = new ArrayList<RowFriend>();
-        // list of friends that are to be uninvited on API call
-        listRemoved = new ArrayList<RowFriend>();
 
     }
 
     /**
      * display list of all G+ friends so that user can choose friends to invite to the poll
      */
-    public void showDialog(final InviteFriendsCallback callback) {
+    public void showDialog() {
 
         List<RowFriend> runningList = new ArrayList<RowFriend>();
         changed = false;
@@ -106,18 +93,10 @@ public class InviteFriendsDialog {
                     item.selected = false;
                     adapter.getItemFromOriginalList(adapter.getOriginalIndex(position)).selected = false;
                     selected.delete(position);
-
-                    if (listRemoved.indexOf(item) == -1) {
-                        listRemoved.add(item);
-                    }
                 } else {
                     item.selected = true;
                     adapter.getItemFromOriginalList(adapter.getOriginalIndex(position)).selected = true;
                     selected.append(position, true);
-
-                    if (listAdded.indexOf(item) == -1) {
-                        listAdded.add(item);
-                    }
                 }
                 Log.d(TAG, "Clicked friend pos(" + String.valueOf(position) + "), id(" + String.valueOf(id) + ")");
                 adapter.notifyDataSetChanged();
@@ -172,9 +151,6 @@ public class InviteFriendsDialog {
                                 }
                             }
 
-//                        callback.onFriendsSelected(selectedFriends);
-//                        updateSelectedFriends(selectedFriends);
-
                             Log.d(TAG, "# Selected friends: " + String.valueOf(selectedFriends.size()));
                             // add to poll_invites table
                             controller.inviteSelectedFriends(selectedFriends);
@@ -186,7 +162,7 @@ public class InviteFriendsDialog {
                             }
                             controller.setPollInviteeIds(invitees);
                         }
-                        
+
                     }
                 })
                 .dismissListener(new DialogInterface.OnDismissListener() {

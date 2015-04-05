@@ -66,7 +66,7 @@
             android:layout_toRightOf="@id/profile_iv_googleplus"
             android:layout_centerVertical="true"
             android:text="Signed in"
-            android:textColor="#00AA00" />
+            android:textColor="@color/text_green" />
 
     </RelativeLayout>
 
@@ -110,7 +110,7 @@
             android:layout_toRightOf="@id/profile_iv_facebook"
             android:layout_centerVertical="true"
             android:text="Signed in"
-            android:textColor="#00AA00" />
+            android:textColor="@color/text_green" />
     </RelativeLayout>
 
     <Button

@@ -15,7 +15,6 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -26,7 +25,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.gc.materialdesign.views.ProgressBarIndeterminate;
 import com.squareup.otto.Bus;
 import com.squareup.picasso.Picasso;
 import com.wrapp.floatlabelededittext.FloatLabeledEditText;
@@ -65,7 +63,6 @@ public class NewPollImageReferenceFragment extends Fragment {
     private ImageView btnSelectImage;
     private ImageView btnAddAttribute;
     private LinearLayout llAttributes;
-    private ProgressBarIndeterminate progressBar;
 
     /* poll data */
     private FloatLabeledEditText etQuestion;
@@ -112,7 +109,6 @@ public class NewPollImageReferenceFragment extends Fragment {
     }
 
     private void initializeViews(View v) {
-        progressBar = (ProgressBarIndeterminate) v.findViewById(R.id.pb_create_poll_upload_progress);
         etQuestion = (FloatLabeledEditText) v.findViewById(R.id.et_question);
         etTitle = (FloatLabeledEditText) v.findViewById(R.id.et_title);
         swMultiple = (SwitchCompat) v.findViewById(R.id.sw_multiple);
@@ -359,7 +355,7 @@ public class NewPollImageReferenceFragment extends Fragment {
                 .into(ivThumbnail);
     }
 
-//    private void uploadImage(Uri uriSelectedImage, String imageTitle) {
+    //    private void uploadImage(Uri uriSelectedImage, String imageTitle) {
     private void uploadImage(Uri uriSelectedImage, String imageTitle) {
 
         // if the image is already uploaded
@@ -421,7 +417,6 @@ public class NewPollImageReferenceFragment extends Fragment {
                 Log.d(TAG, "Success: pollId: " + poll.getPollId() + " uploaded to SnapPoll database");
                 Bus bus = mActivity.getEventBus();
                 bus.post(new PollCreatedEvent());
-                progressBar.setVisibility(View.INVISIBLE);
                 mActivity.finish();
             }
 
@@ -440,36 +435,27 @@ public class NewPollImageReferenceFragment extends Fragment {
         inflater.inflate(R.menu.menu_create_poll, menu);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle presses on the action bar items
-        switch (item.getItemId()) {
-            case R.id.action_poll_detail_submit:
-
-                String title = etQuestion.getEditText().getText().toString();
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle presses on the action bar items
+//        switch (item.getItemId()) {
+//            case R.id.action_poll_detail_submit:
 //
-//                // grab info on poll
-//                if (uriSelectedImage == null) {
-//                    Toast.makeText(getActivity(), "Please select an image", Toast.LENGTH_SHORT).show();
-//                } else {
-//                    progressBar.setVisibility(View.VISIBLE);
+//                String title = etQuestion.getEditText().getText().toString();
 //
-//                    uploadImage(uriSelectedImage, title);
-//                }
-
-                // FACEBOOK FRIEND PICKER SCREEN
-                startChooseFriendScreen();
-
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+//                // FACEBOOK FRIEND PICKER SCREEN
+//                startChooseFriendScreen();
+//
+//                return true;
+//
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//    }
 
     private void startChooseFriendScreen() {
         Fragment fragment = new Fragment();
-// Insert the fragment by replacing any existing fragment
+        // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.new_poll_fragment_container, fragment)

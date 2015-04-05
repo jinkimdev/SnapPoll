@@ -193,7 +193,7 @@ public class SnapPollBaseActivity extends ActionBarActivity {
 
         Snackbar.with(mActivity)
                 .text(msg)
-                .color(Color.parseColor("#777777"))
+                .colorResource(R.color.snackbar_background)
                 .actionLabel(btnText)
                 .actionListener(listener)
                 .show(this);
@@ -206,7 +206,7 @@ public class SnapPollBaseActivity extends ActionBarActivity {
     public void displaySnackBar(String msg) {
         Snackbar.with(mActivity)
                 .text(msg)
-                .color(Color.parseColor("#777777"))
+                .colorResource(R.color.snackbar_background)
                 .show(this);
     }
 

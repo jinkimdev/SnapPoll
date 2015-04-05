@@ -428,11 +428,6 @@ public class PollDetailFragment extends Fragment {
 
     private void showInviteFriendsDialog(List<RowFriend> retrievedFriends) {
         dialog = new InviteFriendsDialog(mActivity, inviteController, retrievedFriends);
-        dialog.showDialog(new InviteFriendsDialog.InviteFriendsCallback() {
-            @Override
-            public void onFriendsSelected(List<RowFriend> friendsSelectedFromDialog) {
-                Log.d(TAG, "Friends selected");
-            }
-        });
+        dialog.showDialog();
     }
 }

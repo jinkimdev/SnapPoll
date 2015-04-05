@@ -4,15 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.gc.materialdesign.views.ProgressBarIndeterminate
-        android:id="@+id/pb_create_poll_upload_progress"
-        android:layout_width="fill_parent"
-        android:layout_marginTop="1dp"
-        android:layout_height="3dp"
-        android:background="#ff1a61ff"
-        android:layout_alignParentTop="true"
-        android:visibility="invisible" />
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -128,7 +119,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:padding="8dp"
-                android:background="#DDD"
                 android:visibility="gone">
 
                 <ImageView

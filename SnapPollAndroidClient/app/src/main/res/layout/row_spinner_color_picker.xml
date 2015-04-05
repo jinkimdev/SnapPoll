@@ -10,7 +10,7 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginRight="10dp"
-        android:background="#F0C" />
+        android:background="@color/default_attribute_line" />
 
     <TextView
         android:id="@+id/tv_spinner_color_text"
@@ -18,7 +18,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="12sp"
-        android:layout_toRightOf="@id/view_spinner_color_indicator"/>
-
+        android:layout_toRightOf="@id/view_spinner_color_indicator" />
 
 </RelativeLayout>

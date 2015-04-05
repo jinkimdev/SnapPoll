@@ -2,9 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="80dp"
-    android:orientation="horizontal"
-    android:background="#D0FFFFFF">
-
+    android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/iv_creator_thumbnail"
@@ -14,8 +12,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:src="@drawable/ic_placeholder_profile"
-        android:background="#00FFFFFF" />
+        android:src="@drawable/ic_placeholder_profile" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -26,19 +23,20 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_placeholder_image" />
+            android:src="@drawable/ic_placeholder_image"
+            android:background="@color/background_profile_image"/>
 
         <RelativeLayout
             android:padding="10dp"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:background="#E0FFFFFF">
+            android:background="@color/background_row_poll_translucent">
 
             <TextView
                 android:id="@+id/tv_question"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#000"
+                android:textColor="@color/text_primary"
                 android:layout_marginBottom="4dp"
                 android:text="What is your favorite restaurant in Midtown?" />
 
@@ -47,13 +45,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_question"
-                android:textColor="#555"
+                android:textColor="@color/text_gray"
                 android:textSize="12sp"
                 android:text="Jin" />
 
         </RelativeLayout>
 
     </RelativeLayout>
-
 
 </LinearLayout>

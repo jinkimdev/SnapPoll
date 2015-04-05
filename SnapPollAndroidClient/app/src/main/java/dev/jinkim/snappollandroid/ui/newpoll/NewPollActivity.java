@@ -1,7 +1,6 @@
 package dev.jinkim.snappollandroid.ui.newpoll;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -40,19 +39,10 @@ public class NewPollActivity extends SnapPollBaseActivity {
         controller = new NewPollController(this);
 
         ActionBar actionBar = getSupportActionBar();
-//        actionBar.setTitle("New Poll");
-////
-//
         actionBar.setLogo(R.drawable.ic);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         actionBar.setHomeButtonEnabled(true);
-
-////        actionBar.setDisplayOptions(ActionBar.DISPLAY_USE_LOGO);
-//        actionBar.setDisplayUseLogoEnabled(true);
-//
-//        actionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_USE_LOGO);
-//        actionBar.setIcon(R.drawable.ic);
 
         if (findViewById(R.id.new_poll_fragment_container) != null) {
 
@@ -77,8 +67,6 @@ public class NewPollActivity extends SnapPollBaseActivity {
 
         bus = BusProvider.getInstance();
         bus.register(this);
-
-
     }
 
     @Override
@@ -106,7 +94,6 @@ public class NewPollActivity extends SnapPollBaseActivity {
             MenuItem menuSubmit = menu.findItem(R.id.action_new_poll_submit);
             menuSubmit.setVisible(true);
         }
-
         return true;
     }
 
@@ -160,8 +147,6 @@ public class NewPollActivity extends SnapPollBaseActivity {
                     } else {
                         //TODO: ERROR - save failed
                     }
-
-//                    ((NewPollInviteFragment) f).inviteFriends();
                 }
 
                 return true;
@@ -209,7 +194,6 @@ public class NewPollActivity extends SnapPollBaseActivity {
 
         ft.addToBackStack(InviteFriendsFragment.TAG);
         ft.setCustomAnimations(R.anim.anim_enter_from_right, R.anim.anim_exit_to_left, R.anim.anim_enter_from_left, R.anim.anim_exit_to_right);
-//        ft.setCustomAnimations(R.anim.anim_enter_from_right, R.anim.anim_empty);
 
         ft.replace(R.id.new_poll_fragment_container, frag, InviteFriendsFragment.TAG);
         ft.commit();
@@ -218,7 +202,6 @@ public class NewPollActivity extends SnapPollBaseActivity {
     public GoogleApiClient getGoogleApiClient() {
         return mGoogleApiClient;
     }
-
 
     @Override
     public void onResume() {
@@ -235,35 +218,16 @@ public class NewPollActivity extends SnapPollBaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
     }
 
-
-//    private void onSessionStateChange(Session session, SessionState state, Exception exception) {
-//        if (isResumed) {
-//            FragmentManager manager = getSupportFragmentManager();
-//            int backStackSize = manager.getBackStackEntryCount();
-//            for (int i = 0; i < backStackSize; i++) {
-//                manager.popBackStack();
-//        }
-//        // check for the OPENED state instead of session.isOpened() since for the
-//        // OPENED_TOKEN_UPDATED state, the selection fragment should already be showing.
-//        if (state.equals(SessionState.OPENED)) {
-//            showFragment(SELECTION, false);
-//        } else if (state.isClosed()) {
-//            showFragment(SPLASH, false);
-//        }
-//        }
-//    }
-
     @Override
     public void displaySnackBar(String msg) {
         Snackbar.with(this)
                 .text(msg)
-                .color(Color.parseColor("#555555"))
+                .colorResource(R.color.text_primary)
                 .eventListener(new EventListener() {
                                    Fragment f = getSupportFragmentManager().findFragmentById(R.id.new_poll_fragment_container);
 
@@ -311,5 +275,4 @@ public class NewPollActivity extends SnapPollBaseActivity {
                 )
                 .show(this);
     }
-
 }

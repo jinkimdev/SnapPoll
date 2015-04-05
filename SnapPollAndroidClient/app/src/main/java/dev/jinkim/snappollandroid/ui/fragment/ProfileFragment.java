@@ -95,7 +95,8 @@ public class ProfileFragment extends Fragment {
         tvStatusGPlus = (TextView) v.findViewById(R.id.profile_tv_status_googleplus);
         if (!session.isSignedIntoGPlus()) {
             tvStatusGPlus.setText(mActivity.getString(R.string.status_not_signed_in));
-            tvStatusGPlus.setTextColor(Color.parseColor("#555555"));
+//            tvStatusGPlus.setTextColor(Color.parseColor("#555555"));
+            tvStatusGPlus.setTextColor(getResources().getColor(R.color.text_primary));
 
             //TODO: SHOW G+ SIGN IN BUTTON
 
@@ -106,7 +107,7 @@ public class ProfileFragment extends Fragment {
         tvStatusFacebook = (TextView) v.findViewById(R.id.profile_tv_status_facebook);
         if (!session.isSignedIntoFacebook()) {
             tvStatusFacebook.setText(mActivity.getString(R.string.status_not_signed_in));
-            tvStatusFacebook.setTextColor(Color.parseColor("#555555"));
+            tvStatusFacebook.setTextColor(getResources().getColor(R.color.text_primary));
 
             //TODO: SHOW FB SIGN IN BUTTON
 

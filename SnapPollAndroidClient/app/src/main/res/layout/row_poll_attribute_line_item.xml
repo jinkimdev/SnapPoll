@@ -12,7 +12,7 @@
         android:layout_marginLeft="0dp"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
-        android:background="#FF00FF" />
+        android:background="@color/default_attribute_line" />
 
     <ImageView
         android:id="@+id/iv_btn_attribute_line_remove"
@@ -21,7 +21,6 @@
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:src="@drawable/ic_action_remove"
-        android:background="#00FFFFFF"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true" />
 
@@ -32,7 +31,6 @@
         android:layout_marginRight="10dp"
         android:layout_marginLeft="20dp"
         android:src="@drawable/ic_action_edit"
-        android:background="#00FFFFFF"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@id/iv_btn_attribute_line_remove" />
 
