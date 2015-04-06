@@ -53,4 +53,5 @@
     <string name="key_show_poll_created_msg">poll_created</string>
     <string name="title_submit_response">Submit a Response</string>
     <string name="title_view_my_poll_result">View My Poll Result</string>
+    <string name="msg_response_not_indicated">Please indicate your response on the image.</string>
 </resources>

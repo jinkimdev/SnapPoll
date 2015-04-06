@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -266,9 +267,13 @@ public class PollDetailFragment extends Fragment {
         if (loc == null) {
             //TODO: error, cannot submit response!
             Log.d(TAG, "Response selection is null");
+            Toast.makeText(mActivity,
+                    R.string.msg_response_not_indicated, Toast.LENGTH_LONG).show();
+            return;
         }
 
         //TODO: update attribute choice
+
         Response currentResponse = new Response(p.pollId, loc.x, loc.y, p.getCreatorId(), -1);
 
         Log.d(TAG, "Submitting response API call");
