@@ -106,8 +106,9 @@ public class PollDetailFragment extends Fragment {
         // load selected poll and view result mode
         loadDataFromArguments();
 
-        initializeViewsForResponse(rootView);
-//        initializeViewsForResult(rootView);
+        inviteController.setPollId(currentPoll.getPollId());
+
+        initializeViews(rootView);
 
         // determine whether viewing invited poll to respond or the result of my poll
         if (viewResultMode) {
@@ -116,6 +117,8 @@ public class PollDetailFragment extends Fragment {
         } else {
             mActivity.getSupportActionBar().setTitle(R.string.title_submit_response);
         }
+
+
 
         return rootView;
     }
@@ -148,14 +151,12 @@ public class PollDetailFragment extends Fragment {
     private void loadDataFromArguments() {
         String pollJson = getArguments().getString(Poll.class.getName(), null);
         viewResultMode = getArguments().getBoolean(mActivity.getString(R.string.key_view_result_mode), false);
-//        viewResultMode = true;
 
         Gson gson = new Gson();
         currentPoll = gson.fromJson(pollJson, Poll.class);
-        inviteController.setPollId(currentPoll.getPollId());
     }
 
-    private void initializeViewsForResponse(View v) {
+    private void initializeViews(View v) {
         tivRef = (TouchImageView) v.findViewById(R.id.tiv_ref);
         ivProfile = (ImageView) v.findViewById(R.id.detail_iv_profile_pic);
         tvQuestion = (TextView) v.findViewById(R.id.detail_tv_question);

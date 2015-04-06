@@ -6,7 +6,10 @@ import com.google.gson.annotations.SerializedName;
  * Created by Jin on 2/9/15.
  */
 public class PollAttribute {
+    @SerializedName("attribute_id")
     public int attributeId;
+    @SerializedName("poll_id")
+    public int pollId;
     @SerializedName("attribute_name")
     public String attributeName;
     @SerializedName("attribute_color_hex")
@@ -18,6 +21,14 @@ public class PollAttribute {
 
     public void setAttributeId(int attributeId) {
         this.attributeId = attributeId;
+    }
+
+    public int getPollId() {
+        return pollId;
+    }
+
+    public void setPollId(int pollId) {
+        this.pollId = pollId;
     }
 
     public String getAttributeName() {
