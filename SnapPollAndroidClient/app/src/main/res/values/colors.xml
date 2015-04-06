@@ -19,6 +19,8 @@
     <color name="background_row_poll_translucent">#E0FFFFFF</color>
     <color name="background_profile_image">#00FFFFFF</color>
     <color name="app_primary">#3498db</color>
+
     <color name="transparent">#00000000</color>
+    <color name="translucent">#D0FFFFFF</color>
 
 </resources>
