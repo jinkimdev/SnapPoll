@@ -222,4 +222,8 @@ public class ChooseFriendListAdapter extends ArrayAdapter<RowFriend> implements 
         }
     }
 
+    public List<RowFriend> getAllFriends() {
+        return friends;
+    }
+
 }

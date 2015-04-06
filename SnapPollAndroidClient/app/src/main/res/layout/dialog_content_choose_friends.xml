@@ -8,12 +8,44 @@
     <SearchView
         android:id="@+id/friends_dialog_sv_search"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    </SearchView>
+
+        <Button
+            android:id="@+id/btn_dialog_select_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:layout_weight="1"
+            android:textSize="12sp"
+            android:background="@color/transparent"
+            android:textColor="@color/app_primary"
+            android:text="@string/btn_select_all" />
+
+        <Button
+            android:id="@+id/btn_dialog_unselect_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:layout_weight="1"
+            android:textSize="12sp"
+            android:background="@color/transparent"
+            android:textColor="@color/app_primary"
+            android:text="@string/btn_unselect_all" />
+    </LinearLayout>
 
     <ListView
         android:id="@+id/friends_dialog_lv_choose_friends"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

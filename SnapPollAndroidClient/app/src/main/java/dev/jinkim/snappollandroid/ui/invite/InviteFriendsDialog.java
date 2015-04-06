@@ -7,6 +7,7 @@ import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
 
@@ -33,12 +34,14 @@ public class InviteFriendsDialog {
     //    private SelectedFriendListAdapter adapter;
     private ChooseFriendListAdapter adapter;
     private SearchView svSearch;
+    private Button btnSelectAll;
+    private Button btnUnselectAll;
 
     private List<RowFriend> gPlusFriends;
     private List<RowFriend> selectedFriends;
     private SparseBooleanArray selected;
 
-    private boolean changed = false;
+    private boolean updated = false;
 
     public InviteFriendsDialog(Context context, InviteFriendsController controller, List<RowFriend> retrievedFriends) {
         mContext = context;
@@ -54,30 +57,13 @@ public class InviteFriendsDialog {
 
         listView = (ListView) dialogContent.findViewById(R.id.friends_dialog_lv_choose_friends);
         svSearch = (SearchView) dialogContent.findViewById(R.id.friends_dialog_sv_search);
+        btnSelectAll = (Button) dialogContent.findViewById(R.id.btn_dialog_select_all);
+        btnUnselectAll = (Button) dialogContent.findViewById(R.id.btn_dialog_unselect_all);
 
         adapter = new ChooseFriendListAdapter(mContext, gPlusFriends);
 
         // sparse boolean array to keep up with selected friend list for display
         selected = new SparseBooleanArray(gPlusFriends.size());
-
-
-    }
-
-    /**
-     * display list of all G+ friends so that user can choose friends to invite to the poll
-     */
-    public void showDialog() {
-
-        List<RowFriend> runningList = new ArrayList<RowFriend>();
-        changed = false;
-
-
-        for (int i = 0; i < gPlusFriends.size(); i++) {
-            // if preselected from existing list, then update the sparse array
-            if (gPlusFriends.get(i).selected) {
-                selected.append(i, true);
-            }
-        }
 
         /* SET UP SELECT FRIENDS LIST VIEW */
         listView.setTextFilterEnabled(true);
@@ -87,7 +73,7 @@ public class InviteFriendsDialog {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 RowFriend item = adapter.getItem(position);
-                changed = true;
+                updated = true;
 
                 if (item.selected) {
                     item.selected = false;
@@ -104,6 +90,48 @@ public class InviteFriendsDialog {
         });
         listView.setAdapter(adapter);
 
+        btnSelectAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // set the flag to enable web call
+                updated = true;
+                int index = 0;
+                for (RowFriend r : adapter.getAllFriends()) {
+                    r.selected = true;
+                    selected.append(index, true);
+                    index++;
+                }
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+        btnUnselectAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // set the flag to enable web call
+                updated = true;
+                for (RowFriend r : adapter.getAllFriends()) {
+                    r.selected = false;
+                    selected.clear();
+                }
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    /**
+     * display list of all G+ friends so that user can choose friends to invite to the poll
+     */
+    public void showDialog() {
+
+        updated = false;
+
+        for (int i = 0; i < gPlusFriends.size(); i++) {
+            // if preselected from existing list, then update the sparse array
+            if (gPlusFriends.get(i).selected) {
+                selected.append(i, true);
+            }
+        }
 
         svSearch.setQueryHint(mContext.getString(R.string.query_hint_search_from_gplus));
         svSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -138,7 +166,7 @@ public class InviteFriendsDialog {
                         Log.d(TAG, "selected: " + selected.toString());
 
                         // if there is any change (item click toggle) then proceed
-                        if (changed) {
+                        if (updated) {
                             Log.d(TAG, "Update list");
                             // TODO: grab the keys (positions) that are true in value
                             selectedFriends = new ArrayList<RowFriend>();
