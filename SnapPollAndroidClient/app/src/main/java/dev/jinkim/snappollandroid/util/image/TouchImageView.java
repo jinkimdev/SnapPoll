@@ -135,7 +135,8 @@ public class TouchImageView extends ImageView {
     private float spScaledSelectorHeight;
 
     private float spResponseMarkerSize = 30f;
-    private String spResponseMarkerColor = String.format("#%06X", 0xFFFFFF & Color.RED);
+//    private String spResponseMarkerColorHex = String.format("#%06X", 0xFFFFFF & Color.RED);
+    private String spResponseMarkerColorHex = "#FF0000";
 
 
     public TouchImageView(Context context) {
@@ -153,7 +154,9 @@ public class TouchImageView extends ImageView {
         sharedConstructing(context);
     }
 
-    public void setResponseMarkerColor(Color color) {
+    public void updateResponseMarkerColor(String colorHex) {
+        spResponseMarkerColorHex = colorHex;
+        invalidate();
     }
 
     public void setResponses(List<Response> responses) {
@@ -164,7 +167,7 @@ public class TouchImageView extends ImageView {
         Paint circlePaint = new Paint();
 //        paint.setStyle(Paint.Style.FILL_AND_STROKE);
         circlePaint.setStyle(Paint.Style.STROKE);
-        circlePaint.setColor(Color.parseColor(spResponseMarkerColor));
+        circlePaint.setColor(Color.parseColor(spResponseMarkerColorHex));
         circlePaint.setStrokeWidth(12f);
         circlePaint.setAlpha(170);
         circlePaint.setAntiAlias(true);
@@ -224,7 +227,7 @@ public class TouchImageView extends ImageView {
         // draw circle around touch (selection) point
         Paint circlePaint = new Paint();
         circlePaint.setStyle(Paint.Style.STROKE);
-        circlePaint.setColor(Color.parseColor(spResponseMarkerColor));
+        circlePaint.setColor(Color.parseColor(spResponseMarkerColorHex));
         circlePaint.setStrokeWidth(12f);
         circlePaint.setAlpha(170);
         circlePaint.setAntiAlias(true);

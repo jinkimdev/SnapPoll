@@ -57,4 +57,6 @@
     <string name="btn_select_all">SELECT ALL</string>
     <string name="btn_unselect_all">UNSELECT ALL</string>
     <string name="lbl_attributes">Attributes</string>
+    <string name="tag_attr_color">attribute_color</string>
+    <string name="color_default_marker">#FF0000</string>
 </resources>

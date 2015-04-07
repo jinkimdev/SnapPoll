@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.CompoundButton;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -70,6 +69,8 @@ public class PollDetailFragment extends Fragment {
     private InviteFriendsDialog dialog;
 
     private Poll currentPoll;
+    private PollAttribute selectedAttr;
+
     private TouchImageView tivRef;
     private ImageView ivProfile;
     private TextView tvCreatorName;
@@ -233,10 +234,11 @@ public class PollDetailFragment extends Fragment {
             }
         });
 
-        displayAttributes(llAttributeContainer, currentPoll.getAttributes());
-        // TODO: process list of attributes and add line items
+        if (currentPoll.getAttributes() != null) {
 
-        // group them into radio button selection (if submit response mode)
+            displayAttributes(llAttributeContainer, currentPoll.getAttributes());
+        }
+
         // if view result mode, hide all action items in attribute line item view
     }
 
@@ -258,25 +260,50 @@ public class PollDetailFragment extends Fragment {
                 colorIndicator.setBackgroundColor(mActivity.getResources().getColor(R.color.app_primary));
             }
             tvAttributeName.setText(attr.getAttributeName());
+
+            // save the attribute object as radio button view's tag so we can retrieve color to update
+            // when this radio button is selected
+            rbAttributeSelect.setTag(attr);
+
             radioButtons.add(rbAttributeSelect);
-            rbAttributeSelect.setVisibility(View.VISIBLE);
-            rbAttributeSelect.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    //TODO: Update existing response marker
 
-                    if (isChecked) {
-                        for (RadioButton btn : radioButtons) {
-                            btn.setChecked(false);
+            // if respond mode, display radio button selection for attributes
+            if (!viewResultMode) {
+                rbAttributeSelect.setVisibility(View.VISIBLE);
+                rbAttributeSelect.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        //TODO: Update existing response marker
+
+                        if (isChecked) {
+                            for (RadioButton btn : radioButtons) {
+                                btn.setChecked(false);
+                            }
+                            buttonView.setChecked(true);
+
+                            // load attribute associated with this radio button
+                            PollAttribute attr = (PollAttribute) buttonView.getTag();
+                            String colorHex;
+                            if (attr == null) {
+                                colorHex = getString(R.string.color_default_marker);
+                            } else {
+                                colorHex = attr.getAttributeColorHex();
+                            }
+
+                            // check if valid color hex string
+                            try {
+                                Color.parseColor(colorHex);
+                            } catch (NullPointerException e) {
+                                colorHex = getString(R.string.color_default_marker);
+                            }
+                            tivRef.updateResponseMarkerColor(colorHex);
+                            selectedAttr = attr;
                         }
-                        buttonView.setChecked(true);
                     }
-                }
-            });
-
+                });
+            }
             attributeContainer.addView(row, attributeContainer.getChildCount(), new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         }
-
     }
 
     private void loadImage(Bitmap bitmap) {
@@ -316,7 +343,6 @@ public class PollDetailFragment extends Fragment {
     }
 
     private void submitResponse() {
-        Poll p = currentPoll;
         PointF loc = getMarkerLocation();
 
         if (loc == null) {
@@ -329,7 +355,11 @@ public class PollDetailFragment extends Fragment {
 
         //TODO: update attribute choice
 
-        Response currentResponse = new Response(p.pollId, loc.x, loc.y, p.getCreatorId(), -1);
+        // grab selected attribute id, -1 if null
+        int attrId = (selectedAttr != null) ? selectedAttr.getAttributeId() : -1;
+
+        Response currentResponse = new Response(currentPoll.getPollId(),
+                loc.x, loc.y, currentPoll.getCreatorId(), attrId);
 
         Log.d(TAG, "Submitting response API call");
         SnapPollRestClient rest = new SnapPollRestClient();
