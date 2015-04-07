@@ -11,6 +11,9 @@ public class Response {
     public float y;
     public String userId;
     public int attributeChoice;
+    public String attributeName;
+    public String attributeColorHex;
+
 
     public Response(int pollId, float x, float y,
                     String userId, int attributeChoice) {
@@ -67,5 +70,21 @@ public class Response {
 
     public void setAttributeChoice(int attributeChoice) {
         this.attributeChoice = attributeChoice;
+    }
+
+    public String getAttributeColorHex() {
+        return attributeColorHex;
+    }
+
+    public void setAttributeColorHex(String attributeColorHex) {
+        this.attributeColorHex = attributeColorHex;
+    }
+
+    public String getAttributeName() {
+        return attributeName;
+    }
+
+    public void setAttributeName(String attributeName) {
+        this.attributeName = attributeName;
     }
 }
