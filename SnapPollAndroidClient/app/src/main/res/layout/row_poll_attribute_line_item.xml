@@ -2,16 +2,25 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
     android:padding="8dp">
+
+    <RadioButton
+        android:id="@+id/rb_attribute"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="8dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:visibility="gone"/>
 
     <View
         android:id="@+id/view_attribute_line_color_indicator"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginLeft="0dp"
+        android:paddingLeft="4dp"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@id/rb_attribute"
         android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
+
         android:background="@color/default_attribute_line" />
 
     <ImageView
@@ -22,7 +31,8 @@
         android:layout_marginLeft="10dp"
         android:src="@drawable/ic_action_remove"
         android:layout_centerVertical="true"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentRight="true"
+        android:visibility="gone"/>
 
     <ImageView
         android:id="@+id/iv_btn_attribute_line_edit"
@@ -32,7 +42,8 @@
         android:layout_marginLeft="20dp"
         android:src="@drawable/ic_action_edit"
         android:layout_centerVertical="true"
-        android:layout_toLeftOf="@id/iv_btn_attribute_line_remove" />
+        android:layout_toLeftOf="@id/iv_btn_attribute_line_remove"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/tv_attribute_line_attribute_name"

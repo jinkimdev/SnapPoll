@@ -29,7 +29,7 @@
             android:id="@+id/detail_container_question"
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:padding="8dp">
+            android:padding="10dp">
 
             <ImageView
                 android:id="@+id/detail_iv_profile_pic"
@@ -39,7 +39,7 @@
                 android:layout_alignParentLeft="true" />
 
             <ImageView
-                android:id="@+id/detail_iv_panel_expand"
+                android:id="@+id/detail_iv_panel_expand_indicator"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/ic_arrow_up"
@@ -54,7 +54,7 @@
                 android:maxLines="2"
                 android:textSize="13sp"
                 android:layout_toRightOf="@id/detail_iv_profile_pic"
-                android:layout_toLeftOf="@id/detail_iv_panel_expand" />
+                android:layout_toLeftOf="@id/detail_iv_panel_expand_indicator" />
 
             <TextView
                 android:id="@+id/detail_tv_creator_name"
@@ -99,13 +99,24 @@
             android:id="@+id/detail_container_attributes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="4dp">
+            android:padding="10dp">
 
             <TextView
+                android:id="@+id/detail_lbl_attributes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Attributes, stats\n\n\na\n\n\nb\n\nc" />
+                android:layout_marginBottom="8dp"
+                android:text="@string/lbl_attributes" />
+
+            <LinearLayout
+                android:id="@+id/ll_container_attributes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/detail_lbl_attributes"
+                android:orientation="vertical" />
+
         </RelativeLayout>
 
     </LinearLayout>
+
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>

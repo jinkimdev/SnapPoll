@@ -255,7 +255,7 @@ public class NewPollEnterDetailFragment extends Fragment {
         }
 
         // insert into main view
-        llAttributes.addView(row, 0, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        llAttributes.addView(row, llAttributes.getChildCount(), new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
         NewPollImageReferenceFragment.AttributeLineItem line = new NewPollImageReferenceFragment.AttributeLineItem();
         line.setAttributeColorHex(colorHex);

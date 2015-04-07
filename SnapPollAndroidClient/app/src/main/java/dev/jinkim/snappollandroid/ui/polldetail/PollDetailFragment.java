@@ -1,6 +1,8 @@
 package dev.jinkim.snappollandroid.ui.polldetail;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -14,7 +16,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.CompoundButton;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +42,7 @@ import java.util.List;
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.event.ResponseSubmittedEvent;
 import dev.jinkim.snappollandroid.model.Poll;
+import dev.jinkim.snappollandroid.model.PollAttribute;
 import dev.jinkim.snappollandroid.model.PollInvitedFriendsResponse;
 import dev.jinkim.snappollandroid.model.Response;
 import dev.jinkim.snappollandroid.model.RowFriend;
@@ -68,6 +75,8 @@ public class PollDetailFragment extends Fragment {
     private TextView tvCreatorName;
     private TextView tvQuestion;
     private TextView tvNumResponses;
+    private LinearLayout llAttributeContainer;
+    private List<RadioButton> radioButtons;
 
     private TextView lblNumResponses;
     private SlidingUpPanelLayout slidingUpPanel;
@@ -119,7 +128,6 @@ public class PollDetailFragment extends Fragment {
         }
 
 
-
         return rootView;
     }
 
@@ -164,7 +172,8 @@ public class PollDetailFragment extends Fragment {
         tvNumResponses = (TextView) v.findViewById(R.id.detail_tv_num_responses);
         lblNumResponses = (TextView) v.findViewById(R.id.detail_lbl_num_responses);
         slidingUpPanel = (SlidingUpPanelLayout) v.findViewById(R.id.sliding_layout);
-        ivExpand = (ImageView) v.findViewById(R.id.detail_iv_panel_expand);
+        ivExpand = (ImageView) v.findViewById(R.id.detail_iv_panel_expand_indicator);
+        llAttributeContainer = (LinearLayout) v.findViewById(R.id.ll_container_attributes);
 
         if (viewResultMode) {
             tivRef.setSelectorEnabled(false);
@@ -223,6 +232,51 @@ public class PollDetailFragment extends Fragment {
 
             }
         });
+
+        displayAttributes(llAttributeContainer, currentPoll.getAttributes());
+        // TODO: process list of attributes and add line items
+
+        // group them into radio button selection (if submit response mode)
+        // if view result mode, hide all action items in attribute line item view
+    }
+
+    private void displayAttributes(LinearLayout attributeContainer, List<PollAttribute> attributes) {
+
+        radioButtons = new ArrayList<>();
+
+        for (PollAttribute attr : attributes) {
+            LayoutInflater vi = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View row = vi.inflate(R.layout.row_poll_attribute_line_item, null);
+
+            final RadioButton rbAttributeSelect = (RadioButton) row.findViewById(R.id.rb_attribute);
+            final View colorIndicator = row.findViewById(R.id.view_attribute_line_color_indicator);
+            final TextView tvAttributeName = (TextView) row.findViewById(R.id.tv_attribute_line_attribute_name);
+
+            try {
+                colorIndicator.setBackgroundColor(Color.parseColor(attr.getAttributeColorHex()));
+            } catch (NullPointerException e) {
+                colorIndicator.setBackgroundColor(mActivity.getResources().getColor(R.color.app_primary));
+            }
+            tvAttributeName.setText(attr.getAttributeName());
+            radioButtons.add(rbAttributeSelect);
+            rbAttributeSelect.setVisibility(View.VISIBLE);
+            rbAttributeSelect.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    //TODO: Update existing response marker
+
+                    if (isChecked) {
+                        for (RadioButton btn : radioButtons) {
+                            btn.setChecked(false);
+                        }
+                        buttonView.setChecked(true);
+                    }
+                }
+            });
+
+            attributeContainer.addView(row, attributeContainer.getChildCount(), new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        }
+
     }
 
     private void loadImage(Bitmap bitmap) {

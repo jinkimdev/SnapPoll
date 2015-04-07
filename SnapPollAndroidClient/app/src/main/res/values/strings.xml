@@ -56,4 +56,5 @@
     <string name="msg_response_not_indicated">Please indicate your response on the image.</string>
     <string name="btn_select_all">SELECT ALL</string>
     <string name="btn_unselect_all">UNSELECT ALL</string>
+    <string name="lbl_attributes">Attributes</string>
 </resources>
