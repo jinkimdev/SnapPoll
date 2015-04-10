@@ -59,6 +59,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="24dp"
                     android:layout_marginBottom="16dp"
+                    android:visibility="gone"
                     android:text="Allow multiple selections?" />
 
                 <android.support.v7.widget.SwitchCompat
@@ -67,6 +68,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/lbl_allow_multiple"
                     android:layout_marginBottom="16dp"
+                    android:visibility="gone"
                     android:checked="false" />
 
                 <TextView
@@ -77,7 +79,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="24dp"
                     android:layout_marginRight="18dp"
-                    android:text="Attributes" />
+                    android:text="@string/lbl_new_poll_attributes" />
 
                 <ImageView
                     android:id="@+id/iv_btn_add_attribute"
@@ -97,7 +99,7 @@
                     android:layout_marginLeft="14dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginBottom="10dp"
-                    android:orientation="vertical"/>
+                    android:orientation="vertical" />
             </RelativeLayout>
 
         </LinearLayout>

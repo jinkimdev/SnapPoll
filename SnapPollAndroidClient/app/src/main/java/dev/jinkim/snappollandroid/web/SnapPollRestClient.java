@@ -1,6 +1,5 @@
 package dev.jinkim.snappollandroid.web;
 
-
 import android.os.Build;
 import android.util.Log;
 
@@ -30,7 +29,7 @@ import retrofit.http.Path;
 public class SnapPollRestClient {
     private ApiService apiService;
     public static String BASE_URL = "http://snappoll.herokuapp.com/api/";
-    private final boolean USE_PRODUCTION_ENDPOINT = false;
+    private final boolean USE_PRODUCTION_ENDPOINT = true;
     private static final String LOCAL_ENDPOINT = "http://192.168.56.1:5000/api/"; // genymotion host ip
     private static String TAG = "RestClient";
 

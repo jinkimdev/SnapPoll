@@ -18,7 +18,7 @@
  * Extends Android ImageView to include pinch zooming, panning, fling and double tap zoom.
  */
 
-package dev.jinkim.snappollandroid.util.image;
+package dev.jinkim.snappollandroid.ui.widget;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -52,6 +52,7 @@ import java.util.List;
 
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.model.Response;
+import dev.jinkim.snappollandroid.util.ColorUtil;
 
 public class TouchImageView extends ImageView {
     public static final String TAG = TouchImageView.class.getSimpleName();
@@ -135,23 +136,35 @@ public class TouchImageView extends ImageView {
     private float spScaledSelectorHeight;
 
     private float spResponseMarkerSize = 30f;
-//    private String spResponseMarkerColorHex = String.format("#%06X", 0xFFFFFF & Color.RED);
-    private String spResponseMarkerColorHex = "#FF0000";
+    //    private String spResponseMarkerColorHex = String.format("#%06X", 0xFFFFFF & Color.RED);
+    private String spResponseMarkerColorHex;
 
 
     public TouchImageView(Context context) {
         super(context);
         sharedConstructing(context);
+        setDefaultColor(context);
     }
 
     public TouchImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
         sharedConstructing(context);
+        setDefaultColor(context);
     }
 
     public TouchImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         sharedConstructing(context);
+        setDefaultColor(context);
+    }
+
+    private void setDefaultColor(Context context) {
+        String colorHex;
+        colorHex = ColorUtil.convertToHex(context.getResources().getColor(R.color.default_attribute_color));
+        if (colorHex == null) {
+            colorHex = "#e67e22";
+        }
+        spResponseMarkerColorHex = colorHex;
     }
 
     public void updateResponseMarkerColor(String colorHex) {

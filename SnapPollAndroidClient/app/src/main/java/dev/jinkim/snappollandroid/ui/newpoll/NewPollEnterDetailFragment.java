@@ -61,9 +61,7 @@ public class NewPollEnterDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.frag_new_poll_detail, container, false);
-
-        Log.d(TAG, "In NewPollDetailFragment");
+        View rootView = inflater.inflate(R.layout.frag_new_poll_enter_detail, container, false);
 
         mActivity = (NewPollActivity) getActivity();
         controller = mActivity.getController();
@@ -72,15 +70,16 @@ public class NewPollEnterDetailFragment extends Fragment {
 
         // set up spinner color picker
         listColor = new ArrayList<Pair<String, String>>();
+        listColor.add(new Pair("Green", "#00FF00"));
         listColor.add(new Pair("Red", "#FF0000"));
         listColor.add(new Pair("Orange", "#FFA500"));
-        listColor.add(new Pair("Green", "#00FF00"));
         listColor.add(new Pair("Cyan", "#00FFFF"));
+        listColor.add(new Pair("Pumpkin", "#d35400"));
+        listColor.add(new Pair("Emerald", "#2ecc71"));
 
         initializeViews(rootView);
 
         setHasOptionsMenu(true);
-
 
         return rootView;
     }

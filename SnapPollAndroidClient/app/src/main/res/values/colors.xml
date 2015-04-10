@@ -15,7 +15,7 @@
     <color name="fab_background">#1E88E5</color>
     <color name="nav_drawer_background">#f0cccccc</color>
     <color name="text_green">#00AA00</color>
-    <color name="default_attribute_line">#FF00FF</color>
+    <color name="default_attribute_color">#e67e22</color>
     <color name="background_row_poll_translucent">#E0FFFFFF</color>
     <color name="background_profile_image">#00FFFFFF</color>
     <color name="app_primary">#3498db</color>

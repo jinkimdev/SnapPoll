@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:padding="0dp">
 
-        <dev.jinkim.snappollandroid.util.image.TouchImageView
+        <dev.jinkim.snappollandroid.ui.widget.TouchImageView
             android:id="@+id/tiv_ref"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
@@ -113,7 +113,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/detail_lbl_attributes"
-                android:orientation="vertical" />
+                android:orientation="vertical">
+
+                <include
+                    layout="@layout/row_poll_attribute_line_item"
+                    android:id="@+id/detail_attribute_default"/>
+            </LinearLayout>
 
         </RelativeLayout>
 

@@ -20,6 +20,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,7 +51,7 @@ import dev.jinkim.snappollandroid.ui.invite.InviteFriendsDialog;
 import dev.jinkim.snappollandroid.util.DimensionUtil;
 import dev.jinkim.snappollandroid.util.UriUtil;
 import dev.jinkim.snappollandroid.util.image.CircleTransform;
-import dev.jinkim.snappollandroid.util.image.TouchImageView;
+import dev.jinkim.snappollandroid.ui.widget.TouchImageView;
 import dev.jinkim.snappollandroid.web.SnapPollRestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -206,6 +207,7 @@ public class PollDetailFragment extends Fragment {
                     .transform(new CircleTransform()).into(ivProfile);
         }
 
+
         // attach listener to sliding up panel
         slidingUpPanel.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
@@ -234,9 +236,14 @@ public class PollDetailFragment extends Fragment {
             }
         });
 
-        if (currentPoll.getAttributes() != null) {
+        // expanded as default when view is created
+        slidingUpPanel.expandPanel();
+        ivExpand.setImageResource(R.drawable.ic_arrow_down);
 
+        if (currentPoll.getAttributes() != null) {
             displayAttributes(llAttributeContainer, currentPoll.getAttributes());
+            RelativeLayout rlAttributeDefault = (RelativeLayout) v.findViewById(R.id.detail_attribute_default);
+            rlAttributeDefault.setVisibility(View.GONE);
         }
 
         // if view result mode, hide all action items in attribute line item view
