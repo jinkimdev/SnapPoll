@@ -48,10 +48,10 @@ import dev.jinkim.snappollandroid.model.Response;
 import dev.jinkim.snappollandroid.model.RowFriend;
 import dev.jinkim.snappollandroid.ui.invite.InviteFriendsController;
 import dev.jinkim.snappollandroid.ui.invite.InviteFriendsDialog;
+import dev.jinkim.snappollandroid.ui.widget.TouchImageView;
 import dev.jinkim.snappollandroid.util.DimensionUtil;
 import dev.jinkim.snappollandroid.util.UriUtil;
 import dev.jinkim.snappollandroid.util.image.CircleTransform;
-import dev.jinkim.snappollandroid.ui.widget.TouchImageView;
 import dev.jinkim.snappollandroid.web.SnapPollRestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -129,7 +129,6 @@ public class PollDetailFragment extends Fragment {
             mActivity.getSupportActionBar().setTitle(R.string.title_submit_response);
         }
 
-
         return rootView;
     }
 
@@ -159,9 +158,19 @@ public class PollDetailFragment extends Fragment {
     }
 
     private void loadDataFromArguments() {
-        String pollJson = getArguments().getString(Poll.class.getName(), null);
-        viewResultMode = getArguments().getBoolean(mActivity.getString(R.string.key_view_result_mode), false);
+        Bundle bundle = getArguments();
+        String pollJson = bundle.getString(getString(R.string.key_poll), null);
+        viewResultMode = bundle.getBoolean(getString(R.string.key_view_result_mode), false);
+        Boolean showUploadedMessage = bundle.getBoolean(getString(R.string.key_show_poll_created_msg), false);
 
+        if (showUploadedMessage) {
+            mActivity.displaySnackBar(getString(R.string.msg_poll_created));
+        }
+
+        if (pollJson == null || pollJson.equals("")) {
+            // Error
+            Toast.makeText(mActivity, R.string.msg_poll_invalid, Toast.LENGTH_SHORT).show();
+        }
         Gson gson = new Gson();
         currentPoll = gson.fromJson(pollJson, Poll.class);
     }
@@ -350,8 +359,9 @@ public class PollDetailFragment extends Fragment {
     }
 
     private void submitResponse() {
-        PointF loc = getMarkerLocation();
+        mActivity.showProgressBar(R.string.msg_submitting);
 
+        PointF loc = getMarkerLocation();
         if (loc == null) {
             //TODO: error, cannot submit response!
             Log.d(TAG, "Response selection is null");
@@ -375,12 +385,15 @@ public class PollDetailFragment extends Fragment {
             public void success(Response pollResponse, retrofit.client.Response response2) {
                 Bus bus = mActivity.getEventBus();
                 bus.post(new ResponseSubmittedEvent());
+
+                mActivity.hideProgressBar();
                 mActivity.finish();
             }
 
             @Override
             public void failure(RetrofitError error) {
                 Log.d(TAG, "Response submission failed: " + error);
+                mActivity.hideProgressBar();
             }
         });
     }

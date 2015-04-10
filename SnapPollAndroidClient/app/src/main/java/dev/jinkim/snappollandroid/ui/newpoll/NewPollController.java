@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.squareup.otto.Bus;
 
 import java.io.File;
@@ -19,6 +20,7 @@ import dev.jinkim.snappollandroid.model.PollAttribute;
 import dev.jinkim.snappollandroid.model.RowFriend;
 import dev.jinkim.snappollandroid.model.User;
 import dev.jinkim.snappollandroid.ui.invite.InviteFriendsActivity;
+import dev.jinkim.snappollandroid.ui.polldetail.PollDetailActivity;
 import dev.jinkim.snappollandroid.util.efilechooser.FileUtils;
 import dev.jinkim.snappollandroid.web.ImgurRestClient;
 import dev.jinkim.snappollandroid.web.SnapPollRestClient;
@@ -117,6 +119,8 @@ public class NewPollController {
 
     public void uploadImage() {
 
+        mActivity.showProgressBar(R.string.msg_submitting);
+
         // if the image is already uploaded
         if (currentImgurResponse != null) {
             submitPoll(currentImgurResponse);
@@ -145,6 +149,8 @@ public class NewPollController {
                         @Override
                         public void failure(RetrofitError error) {
                             Log.d(TAG, "Failure: Image not uploaded to Imgur");
+                            // TODO: ERROR MESSAGE
+                            mActivity.hideProgressBar();
                         }
                     });
         }
@@ -177,14 +183,17 @@ public class NewPollController {
 //                mActivity.displaySnackBar(mActivity.getString(R.string.msg_poll_created));
                 Bus bus = mActivity.getEventBus();
                 bus.post(new PollCreatedEvent());
-                // TODO: handle progress bar
-//                progressBar.setVisibility(View.INVISIBLE);
-                setPollId(pollId);
-                // TODO: LAUNCH INVITE ACTIVITY
-//                mActivity.finish();
-                Intent intent = new Intent(mActivity, InviteFriendsActivity.class);
+
+                mActivity.hideProgressBar();
+
+                Gson gson = new Gson();
+                String pollJsonString = gson.toJson(poll).toString();
+
+                Intent intent = new Intent(mActivity, PollDetailActivity.class);
                 intent.putExtra(mActivity.getString(R.string.key_poll_id), pollId);
+                intent.putExtra(mActivity.getString(R.string.key_poll), pollJsonString);
                 intent.putExtra(mActivity.getString(R.string.key_show_poll_created_msg), true);
+                intent.putExtra(mActivity.getString(R.string.key_view_result_mode), true);
                 mActivity.startActivity(intent);
                 mActivity.finish();
             }

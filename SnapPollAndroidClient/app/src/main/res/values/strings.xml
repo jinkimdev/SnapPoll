@@ -60,4 +60,8 @@
     <string name="lbl_new_poll_attributes">Attributes (optional)</string>
     <string name="tag_attr_color">attribute_color</string>
     <string name="color_default_marker">#FF0000</string>
+    <string name="msg_poll_invalid">Poll is invalid.</string>
+    <string name="msg_signing_in_google">Signing in with Google...</string>
+    <string name="msg_loading">Loading...</string>
+    <string name="msg_submitting">Submitting...</string>
 </resources>

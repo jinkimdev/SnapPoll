@@ -45,6 +45,7 @@ public class InvitedPollsFragment extends ListFragment {
         View rootView = inflater.inflate(R.layout.frag_tab_invited_polls, container, false);
 
         mActivity = (MainActivity) getActivity();
+        mActivity.showProgressBar(R.string.msg_loading);
 
         adapter = new InvitedPollListAdapter(mActivity, new ArrayList<Poll>());
         setListAdapter(adapter);
@@ -72,8 +73,8 @@ public class InvitedPollsFragment extends ListFragment {
                 Intent in = new Intent(mActivity, PollDetailActivity.class);
                 Gson gson = new Gson();
                 String pollJson = gson.toJson(p);
-                in.putExtra(Poll.class.getName(), pollJson);
-                in.putExtra("ViewResultMode", false);
+                in.putExtra(getString(R.string.key_poll), pollJson);
+                in.putExtra(getString(R.string.key_view_result_mode), false);
 
                 startActivity(in);
             }
@@ -91,12 +92,13 @@ public class InvitedPollsFragment extends ListFragment {
                 public void success(List<Poll> polls, Response response) {
                     Log.d(TAG, "GET /poll/invited success.");
                     updateList(polls);
+                    mActivity.hideProgressBar();
                 }
 
                 @Override
                 public void failure(RetrofitError error) {
                     Log.d(TAG, "GET /poll/invited failed.");
-
+                    mActivity.hideProgressBar();
                 }
             });
         } else {

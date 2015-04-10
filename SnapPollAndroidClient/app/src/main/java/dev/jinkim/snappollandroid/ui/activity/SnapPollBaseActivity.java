@@ -2,13 +2,13 @@ package dev.jinkim.snappollandroid.ui.activity;
 
 import android.app.Activity;
 import android.content.IntentSender;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -50,6 +50,8 @@ public class SnapPollBaseActivity extends ActionBarActivity {
     protected ConnectionResult mConnectionResult;
 
     protected ActionBar actionBar;
+
+    protected MaterialDialog progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -200,7 +202,7 @@ public class SnapPollBaseActivity extends ActionBarActivity {
     }
 
     public void displaySnackBar(int resId) {
-        displaySnackBar(mActivity.getResources().getString(resId));
+        displaySnackBar(getString(resId));
     }
 
     public void displaySnackBar(String msg) {
@@ -208,6 +210,23 @@ public class SnapPollBaseActivity extends ActionBarActivity {
                 .text(msg)
                 .colorResource(R.color.snackbar_background)
                 .show(this);
+    }
+
+    public void showProgressBar(int resId) {
+        showProgressBar(getString(resId));
+    }
+
+    public void showProgressBar(String msg) {
+        progressBar = new MaterialDialog.Builder(this)
+                .content(msg)
+                .progress(true, 0)
+                .show();
+    }
+
+    public void hideProgressBar() {
+        if (progressBar != null && progressBar.isShowing()) {
+            progressBar.cancel();
+        }
     }
 
 }

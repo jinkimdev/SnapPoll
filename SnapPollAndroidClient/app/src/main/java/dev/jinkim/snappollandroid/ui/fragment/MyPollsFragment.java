@@ -43,6 +43,7 @@ public class MyPollsFragment extends ListFragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.frag_tab_my_polls, container, false);
         mActivity = (MainActivity) getActivity();
+        mActivity.showProgressBar(R.string.msg_loading);
 
         adapter = new MyPollListAdapter(getActivity(), null);
         setListAdapter(adapter);
@@ -69,8 +70,8 @@ public class MyPollsFragment extends ListFragment {
                 Intent in = new Intent(getActivity(), PollDetailActivity.class);
                 Gson gson = new Gson();
                 String pollJson = gson.toJson(p);
-                in.putExtra(Poll.class.getName(), pollJson);
-                in.putExtra(mActivity.getResources().getString(R.string.key_view_result_mode), true);
+                in.putExtra(getString(R.string.key_poll), pollJson);
+                in.putExtra(getString(R.string.key_view_result_mode), true);
 
                 startActivity(in);
             }
@@ -89,11 +90,13 @@ public class MyPollsFragment extends ListFragment {
                     Log.d(TAG, "GET /poll/my/:user_id success.");
 
                     updateList(polls);
+                    mActivity.hideProgressBar();
                 }
 
                 @Override
                 public void failure(RetrofitError error) {
                     Log.d(TAG, "GET /poll/my/:user_id fail.");
+                    mActivity.hideProgressBar();
                 }
             });
         } else {

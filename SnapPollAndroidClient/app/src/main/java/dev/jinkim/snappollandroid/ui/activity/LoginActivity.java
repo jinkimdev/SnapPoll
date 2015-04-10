@@ -188,6 +188,7 @@ public class LoginActivity extends SnapPollBaseActivity {
      * Sign-in into google
      */
     private void signInWithGplus() {
+        showProgressBar(R.string.msg_signing_in_google);
         if (!mGoogleApiClient.isConnecting()) {
             mSignInClicked = true;
             resolveSignInError();
@@ -250,13 +251,14 @@ public class LoginActivity extends SnapPollBaseActivity {
     }
 
     private void moveToMainScreen() {
+        hideProgressBar();
         Intent in = new Intent(this, MainActivity.class);
+
         // Prevent from double login (when both Google+ and Facebook login sessions are available
         if (!loginActive) {
             startActivity(in);
             loginActive = true;
         }
-
         this.finish();
     }
 
