@@ -1,6 +1,7 @@
 package dev.jinkim.snappollandroid.ui.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -78,11 +79,11 @@ public class MainActivity extends SnapPollBaseActivity
         switch (position) {
 
             case 0:
-                Fragment respondFrag = fm.findFragmentByTag(PollsTabFragment.TAG);
-                if (respondFrag == null) {
-                    respondFrag = new PollsTabFragment();
+                Fragment pollsTabFrag = fm.findFragmentByTag(PollsTabFragment.TAG);
+                if (pollsTabFrag == null) {
+                    pollsTabFrag = new PollsTabFragment();
                 }
-                fm.beginTransaction().replace(R.id.container, respondFrag, PollsTabFragment.TAG).commit();
+                fm.beginTransaction().replace(R.id.container, pollsTabFrag, PollsTabFragment.TAG).commit();
                 break;
 
             case 1:
@@ -94,11 +95,11 @@ public class MainActivity extends SnapPollBaseActivity
                 break;
 
             default:
-                Fragment defaultFrag = fm.findFragmentByTag(NewPollImageReferenceFragment.TAG);
+                Fragment defaultFrag = fm.findFragmentByTag(PollsTabFragment.TAG);
                 if (defaultFrag == null) {
-                    defaultFrag = new NewPollImageReferenceFragment();
+                    defaultFrag = new PollsTabFragment();
                 }
-                fm.beginTransaction().replace(R.id.container, defaultFrag, NewPollImageReferenceFragment.TAG).commit();
+                fm.beginTransaction().replace(R.id.container, defaultFrag, PollsTabFragment.TAG).commit();
                 break;
         }
     }
@@ -119,6 +120,7 @@ public class MainActivity extends SnapPollBaseActivity
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(mTitle);
+//        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.app_primary)));
     }
 
 
@@ -199,12 +201,6 @@ public class MainActivity extends SnapPollBaseActivity
         Log.d(TAG, "Received response submitted event!");
         displaySnackBar(R.string.msg_response_submitted);
     }
-
-//    @Subscribe
-//    public void onPollSubmittedEvent(PollCreatedEvent event) {
-//        Log.d(TAG, "Received poll submitted event!");
-//        displaySnackBar(R.string.msg_poll_created);
-//    }
 
     public SessionManager getAppSession() {
         return appSession;

@@ -12,13 +12,16 @@
     <color name="poll_attribute_default">#FFA500</color>
 
     <color name="snackbar_background">#323232</color>
-    <color name="fab_background">#1E88E5</color>
+    <color name="fab_background">@color/app_primary</color>
     <color name="nav_drawer_background">#f0cccccc</color>
     <color name="text_green">#00AA00</color>
     <color name="default_attribute_color">#e67e22</color>
     <color name="background_row_poll_translucent">#E0FFFFFF</color>
     <color name="background_profile_image">#00FFFFFF</color>
-    <color name="app_primary">#3498db</color>
+    <color name="app_primary">#FFA400</color>
+    <color name="app_primary_dark">#E08A1E</color>
+
+    <color name="tab_highlight">@color/app_primary</color>
 
     <color name="transparent">#00000000</color>
     <color name="translucent">#D0FFFFFF</color>

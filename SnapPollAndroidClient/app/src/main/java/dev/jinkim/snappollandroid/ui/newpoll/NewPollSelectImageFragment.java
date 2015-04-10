@@ -28,8 +28,8 @@ public class NewPollSelectImageFragment extends Fragment {
     private NewPollActivity mActivity;
 
     private ImageView ivImage;
-    private Uri selectedImageUri;
-    private ButtonFloat btnChooseImage;
+//    private Uri selectedImageUri;
+    private ButtonFloat fabChooseImage;
     private Uri uriSelectedImage;
 
     private NewPollController controller;
@@ -52,17 +52,18 @@ public class NewPollSelectImageFragment extends Fragment {
 
     private void initializeViews(View view) {
         ivImage = (ImageView) view.findViewById(R.id.new_poll_image_iv_thumbnail);
-        btnChooseImage = (ButtonFloat) view.findViewById(R.id.fab_choose_image);
-        btnChooseImage.setOnClickListener(new View.OnClickListener() {
+        fabChooseImage = (ButtonFloat) view.findViewById(R.id.fab_choose_image);
+        fabChooseImage.setBackgroundColor(getResources().getColor(R.color.fab_background));
+        fabChooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 pickImage(v);
             }
         });
 
-        if (selectedImageUri != null) {
+        if (controller.getUriSelectedImg() != null) {
             Picasso.with(mActivity)
-                    .load(selectedImageUri)
+                    .load(controller.getUriSelectedImg())
                     .fit().centerInside()
                     .into(ivImage);
         } else {
@@ -133,7 +134,7 @@ public class NewPollSelectImageFragment extends Fragment {
      * @param position
      */
     public void moveFloatButton(float position) {
-        btnChooseImage.animate().translationY(position);
+        fabChooseImage.animate().translationY(position);
     }
 
 }

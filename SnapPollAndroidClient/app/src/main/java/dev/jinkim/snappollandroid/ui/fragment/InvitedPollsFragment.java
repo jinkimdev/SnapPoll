@@ -52,17 +52,18 @@ public class InvitedPollsFragment extends ListFragment {
 
         Log.d(TAG, "onCreateView, adapter set.");
 
-        retrievePolls();
+
 
         return rootView;
     }
 
     @Override
     public void onViewCreated (View view, Bundle savedInstanceState) {
-        initializeViews();
+        initializeListView();
+        retrievePolls();
     }
 
-    private void initializeViews() {
+    private void initializeListView() {
         lvPolls = getListView();
         lvPolls.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

@@ -57,6 +57,7 @@ public class LoginActivity extends SnapPollBaseActivity {
 
     private Activity mActivity;
 
+    /* prevent launching main activity multiple times */
     private boolean googleConnectedOnLogin = false;
 
     @Override
@@ -271,6 +272,7 @@ public class LoginActivity extends SnapPollBaseActivity {
             googleConnectedOnLogin = true;
 
             if (event.success) {
+                showProgressBar(R.string.msg_signing_in_google);
                 User u = getProfileInformation();
                 Log.d(TAG, "Google user: " + u.getFirstName() + " " + u.getLastName());
 

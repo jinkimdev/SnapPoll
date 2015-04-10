@@ -11,7 +11,17 @@
         <item name="android:textColor">@color/text_primary</item>
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:windowContentOverlay">@null</item>
+        <item name="colorPrimary">@color/app_primary</item>
+        <item name="colorPrimaryDark">@color/app_primary_dark</item>
+        <item name="colorAccent">@color/app_primary</item>
+        <item name="android:actionBarTabStyle">@style/SnapPollTheme.ActionBar</item>
+        <item name="actionBarTabStyle">@style/SnapPollTheme.ActionBar</item>
+    </style>
 
+    <style name="SnapPollTheme.ActionBar">
+        <!--<item name="android:background">@drawable/ab_background</item>-->
+        <item name="android:backgroundStacked">@drawable/ab_background</item>
+        <item name="android:backgroundSplit">@drawable/ab_split_background</item>
     </style>
 
     <style name="divider">
