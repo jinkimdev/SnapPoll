@@ -48,14 +48,22 @@ public class MyPollsFragment extends ListFragment {
         adapter = new MyPollListAdapter(getActivity(), null);
         setListAdapter(adapter);
 
-        retrievePolls();
-
         return rootView;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         initializeViews();
+
+        // get cached poll list
+        List<Poll> myPolls = mActivity.getMyPolls();
+        if (myPolls == null || myPolls.size() < 1) {
+            retrieveMyPolls();
+        } else {
+            // if poll list has been already retrieved, update the list with them
+            updateList(myPolls);
+            mActivity.hideProgressBar();
+        }
     }
 
     private void initializeViews() {
@@ -79,7 +87,7 @@ public class MyPollsFragment extends ListFragment {
     }
 
     //TODO: retrieve polls + creator first name
-    private void retrievePolls() {
+    private void retrieveMyPolls() {
         User u = App.getInstance().getCurrentUser(getActivity());
 
         if (u != null) {
@@ -88,8 +96,8 @@ public class MyPollsFragment extends ListFragment {
                 @Override
                 public void success(List<Poll> polls, Response response) {
                     Log.d(TAG, "GET /poll/my/:user_id success.");
-
                     updateList(polls);
+                    mActivity.setMyPolls(polls);
                     mActivity.hideProgressBar();
                 }
 

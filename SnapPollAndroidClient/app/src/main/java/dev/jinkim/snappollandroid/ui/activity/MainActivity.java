@@ -14,8 +14,11 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 import com.squareup.otto.Subscribe;
 
+import java.util.List;
+
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.event.ResponseSubmittedEvent;
+import dev.jinkim.snappollandroid.model.Poll;
 import dev.jinkim.snappollandroid.session.SessionManager;
 import dev.jinkim.snappollandroid.ui.NavigationDrawerFragment;
 import dev.jinkim.snappollandroid.ui.fragment.MyPollsFragment;
@@ -39,6 +42,9 @@ public class MainActivity extends SnapPollBaseActivity
     private CharSequence mTitle;
 
     private SessionManager appSession;
+
+    private List<Poll> invitedPolls;
+    private List<Poll> myPolls;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,5 +207,21 @@ public class MainActivity extends SnapPollBaseActivity
 
     public SessionManager getAppSession() {
         return appSession;
+    }
+
+    public List<Poll> getInvitedPolls() {
+        return invitedPolls;
+    }
+
+    public void setInvitedPolls(List<Poll> invitedPolls) {
+        this.invitedPolls = invitedPolls;
+    }
+
+    public List<Poll> getMyPolls() {
+        return myPolls;
+    }
+
+    public void setMyPolls(List<Poll> myPolls) {
+        this.myPolls = myPolls;
     }
 }

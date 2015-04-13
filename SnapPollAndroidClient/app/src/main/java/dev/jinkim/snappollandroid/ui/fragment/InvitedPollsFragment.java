@@ -22,8 +22,8 @@ import dev.jinkim.snappollandroid.app.App;
 import dev.jinkim.snappollandroid.model.Poll;
 import dev.jinkim.snappollandroid.model.User;
 import dev.jinkim.snappollandroid.ui.activity.MainActivity;
-import dev.jinkim.snappollandroid.ui.polldetail.PollDetailActivity;
 import dev.jinkim.snappollandroid.ui.adapter.InvitedPollListAdapter;
+import dev.jinkim.snappollandroid.ui.polldetail.PollDetailActivity;
 import dev.jinkim.snappollandroid.web.SnapPollRestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -53,14 +53,22 @@ public class InvitedPollsFragment extends ListFragment {
         Log.d(TAG, "onCreateView, adapter set.");
 
 
-
         return rootView;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         initializeListView();
-        retrievePolls();
+
+        // get cached poll list
+        List<Poll> invitedPolls = mActivity.getInvitedPolls();
+        if (invitedPolls == null || invitedPolls.size() < 1) {
+            retrievePolls();
+        } else {
+            // if poll list has been already retrieved, update the list with them
+            updateList(invitedPolls);
+            mActivity.hideProgressBar();
+        }
     }
 
     private void initializeListView() {
@@ -93,6 +101,7 @@ public class InvitedPollsFragment extends ListFragment {
                 public void success(List<Poll> polls, Response response) {
                     Log.d(TAG, "GET /poll/invited success.");
                     updateList(polls);
+                    mActivity.setInvitedPolls(polls);
                     mActivity.hideProgressBar();
                 }
 

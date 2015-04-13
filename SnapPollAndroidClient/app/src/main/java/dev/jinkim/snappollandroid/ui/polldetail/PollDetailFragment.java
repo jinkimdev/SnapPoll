@@ -155,7 +155,7 @@ public class PollDetailFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        
+
         // expanded as default when view is created
         new Handler().postDelayed(new Runnable() {
             @Override
