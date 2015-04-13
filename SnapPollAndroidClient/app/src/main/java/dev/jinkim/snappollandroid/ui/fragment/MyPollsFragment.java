@@ -20,8 +20,8 @@ import dev.jinkim.snappollandroid.app.App;
 import dev.jinkim.snappollandroid.model.Poll;
 import dev.jinkim.snappollandroid.model.User;
 import dev.jinkim.snappollandroid.ui.activity.MainActivity;
-import dev.jinkim.snappollandroid.ui.polldetail.PollDetailActivity;
 import dev.jinkim.snappollandroid.ui.adapter.MyPollListAdapter;
+import dev.jinkim.snappollandroid.ui.polldetail.PollDetailActivity;
 import dev.jinkim.snappollandroid.web.SnapPollRestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -31,12 +31,12 @@ import retrofit.client.Response;
  * Created by Jin on 11/27/14.
  */
 public class MyPollsFragment extends ListFragment {
-
     public static final String TAG = MyPollsFragment.class.getSimpleName();
 
     private MyPollListAdapter adapter;
     private ListView lvMyPolls;
     private MainActivity mActivity;
+    private List<Poll> myPolls;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,7 +56,7 @@ public class MyPollsFragment extends ListFragment {
         initializeViews();
 
         // get cached poll list
-        List<Poll> myPolls = mActivity.getMyPolls();
+        myPolls = mActivity.getMyPolls();
         if (myPolls == null || myPolls.size() < 1) {
             retrieveMyPolls();
         } else {
@@ -96,8 +96,9 @@ public class MyPollsFragment extends ListFragment {
                 @Override
                 public void success(List<Poll> polls, Response response) {
                     Log.d(TAG, "GET /poll/my/:user_id success.");
-                    updateList(polls);
-                    mActivity.setMyPolls(polls);
+                    myPolls = polls;
+                    updateList(myPolls);
+                    mActivity.setMyPolls(myPolls);
                     mActivity.hideProgressBar();
                 }
 
@@ -118,4 +119,8 @@ public class MyPollsFragment extends ListFragment {
         adapter.notifyDataSetChanged();
     }
 
+    private void updateListWithNewPoll(Poll poll) {
+        myPolls.add(0, poll);
+        adapter.notifyDataSetChanged();
+    }
 }

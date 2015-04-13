@@ -29,6 +29,7 @@ import java.util.List;
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.model.PollAttribute;
 import dev.jinkim.snappollandroid.ui.adapter.ColorSpinnerAdapter;
+import dev.jinkim.snappollandroid.ui.newpoll.NewPollController.AttributeLineItem;
 import dev.jinkim.snappollandroid.util.ColorUtil;
 
 /**
@@ -48,14 +49,12 @@ public class NewPollEnterDetailFragment extends Fragment {
     private FloatLabeledEditText etTitle;
     private SwitchCompat swMultiple;
 
-    private List<NewPollImageReferenceFragment.AttributeLineItem> attributes;
+    private List<AttributeLineItem> attributes;
     private boolean showingDialog = false;
 
     private List<Pair<String, String>> listColor;
 
     private NewPollController controller;
-
-    private View rootView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -250,13 +249,13 @@ public class NewPollEnterDetailFragment extends Fragment {
 
         // add objects to the list
         if (attributes == null) {
-            attributes = new ArrayList<NewPollImageReferenceFragment.AttributeLineItem>();
+            attributes = new ArrayList<>();
         }
 
         // insert into main view
         llAttributes.addView(row, llAttributes.getChildCount(), new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
-        NewPollImageReferenceFragment.AttributeLineItem line = new NewPollImageReferenceFragment.AttributeLineItem();
+        AttributeLineItem line = new AttributeLineItem();
         line.setAttributeColorHex(colorHex);
         line.setAttributeName(attributeName);
 
@@ -289,7 +288,6 @@ public class NewPollEnterDetailFragment extends Fragment {
 
             Log.d(TAG, "## Attr: " + at);
         }
-
         return attributeList;
     }
 
@@ -307,9 +305,7 @@ public class NewPollEnterDetailFragment extends Fragment {
                 saveNewPollDetails();
 
                 return true;
-
         }
-
         return super.onOptionsItemSelected(item);
     }
 

@@ -41,12 +41,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dev.jinkim.snappollandroid.R;
+import dev.jinkim.snappollandroid.app.App;
 import dev.jinkim.snappollandroid.event.ResponseSubmittedEvent;
 import dev.jinkim.snappollandroid.model.Poll;
 import dev.jinkim.snappollandroid.model.PollAttribute;
 import dev.jinkim.snappollandroid.model.PollInvitedFriendsResponse;
 import dev.jinkim.snappollandroid.model.Response;
 import dev.jinkim.snappollandroid.model.RowFriend;
+import dev.jinkim.snappollandroid.model.User;
 import dev.jinkim.snappollandroid.ui.invite.InviteFriendsController;
 import dev.jinkim.snappollandroid.ui.invite.InviteFriendsDialog;
 import dev.jinkim.snappollandroid.ui.widget.TouchImageView;
@@ -222,13 +224,21 @@ public class PollDetailFragment extends Fragment {
         String imgUrl = util.convertImgurThumbnail(currentPoll.getReferenceUrl(), 'h');
         Picasso.with(mActivity).load(imgUrl).into(target);
 
-        // handle when pic url is empty string
-        if (currentPoll.getCreatorProfilePicUrl().equals("")) {
-            Picasso.with(mActivity).load(R.drawable.ic_placeholder_profile)
-                    .into(ivProfile);
-        } else {
-            Picasso.with(mActivity).load(currentPoll.getCreatorProfilePicUrl())
+        if (viewResultMode) {
+            // if my poll, display my profile pic
+            User user = App.getInstance().getCurrentUser(getActivity());
+            Picasso.with(mActivity).load(user.getProfilePicUrl())
                     .transform(new CircleTransform()).into(ivProfile);
+
+        } else { // else display poll creator's profile pic
+            // handle when pic url is empty string
+            if (currentPoll.getCreatorProfilePicUrl().equals("")) {
+                Picasso.with(mActivity).load(R.drawable.ic_placeholder_profile)
+                        .into(ivProfile);
+            } else {
+                Picasso.with(mActivity).load(currentPoll.getCreatorProfilePicUrl())
+                        .transform(new CircleTransform()).into(ivProfile);
+            }
         }
 
 

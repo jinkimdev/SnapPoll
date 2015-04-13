@@ -180,9 +180,6 @@ public class NewPollController {
             public void success(Poll poll, Response response) {
                 int pollId = poll.getPollId();
                 Log.d(TAG, "Success: pollId: " + pollId + " uploaded to SnapPoll database");
-//                mActivity.displaySnackBar(mActivity.getString(R.string.msg_poll_created));
-                Bus bus = mActivity.getEventBus();
-                bus.post(new PollCreatedEvent());
 
                 mActivity.hideProgressBar();
 
@@ -204,5 +201,26 @@ public class NewPollController {
                 Log.d(TAG, "Failure: Poll not uploaded: " + error.toString());
             }
         });
+    }
+
+    public static class AttributeLineItem {
+        private String attributeColorHex;
+        private String attributeName;
+
+        public String getAttributeColorHex() {
+            return attributeColorHex;
+        }
+
+        public void setAttributeColorHex(String attributeColorHex) {
+            this.attributeColorHex = attributeColorHex;
+        }
+
+        public String getAttributeName() {
+            return attributeName;
+        }
+
+        public void setAttributeName(String attributeName) {
+            this.attributeName = attributeName;
+        }
     }
 }
