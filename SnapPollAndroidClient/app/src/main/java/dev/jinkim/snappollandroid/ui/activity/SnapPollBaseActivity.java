@@ -61,9 +61,9 @@ public class SnapPollBaseActivity extends ActionBarActivity {
         session = new SessionManager(mActivity);
         bus = BusProvider.getInstance();
 
-        actionBar = getSupportActionBar();
+//        actionBar = getSupportActionBar();
 
-        actionBar.setHomeButtonEnabled(true);
+//        actionBar.setHomeButtonEnabled(true);
 
         // Initializing google plus api client
         mGoogleApiClient = new GoogleApiClient.Builder(mActivity)

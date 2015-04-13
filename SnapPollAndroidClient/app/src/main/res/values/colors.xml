@@ -13,7 +13,7 @@
 
     <color name="snackbar_background">#323232</color>
     <color name="fab_background">@color/app_primary</color>
-    <color name="nav_drawer_background">#f0cccccc</color>
+    <color name="nav_drawer_background">#ffffff</color>
     <color name="text_green">#00AA00</color>
     <color name="default_attribute_color">#e67e22</color>
     <color name="background_row_poll_translucent">#E0FFFFFF</color>

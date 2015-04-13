@@ -86,18 +86,13 @@ public class NavigationDrawerFragment extends Fragment {
         selectItem(mCurrentSelectedPosition);
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        // Indicate that this fragment would like to influence the set of actions in the action bar.
-        setHasOptionsMenu(true);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mDrawerListView = (ListView) inflater.inflate(
-                R.layout.frag_navigation_drawer, container, false);
+        View view = inflater.inflate(R.layout.frag_navigation_drawer, container, false);
+
+        mDrawerListView = (ListView) view.findViewById(R.id.lv_nav_drawer);
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -105,8 +100,20 @@ public class NavigationDrawerFragment extends Fragment {
             }
         });
 
+
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        // Indicate that this fragment would like to influence the set of actions in the action bar.
+        setHasOptionsMenu(true);
+
+         /* CHECK http://stackoverflow.com/questions/26579225/navigationdrawerfragment-not-working-with-appcompat-toolbar */
         ActionBarActivity mActivity = (ActionBarActivity) getActivity();
         Context themedContext = mActivity.getSupportActionBar().getThemedContext();
+//        Context themedContext = mActivity;
 
         mDrawerListView.setAdapter(new ArrayAdapter<String>(
                 themedContext,
@@ -117,7 +124,6 @@ public class NavigationDrawerFragment extends Fragment {
                         getString(R.string.nav_drawer_title_profile)
                 }));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
-        return mDrawerListView;
     }
 
     public boolean isDrawerOpen() {

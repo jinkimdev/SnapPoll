@@ -69,7 +69,7 @@ public class LoginActivity extends SnapPollBaseActivity {
         uiHelper.onCreate(savedInstanceState);
 
         // hide action bar
-        getSupportActionBar().hide();
+//        getSupportActionBar().hide();
 
         mActivity = this;
         appSession = new SessionManager(mActivity);
