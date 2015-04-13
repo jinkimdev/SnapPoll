@@ -58,7 +58,7 @@ public class InvitedPollsFragment extends ListFragment {
     }
 
     @Override
-    public void onViewCreated (View view, Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         initializeListView();
         retrievePolls();
     }

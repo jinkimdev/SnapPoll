@@ -7,6 +7,7 @@ import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -152,6 +153,20 @@ public class PollDetailFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        
+        // expanded as default when view is created
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                slidingUpPanel.expandPanel();
+                ivExpand.setImageResource(R.drawable.ic_arrow_down);
+            }
+        }, 700);
+    }
+
+    @Override
     public void onDestroy() {  // could be in onPause or onStop
         Picasso.with(getActivity()).cancelRequest(target);
         super.onDestroy();
@@ -244,10 +259,6 @@ public class PollDetailFragment extends Fragment {
 
             }
         });
-
-        // expanded as default when view is created
-        slidingUpPanel.expandPanel();
-        ivExpand.setImageResource(R.drawable.ic_arrow_down);
 
         if (currentPoll.getAttributes() != null) {
             displayAttributes(llAttributeContainer, currentPoll.getAttributes());
