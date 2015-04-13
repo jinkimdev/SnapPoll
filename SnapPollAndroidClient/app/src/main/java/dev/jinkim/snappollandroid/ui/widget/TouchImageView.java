@@ -222,11 +222,11 @@ public class TouchImageView extends ImageView {
         options.inScaled = false;
 
         spSelectorBmp = BitmapFactory.decodeResource(getResources(),
-                R.drawable.marker, options);
+                R.drawable.ic_marker_red, options);
 
         // TODO: Find optimal marker size (scale) based on screen
         spScaledSelectorBmp = Bitmap.createScaledBitmap(
-                spSelectorBmp, 128, 128, true);
+                spSelectorBmp, 196, 196, true);
 
         spScaledSelectorWidth = spScaledSelectorBmp.getWidth();
         spScaledSelectorHeight = spScaledSelectorBmp.getHeight();

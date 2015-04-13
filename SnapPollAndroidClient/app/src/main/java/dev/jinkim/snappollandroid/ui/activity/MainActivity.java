@@ -1,7 +1,6 @@
 package dev.jinkim.snappollandroid.ui.activity;
 
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,14 +15,12 @@ import com.google.android.gms.plus.Plus;
 import com.squareup.otto.Subscribe;
 
 import dev.jinkim.snappollandroid.R;
-import dev.jinkim.snappollandroid.event.PollCreatedEvent;
 import dev.jinkim.snappollandroid.event.ResponseSubmittedEvent;
 import dev.jinkim.snappollandroid.session.SessionManager;
 import dev.jinkim.snappollandroid.ui.NavigationDrawerFragment;
 import dev.jinkim.snappollandroid.ui.fragment.MyPollsFragment;
 import dev.jinkim.snappollandroid.ui.fragment.PollsTabFragment;
 import dev.jinkim.snappollandroid.ui.fragment.ProfileFragment;
-import dev.jinkim.snappollandroid.ui.newpoll.NewPollImageReferenceFragment;
 
 
 public class MainActivity extends SnapPollBaseActivity
