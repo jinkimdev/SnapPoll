@@ -3,6 +3,7 @@
     <color name="text_primary">#555555</color>
     <color name="text_gray">#777777</color>
     <color name="text_light_gray">#AAAAAA</color>
+    <color name="text_toolbar_title">#CCCCCC</color>
 
     <color name="divider">#CCCCCC</color>
 

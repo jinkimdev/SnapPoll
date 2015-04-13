@@ -6,17 +6,14 @@
         <item name="android:textColor">@color/text_primary</item>
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:windowContentOverlay">@null</item>
+
         <item name="colorPrimary">@color/app_primary</item>
         <item name="colorPrimaryDark">@color/app_primary_dark</item>
         <item name="colorAccent">@color/app_primary</item>
-
-        <item name="actionBarTabStyle">@style/SnapPollTheme.ActionBar</item>
-        <item name="android:actionBarTabStyle">@style/SnapPollTheme.ActionBar</item>
+        <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
     </style>
 
-    <!--<style name="SnapPollTheme.ActionBar" parent="@style/Widget.AppCompat.ActionBar.TabView">-->
-        <!--<item name="android:background">@drawable/tab_indicator_ab_snappollactionbar</item>-->
-    <!--</style>-->
+
 
     <style name="SnapPollTheme.ActionBar" parent="@android:style/Theme.Holo.Light.DarkActionBar">
         <item name="android:background">@drawable/tab_indicator_ab_snappollactionbar</item>
@@ -30,4 +27,16 @@
         <item name="android:layout_marginBottom">8dp</item>
     </style>
 
+    <style name="SnapPollTheme.ToolBar" parent="ThemeOverlay.AppCompat.ActionBar">
+        <!-- Used to for the title of the Toolbar -->
+        <item name="android:textColorPrimary">@color/text_toolbar_title</item>
+        <!-- Used to for the title of the Toolbar when parent is Theme.AppCompat.Light -->
+        <item name="android:textColorPrimaryInverse">@color/text_primary</item>
+        <!-- Used to color the text of the action menu icons -->
+        <item name="android:textColorSecondary">@color/text_toolbar_title</item>
+        <!-- Used to color the overflow menu icon -->
+        <item name="actionMenuTextColor">@color/text_toolbar_title</item>
+        <!-- Color of the Toolbar -->
+        <item name="android:background">@color/app_primary</item>
+    </style>
 </resources>

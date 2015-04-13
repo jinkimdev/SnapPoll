@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,6 +31,7 @@ public class NewPollActivity extends SnapPollBaseActivity {
     public static String TAG = NewPollActivity.class.getSimpleName();
     private Bus bus;
     private NewPollController controller;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +40,11 @@ public class NewPollActivity extends SnapPollBaseActivity {
 
         controller = new NewPollController(this);
 
+        // set up toolbar
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setLogo(R.drawable.ic);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         actionBar.setHomeButtonEnabled(true);

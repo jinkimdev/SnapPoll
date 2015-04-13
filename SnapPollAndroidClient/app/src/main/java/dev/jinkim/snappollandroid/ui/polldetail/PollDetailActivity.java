@@ -3,6 +3,7 @@ package dev.jinkim.snappollandroid.ui.polldetail;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -18,11 +19,16 @@ public class PollDetailActivity extends SnapPollBaseActivity {
 
     public static String TAG = PollDetailActivity.class.getSimpleName();
     private PollDetailActivity mActivity;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_poll_detail);
+
+        // set up toolbar
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         ActionBar actionBar = getSupportActionBar();
 
