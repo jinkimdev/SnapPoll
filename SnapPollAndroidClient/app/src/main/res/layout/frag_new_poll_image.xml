@@ -18,6 +18,8 @@
             android:src="@drawable/ic_placeholder_image"/>
     </FrameLayout>
 
+
+    <!-- picture reference icon from http://icons8.com/android-L -->
     <com.gc.materialdesign.views.ButtonFloat
         android:id="@+id/fab_choose_image"
         android:layout_width="wrap_content"
@@ -29,6 +31,7 @@
         android:padding="4dp"
         android:background="@color/fab_background"
         materialdesign:animate="false"
-        materialdesign:iconDrawable="@drawable/ic_choose_image_white" />
+        materialdesign:iconDrawable="@drawable/ic_fab_picture_reference" />
+        <!--materialdesign:iconDrawable="@drawable/ic_choose_image_white" />-->
 
 </RelativeLayout>

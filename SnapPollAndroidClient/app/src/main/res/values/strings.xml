@@ -28,7 +28,7 @@
     <string name="key_view_result_mode">ViewResultMode</string>
     <string name="msg_please_sign_in_to_see_polls">Please sign in to see your polls</string>
     <string name="msg_image_not_selected">Image reference is not selected</string>
-    <string name="msg_poll_question_empty">Poll question is empty</string>
+    <string name="msg_poll_question_empty">Please enter text in poll question.</string>
     <string name="title_poll_detail">Enter Detail</string>
     <string name="dialog_title_edit_attribute">Edit Attribute</string>
     <string name="action_save">Save</string>

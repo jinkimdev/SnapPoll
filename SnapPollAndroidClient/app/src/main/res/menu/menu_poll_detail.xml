@@ -11,7 +11,7 @@
     <item
         android:id="@+id/action_poll_detail_invite"
         android:title="Invite"
-        android:icon="@drawable/ic_fab_friends"
+        android:icon="@drawable/ic_ab_invite_friends"
         snappoll:showAsAction="always"
         android:visible="false" />
 </menu>

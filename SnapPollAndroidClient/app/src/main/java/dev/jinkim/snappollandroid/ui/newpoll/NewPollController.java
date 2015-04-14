@@ -5,21 +5,18 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.squareup.otto.Bus;
 
 import java.io.File;
 import java.util.List;
 
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.app.App;
-import dev.jinkim.snappollandroid.event.PollCreatedEvent;
 import dev.jinkim.snappollandroid.imgur.ImgurConstants;
 import dev.jinkim.snappollandroid.model.ImgurResponse;
 import dev.jinkim.snappollandroid.model.Poll;
 import dev.jinkim.snappollandroid.model.PollAttribute;
 import dev.jinkim.snappollandroid.model.RowFriend;
 import dev.jinkim.snappollandroid.model.User;
-import dev.jinkim.snappollandroid.ui.invite.InviteFriendsActivity;
 import dev.jinkim.snappollandroid.ui.polldetail.PollDetailActivity;
 import dev.jinkim.snappollandroid.util.efilechooser.FileUtils;
 import dev.jinkim.snappollandroid.web.ImgurRestClient;

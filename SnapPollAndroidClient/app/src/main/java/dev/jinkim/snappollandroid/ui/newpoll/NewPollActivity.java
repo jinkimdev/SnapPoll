@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.nispok.snackbar.Snackbar;
@@ -21,7 +22,6 @@ import com.squareup.otto.Bus;
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.event.BusProvider;
 import dev.jinkim.snappollandroid.ui.activity.SnapPollBaseActivity;
-import dev.jinkim.snappollandroid.ui.invite.InviteFriendsFragment;
 
 /**
  * Created by Jin on 1/11/15.
@@ -126,17 +126,8 @@ public class NewPollActivity extends SnapPollBaseActivity {
                         displaySnackBar(R.string.msg_image_not_selected);
                     } else {
                         Log.d(TAG, "Navigate from Image -> Detail");
-                        navigateToNewPollDetail();
+                        navigateToNewPollEnterDetail();
                     }
-
-                } else if (f instanceof NewPollEnterDetailFragment) {
-                    if (((NewPollEnterDetailFragment) f).saveNewPollDetails()) {
-                        Log.d(TAG, "Navigate from Detail -> Friends");
-                        navigateToNewPollFriends();
-                    } else {
-                        displaySnackBar(R.string.msg_poll_question_empty);
-                    }
-
                 } else {
                     // FriendsFragment
                     Log.d(TAG, "Showing NewPollFriendsFragment");
@@ -150,7 +141,7 @@ public class NewPollActivity extends SnapPollBaseActivity {
                     if (((NewPollEnterDetailFragment) f).saveNewPollDetails()) {
                         controller.uploadImage();
                     } else {
-                        //TODO: ERROR - save failed
+                        Toast.makeText(this, R.string.msg_poll_question_empty, Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -167,7 +158,7 @@ public class NewPollActivity extends SnapPollBaseActivity {
         return controller;
     }
 
-    public void navigateToNewPollDetail() {
+    public void navigateToNewPollEnterDetail() {
 
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -182,25 +173,6 @@ public class NewPollActivity extends SnapPollBaseActivity {
         ft.addToBackStack(NewPollSelectImageFragment.TAG);
         ft.setCustomAnimations(R.anim.anim_enter_from_right, R.anim.anim_exit_to_left, R.anim.anim_enter_from_left, R.anim.anim_exit_to_right);
         ft.replace(R.id.new_poll_fragment_container, frag, NewPollEnterDetailFragment.TAG);
-        ft.commit();
-    }
-
-    public void navigateToNewPollFriends() {
-
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-
-        InviteFriendsFragment frag =
-                (InviteFriendsFragment) fm.findFragmentByTag(InviteFriendsFragment.TAG);
-
-        if (frag == null) {
-            frag = new InviteFriendsFragment();
-        }
-
-        ft.addToBackStack(InviteFriendsFragment.TAG);
-        ft.setCustomAnimations(R.anim.anim_enter_from_right, R.anim.anim_exit_to_left, R.anim.anim_enter_from_left, R.anim.anim_exit_to_right);
-
-        ft.replace(R.id.new_poll_fragment_container, frag, InviteFriendsFragment.TAG);
         ft.commit();
     }
 
@@ -241,8 +213,6 @@ public class NewPollActivity extends SnapPollBaseActivity {
 
                                        if (f instanceof NewPollSelectImageFragment) {
                                            ((NewPollSelectImageFragment) f).moveFloatButton(-snackbar.getHeight());
-                                       } else if (f instanceof InviteFriendsFragment) {
-//                                           ((NewPollFriendsFragment) f).moveFloatButton(-snackbar.getHeight());
                                        }
                                    }
 
@@ -261,8 +231,6 @@ public class NewPollActivity extends SnapPollBaseActivity {
                                        Fragment f = getSupportFragmentManager().findFragmentById(R.id.new_poll_fragment_container);
                                        if (f instanceof NewPollSelectImageFragment) {
                                            ((NewPollSelectImageFragment) f).moveFloatButton(0);
-                                       } else if (f instanceof InviteFriendsFragment) {
-//                                           ((NewPollFriendsFragment) f).moveFloatButton(-snackbar.getHeight());
                                        }
                                    }
 
