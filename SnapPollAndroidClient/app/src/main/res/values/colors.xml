@@ -22,7 +22,7 @@
     <color name="text_slidingtab_title_inactive">@color/text_gray</color>
 
     <!--Choose Friends-->
-    <color name="select_highlight">#8000FF00</color>
+    <color name="select_highlight">#D0FFB74D</color>
     <color name="unselect_highlight">#FFFFFF</color>
     <color name="poll_attribute_default">#FFA500</color>
 

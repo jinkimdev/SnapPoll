@@ -270,10 +270,16 @@ public class PollDetailFragment extends Fragment {
             }
         });
 
-        if (currentPoll.getAttributes() != null) {
+        // handle default attribute line
+        RelativeLayout rlAttributeDefault = (RelativeLayout) v.findViewById(R.id.detail_attribute_default);
+        if (currentPoll.getAttributes() != null && currentPoll.getAttributes().size() > 0) {
             displayAttributes(llAttributeContainer, currentPoll.getAttributes());
-            RelativeLayout rlAttributeDefault = (RelativeLayout) v.findViewById(R.id.detail_attribute_default);
             rlAttributeDefault.setVisibility(View.GONE);
+        } else {
+            // show the default selection
+            RadioButton rbSelect = (RadioButton) rlAttributeDefault.findViewById(R.id.rb_attribute);
+            rbSelect.setVisibility(View.VISIBLE);
+            rbSelect.setChecked(true);
         }
 
         // if view result mode, hide all action items in attribute line item view
@@ -282,12 +288,30 @@ public class PollDetailFragment extends Fragment {
     private void displayAttributes(LinearLayout attributeContainer, List<PollAttribute> attributes) {
 
         radioButtons = new ArrayList<>();
+        boolean first = true;
 
         for (PollAttribute attr : attributes) {
             LayoutInflater vi = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View row = vi.inflate(R.layout.row_poll_attribute_line_item, null);
 
             final RadioButton rbAttributeSelect = (RadioButton) row.findViewById(R.id.rb_attribute);
+            if (first) {
+                // if the first one, select by default
+                rbAttributeSelect.setChecked(true);
+                String colorHex;
+
+                colorHex = attr.getAttributeColorHex();
+                // check if valid color hex string
+                try {
+                    Color.parseColor(colorHex);
+                } catch (NullPointerException e) {
+                    colorHex = getString(R.string.color_default_marker);
+                }
+
+                tivRef.updateResponseMarkerColor(colorHex);
+                selectedAttr = attr;
+                first = false;
+            }
             final View colorIndicator = row.findViewById(R.id.view_attribute_line_color_indicator);
             final TextView tvAttributeName = (TextView) row.findViewById(R.id.tv_attribute_line_attribute_name);
 

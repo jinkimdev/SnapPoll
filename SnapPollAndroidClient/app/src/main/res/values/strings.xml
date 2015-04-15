@@ -35,7 +35,7 @@
     <string name="action_cancel">Cancel</string>
     <string name="dialog_title_new_attributes">New Attribute</string>
     <string name="title_invite_friends">Invite Friends</string>
-    <string name="query_hint_search_from_gplus">Search friend from Google+</string>
+    <string name="query_hint_search_from_gplus">Search Google+ Friends</string>
     <string name="dialog_title_choose_frineds_gplus">Invite Friends to Poll</string>
     <string name="title_new_poll_image_frag">Select Image</string>
     <string name="key_poll">Poll</string>
@@ -56,7 +56,7 @@
     <string name="msg_response_not_indicated">Please indicate your response on the image.</string>
     <string name="btn_select_all">SELECT ALL</string>
     <string name="btn_unselect_all">UNSELECT ALL</string>
-    <string name="lbl_attributes">Attributes</string>
+    <string name="lbl_attributes">Answer Choices</string>
     <string name="lbl_new_poll_attributes">Attributes (optional)</string>
     <string name="tag_attr_color">attribute_color</string>
     <string name="color_default_marker">#FF0000</string>

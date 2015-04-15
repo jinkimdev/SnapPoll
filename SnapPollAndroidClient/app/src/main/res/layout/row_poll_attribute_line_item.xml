@@ -54,7 +54,9 @@
         android:layout_marginLeft="30dp"
         android:layout_toRightOf="@id/view_attribute_line_color_indicator"
         android:layout_toLeftOf="@id/iv_btn_attribute_line_edit"
-        android:text="Default" />
+        android:text="Default"
+        android:textSize="12sp"
+        android:textColor="@color/text_gray"/>
 
 
 </RelativeLayout>
