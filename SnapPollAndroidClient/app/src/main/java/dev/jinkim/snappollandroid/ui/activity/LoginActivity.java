@@ -2,11 +2,16 @@ package dev.jinkim.snappollandroid.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.facebook.Session;
@@ -17,6 +22,7 @@ import com.facebook.widget.LoginButton;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.plus.Plus;
 import com.squareup.otto.Subscribe;
+import com.squareup.picasso.Picasso;
 
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.event.GoogleApiClientConnectedEvent;
@@ -51,7 +57,7 @@ public class LoginActivity extends SnapPollBaseActivity {
      */
     private boolean mIntentInProgress;
 
-    private ImageView ivLogo;
+    private ImageView ivBackground;
 
     private SessionManager appSession;
 
@@ -64,6 +70,14 @@ public class LoginActivity extends SnapPollBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // change the system status bar from orange (default theme) to dark gray on this activity only
+        if (Build.VERSION.SDK_INT >= 21) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(getResources().getColor(R.color.statusbar_gray));
+        }
+
         // facebook login
         uiHelper = new UiLifecycleHelper(this, statusCallback);
         uiHelper.onCreate(savedInstanceState);
@@ -75,6 +89,11 @@ public class LoginActivity extends SnapPollBaseActivity {
         appSession = new SessionManager(mActivity);
 
         setContentView(R.layout.activity_login);
+
+//        RelativeLayout rl = (RelativeLayout) findViewById(R.id.rl_login_screen);
+
+        // load background image
+        loadBackgroundImage();
 
         btnFacebookLogin = (LoginButton) findViewById(R.id.fb_login_button);
         // TODO: Temporarily unavailable
@@ -120,6 +139,19 @@ public class LoginActivity extends SnapPollBaseActivity {
         });
 
         bus.register(this);
+    }
+
+    private void loadBackgroundImage() {
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+        int width = metrics.widthPixels;
+        int height = metrics.heightPixels;
+
+        ivBackground = (ImageView) findViewById(R.id.login_iv_background);
+        Picasso.with(this)
+                .load(R.drawable.login_background)
+                .resize(width, height)
+                .centerCrop()
+                .into(ivBackground);
     }
 
     private Session.StatusCallback statusCallback = new Session.StatusCallback() {

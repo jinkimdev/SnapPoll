@@ -40,7 +40,7 @@
     <string name="title_new_poll_image_frag">Select Image</string>
     <string name="key_poll">Poll</string>
     <string name="tag_invited_polls_frag">InvitedPollsFragment</string>
-    <string name="tab_title_invited">Invited</string>
+    <string name="tab_title_invited">Invited Polls</string>
     <string name="tab_title_my_polls">My Polls</string>
     <string name="tag_my_polls_frag">MyPollsFragment</string>
     <string name="status_not_signed_in">Not signed in</string>

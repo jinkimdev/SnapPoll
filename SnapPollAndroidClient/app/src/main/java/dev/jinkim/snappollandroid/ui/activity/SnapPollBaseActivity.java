@@ -49,8 +49,6 @@ public class SnapPollBaseActivity extends ActionBarActivity {
     protected boolean mSignInClicked;
     protected ConnectionResult mConnectionResult;
 
-    protected ActionBar actionBar;
-
     protected MaterialDialog progressBar;
 
     @Override

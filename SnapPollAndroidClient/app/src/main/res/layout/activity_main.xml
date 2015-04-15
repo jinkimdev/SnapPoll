@@ -19,7 +19,7 @@
             android:id="@+id/toolbar"
             layout="@layout/toolbar" />
 
-        <!-- Container for tabs -->
+        <!-- Container for page -->
         <FrameLayout
             android:id="@+id/container"
             android:layout_width="match_parent"

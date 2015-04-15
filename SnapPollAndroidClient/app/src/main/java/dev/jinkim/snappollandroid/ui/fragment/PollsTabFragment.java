@@ -4,7 +4,7 @@ package dev.jinkim.snappollandroid.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTabHost;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -17,6 +17,8 @@ import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.model.Poll;
 import dev.jinkim.snappollandroid.ui.activity.MainActivity;
 import dev.jinkim.snappollandroid.ui.newpoll.NewPollActivity;
+import dev.jinkim.snappollandroid.ui.widget.slidingtab.SlidingTabLayout;
+import dev.jinkim.snappollandroid.ui.widget.slidingtab.ViewPagerAdapter;
 import dev.jinkim.snappollandroid.web.SnapPollRestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -28,8 +30,13 @@ import retrofit.client.Response;
 public class PollsTabFragment extends Fragment {
 
     public static final String TAG = PollsTabFragment.class.getSimpleName();
-    private FragmentTabHost mTabHost;
     private MainActivity mActivity;
+
+    private ViewPager viewPager;
+    private ViewPagerAdapter viewPagerAdapter;
+    private SlidingTabLayout slidingTabs;
+    private CharSequence titles[];
+    private int numTabs = 2;
 
 //    InvitedPollListAdapter adapter;
 
@@ -45,17 +52,31 @@ public class PollsTabFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.frag_polls, container, false);
+        View rootView = inflater.inflate(R.layout.frag_polls_tab_main, container, false);
 
-        mTabHost = (FragmentTabHost) rootView.findViewById(android.R.id.tabhost);
-        mTabHost.setup(getActivity(), getChildFragmentManager(), android.R.id.tabcontent);
+        titles = new String[]{getString(R.string.tab_title_invited), getString(R.string.tab_title_my_polls)};
 
-        mTabHost.addTab(mTabHost.newTabSpec(mActivity.getString(R.string.tag_invited_polls_frag))
-                        .setIndicator(mActivity.getString(R.string.tab_title_invited)),
-                InvitedPollsFragment.class, null);
-        mTabHost.addTab(mTabHost.newTabSpec(mActivity.getString(R.string.tag_my_polls_frag))
-                        .setIndicator(mActivity.getString(R.string.tab_title_my_polls)),
-                MyPollsFragment.class, null);
+        // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
+        viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager(), titles, numTabs);
+
+        // Assigning ViewPager View and setting the adapter
+        viewPager = (ViewPager) rootView.findViewById(R.id.viewpager);
+        viewPager.setAdapter(viewPagerAdapter);
+
+        // Assiging the Sliding Tab Layout View
+        slidingTabs = (SlidingTabLayout) rootView.findViewById(R.id.slidingtabs);
+        slidingTabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
+
+        // Setting Custom Color for the Scroll bar indicator of the Tab View
+        slidingTabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+            @Override
+            public int getIndicatorColor(int position) {
+                return getResources().getColor(R.color.tab_scroll_color);
+            }
+        });
+
+        // Setting the ViewPager For the SlidingTabsLayout
+        slidingTabs.setViewPager(viewPager);
 
         setHasOptionsMenu(true);
 

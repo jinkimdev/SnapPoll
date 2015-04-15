@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- APP MAIN THEME -->
+    <color name="app_primary">#FF9800</color>
+    <color name="app_primary_dark">#F57C00</color>
+    <color name="app_accent">#FF9100</color>
+    <color name="app_accent_light">#FFE0B2</color>
+
+    <color name="divider">#CCCCCC</color>
+    <color name="transparent">#00000000</color>
+    <color name="translucent">#D0FFFFFF</color>
+
+    <!-- SLIDING TABS -->
+    <color name="tab_scroll_color">@color/app_accent_light</color>
+
+    <!-- TEXT -->
     <color name="text_primary">#555555</color>
     <color name="text_gray">#777777</color>
     <color name="text_light_gray">#AAAAAA</color>
-    <color name="text_toolbar_title">#CCCCCC</color>
-
-    <color name="divider">#CCCCCC</color>
+    <color name="text_toolbar_title">#FFFFFF</color>
+    <color name="text_slidingtab_title_active">@color/text_toolbar_title</color>
+    <color name="text_slidingtab_title_inactive">@color/text_gray</color>
 
     <!--Choose Friends-->
     <color name="select_highlight">#8000FF00</color>
@@ -19,12 +33,8 @@
     <color name="default_attribute_color">#e67e22</color>
     <color name="background_row_poll_translucent">#E0FFFFFF</color>
     <color name="background_profile_image">#00FFFFFF</color>
-    <color name="app_primary">#FFA400</color>
-    <color name="app_primary_dark">#E08A1E</color>
-
-    <color name="tab_highlight">@color/app_primary</color>
-
-    <color name="transparent">#00000000</color>
-    <color name="translucent">#D0FFFFFF</color>
+    <color name="text_white">#FFFFFF</color>
+    <color name="login_screen_foreground">#30000000</color>
+    <color name="statusbar_gray">#333333</color>
 
 </resources>

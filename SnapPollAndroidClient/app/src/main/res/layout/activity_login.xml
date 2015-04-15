@@ -1,86 +1,103 @@
 <!-- A DrawerLayout is intended to be used as the top-level content view using match_parent for both width and height to consume the full space available. -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:facebook="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rl_login_screen"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="20dp">
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/login_iv_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="30dp">
 
-        <ImageView
-            android:id="@+id/iv_logo"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/ic"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="40dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/login_ll_logo_container"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Snap Poll Demo"
-            android:textSize="32sp"
-            android:textColor="@color/text_primary"
-            android:id="@+id/lbl_app_title" />
+            android:orientation="vertical"
+            android:layout_weight="3">
+
+            <ImageView
+                android:id="@+id/iv_logo"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_login_logo"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="40dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="20dp"
+                android:text="Snap Poll\nDemo"
+                android:textSize="40sp"
+                android:textColor="@color/text_white"
+                android:id="@+id/lbl_app_title" />
+        </LinearLayout>
+
+
+        <!-- FACEBOOK LOGIN BUTTON -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:layout_weight="2">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:layout_gravity="center_horizontal"
+                android:text="Sign in with"
+                android:textColor="@color/text_light_gray"
+                android:textSize="18sp"
+                android:visibility="gone" />
+
+            <com.facebook.widget.LoginButton
+                android:id="@+id/fb_login_button"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:visibility="invisible"
+                facebook:confirm_logout="false"
+                facebook:fetch_user_info="true" />
+
+            <com.google.android.gms.common.SignInButton
+                android:id="@+id/btn_sign_in"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10dp"
+                android:layout_marginBottom="20dp" />
+
+            <Button
+                android:id="@+id/btn_sign_out"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_signout_from_google"
+                android:visibility="gone"
+                android:layout_marginBottom="10dp" />
+
+            <Button
+                android:id="@+id/btn_revoke_access"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_revoke_access"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
-    <!-- FACEBOOK LOGIN BUTTON -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:layout_gravity="center_horizontal"
-            android:text="Sign in with"
-            android:textColor="@color/text_light_gray"
-            android:textSize="18sp"
-            android:visibility="gone" />
-
-        <com.facebook.widget.LoginButton
-            android:id="@+id/fb_login_button"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="12dp"
-            android:visibility="invisible"
-            facebook:confirm_logout="false"
-            facebook:fetch_user_info="true"/>
-
-        <com.google.android.gms.common.SignInButton
-            android:id="@+id/btn_sign_in"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="10dp"
-            android:layout_marginBottom="20dp" />
-
-        <Button
-            android:id="@+id/btn_sign_out"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/btn_signout_from_google"
-            android:visibility="gone"
-            android:layout_marginBottom="10dp" />
-
-        <Button
-            android:id="@+id/btn_revoke_access"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/btn_revoke_access"
-            android:visibility="gone" />
-
-
-    </LinearLayout>
-</LinearLayout>
+</RelativeLayout>
