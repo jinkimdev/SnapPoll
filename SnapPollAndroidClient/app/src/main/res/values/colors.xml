@@ -3,7 +3,7 @@
     <!-- APP MAIN THEME -->
     <color name="app_primary">#FF9800</color>
     <color name="app_primary_dark">#F57C00</color>
-    <color name="app_accent">#FF9100</color>
+    <color name="app_accent">#FFAB40</color>
     <color name="app_accent_light">#FFE0B2</color>
 
     <color name="divider">#CCCCCC</color>
@@ -11,15 +11,17 @@
     <color name="translucent">#D0FFFFFF</color>
 
     <!-- SLIDING TABS -->
-    <color name="tab_scroll_color">@color/app_accent_light</color>
+    <color name="tab_scroll_color">#FFFFFF</color>
 
     <!-- TEXT -->
     <color name="text_primary">#555555</color>
     <color name="text_gray">#777777</color>
     <color name="text_light_gray">#AAAAAA</color>
     <color name="text_toolbar_title">#FFFFFF</color>
+    <color name="text_disabled">#99ffffff</color>
     <color name="text_slidingtab_title_active">@color/text_toolbar_title</color>
     <color name="text_slidingtab_title_inactive">@color/text_gray</color>
+
 
     <!--Choose Friends-->
     <color name="select_highlight">#D0FFB74D</color>
@@ -36,5 +38,6 @@
     <color name="text_white">#FFFFFF</color>
     <color name="login_screen_foreground">#30000000</color>
     <color name="statusbar_gray">#333333</color>
+
 
 </resources>

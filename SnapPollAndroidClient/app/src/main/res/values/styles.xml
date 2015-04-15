@@ -1,7 +1,6 @@
 <resources>
 
     <style name="SnapPollTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!--<item name="android:button">@style/Widget.AppCompat.ActionButton</item>-->
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/text_primary</item>
         <item name="android:windowActionBarOverlay">true</item>
@@ -11,11 +10,6 @@
         <item name="colorPrimaryDark">@color/app_primary_dark</item>
         <item name="colorAccent">@color/app_accent</item>
         <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
-    </style>
-
-
-    <style name="SnapPollTheme.ActionBar" parent="@android:style/Theme.Holo.Light.DarkActionBar">
-        <item name="android:background">@drawable/tab_indicator_ab_snappollactionbar</item>
     </style>
 
     <style name="divider">

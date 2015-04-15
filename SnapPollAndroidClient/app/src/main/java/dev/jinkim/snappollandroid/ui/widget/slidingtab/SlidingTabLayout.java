@@ -1,5 +1,5 @@
 /**
- * Added using text color defined in the color resource
+ * Added using text color defined in the color resource, different color for unselected tab title
  */
 /*
  * Copyright 2014 Google Inc. All rights reserved.
@@ -227,6 +227,9 @@ public class SlidingTabLayout extends HorizontalScrollView {
             if (i == mViewPager.getCurrentItem()) {
                 tabView.setSelected(true);
             }
+
+            tabTitleView.setTextColor(getResources().getColorStateList(R.color.tab_selector));
+            tabTitleView.setTextSize(13);
         }
     }
 
