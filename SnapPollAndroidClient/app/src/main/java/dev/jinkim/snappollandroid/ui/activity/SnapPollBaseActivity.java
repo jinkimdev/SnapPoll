@@ -3,7 +3,6 @@ package dev.jinkim.snappollandroid.ui.activity;
 import android.app.Activity;
 import android.content.IntentSender;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.widget.Toast;
@@ -215,10 +214,12 @@ public class SnapPollBaseActivity extends ActionBarActivity {
     }
 
     public void showProgressBar(String msg) {
-        progressBar = new MaterialDialog.Builder(this)
-                .content(msg)
-                .progress(true, 0)
-                .show();
+        if (progressBar != null) {
+            progressBar = new MaterialDialog.Builder(this)
+                    .content(msg)
+                    .progress(true, 0)
+                    .show();
+        }
     }
 
     public void hideProgressBar() {

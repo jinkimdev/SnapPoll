@@ -39,11 +39,10 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="20dp"
                 android:text="Snap Poll\nDemo"
-                android:textSize="40sp"
+                android:textSize="36sp"
                 android:textColor="@color/text_white"
                 android:id="@+id/lbl_app_title" />
         </LinearLayout>
-
 
         <!-- FACEBOOK LOGIN BUTTON -->
         <LinearLayout
