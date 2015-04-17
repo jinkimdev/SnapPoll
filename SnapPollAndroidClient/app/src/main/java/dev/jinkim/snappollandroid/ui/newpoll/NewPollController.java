@@ -18,6 +18,7 @@ import dev.jinkim.snappollandroid.model.PollAttribute;
 import dev.jinkim.snappollandroid.model.RowFriend;
 import dev.jinkim.snappollandroid.model.User;
 import dev.jinkim.snappollandroid.ui.polldetail.PollDetailActivity;
+import dev.jinkim.snappollandroid.util.ColorUtil;
 import dev.jinkim.snappollandroid.util.efilechooser.FileUtils;
 import dev.jinkim.snappollandroid.web.ImgurRestClient;
 import dev.jinkim.snappollandroid.web.SnapPollRestClient;
@@ -168,7 +169,17 @@ public class NewPollController {
         currentPoll.setMultipleResponseAllowed(isMultipleResponseAllowed());
         currentPoll.setReferenceUrl(resp.data.getLink());
         currentPoll.setReferenceDeleteHash(resp.data.getDeletehash());
+
+        if (attributes.size() < 1) {
+            // set a default attribute
+            PollAttribute at = new PollAttribute();
+            at.setAttributeName(mActivity.getString(R.string.attribute_name_default));
+            String colorHex = ColorUtil.convertToHex(mActivity.getResources().getColor(R.color.app_primary));
+            at.setAttributeColorHex(colorHex);
+            attributes.add(at);
+        }
         currentPoll.setAttributes(attributes);
+
 
         SnapPollRestClient.ApiService rest = new SnapPollRestClient().getApiService();
 

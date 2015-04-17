@@ -21,6 +21,7 @@ public class Poll implements MyPollListAdapter.MyPollItem {
     public boolean multipleResponseAllowed = false;
     public String referenceUrl = "";
     public String referenceDeleteHash = "";
+    public boolean open = true;
     public List<PollAttribute> attributes;
     public int numResponses;
 
@@ -128,6 +129,14 @@ public class Poll implements MyPollListAdapter.MyPollItem {
     @Override
     public boolean isSection() {
         return false;
+    }
+
+    public boolean isOpen() {
+        return open;
+    }
+
+    public void setOpen(boolean open) {
+        this.open = open;
     }
 
     public List<PollAttribute> getAttributes() {

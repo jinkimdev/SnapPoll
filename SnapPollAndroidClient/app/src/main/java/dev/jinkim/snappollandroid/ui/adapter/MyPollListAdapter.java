@@ -55,7 +55,7 @@ public class MyPollListAdapter extends BaseAdapter {
         list = new ArrayList<MyPollItem>();
         list.add(new Section(mActivity.getResources().getString(R.string.section_open)));
         for (Poll p : polls) {
-            if (p.getCreatorId().equals(u.getUserId()) && p.isActive()) {
+            if (p.getCreatorId().equals(u.getUserId()) && p.isOpen()) {
                 list.add(p);
             }
         }
@@ -63,7 +63,7 @@ public class MyPollListAdapter extends BaseAdapter {
         //TODO: empty row for "open" section
         list.add(new Section(mActivity.getResources().getString(R.string.section_closed)));
         for (Poll p : polls) {
-            if (p.getCreatorId().equals(u.getUserId()) && !p.isActive()) {
+            if (p.getCreatorId().equals(u.getUserId()) && !p.isOpen()) {
                 list.add(p);
             }
         }
