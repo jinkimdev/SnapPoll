@@ -123,4 +123,21 @@ public class InvitedPollsFragment extends ListFragment {
         adapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && isResumed()) {
+            onResume();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!getUserVisibleHint()) {
+            return;
+        }
+
+        mActivity.setCurrentFragment(this);
+    }
 }

@@ -123,4 +123,23 @@ public class MyPollsFragment extends ListFragment {
         myPolls.add(0, poll);
         adapter.notifyDataSetChanged();
     }
+
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && isResumed()) {
+            onResume();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!getUserVisibleHint()) {
+            return;
+        }
+
+        mActivity.setCurrentFragment(this);
+    }
 }

@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -124,7 +125,12 @@ public class PollsTabFragment extends Fragment {
         if (id == R.id.action_refresh_list) {
             mActivity.showProgressBar(R.string.msg_loading);
 
-            Fragment f = getChildFragmentManager().findFragmentById(R.id.poll_list_viewpager);
+            Fragment f = mActivity.getCurrentFragment();
+            if (f == null) {
+                Toast.makeText(mActivity, R.string.msg_current_fragment_invalid, Toast.LENGTH_SHORT).show();
+            }
+
+//            Fragment f = getChildFragmentManager().findFragmentById(R.id.poll_list_viewpager);
             if (f instanceof InvitedPollsFragment) {
                 ((InvitedPollsFragment) f).retrievePolls();
             } else if (f instanceof MyPollsFragment) {

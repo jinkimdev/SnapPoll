@@ -47,7 +47,7 @@ public class SnapPollMarkerDrawer {
         this.touchImageView = (TouchImageView) touchImageView;
 
         setupResponseCirclePaint();
-        setupResponseCircleBorderOut();
+        setupResponseCircleBorderIn();
         setupResponsePinPaint();
         setDefaultColor();
     }
@@ -61,7 +61,7 @@ public class SnapPollMarkerDrawer {
         responseCirclePaint.setAntiAlias(true);
     }
 
-    private void setupResponseCircleBorderOut() {
+    private void setupResponseCircleBorderIn() {
         responseCircleBorderIn = new Paint();
         responseCircleBorderIn.setStyle(Paint.Style.STROKE);
         responseCircleBorderIn.setColor(Color.parseColor("#555555"));
@@ -137,9 +137,13 @@ public class SnapPollMarkerDrawer {
                 circlePaint.setColor(Color.parseColor(colorHex));
 
                 canvas.drawCircle(
-                        scrCoords.x - RESPONSE_CIRCLE_RADIUS / 2,
-                        scrCoords.y - RESPONSE_CIRCLE_RADIUS / 2,
+                        scrCoords.x,
+                        scrCoords.y,
                         RESPONSE_CIRCLE_RADIUS, circlePaint);
+                canvas.drawCircle(scrCoords.x,
+                        scrCoords.y,
+                        CIRCLE_BORDER_IN_RADIUS,
+                        responseCircleBorderIn);
             }
         }
     }

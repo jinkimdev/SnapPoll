@@ -49,6 +49,8 @@ public class MainActivity extends SnapPollBaseActivity
 
     private SessionManager appSession;
 
+    private Fragment currentFragment;
+
     private List<Poll> invitedPolls;
     private List<Poll> myPolls;
 
@@ -233,5 +235,13 @@ public class MainActivity extends SnapPollBaseActivity
 
     public void setMyPolls(List<Poll> myPolls) {
         this.myPolls = myPolls;
+    }
+
+    public void setCurrentFragment(Fragment fragment) {
+        this.currentFragment = fragment;
+    }
+
+    public Fragment getCurrentFragment() {
+        return currentFragment;
     }
 }
