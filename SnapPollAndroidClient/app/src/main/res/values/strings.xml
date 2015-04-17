@@ -64,4 +64,5 @@
     <string name="msg_signing_in_google">Signing in with Google...</string>
     <string name="msg_loading">Loading...</string>
     <string name="msg_submitting">Submitting...</string>
+    <string name="msg_signin_error">Error in login. Please try again.</string>
 </resources>

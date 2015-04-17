@@ -24,7 +24,6 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -93,7 +92,6 @@ public class TouchImageView extends ImageView {
 
     private static enum State {NONE, DRAG, ZOOM, FLING, ANIMATE_ZOOM}
 
-    ;
     private State state;
 
     private float minScale;
@@ -139,36 +137,41 @@ public class TouchImageView extends ImageView {
     //    private String spResponseMarkerColorHex = String.format("#%06X", 0xFFFFFF & Color.RED);
     private String spResponseMarkerColorHex;
 
+    private SnapPollMarkerDrawer markerDrawer;
 
     public TouchImageView(Context context) {
         super(context);
         sharedConstructing(context);
-        setDefaultColor(context);
+        if (markerDrawer == null) {
+            setUpMarkerDrawer();
+        }
     }
 
     public TouchImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
         sharedConstructing(context);
-        setDefaultColor(context);
+        if (markerDrawer == null) {
+            setUpMarkerDrawer();
+        }
     }
 
     public TouchImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         sharedConstructing(context);
-        setDefaultColor(context);
+        if (markerDrawer == null) {
+            setUpMarkerDrawer();
+        }
+
     }
 
-    private void setDefaultColor(Context context) {
-        String colorHex;
-        colorHex = ColorUtil.convertToHex(context.getResources().getColor(R.color.default_attribute_color));
-        if (colorHex == null) {
-            colorHex = "#e67e22";
-        }
-        spResponseMarkerColorHex = colorHex;
+    /* METHODS USED FOR SNAP POLL */
+
+    public SnapPollMarkerDrawer getMarkerDrawer() {
+        return markerDrawer;
     }
 
     public void updateResponseMarkerColor(String colorHex) {
-        spResponseMarkerColorHex = colorHex;
+        markerDrawer.updateMarkerColor(colorHex);
         invalidate();
     }
 
@@ -178,11 +181,10 @@ public class TouchImageView extends ImageView {
 
     private void drawResponses(Canvas canvas) {
         Paint circlePaint = new Paint();
-//        paint.setStyle(Paint.Style.FILL_AND_STROKE);
         circlePaint.setStyle(Paint.Style.STROKE);
         circlePaint.setColor(Color.parseColor(spResponseMarkerColorHex));
         circlePaint.setStrokeWidth(12f);
-        circlePaint.setAlpha(170);
+        circlePaint.setAlpha(100);
         circlePaint.setAntiAlias(true);
 
         if (pollResponses != null) {
@@ -217,58 +219,28 @@ public class TouchImageView extends ImageView {
         this.markerEnabled = markerEnabled;
     }
 
-    private void setupSelectorBitmap() {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inScaled = false;
-
-        spSelectorBmp = BitmapFactory.decodeResource(getResources(),
-                R.drawable.ic_marker_red, options);
-
-        // TODO: Find optimal marker size (scale) based on screen
-        spScaledSelectorBmp = Bitmap.createScaledBitmap(
-                spSelectorBmp, 196, 196, true);
-
-        spScaledSelectorWidth = spScaledSelectorBmp.getWidth();
-        spScaledSelectorHeight = spScaledSelectorBmp.getHeight();
-    }
-
     private void drawSelector(Canvas canvas) {
 
         if (spSelectorCoords == null) {
             return;
         }
 
-        if (spSelectorBmp == null) {
-            setupSelectorBitmap();
-        }
-
         // convert coords (rel to image) into coords (rel to screen) for the markers
         PointF scrCoords = transformCoordBitmapToTouch(spSelectorCoords.x, spSelectorCoords.y);
 
-        // draw circle around touch (selection) point
-        Paint circlePaint = new Paint();
-        circlePaint.setStyle(Paint.Style.STROKE);
-        circlePaint.setColor(Color.parseColor(spResponseMarkerColorHex));
-        circlePaint.setStrokeWidth(12f);
-        circlePaint.setAlpha(170);
-        circlePaint.setAntiAlias(true);
+        markerDrawer.drawResponseCircle(canvas, scrCoords);
+        markerDrawer.drawResponsePin(canvas, scrCoords);
+    }
 
-        canvas.drawCircle(scrCoords.x, scrCoords.y, 30f, circlePaint);
-
-        // draw selector marker pin above touch (selection) point
-        Paint selectorPaint = new Paint();
-        selectorPaint.setAntiAlias(true);
-        selectorPaint.setFilterBitmap(true);
-        selectorPaint.setDither(true);
-
-        canvas.drawBitmap(spScaledSelectorBmp,
-                scrCoords.x - (spScaledSelectorWidth / 2),
-                scrCoords.y - spScaledSelectorHeight,
-                selectorPaint);
+    private void setUpMarkerDrawer() {
+        if (markerDrawer == null) {
+            markerDrawer = new SnapPollMarkerDrawer(getContext(), this);
+        }
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
+
         onDrawReady = true;
         imageRenderedAtLeastOnce = true;
         if (delayedZoomVariables != null) {
@@ -283,10 +255,10 @@ public class TouchImageView extends ImageView {
         if (markerEnabled) {
             drawSelector(canvas);
         } else {
-            drawResponses(canvas);
+            markerDrawer.drawResultResponses(canvas, pollResponses);
+//            drawResponses(canvas);
         }
     }
-
 
     private void sharedConstructing(Context context) {
         super.setClickable(true);

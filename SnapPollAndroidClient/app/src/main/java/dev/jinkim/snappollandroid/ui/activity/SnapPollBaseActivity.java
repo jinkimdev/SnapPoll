@@ -144,6 +144,11 @@ public class SnapPollBaseActivity extends ActionBarActivity {
      */
     protected void resolveSignInError() {
         // TODO: FIX NULL POINTER HERE
+        if (mConnectionResult == null) {
+            Toast.makeText(this, R.string.msg_signin_error, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if (mConnectionResult.hasResolution()) {
             try {
                 mIntentInProgress = true;

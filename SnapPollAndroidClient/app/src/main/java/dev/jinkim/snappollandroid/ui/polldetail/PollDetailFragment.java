@@ -308,7 +308,9 @@ public class PollDetailFragment extends Fragment {
                     colorHex = getString(R.string.color_default_marker);
                 }
 
-                tivRef.updateResponseMarkerColor(colorHex);
+//                tivRef.updateResponseMarkerColor(colorHex);
+                tivRef.getMarkerDrawer().updateMarkerColor(colorHex);
+
                 selectedAttr = attr;
                 first = false;
             }
