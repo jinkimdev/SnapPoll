@@ -1,6 +1,5 @@
 package dev.jinkim.snappollandroid.ui.fragment;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -145,7 +144,7 @@ public class ProfileFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
         // hide the main actionbar menu
-        menu.setGroupVisible(R.id.main_menu_group, false);
+        menu.setGroupVisible(R.id.main_poll_list_menu_group, false);
     }
 
 }

@@ -87,7 +87,7 @@ public class MyPollsFragment extends ListFragment {
     }
 
     //TODO: retrieve polls + creator first name
-    private void retrieveMyPolls() {
+    public void retrieveMyPolls() {
         User u = App.getInstance().getCurrentUser(getActivity());
 
         if (u != null) {

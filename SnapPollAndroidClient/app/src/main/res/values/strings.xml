@@ -66,4 +66,5 @@
     <string name="msg_submitting">Submitting...</string>
     <string name="msg_signin_error">Error in login. Please try again.</string>
     <string name="attribute_name_default">Default</string>
+    <string name="action_refresh">Refresh</string>
 </resources>

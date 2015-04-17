@@ -60,7 +60,7 @@ public class PollsTabFragment extends Fragment {
         viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager(), titles, numTabs);
 
         // Assigning ViewPager View and setting the adapter
-        viewPager = (ViewPager) rootView.findViewById(R.id.viewpager);
+        viewPager = (ViewPager) rootView.findViewById(R.id.poll_list_viewpager);
         viewPager.setAdapter(viewPagerAdapter);
 
         // Assiging the Sliding Tab Layout View
@@ -119,6 +119,17 @@ public class PollsTabFragment extends Fragment {
             Intent in = new Intent(getActivity(), NewPollActivity.class);
             startActivity(in);
             return true;
+        }
+
+        if (id == R.id.action_refresh_list) {
+            mActivity.showProgressBar(R.string.msg_loading);
+
+            Fragment f = getChildFragmentManager().findFragmentById(R.id.poll_list_viewpager);
+            if (f instanceof InvitedPollsFragment) {
+                ((InvitedPollsFragment) f).retrievePolls();
+            } else if (f instanceof MyPollsFragment) {
+                ((MyPollsFragment) f).retrieveMyPolls();
+            }
         }
         return super.onOptionsItemSelected(item);
     }

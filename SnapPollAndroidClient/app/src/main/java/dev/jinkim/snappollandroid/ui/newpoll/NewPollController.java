@@ -149,6 +149,7 @@ public class NewPollController {
                             Log.d(TAG, "Failure: Image not uploaded to Imgur");
                             // TODO: ERROR MESSAGE
                             mActivity.hideProgressBar();
+                            mActivity.setSubmitting(false);
                         }
                     });
         }
@@ -190,6 +191,7 @@ public class NewPollController {
                 Log.d(TAG, "Success: pollId: " + pollId + " uploaded to SnapPoll database");
 
                 mActivity.hideProgressBar();
+                mActivity.setSubmitting(false);
 
                 Gson gson = new Gson();
                 String pollJsonString = gson.toJson(poll).toString();
@@ -207,6 +209,7 @@ public class NewPollController {
             public void failure(RetrofitError error) {
                 // TODO: failure message for user
                 Log.d(TAG, "Failure: Poll not uploaded: " + error.toString());
+                mActivity.setSubmitting(false);
             }
         });
     }

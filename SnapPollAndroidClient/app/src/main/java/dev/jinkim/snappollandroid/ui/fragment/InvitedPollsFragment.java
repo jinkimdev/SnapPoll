@@ -91,7 +91,7 @@ public class InvitedPollsFragment extends ListFragment {
     }
 
 
-    private void retrievePolls() {
+    public void retrievePolls() {
         User u = App.getInstance().getCurrentUser(mActivity);
 
         if (u != null) {

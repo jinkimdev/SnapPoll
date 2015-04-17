@@ -2,11 +2,18 @@
     xmlns:snappoll="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
-    <group android:id="@+id/main_menu_group">
+
+    <group android:id="@+id/main_poll_list_menu_group">
         <item
             android:id="@+id/action_new_poll"
             android:title="@string/action_new_poll"
             android:icon="@drawable/ic_action_new"
+            snappoll:showAsAction="always" />
+
+        <item
+            android:id="@+id/action_refresh_list"
+            android:title="@string/action_refresh"
+            android:icon="@drawable/ic_action_refresh"
             snappoll:showAsAction="always" />
     </group>
 </menu>

@@ -32,6 +32,8 @@ public class NewPollActivity extends SnapPollBaseActivity {
     private Bus bus;
     private NewPollController controller;
     private Toolbar toolbar;
+    private boolean isSubmitting = false;
+    private MenuItem menuSubmit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,10 +98,14 @@ public class NewPollActivity extends SnapPollBaseActivity {
         if (f instanceof NewPollEnterDetailFragment) {
             MenuItem menuNext = menu.findItem(R.id.action_new_poll_next);
             menuNext.setVisible(false);
-            MenuItem menuSubmit = menu.findItem(R.id.action_new_poll_submit);
+            menuSubmit = menu.findItem(R.id.action_new_poll_submit);
             menuSubmit.setVisible(true);
         }
         return true;
+    }
+
+    public void enableSubmitButton(boolean flag) {
+        menuSubmit.setEnabled(flag);
     }
 
     @Override
@@ -135,10 +141,14 @@ public class NewPollActivity extends SnapPollBaseActivity {
                 return true;
 
             case R.id.action_new_poll_submit:
-                // TODO: SUBMIT LOGIC
-//                controller.uploadImage();
+                // if already in progress, ignore
+                if (isSubmitting) {
+                    return true;
+                }
+
                 if (f instanceof NewPollEnterDetailFragment) {
                     if (((NewPollEnterDetailFragment) f).saveNewPollDetails()) {
+                        setSubmitting(true);
                         controller.uploadImage();
                     } else {
                         Toast.makeText(this, R.string.msg_poll_question_empty, Toast.LENGTH_SHORT).show();
@@ -247,5 +257,15 @@ public class NewPollActivity extends SnapPollBaseActivity {
 
                 )
                 .show(this);
+    }
+
+    public boolean isSubmitting() {
+        return isSubmitting;
+    }
+
+    public void setSubmitting(boolean isSubmitting) {
+        this.isSubmitting = isSubmitting;
+        enableSubmitButton(!isSubmitting);
+
     }
 }
