@@ -192,6 +192,7 @@ public class NewPollController {
 
                 mActivity.hideProgressBar();
                 mActivity.setSubmitting(false);
+                poll.setAttributes(attributes);
 
                 Gson gson = new Gson();
                 String pollJsonString = gson.toJson(poll).toString();

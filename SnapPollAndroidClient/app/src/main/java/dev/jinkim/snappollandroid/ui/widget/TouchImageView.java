@@ -179,32 +179,32 @@ public class TouchImageView extends ImageView {
         pollResponses = responses;
     }
 
-    private void drawResponses(Canvas canvas) {
-        Paint circlePaint = new Paint();
-        circlePaint.setStyle(Paint.Style.STROKE);
-        circlePaint.setColor(Color.parseColor(spResponseMarkerColorHex));
-        circlePaint.setStrokeWidth(12f);
-        circlePaint.setAlpha(100);
-        circlePaint.setAntiAlias(true);
-
-        if (pollResponses != null) {
-            for (Response resp : pollResponses) {
-                PointF scrCoords = transformCoordBitmapToTouch(resp.getX(), resp.getY());
-
-                // set color of each response according to attribute selection
-                String colorHex = resp.getAttributeColorHex();
-                if (colorHex == null) {
-                    colorHex = getResources().getString(R.string.color_default_marker);
-                }
-                circlePaint.setColor(Color.parseColor(colorHex));
-
-                canvas.drawCircle(
-                        scrCoords.x - spResponseMarkerSize / 2,
-                        scrCoords.y - spResponseMarkerSize / 2,
-                        spResponseMarkerSize, circlePaint);
-            }
-        }
-    }
+//    private void drawResponses(Canvas canvas) {
+//        Paint circlePaint = new Paint();
+//        circlePaint.setStyle(Paint.Style.STROKE);
+//        circlePaint.setColor(Color.parseColor(spResponseMarkerColorHex));
+//        circlePaint.setStrokeWidth(12f);
+//        circlePaint.setAlpha(100);
+//        circlePaint.setAntiAlias(true);
+//
+//        if (pollResponses != null) {
+//            for (Response resp : pollResponses) {
+//                PointF scrCoords = transformCoordBitmapToTouch(resp.getX(), resp.getY());
+//
+//                // set color of each response according to attribute selection
+//                String colorHex = resp.getAttributeColorHex();
+//                if (colorHex == null) {
+//                    colorHex = getResources().getString(R.string.color_default_marker);
+//                }
+//                circlePaint.setColor(Color.parseColor(colorHex));
+//
+//                canvas.drawCircle(
+//                        scrCoords.x - spResponseMarkerSize / 2,
+//                        scrCoords.y - spResponseMarkerSize / 2,
+//                        spResponseMarkerSize, circlePaint);
+//            }
+//        }
+//    }
 
     public void setSelectorCoords(PointF selectorCoords) {
         if (selectorCoords == null) {
