@@ -57,7 +57,7 @@
     <string name="btn_select_all">SELECT ALL</string>
     <string name="btn_unselect_all">UNSELECT ALL</string>
     <string name="lbl_attributes">Answer Choices</string>
-    <string name="lbl_new_poll_attributes">Attributes (optional)</string>
+    <string name="lbl_new_poll_attributes">Answer Choices (Optional)</string>
     <string name="tag_attr_color">attribute_color</string>
     <string name="color_default_marker">#FF0000</string>
     <string name="msg_poll_invalid">Poll is invalid.</string>
@@ -67,4 +67,5 @@
     <string name="msg_signin_error">Error in login. Please try again.</string>
     <string name="attribute_name_default">Default</string>
     <string name="action_refresh">Refresh</string>
+    <string name="lbl_poll_title">Poll Title (Optional)</string>
 </resources>
