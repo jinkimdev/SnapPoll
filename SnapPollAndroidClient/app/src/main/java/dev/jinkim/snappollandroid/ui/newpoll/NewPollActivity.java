@@ -1,6 +1,6 @@
 package dev.jinkim.snappollandroid.ui.newpoll;
 
-import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -34,13 +34,22 @@ public class NewPollActivity extends SnapPollBaseActivity {
     private Toolbar toolbar;
     private boolean isSubmitting = false;
     private MenuItem menuSubmit;
+    private Uri capturedImageUri;
+    private String capturedPhotoPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            capturedImageUri = Uri.parse(savedInstanceState.getString("capturedImageUri"));
+            capturedPhotoPath = savedInstanceState.getString("capturedPhotoPath");
+        }
+
         setContentView(R.layout.activity_new_poll);
 
-        controller = new NewPollController(this);
+        if (controller == null) {
+            controller = new NewPollController(this);
+        }
 
         // set up toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -128,7 +137,7 @@ public class NewPollActivity extends SnapPollBaseActivity {
             case R.id.action_new_poll_next:
 
                 if (f instanceof NewPollSelectImageFragment) {
-                    if (controller.getUriSelectedImg() == null) {
+                    if (capturedImageUri == null && capturedPhotoPath == null) {
                         displaySnackBar(R.string.msg_image_not_selected);
                     } else {
                         Log.d(TAG, "Navigate from Image -> Detail");
@@ -200,15 +209,11 @@ public class NewPollActivity extends SnapPollBaseActivity {
         super.onPause();
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-    }
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//    }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
 
     @Override
     public void displaySnackBar(String msg) {
@@ -267,5 +272,41 @@ public class NewPollActivity extends SnapPollBaseActivity {
         this.isSubmitting = isSubmitting;
         enableSubmitButton(!isSubmitting);
 
+    }
+
+    public void setCapturedImageUri(Uri imgUri) {
+        this.capturedImageUri = imgUri;
+    }
+    public void setCapturedImageUri(String imgPath) {
+        Uri uri = Uri.parse(imgPath);
+        capturedImageUri = uri;
+    }
+
+    public Uri getCapturedImageUri() {
+        return capturedImageUri;
+    }
+
+    public void clearCapturedImageUri() {
+        this.capturedImageUri = null;
+    }
+
+    public String getCapturedPhotoPath() {
+        return capturedPhotoPath;
+    }
+
+
+    public void setCapturedPhotoPath(String capturedPhotoPath) {
+        this.capturedPhotoPath = capturedPhotoPath;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (capturedImageUri != null) {
+            outState.putString("capturedImageUri", capturedImageUri.toString());
+        }
+        if (capturedPhotoPath != null) {
+            outState.putString("capturedPhotoPath", capturedPhotoPath);
+        }
     }
 }

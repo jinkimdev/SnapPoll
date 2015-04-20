@@ -87,9 +87,16 @@ public class NewPollEnterDetailFragment extends Fragment {
 //        progressBar = (ProgressBarIndeterminate) v.findViewById(R.id.pb_create_poll_upload_progress);
 
         ivImageBackground = (ImageView) v.findViewById(R.id.new_poll_detail_iv_background_image);
-        if (controller.getUriSelectedImg() != null) {
+
+        // load selected image from saved URI
+        if (mActivity.getCapturedImageUri() != null) {
             Picasso.with(mActivity)
-                    .load(controller.getUriSelectedImg())
+                    .load(mActivity.getCapturedImageUri())
+                    .fit().centerCrop()
+                    .into(ivImageBackground);
+        } else if (mActivity.getCapturedPhotoPath() != null) {
+            Picasso.with(mActivity)
+                    .load(mActivity.getCapturedImageUri())
                     .fit().centerCrop()
                     .into(ivImageBackground);
         }

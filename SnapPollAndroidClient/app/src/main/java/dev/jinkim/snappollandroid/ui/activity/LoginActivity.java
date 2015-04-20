@@ -70,6 +70,11 @@ public class LoginActivity extends SnapPollBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setContentView(R.layout.activity_login);
+
+        // load background image
+        loadBackgroundImage();
+
         // change the system status bar from orange (default theme) to dark gray on this activity only
         if (Build.VERSION.SDK_INT >= 21) {
             Window window = getWindow();
@@ -88,12 +93,11 @@ public class LoginActivity extends SnapPollBaseActivity {
         mActivity = this;
         appSession = new SessionManager(mActivity);
 
-        setContentView(R.layout.activity_login);
+
 
 //        RelativeLayout rl = (RelativeLayout) findViewById(R.id.rl_login_screen);
 
-        // load background image
-        loadBackgroundImage();
+
 
         btnFacebookLogin = (LoginButton) findViewById(R.id.fb_login_button);
         // TODO: Temporarily unavailable
@@ -142,14 +146,11 @@ public class LoginActivity extends SnapPollBaseActivity {
     }
 
     private void loadBackgroundImage() {
-        DisplayMetrics metrics = getResources().getDisplayMetrics();
-        int width = metrics.widthPixels;
-        int height = metrics.heightPixels;
-
         ivBackground = (ImageView) findViewById(R.id.login_iv_background);
         Picasso.with(this)
                 .load(R.drawable.login_background)
-                .resize(width, height)
+//                .resize(width, height)
+                .fit()
                 .centerCrop()
                 .into(ivBackground);
     }
@@ -159,9 +160,9 @@ public class LoginActivity extends SnapPollBaseActivity {
         public void call(Session session, SessionState state,
                          Exception exception) {
             if (state.isOpened()) {
-                Log.d("FacebookSampleActivity", "Facebook session opened");
+                Log.d(TAG, "Facebook session opened");
             } else if (state.isClosed()) {
-                Log.d("FacebookSampleActivity", "Facebook session closed");
+                Log.d(TAG, "Facebook session closed");
             }
         }
     };

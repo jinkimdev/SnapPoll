@@ -3,6 +3,7 @@ package dev.jinkim.snappollandroid.ui.newpoll;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -57,6 +58,10 @@ public class NewPollController {
 
     public void setUriSelectedImg(Uri uriSelectedImg) {
         this.uriSelectedImg = uriSelectedImg;
+    }
+
+    public void setUriSelectedImg(String imagePath) {
+        this.uriSelectedImg = Uri.parse(imagePath);
     }
 
     public int getPollId() {
@@ -125,7 +130,19 @@ public class NewPollController {
 
         } else {
             //TODO: Check if this util works with various versions of Android
-            File file = FileUtils.getFile(mActivity, uriSelectedImg);
+
+            File file = null;
+            if (mActivity.getCapturedImageUri() != null) {
+                file = FileUtils.getFile(mActivity, mActivity.getCapturedImageUri());
+            } else if (mActivity.getCapturedPhotoPath() != null) {
+                file = new File(mActivity.getCapturedPhotoPath());
+            }
+
+            // check the file object created
+            if (file == null) {
+                Toast.makeText(mActivity, "Error in creating the image file.", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
             //TODO: Catch exception and handle it
             TypedFile tf = new TypedFile("image/*", file);
