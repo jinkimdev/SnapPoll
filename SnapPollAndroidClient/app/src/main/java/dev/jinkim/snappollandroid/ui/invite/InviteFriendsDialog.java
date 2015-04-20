@@ -200,7 +200,7 @@ public class InviteFriendsDialog {
                     }
                 })
                 .show();
-        dialog.show();
+//        dialog.show();
     }
 
     /**
