@@ -70,4 +70,5 @@
     <string name="lbl_poll_title">Poll Title (Optional)</string>
     <string name="msg_current_fragment_invalid">Current Fragment is Null.</string>
     <string name="dialog_title_select_image_source">Select Image Source</string>
+    <string name="msg_refreshing_list">Refreshing the list ...</string>
 </resources>

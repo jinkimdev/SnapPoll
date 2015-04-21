@@ -130,12 +130,13 @@ public class PollsTabFragment extends Fragment {
                 Toast.makeText(mActivity, R.string.msg_current_fragment_invalid, Toast.LENGTH_SHORT).show();
             }
 
-//            Fragment f = getChildFragmentManager().findFragmentById(R.id.poll_list_viewpager);
             if (f instanceof InvitedPollsFragment) {
                 ((InvitedPollsFragment) f).retrievePolls();
             } else if (f instanceof MyPollsFragment) {
                 ((MyPollsFragment) f).retrieveMyPolls();
             }
+
+            Toast.makeText(mActivity, R.string.msg_refreshing_list, Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }
