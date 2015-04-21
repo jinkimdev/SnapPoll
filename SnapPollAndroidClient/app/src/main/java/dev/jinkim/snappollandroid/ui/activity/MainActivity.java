@@ -75,7 +75,6 @@ public class MainActivity extends SnapPollBaseActivity
         bus.register(this);
 
         appSession = new SessionManager(this);
-
     }
 
     @Override
@@ -107,6 +106,14 @@ public class MainActivity extends SnapPollBaseActivity
                     profileFrag = new ProfileFragment();
                 }
                 fm.beginTransaction().replace(R.id.container, profileFrag, ProfileFragment.TAG).commit();
+                break;
+
+            case 2:
+                Fragment settingsFrag = fm.findFragmentByTag(SettingsFragment.TAG);
+                if (settingsFrag == null) {
+                    settingsFrag = new SettingsFragment();
+                }
+                fm.beginTransaction().replace(R.id.container, settingsFrag, SettingsFragment.TAG).commit();
                 break;
 
             default:

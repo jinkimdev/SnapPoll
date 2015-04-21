@@ -147,10 +147,9 @@ public class NewPollSelectImageFragment extends Fragment {
 
     public void captureImageFromCamera() {
         // Check if there is a camera.
-
         PackageManager packageManager = mActivity.getPackageManager();
 
-        if (packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA) == false) {
+        if (!packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
             Toast.makeText(getActivity(), "This device does not have a camera.", Toast.LENGTH_SHORT)
                     .show();
             return;
@@ -235,7 +234,6 @@ public class NewPollSelectImageFragment extends Fragment {
                     // path of the image captured from camera is already stored
                     // display selected image
                     updateThumbnail(mActivity.getCapturedPhotoPath());
-
                 }
                 break;
         }

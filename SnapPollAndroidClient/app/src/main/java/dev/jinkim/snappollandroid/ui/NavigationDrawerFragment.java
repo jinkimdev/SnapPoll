@@ -19,11 +19,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import dev.jinkim.snappollandroid.R;
+import dev.jinkim.snappollandroid.ui.adapter.DrawerItem;
+import dev.jinkim.snappollandroid.ui.adapter.NavigationDrawerAdapter;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -58,6 +64,8 @@ public class NavigationDrawerFragment extends Fragment {
     private ListView mDrawerListView;
     private View mFragmentContainerView;
 
+    private NavigationDrawerAdapter adapter;
+
     private int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
 
@@ -74,6 +82,7 @@ public class NavigationDrawerFragment extends Fragment {
         // drawer. See PREF_USER_LEARNED_DRAWER for details.
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
 //        mUserLearnedDrawer = sp.getBoolean(PREF_USER_LEARNED_DRAWER, false);
+
         /* TODO: CHANGE THIS FOR PRODUCTION */
         mUserLearnedDrawer = true;
 
@@ -81,11 +90,7 @@ public class NavigationDrawerFragment extends Fragment {
             mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
             mFromSavedInstanceState = true;
         }
-
-        // Select either the default item (0) or the last selected item.
-        selectItem(mCurrentSelectedPosition);
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -99,7 +104,6 @@ public class NavigationDrawerFragment extends Fragment {
                 selectItem(position);
             }
         });
-
 
         return view;
     }
@@ -115,15 +119,35 @@ public class NavigationDrawerFragment extends Fragment {
         Context themedContext = mActivity.getSupportActionBar().getThemedContext();
 //        Context themedContext = mActivity;
 
-        mDrawerListView.setAdapter(new ArrayAdapter<String>(
-                themedContext,
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                new String[]{
-                        getString(R.string.nav_drawer_title_polls),
-                        getString(R.string.nav_drawer_title_profile)
-                }));
+        List<DrawerItem> itemList = setupNavDrawer();
+
+        /* use custom adapter here */
+        adapter = new NavigationDrawerAdapter(mActivity, R.layout.row_nav_drawer_item, itemList);
+        mDrawerListView.setAdapter(adapter);
+        mDrawerListView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
+
+//        mDrawerListView.setAdapter(new ArrayAdapter<String>(
+//                themedContext,
+//                android.R.layout.simple_list_item_activated_1,
+//                android.R.id.text1,
+//                new String[]{
+//                        getString(R.string.nav_drawer_title_polls),
+//                        getString(R.string.nav_drawer_title_profile)
+//                }));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
+
+        // Select either the default item (0) or the last selected item.
+        selectItem(mCurrentSelectedPosition);
+    }
+
+    private List<DrawerItem> setupNavDrawer() {
+
+        List<DrawerItem> items = new ArrayList<DrawerItem>();
+        items.add(new DrawerItem(R.drawable.ic_drawer_polls, "Polls"));
+        items.add(new DrawerItem(R.drawable.ic_drawer_profile, "Profile"));
+        items.add(new DrawerItem(R.drawable.ic_drawer_settings, "Settings"));
+
+        return items;
     }
 
     public boolean isDrawerOpen() {
@@ -163,7 +187,6 @@ public class NavigationDrawerFragment extends Fragment {
                 if (!isAdded()) {
                     return;
                 }
-
                 getActivity().invalidateOptionsMenu(); // calls onPrepareOptionsMenu()
             }
 
@@ -206,6 +229,7 @@ public class NavigationDrawerFragment extends Fragment {
 
     private void selectItem(int position) {
         mCurrentSelectedPosition = position;
+        adapter.setSelectedPosition(position);
         if (mDrawerListView != null) {
             mDrawerListView.setItemChecked(position, true);
         }
