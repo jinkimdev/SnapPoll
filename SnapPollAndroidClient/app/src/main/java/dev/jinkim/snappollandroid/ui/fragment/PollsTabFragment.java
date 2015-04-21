@@ -66,7 +66,7 @@ public class PollsTabFragment extends Fragment {
 
         // Assiging the Sliding Tab Layout View
         slidingTabs = (SlidingTabLayout) rootView.findViewById(R.id.slidingtabs);
-        slidingTabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
+        slidingTabs.setDistributeEvenly(false); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
 
         // Setting Custom Color for the Scroll bar indicator of the Tab View
         slidingTabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
