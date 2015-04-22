@@ -171,8 +171,6 @@ public class PollDetailFragment extends Fragment {
                     if (attributeNames != null) {
                         attributeNames.get(i).setText(stat.formatText(mActivity));
                     }
-
-
                 }
             }
 
@@ -182,7 +180,6 @@ public class PollDetailFragment extends Fragment {
             }
         });
     }
-
 
     @Override
     public void onResume() {
