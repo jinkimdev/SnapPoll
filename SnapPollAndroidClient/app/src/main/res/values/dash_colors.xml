@@ -18,6 +18,17 @@
         <item>#888888</item>
     </string-array>
 
+    <string-array name="snappoll_response_colors" translatable="false">
+        <item>#FF6800</item>
+        <item>#00FFFF</item>
+        <item>#00FF00</item>
+        <item>#FF0000</item>
+        <item>#FFFF00</item>
+        <item>#C300FF</item>
+        <item>#CCCCCC</item>
+        <item>#000000</item>
+    </string-array>
+
     <string-array name="homescreen_color_choice_values" translatable="false">
         <item>#ffffff</item>
         <item>#000000</item>

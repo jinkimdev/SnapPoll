@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.util.Pair;
@@ -121,17 +120,14 @@ public class NewPollEnterDetailFragment extends Fragment {
             }
         });
 
-        mColors = ColorUtil.colorChoice(mActivity);
+        mColors = ColorUtil.colorChoice(mActivity, R.array.snappoll_response_colors);
     }
 
     private void showColorPicker() {
 
         ColorPickerDialogDash colordashfragment = ColorPickerDialogDash.newInstance(
                 R.string.color_picker_default_title,
-                mColors,
-//                mSelectedColorDash1,
-                0,
-                5);
+                mColors, 0, 4);
 
         //Implement listener to get color value
         colordashfragment.setOnColorSelectedListener(new ColorPickerDialogDash.OnColorSelectedListener() {

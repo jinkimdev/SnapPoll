@@ -1,3 +1,7 @@
+/**
+ * Changed as a support library compatible DialogFragment
+ */
+
 /*
  * Copyright 2013 Google Inc.
  *
@@ -295,13 +299,4 @@ public class ColorPickerDialogDash extends DialogFragment {
             ((TextView) view).setTextColor(color);
         }
     }
-
-//    @Override
-//    public void show(android.support.v4.app.FragmentManager manager, String tag) {
-////        mDismissed = false;
-////        mShownByMe = true;
-//        android.support.v4.app.FragmentTransaction ft = manager.beginTransaction();
-//        ft.add(this, tag);
-//        ft.commit();
-//    }
 }
