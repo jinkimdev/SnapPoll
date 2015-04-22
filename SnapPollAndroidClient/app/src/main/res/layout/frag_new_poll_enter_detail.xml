@@ -26,6 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp">
+
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -38,6 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="18dp">
+
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -48,7 +50,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:paddingLeft="4dp">
 
                 <TextView
@@ -69,35 +71,48 @@
                     android:visibility="gone"
                     android:checked="false" />
 
-                <TextView
-                    android:id="@+id/lbl_attributes"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/ll_container_attribute_choices"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/lbl_allow_multiple"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="24dp"
                     android:layout_marginRight="18dp"
-                    android:text="@string/lbl_new_poll_attributes" />
+                    android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/iv_btn_add_attribute"
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:layout_marginBottom="-8dp"
-                    android:src="@drawable/ic_add"
-                    android:layout_alignBottom="@id/lbl_attributes"
-                    android:layout_below="@id/lbl_allow_multiple"
-                    android:layout_toRightOf="@id/lbl_attributes" />
+                    <TextView
+                        android:id="@+id/lbl_attributes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/lbl_new_poll_attributes" />
+
+                    <ImageView
+                        android:id="@+id/iv_btn_add_attribute"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_marginLeft="10dp"
+                        android:src="@drawable/ic_add"
+                        android:layout_gravity="center_vertical" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/container_attributes"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/iv_btn_add_attribute"
+                    android:layout_below="@id/ll_container_attribute_choices"
                     android:layout_marginLeft="14dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginBottom="10dp"
                     android:orientation="vertical" />
+
+                <ListView
+                    android:id="@+id/lv_new_poll_attributes"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_below="@id/container_attributes"/>
+
             </RelativeLayout>
 
         </LinearLayout>

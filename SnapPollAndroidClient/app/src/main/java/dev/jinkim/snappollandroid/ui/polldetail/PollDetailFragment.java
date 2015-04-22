@@ -305,7 +305,7 @@ public class PollDetailFragment extends Fragment {
             rlAttributeDefault.setVisibility(View.GONE);
         } else {
             // show the default selection
-            RadioButton rbSelect = (RadioButton) rlAttributeDefault.findViewById(R.id.rb_attribute);
+            RadioButton rbSelect = (RadioButton) rlAttributeDefault.findViewById(R.id.rb_attribute_line_selection);
             rbSelect.setVisibility(View.VISIBLE);
             rbSelect.setChecked(true);
         }
@@ -324,7 +324,7 @@ public class PollDetailFragment extends Fragment {
             LayoutInflater vi = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View row = vi.inflate(R.layout.row_poll_attribute_line_item, null);
 
-            final RadioButton rbAttributeSelect = (RadioButton) row.findViewById(R.id.rb_attribute);
+            final RadioButton rbAttributeSelect = (RadioButton) row.findViewById(R.id.rb_attribute_line_selection);
             if (first) {
                 // if the first one, select by default
                 rbAttributeSelect.setChecked(true);
@@ -344,7 +344,7 @@ public class PollDetailFragment extends Fragment {
                 selectedAttr = attr;
                 first = false;
             }
-            final ImageView colorIndicator = (ImageView) row.findViewById(R.id.view_attribute_line_color_indicator);
+            final ImageView colorIndicator = (ImageView) row.findViewById(R.id.iv_attribute_line_color_indicator);
             final TextView tvAttributeName = (TextView) row.findViewById(R.id.tv_attribute_line_attribute_name);
             attributeNames.add(tvAttributeName);
 

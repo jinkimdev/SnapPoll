@@ -2,6 +2,8 @@ package dev.jinkim.snappollandroid.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import dev.jinkim.snappollandroid.util.ColorUtil;
+
 /**
  * Created by Jin on 2/9/15.
  */
@@ -14,6 +16,19 @@ public class PollAttribute {
     public String attributeName;
     @SerializedName("attribute_color_hex")
     public String attributeColorHex;
+
+    public PollAttribute() {
+    }
+
+    public PollAttribute(String attributeName, String attributeColorHex) {
+        this.attributeName = attributeName;
+        this.attributeColorHex = attributeColorHex;
+    }
+
+    public PollAttribute(String attributeName, int attributeColor) {
+        this.attributeName = attributeName;
+        this.attributeColorHex = ColorUtil.convertToHex(attributeColor);
+    }
 
     public int getAttributeId() {
         return attributeId;

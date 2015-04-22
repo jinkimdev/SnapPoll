@@ -1,6 +1,8 @@
 package dev.jinkim.snappollandroid.ui.newpoll;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
@@ -250,6 +252,17 @@ public class NewPollController {
 
         public void setAttributeName(String attributeName) {
             this.attributeName = attributeName;
+        }
+
+        public int getColorInt(Context context) {
+            int color;
+
+            try {
+                color = Color.parseColor(attributeColorHex);
+            } catch (IllegalArgumentException e) {
+                color = context.getResources().getColor(R.color.app_primary);
+            }
+            return color;
         }
     }
 }

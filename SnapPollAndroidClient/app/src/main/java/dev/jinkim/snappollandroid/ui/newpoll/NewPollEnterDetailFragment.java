@@ -4,8 +4,10 @@ package dev.jinkim.snappollandroid.ui.newpoll;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.util.Pair;
@@ -16,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,7 +47,9 @@ public class NewPollEnterDetailFragment extends Fragment {
 
     private ImageView ivImageBackground;
     private ImageView btnAddAttribute;
-    private LinearLayout llAttributes;
+    private LinearLayout llAttributesContainer;
+    private ListView lvNewPollAttributes;
+    private AttributeLineAdapter adapter;
 
     /* poll data */
     private FloatLabeledEditText etQuestion;
@@ -57,7 +62,7 @@ public class NewPollEnterDetailFragment extends Fragment {
     private List<Pair<String, String>> listColor;
 
     private NewPollController controller;
-    private int[] mColors;
+    private int[] mMarkerColors;
     private int mSelectedColor;
 
     @Override
@@ -80,15 +85,19 @@ public class NewPollEnterDetailFragment extends Fragment {
         listColor.add(new Pair("Pumpkin", "#d35400"));
         listColor.add(new Pair("Emerald", "#2ecc71"));
 
-        initializeViews(rootView);
-
         setHasOptionsMenu(true);
 
         return rootView;
     }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        initializeViews(view);
+    }
+
     private void initializeViews(View v) {
 //        progressBar = (ProgressBarIndeterminate) v.findViewById(R.id.pb_create_poll_upload_progress);
+        mMarkerColors = ColorUtil.colorChoice(mActivity, R.array.snappoll_response_colors);
 
         ivImageBackground = (ImageView) v.findViewById(R.id.new_poll_detail_iv_background_image);
 
@@ -109,25 +118,46 @@ public class NewPollEnterDetailFragment extends Fragment {
         etTitle = (FloatLabeledEditText) v.findViewById(R.id.et_title);
         swMultiple = (SwitchCompat) v.findViewById(R.id.sw_multiple);
 
-        llAttributes = (LinearLayout) v.findViewById(R.id.container_attributes);
+//        llAttributesContainer = (LinearLayout) v.findViewById(R.id.container_attributes);
+
+
+        adapter = new AttributeLineAdapter(mActivity, new ArrayList<PollAttribute>(), getChildFragmentManager(), AttributeLineAdapter.AttributeLineMode.NEW_POLL);
+        adapter.add(new PollAttribute(getString(R.string.lbl_default_attribute_name), getResources().getColor(R.color.app_primary)));
+
+        lvNewPollAttributes = (ListView) v.findViewById(R.id.lv_new_poll_attributes);
+        lvNewPollAttributes.setAdapter(adapter);
 
         btnAddAttribute = (ImageView) v.findViewById(R.id.iv_btn_add_attribute);
         btnAddAttribute.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                showAddAttributeDialog();
-                showColorPicker();
+////                showAddAttributeDialog();
+//                showColorPicker();
+
+                adapter.add(new PollAttribute("", getResources().getColor(R.color.app_primary)));
             }
         });
 
-        mColors = ColorUtil.colorChoice(mActivity, R.array.snappoll_response_colors);
+
+    }
+
+    private void addEmptyAttributeLine() {
+        AttributeLineItem attr = new AttributeLineItem();
+
+        LayoutInflater vi = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View row = vi.inflate(R.layout.row_poll_attribute_line_item, null);
+
+        final View colorIndicator = row.findViewById(R.id.iv_attribute_line_color_indicator);
+        final TextView tvAttributeName = (TextView) row.findViewById(R.id.tv_attribute_line_attribute_name);
+
+
     }
 
     private void showColorPicker() {
 
         ColorPickerDialogDash colordashfragment = ColorPickerDialogDash.newInstance(
                 R.string.color_picker_default_title,
-                mColors, 0, 4);
+                mMarkerColors, 0, 4);
 
         //Implement listener to get color value
         colordashfragment.setOnColorSelectedListener(new ColorPickerDialogDash.OnColorSelectedListener() {
@@ -238,7 +268,7 @@ public class NewPollEnterDetailFragment extends Fragment {
                             Log.d(TAG, "## Attr Dialog - " + (String) selected.second
                                     + ", " + etAttributeName.getText().toString());
 
-                            addAttributeLine((String) selected.second, etAttributeName.getText().toString());
+                            populateAttributeLine((String) selected.second, etAttributeName.getText().toString());
                         }
                     })
                     .dismissListener(new DialogInterface.OnDismissListener() {
@@ -251,35 +281,38 @@ public class NewPollEnterDetailFragment extends Fragment {
         }
     }
 
-    private void addAttributeLine(final String colorHex, final String attributeName) {
+    /**
+     * Populate indicator color in the new attribute line
+     *
+     * @param colorHex
+     * @param attributeName
+     */
+    private void populateAttributeLine(final String colorHex, final String attributeName) {
         LayoutInflater vi = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View row = vi.inflate(R.layout.row_poll_attribute_line_item, null);
 
-        final View colorIndicator = row.findViewById(R.id.view_attribute_line_color_indicator);
+        final View colorIndicator = row.findViewById(R.id.iv_attribute_line_color_indicator);
         final TextView tvAttributeName = (TextView) row.findViewById(R.id.tv_attribute_line_attribute_name);
 
-        colorIndicator.setBackgroundColor(Color.parseColor(colorHex));
-        // save color hex into the view tag
-        colorIndicator.setTag(colorHex);
-
+        updateIndicatorColor(colorIndicator, colorHex);
         tvAttributeName.setText(attributeName);
+//
+//        final ImageView btnEditAttribute = (ImageView) row.findViewById(R.id.iv_attribute_line_edit_button);
+//        btnEditAttribute.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String currentName = tvAttributeName.getText().toString();
+////                String currentColorHex = ColorUtil.convertToHex(colorIndicator.getSolidColor());
+//                showEditAttributeDialog(currentName, (String) colorIndicator.getTag(), tvAttributeName, colorIndicator);
+//            }
+//        });
 
-        final ImageView btnEditAttribute = (ImageView) row.findViewById(R.id.iv_btn_attribute_line_edit);
-        btnEditAttribute.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String currentName = tvAttributeName.getText().toString();
-//                String currentColorHex = ColorUtil.convertToHex(colorIndicator.getSolidColor());
-                showEditAttributeDialog(currentName, (String) colorIndicator.getTag(), tvAttributeName, colorIndicator);
-            }
-        });
-
-        final ImageView btnRemoveAttribute = (ImageView) row.findViewById(R.id.iv_btn_attribute_line_remove);
+        final ImageView btnRemoveAttribute = (ImageView) row.findViewById(R.id.iv_attribute_line_remove_button);
         btnRemoveAttribute.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                llAttributes.removeView(row);
-                Log.d(TAG, "Attributes: " + llAttributes.getChildCount());
+                llAttributesContainer.removeView(row);
+                Log.d(TAG, "Attributes: " + llAttributesContainer.getChildCount());
             }
         });
 
@@ -289,7 +322,7 @@ public class NewPollEnterDetailFragment extends Fragment {
         }
 
         // insert into main view
-        llAttributes.addView(row, llAttributes.getChildCount(), new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        llAttributesContainer.addView(row, llAttributesContainer.getChildCount(), new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
         AttributeLineItem line = new AttributeLineItem();
         line.setAttributeColorHex(colorHex);
@@ -298,20 +331,29 @@ public class NewPollEnterDetailFragment extends Fragment {
         attributes.add(line);
     }
 
+    private void updateIndicatorColor(View v, String colorHex) {
+        int color = Color.parseColor(colorHex);
+
+        GradientDrawable gradDrawable = (GradientDrawable) v.getBackground();
+        if (gradDrawable != null) {
+            gradDrawable.setColor(color);
+        }
+    }
+
     private List<PollAttribute> grabAttributes() {
-        if (llAttributes == null) {
+        if (llAttributesContainer == null) {
             return null;
         }
 
         List<PollAttribute> attributeList = new ArrayList<PollAttribute>();
 
-        for (int i = 0; i < llAttributes.getChildCount(); i++) {
-            View c = llAttributes.getChildAt(i);
+        for (int i = 0; i < llAttributesContainer.getChildCount(); i++) {
+            View c = llAttributesContainer.getChildAt(i);
             TextView tvAttributeName = (TextView) c.findViewById(R.id.tv_attribute_line_attribute_name);
 
-            View v = c.findViewById(R.id.view_attribute_line_color_indicator);
+            View v = c.findViewById(R.id.iv_attribute_line_color_indicator);
 
-            PollAttribute at = new PollAttribute();
+            PollAttribute at = new PollAttribute("", "#FF0000");
             at.setAttributeName(tvAttributeName.getText().toString());
 
             String colorHex = (String) v.getTag();
@@ -385,7 +427,7 @@ public class NewPollEnterDetailFragment extends Fragment {
         List<PollAttribute> attributes = controller.getAttributes();
         if (attributes != null) {
             for (PollAttribute a : attributes) {
-                addAttributeLine(a.getAttributeColorHex(), a.getAttributeName());
+                populateAttributeLine(a.getAttributeColorHex(), a.getAttributeName());
             }
         }
     }
