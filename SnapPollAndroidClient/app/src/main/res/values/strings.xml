@@ -17,6 +17,8 @@
     <string name="btn_signout_from_facebook">Sign out from Facebook</string>
     <string name="btn_revoke_access">Revoke Access</string>
 
+    <string name="color_picker_default_title">Color Picker</string>
+
     <string name="facebook_app_id">1013877905305125</string>
     <string name="msg_sign_in_to_see_polls">Please sign in to see your polls</string>
     <string name="session_facebook">facebook</string>

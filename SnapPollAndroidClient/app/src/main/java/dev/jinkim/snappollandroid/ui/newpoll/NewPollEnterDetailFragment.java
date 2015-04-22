@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.util.Pair;
@@ -18,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.squareup.picasso.Picasso;
@@ -30,6 +32,7 @@ import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.model.PollAttribute;
 import dev.jinkim.snappollandroid.ui.adapter.ColorSpinnerAdapter;
 import dev.jinkim.snappollandroid.ui.newpoll.NewPollController.AttributeLineItem;
+import dev.jinkim.snappollandroid.ui.widget.colorpicker.ColorPickerDialogDash;
 import dev.jinkim.snappollandroid.util.ColorUtil;
 
 /**
@@ -55,6 +58,8 @@ public class NewPollEnterDetailFragment extends Fragment {
     private List<Pair<String, String>> listColor;
 
     private NewPollController controller;
+    private int[] mColors;
+    private int mSelectedColor;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -111,9 +116,40 @@ public class NewPollEnterDetailFragment extends Fragment {
         btnAddAttribute.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showAddAttributeDialog();
+//                showAddAttributeDialog();
+                showColorPicker();
             }
         });
+
+        mColors = ColorUtil.colorChoice(mActivity);
+    }
+
+    private void showColorPicker() {
+
+        ColorPickerDialogDash colordashfragment = ColorPickerDialogDash.newInstance(
+                R.string.color_picker_default_title,
+                mColors,
+//                mSelectedColorDash1,
+                0,
+                5);
+
+        //Implement listener to get color value
+        colordashfragment.setOnColorSelectedListener(new ColorPickerDialogDash.OnColorSelectedListener() {
+
+            @Override
+            public void onColorSelected(int color) {
+                mSelectedColor = color;
+                String colorText = ColorUtil.convertToHex(color);
+                Toast.makeText(mActivity, colorText, Toast.LENGTH_SHORT).show();
+            }
+
+        });
+
+//        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+//        colordashfragment.show(ft, "dash");
+
+        colordashfragment.show(getChildFragmentManager(), "dash");
+
     }
 
     private void showEditAttributeDialog(String name, String colorHex,
