@@ -12,6 +12,7 @@ import java.util.List;
 import dev.jinkim.snappollandroid.model.Poll;
 import dev.jinkim.snappollandroid.model.PollInvitedFriendsResponse;
 import dev.jinkim.snappollandroid.model.Response;
+import dev.jinkim.snappollandroid.model.ResultStatsResponse;
 import dev.jinkim.snappollandroid.model.User;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -106,6 +107,11 @@ public class SnapPollRestClient {
         /* RESULT (RESPONSES FOR A POLL) */
         @GET("/result/{poll_id}")
         void getPollResponses(@Path("poll_id") int pollId, Callback<List<Response>> cb);
+
+        /* RESULT STATS */
+        @GET("/result/{poll_id}/stats")
+        void getResultStats(@Path("poll_id") int pollId, Callback<List<ResultStatsResponse>> cb);
+
 
     }
 }

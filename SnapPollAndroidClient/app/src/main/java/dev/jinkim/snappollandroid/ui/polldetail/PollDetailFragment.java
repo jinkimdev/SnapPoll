@@ -47,6 +47,7 @@ import dev.jinkim.snappollandroid.model.Poll;
 import dev.jinkim.snappollandroid.model.PollAttribute;
 import dev.jinkim.snappollandroid.model.PollInvitedFriendsResponse;
 import dev.jinkim.snappollandroid.model.Response;
+import dev.jinkim.snappollandroid.model.ResultStatsResponse;
 import dev.jinkim.snappollandroid.model.RowFriend;
 import dev.jinkim.snappollandroid.model.User;
 import dev.jinkim.snappollandroid.ui.invite.InviteFriendsController;
@@ -90,6 +91,7 @@ public class PollDetailFragment extends Fragment {
 
     // true for viewing the poll result, false for responding to a poll
     private boolean viewResultMode = false;
+    private List<TextView> attributeNames;
 
     private Target target = new Target() {
         @Override
@@ -145,6 +147,9 @@ public class PollDetailFragment extends Fragment {
                 tivRef.invalidate();
 
                 Log.d(TAG, "Responses retrieved: " + responses.size());
+
+                // TODO: make a call to get stats
+                loadResponseStats();
             }
 
             @Override
@@ -153,6 +158,31 @@ public class PollDetailFragment extends Fragment {
             }
         });
     }
+
+    private void loadResponseStats() {
+
+        SnapPollRestClient.ApiService rest = new SnapPollRestClient().getApiService();
+        rest.getResultStats(currentPoll.getPollId(), new Callback<List<ResultStatsResponse>>() {
+            @Override
+            public void success(List<ResultStatsResponse> resultStatsResponses, retrofit.client.Response response) {
+                // TODO: update stats on the detail panel
+                for (int i = 0; i < resultStatsResponses.size(); i++) {
+                    ResultStatsResponse stat = resultStatsResponses.get(i);
+                    if (attributeNames != null) {
+                        attributeNames.get(i).setText(stat.formatText(mActivity));
+                    }
+
+
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d(TAG, error.toString());
+            }
+        });
+    }
+
 
     @Override
     public void onResume() {
@@ -290,6 +320,8 @@ public class PollDetailFragment extends Fragment {
         radioButtons = new ArrayList<>();
         boolean first = true;
 
+        attributeNames = new ArrayList<>();
+
         for (PollAttribute attr : attributes) {
             LayoutInflater vi = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View row = vi.inflate(R.layout.row_poll_attribute_line_item, null);
@@ -316,6 +348,7 @@ public class PollDetailFragment extends Fragment {
             }
             final View colorIndicator = row.findViewById(R.id.view_attribute_line_color_indicator);
             final TextView tvAttributeName = (TextView) row.findViewById(R.id.tv_attribute_line_attribute_name);
+            attributeNames.add(tvAttributeName);
 
             try {
                 colorIndicator.setBackgroundColor(Color.parseColor(attr.getAttributeColorHex()));

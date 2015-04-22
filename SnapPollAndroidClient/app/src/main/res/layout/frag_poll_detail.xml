@@ -77,7 +77,7 @@
                 android:layout_marginTop="4dp"
                 android:layout_toRightOf="@id/detail_iv_profile_pic"
                 android:layout_below="@id/detail_tv_question"
-                android:text="Responses: "
+                android:text="@string/lbl_poll_detail_total_responses"
                 android:visibility="invisible" />
 
             <TextView

@@ -141,9 +141,6 @@ public class NewPollEnterDetailFragment extends Fragment {
 
         });
 
-//        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-//        colordashfragment.show(ft, "dash");
-
         colordashfragment.show(getChildFragmentManager(), "dash");
 
     }

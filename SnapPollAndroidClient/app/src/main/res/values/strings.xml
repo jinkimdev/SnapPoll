@@ -73,4 +73,6 @@
     <string name="msg_current_fragment_invalid">Current Fragment is Null.</string>
     <string name="dialog_title_select_image_source">Select Image Source</string>
     <string name="msg_refreshing_list">Refreshing the list ...</string>
+    <string name="response_text">%1$s (%2$d response(s))</string>
+    <string name="lbl_poll_detail_total_responses">Total Responses:</string>
 </resources>
