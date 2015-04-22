@@ -8,11 +8,11 @@
         android:id="@+id/rb_attribute"
         android:layout_alignParentLeft="true"
         android:layout_marginRight="8dp"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:visibility="gone"/>
 
-    <View
+    <ImageView
         android:id="@+id/view_attribute_line_color_indicator"
         android:layout_width="30dp"
         android:layout_height="30dp"
@@ -20,8 +20,7 @@
         android:layout_marginLeft="8dp"
         android:layout_toRightOf="@id/rb_attribute"
         android:layout_centerVertical="true"
-
-        android:background="@color/default_attribute_color" />
+        android:background="@drawable/marker"/>
 
     <ImageView
         android:id="@+id/iv_btn_attribute_line_remove"

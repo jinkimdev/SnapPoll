@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -343,12 +344,20 @@ public class PollDetailFragment extends Fragment {
                 selectedAttr = attr;
                 first = false;
             }
-            final View colorIndicator = row.findViewById(R.id.view_attribute_line_color_indicator);
+            final ImageView colorIndicator = (ImageView) row.findViewById(R.id.view_attribute_line_color_indicator);
             final TextView tvAttributeName = (TextView) row.findViewById(R.id.tv_attribute_line_attribute_name);
             attributeNames.add(tvAttributeName);
 
+            int color = Color.parseColor(attr.getAttributeColorHex());
+
+            GradientDrawable gradDrawable = (GradientDrawable) colorIndicator.getBackground();
+            if (gradDrawable != null) {
+                gradDrawable.setColor(color);
+            }
+
             try {
-                colorIndicator.setBackgroundColor(Color.parseColor(attr.getAttributeColorHex()));
+//                colorIndicator.setBackgroundDrawable(marker);
+//                colorIndicator.setBackgroundColor(Color.parseColor(attr.getAttributeColorHex()));
             } catch (NullPointerException e) {
                 colorIndicator.setBackgroundColor(mActivity.getResources().getColor(R.color.app_primary));
             }

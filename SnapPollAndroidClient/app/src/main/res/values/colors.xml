@@ -13,6 +13,8 @@
     <color name="drawer_selected">#C8FF9800</color>
     <color name="drawer_not_selected">#50FFFFFF</color>
 
+    <color name="radio_button_highlight">#a58b65</color>
+
     <!-- SLIDING TABS -->
     <color name="tab_scroll_color">#FFFFFF</color>
 
