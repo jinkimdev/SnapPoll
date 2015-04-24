@@ -24,8 +24,6 @@ import dev.jinkim.snappollandroid.ui.widget.colorpicker.ColorPickerDialogDash;
 public class PollDetailAttributeAdapter extends ArrayAdapter<PollAttribute> {
     private Context context;
     private List<PollAttribute> attributes;
-    private int[] mMarkerColors;
-    private FragmentManager fm;
     private AttributeLineMode mode;
 
     public enum AttributeLineMode {
