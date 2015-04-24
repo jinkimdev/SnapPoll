@@ -16,6 +16,8 @@
 
     <color name="radio_button_highlight">#a58b65</color>
 
+    <color name="attribute_default_marker_color">#FF6800</color>
+
     <!-- SLIDING TABS -->
     <color name="tab_scroll_color">#FFFFFF</color>
 
@@ -38,7 +40,6 @@
     <color name="fab_background">@color/app_primary</color>
     <color name="nav_drawer_background">#ffffff</color>
     <color name="text_green">#00AA00</color>
-    <color name="default_attribute_color">#e67e22</color>
     <color name="background_row_poll_translucent">#E0FFFFFF</color>
     <color name="background_profile_image">#00FFFFFF</color>
     <color name="text_white">#FFFFFF</color>

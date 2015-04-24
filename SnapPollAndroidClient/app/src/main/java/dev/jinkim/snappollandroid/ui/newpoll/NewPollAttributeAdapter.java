@@ -37,7 +37,7 @@ public class NewPollAttributeAdapter extends ArrayAdapter<PollAttribute> {
     }
 
     public NewPollAttributeAdapter(Context context, List<PollAttribute> attributes, FragmentManager fm) {
-        super(context, R.layout.row_poll_detail_attribute, attributes);
+        super(context, R.layout.row_new_poll_attribute_item, attributes);
         this.context = context;
         this.attributes = attributes;
         this.fm = fm;

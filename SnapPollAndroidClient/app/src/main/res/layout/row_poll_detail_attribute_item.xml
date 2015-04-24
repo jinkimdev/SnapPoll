@@ -5,40 +5,29 @@
     android:padding="8dp">
 
     <RadioButton
-        android:id="@+id/rb_attribute_line_selection"
+        android:id="@+id/rb_poll_detail_attribute_selection"
         android:layout_alignParentLeft="true"
         android:layout_marginRight="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <ImageView
-        android:id="@+id/iv_attribute_line_color_indicator"
+        android:id="@+id/iv_poll_detail_attribute_color_indicator"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginLeft="8dp"
-        android:layout_toRightOf="@id/rb_attribute_line_selection"
+        android:layout_toRightOf="@id/rb_poll_detail_attribute_selection"
         android:layout_centerVertical="true"
         android:background="@drawable/marker" />
 
-    <ImageView
-        android:id="@+id/iv_attribute_line_remove_button"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:src="@drawable/ic_action_remove"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true" />
-
-
     <TextView
-        android:id="@+id/tv_attribute_line_attribute_name"
+        android:id="@+id/tv_poll_detail_attribute_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginRight="30dp"
         android:layout_marginLeft="20dp"
-        android:layout_toRightOf="@id/iv_attribute_line_color_indicator"
+        android:layout_toRightOf="@id/iv_poll_detail_attribute_color_indicator"
         android:text="Default"
         android:textSize="12sp"
         android:textColor="@color/text_gray" />

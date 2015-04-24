@@ -17,7 +17,6 @@ import java.util.List;
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.model.PollAttribute;
 import dev.jinkim.snappollandroid.ui.widget.colorpicker.ColorPickerDialogDash;
-import dev.jinkim.snappollandroid.util.ColorUtil;
 
 /**
  * Created by Jin on 4/22/15.
@@ -30,7 +29,6 @@ public class PollDetailAttributeAdapter extends ArrayAdapter<PollAttribute> {
     private AttributeLineMode mode;
 
     public enum AttributeLineMode {
-        NEW_POLL,
         SUBMIT_RESPONSE,
         VIEW_RESULT
     }
@@ -38,17 +36,14 @@ public class PollDetailAttributeAdapter extends ArrayAdapter<PollAttribute> {
     static class ViewHolder {
         public RadioButton rbSelection;
         public ImageView ivColorIndicator;
-        public ImageView ivRemoveButton;
         public TextView tvAttributeName;
     }
 
-    public PollDetailAttributeAdapter(Context context, List<PollAttribute> attributes, FragmentManager fm, AttributeLineMode lineDisplayMode) {
-        super(context, R.layout.row_poll_detail_attribute, attributes);
+    public PollDetailAttributeAdapter(Context context, List<PollAttribute> attributes, AttributeLineMode lineDisplayMode) {
+        super(context, R.layout.row_poll_detail_attribute_item, attributes);
         this.context = context;
         this.attributes = attributes;
         this.mode = lineDisplayMode;
-        this.fm = fm;
-        this.mMarkerColors = ColorUtil.colorChoice(context, R.array.snappoll_response_colors);
     }
 
     @Override
@@ -57,14 +52,12 @@ public class PollDetailAttributeAdapter extends ArrayAdapter<PollAttribute> {
         // reuse views
         if (rowView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            rowView = inflater.inflate(R.layout.row_poll_detail_attribute, null);
+            rowView = inflater.inflate(R.layout.row_poll_detail_attribute_item, null);
 
             // configure view holder
             ViewHolder viewHolder = new ViewHolder();
-            viewHolder.rbSelection = (RadioButton) rowView.findViewById(R.id.rb_attribute_line_selection);
-            viewHolder.ivColorIndicator = (ImageView) rowView.findViewById(R.id.iv_attribute_line_color_indicator);
-
-            viewHolder.ivRemoveButton = (ImageView) rowView.findViewById(R.id.iv_attribute_line_remove_button);
+            viewHolder.rbSelection = (RadioButton) rowView.findViewById(R.id.rb_poll_detail_attribute_selection);
+            viewHolder.ivColorIndicator = (ImageView) rowView.findViewById(R.id.iv_poll_detail_attribute_color_indicator);
 
             rowView.setTag(viewHolder);
         }
@@ -77,39 +70,12 @@ public class PollDetailAttributeAdapter extends ArrayAdapter<PollAttribute> {
 
         // set up view elements according to the attribute line display mode
         switch (mode) {
-            case NEW_POLL:
-                holder.rbSelection.setVisibility(View.GONE);
-
-                holder.ivColorIndicator.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        showColorPicker((ImageView) v);
-                    }
-                });
-                if (att.getAttributeName().equals(context.getString(R.string.lbl_default_attribute_name))) {
-                    // if this is the default attribute, do not show remove button
-                    holder.ivRemoveButton.setVisibility(View.GONE);
-                } else {
-                    holder.ivRemoveButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            attributes.remove(position);
-                            notifyDataSetChanged();
-                        }
-                    });
-                }
-
-                break;
-
             case SUBMIT_RESPONSE:
-                holder.ivRemoveButton.setVisibility(View.GONE);
-
                 holder.rbSelection.setChecked(false);
+                break;
 
             case VIEW_RESULT:
                 holder.rbSelection.setVisibility(View.GONE);
-                holder.ivRemoveButton.setVisibility(View.GONE);
-
                 break;
         }
 
@@ -127,25 +93,5 @@ public class PollDetailAttributeAdapter extends ArrayAdapter<PollAttribute> {
         if (gradDrawable != null) {
             gradDrawable.setColor(color);
         }
-    }
-
-
-    private void showColorPicker(final ImageView ivColorIndicator) {
-
-        ColorPickerDialogDash colordashfragment = ColorPickerDialogDash.newInstance(
-                R.string.color_picker_default_title,
-                mMarkerColors, 0, 4);
-
-        //Implement listener to get color value
-        colordashfragment.setOnColorSelectedListener(new ColorPickerDialogDash.OnColorSelectedListener() {
-
-            @Override
-            public void onColorSelected(int color) {
-                updateIndicatorColor(ivColorIndicator, color);
-            }
-        });
-
-        colordashfragment.show(fm, "dash");
-
     }
 }

@@ -150,7 +150,7 @@ public class SnapPollMarkerDrawer {
 
     private void setDefaultColor() {
         String colorHex;
-        colorHex = ColorUtil.convertToHex(context.getResources().getColor(R.color.default_attribute_color));
+        colorHex = ColorUtil.convertToHex(context.getResources().getColor(R.color.attribute_default_marker_color));
         if (colorHex == null) {
             int c = context.getResources().getColor(R.color.app_primary);
             colorHex = ColorUtil.convertToHex(c);

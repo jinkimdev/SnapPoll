@@ -10,7 +10,7 @@
         android:layout_height="30dp"
         android:layout_marginLeft="8dp"
         android:layout_centerVertical="true"
-        android:background="@color/app_primary" />
+        android:background="@color/attribute_default_marker_color" />
 
     <ImageView
         android:id="@+id/iv_new_poll_attribute_remove_button"

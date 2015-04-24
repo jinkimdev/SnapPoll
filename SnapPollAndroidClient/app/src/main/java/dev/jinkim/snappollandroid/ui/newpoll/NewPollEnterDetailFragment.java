@@ -97,11 +97,9 @@ public class NewPollEnterDetailFragment extends Fragment {
         etTitle = (FloatLabeledEditText) v.findViewById(R.id.et_title);
         swMultiple = (SwitchCompat) v.findViewById(R.id.sw_multiple);
 
-//        llAttributesContainer = (LinearLayout) v.findViewById(R.id.container_attributes);
-
-
         adapter = new NewPollAttributeAdapter(mActivity, new ArrayList<PollAttribute>(), getChildFragmentManager());
-        adapter.add(new PollAttribute(getString(R.string.lbl_default_attribute_name), getResources().getColor(R.color.app_primary)));
+
+        adapter.add(new PollAttribute(getString(R.string.lbl_default_attribute_name), getResources().getColor(R.color.attribute_default_marker_color)));
 
         lvNewPollAttributes = (ListView) v.findViewById(R.id.lv_new_poll_attributes);
         lvNewPollAttributes.setAdapter(adapter);
@@ -113,7 +111,7 @@ public class NewPollEnterDetailFragment extends Fragment {
 ////                showAddAttributeDialog();
 //                showColorPicker();
 
-                adapter.add(new PollAttribute("", getResources().getColor(R.color.app_primary)));
+                adapter.add(new PollAttribute("", getResources().getColor(R.color.attribute_default_marker_color)));
                 setListViewHeightBasedOnChildren(lvNewPollAttributes);
             }
         });
@@ -123,10 +121,10 @@ public class NewPollEnterDetailFragment extends Fragment {
         AttributeLineItem attr = new AttributeLineItem();
 
         LayoutInflater vi = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View row = vi.inflate(R.layout.row_poll_detail_attribute, null);
+        final View row = vi.inflate(R.layout.row_poll_detail_attribute_item, null);
 
-        final View colorIndicator = row.findViewById(R.id.iv_attribute_line_color_indicator);
-        final TextView tvAttributeName = (TextView) row.findViewById(R.id.tv_attribute_line_attribute_name);
+        final View colorIndicator = row.findViewById(R.id.iv_poll_detail_attribute_color_indicator);
+        final TextView tvAttributeName = (TextView) row.findViewById(R.id.tv_poll_detail_attribute_name);
 
 
     }
@@ -139,10 +137,10 @@ public class NewPollEnterDetailFragment extends Fragment {
      */
     private void populateAttributeLine(final String colorHex, final String attributeName) {
         LayoutInflater vi = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View row = vi.inflate(R.layout.row_poll_detail_attribute, null);
+        final View row = vi.inflate(R.layout.row_poll_detail_attribute_item, null);
 
-        final View colorIndicator = row.findViewById(R.id.iv_attribute_line_color_indicator);
-        final TextView tvAttributeName = (TextView) row.findViewById(R.id.tv_attribute_line_attribute_name);
+        final View colorIndicator = row.findViewById(R.id.iv_poll_detail_attribute_color_indicator);
+        final TextView tvAttributeName = (TextView) row.findViewById(R.id.tv_poll_detail_attribute_name);
 
         updateIndicatorColor(colorIndicator, colorHex);
         tvAttributeName.setText(attributeName);
@@ -157,7 +155,7 @@ public class NewPollEnterDetailFragment extends Fragment {
 //            }
 //        });
 
-        final ImageView btnRemoveAttribute = (ImageView) row.findViewById(R.id.iv_attribute_line_remove_button);
+        final ImageView btnRemoveAttribute = (ImageView) row.findViewById(R.id.iv_new_poll_attribute_remove_button);
         btnRemoveAttribute.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
