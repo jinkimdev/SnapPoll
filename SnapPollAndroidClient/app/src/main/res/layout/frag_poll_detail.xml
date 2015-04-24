@@ -118,7 +118,7 @@
                 android:orientation="vertical">
 
                 <include
-                    layout="@layout/row_poll_attribute_line_item"
+                    layout="@layout/row_poll_detail_attribute"
                     android:id="@+id/detail_attribute_default"/>
             </LinearLayout>
 

@@ -1,4 +1,4 @@
-package dev.jinkim.snappollandroid.ui.newpoll;
+package dev.jinkim.snappollandroid.ui.polldetail;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -11,7 +11,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -23,7 +22,7 @@ import dev.jinkim.snappollandroid.util.ColorUtil;
 /**
  * Created by Jin on 4/22/15.
  */
-public class AttributeLineAdapter extends ArrayAdapter<PollAttribute> {
+public class PollDetailAttributeAdapter extends ArrayAdapter<PollAttribute> {
     private Context context;
     private List<PollAttribute> attributes;
     private int[] mMarkerColors;
@@ -43,8 +42,8 @@ public class AttributeLineAdapter extends ArrayAdapter<PollAttribute> {
         public TextView tvAttributeName;
     }
 
-    public AttributeLineAdapter(Context context, List<PollAttribute> attributes, FragmentManager fm, AttributeLineMode lineDisplayMode) {
-        super(context, R.layout.row_poll_attribute_line_item, attributes);
+    public PollDetailAttributeAdapter(Context context, List<PollAttribute> attributes, FragmentManager fm, AttributeLineMode lineDisplayMode) {
+        super(context, R.layout.row_poll_detail_attribute, attributes);
         this.context = context;
         this.attributes = attributes;
         this.mode = lineDisplayMode;
@@ -58,7 +57,7 @@ public class AttributeLineAdapter extends ArrayAdapter<PollAttribute> {
         // reuse views
         if (rowView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            rowView = inflater.inflate(R.layout.row_poll_attribute_line_item, null);
+            rowView = inflater.inflate(R.layout.row_poll_detail_attribute, null);
 
             // configure view holder
             ViewHolder viewHolder = new ViewHolder();
@@ -84,7 +83,7 @@ public class AttributeLineAdapter extends ArrayAdapter<PollAttribute> {
                 holder.ivColorIndicator.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        showColorPicker((ImageView) v);
                     }
                 });
                 if (att.getAttributeName().equals(context.getString(R.string.lbl_default_attribute_name))) {
@@ -95,6 +94,7 @@ public class AttributeLineAdapter extends ArrayAdapter<PollAttribute> {
                         @Override
                         public void onClick(View v) {
                             attributes.remove(position);
+                            notifyDataSetChanged();
                         }
                     });
                 }

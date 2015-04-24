@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <com.gc.materialdesign.views.ButtonRectangle
+        android:id="@+id/btn_new_poll_attribute_color"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="8dp"
+        android:layout_centerVertical="true"
+        android:background="@color/app_primary" />
+
+    <ImageView
+        android:id="@+id/iv_new_poll_attribute_remove_button"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginRight="20dp"
+        android:src="@drawable/ic_action_remove"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true" />
+
+    <EditText
+        android:id="@+id/et_new_poll_attribute_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@id/btn_new_poll_attribute_color"
+        android:layout_toLeftOf="@id/iv_new_poll_attribute_remove_button"
+        android:hint="@string/lbl_default_attribute_name"
+        android:textColorHint="@color/text_gray"
+        android:textSize="12sp"
+        android:textColor="@color/text_primary" />
+
+</RelativeLayout>

@@ -2,28 +2,21 @@ package dev.jinkim.snappollandroid.ui.newpoll;
 
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.squareup.picasso.Picasso;
 import com.wrapp.floatlabelededittext.FloatLabeledEditText;
 
@@ -32,9 +25,7 @@ import java.util.List;
 
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.model.PollAttribute;
-import dev.jinkim.snappollandroid.ui.adapter.ColorSpinnerAdapter;
 import dev.jinkim.snappollandroid.ui.newpoll.NewPollController.AttributeLineItem;
-import dev.jinkim.snappollandroid.ui.widget.colorpicker.ColorPickerDialogDash;
 import dev.jinkim.snappollandroid.util.ColorUtil;
 
 /**
@@ -49,7 +40,7 @@ public class NewPollEnterDetailFragment extends Fragment {
     private ImageView btnAddAttribute;
     private LinearLayout llAttributesContainer;
     private ListView lvNewPollAttributes;
-    private AttributeLineAdapter adapter;
+    private NewPollAttributeAdapter adapter;
 
     /* poll data */
     private FloatLabeledEditText etQuestion;
@@ -59,11 +50,8 @@ public class NewPollEnterDetailFragment extends Fragment {
     private List<AttributeLineItem> attributes;
     private boolean showingDialog = false;
 
-    private List<Pair<String, String>> listColor;
-
     private NewPollController controller;
     private int[] mMarkerColors;
-    private int mSelectedColor;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,15 +63,6 @@ public class NewPollEnterDetailFragment extends Fragment {
         controller = mActivity.getController();
 
         mActivity.getSupportActionBar().setTitle(R.string.title_poll_detail);
-
-        // set up spinner color picker
-        listColor = new ArrayList<Pair<String, String>>();
-        listColor.add(new Pair("Green", "#00FF00"));
-        listColor.add(new Pair("Red", "#FF0000"));
-        listColor.add(new Pair("Orange", "#FFA500"));
-        listColor.add(new Pair("Cyan", "#00FFFF"));
-        listColor.add(new Pair("Pumpkin", "#d35400"));
-        listColor.add(new Pair("Emerald", "#2ecc71"));
 
         setHasOptionsMenu(true);
 
@@ -121,7 +100,7 @@ public class NewPollEnterDetailFragment extends Fragment {
 //        llAttributesContainer = (LinearLayout) v.findViewById(R.id.container_attributes);
 
 
-        adapter = new AttributeLineAdapter(mActivity, new ArrayList<PollAttribute>(), getChildFragmentManager(), AttributeLineAdapter.AttributeLineMode.NEW_POLL);
+        adapter = new NewPollAttributeAdapter(mActivity, new ArrayList<PollAttribute>(), getChildFragmentManager());
         adapter.add(new PollAttribute(getString(R.string.lbl_default_attribute_name), getResources().getColor(R.color.app_primary)));
 
         lvNewPollAttributes = (ListView) v.findViewById(R.id.lv_new_poll_attributes);
@@ -135,150 +114,21 @@ public class NewPollEnterDetailFragment extends Fragment {
 //                showColorPicker();
 
                 adapter.add(new PollAttribute("", getResources().getColor(R.color.app_primary)));
+                setListViewHeightBasedOnChildren(lvNewPollAttributes);
             }
         });
-
-
     }
 
     private void addEmptyAttributeLine() {
         AttributeLineItem attr = new AttributeLineItem();
 
         LayoutInflater vi = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View row = vi.inflate(R.layout.row_poll_attribute_line_item, null);
+        final View row = vi.inflate(R.layout.row_poll_detail_attribute, null);
 
         final View colorIndicator = row.findViewById(R.id.iv_attribute_line_color_indicator);
         final TextView tvAttributeName = (TextView) row.findViewById(R.id.tv_attribute_line_attribute_name);
 
 
-    }
-
-    private void showColorPicker() {
-
-        ColorPickerDialogDash colordashfragment = ColorPickerDialogDash.newInstance(
-                R.string.color_picker_default_title,
-                mMarkerColors, 0, 4);
-
-        //Implement listener to get color value
-        colordashfragment.setOnColorSelectedListener(new ColorPickerDialogDash.OnColorSelectedListener() {
-
-            @Override
-            public void onColorSelected(int color) {
-                mSelectedColor = color;
-                String colorText = ColorUtil.convertToHex(color);
-                Toast.makeText(mActivity, colorText, Toast.LENGTH_SHORT).show();
-            }
-
-        });
-
-        colordashfragment.show(getChildFragmentManager(), "dash");
-
-    }
-
-    private void showEditAttributeDialog(String name, String colorHex,
-                                         final TextView tvNameSelected, final View colorIndicatorSelected) {
-
-        // prevent multiple dialogs
-        if (!showingDialog) {
-            showingDialog = true;
-
-            // set up custom view for dialog - color indicator, edit text
-            LayoutInflater vi = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            final View content = vi.inflate(R.layout.dialog_content_new_attribute, null);
-
-        /* display dialog with current values */
-            final EditText etAttributeName = ((FloatLabeledEditText) content.findViewById(R.id.et_attribute_name)).getEditText();
-            etAttributeName.setText(name);
-
-            List<Pair<String, String>> colors = new ArrayList<Pair<String, String>>(listColor);
-
-            // set up spinner color picker
-            if (colorHex != null) {
-                colors.add(0, new Pair("Unchanged", (String) colorIndicatorSelected.getTag()));
-            }
-
-            final Spinner spColorPicker = (Spinner) content.findViewById(R.id.sp_color_picker);
-            spColorPicker.setAdapter(new ColorSpinnerAdapter(mActivity, R.layout.dialog_content_new_attribute, colors));
-
-            // set up dialog
-            String dialogTitle = mActivity.getResources().getString(R.string.dialog_title_edit_attribute);
-
-            boolean wrapInScrollView = true;
-            new MaterialDialog.Builder(mActivity)
-                    .title(dialogTitle)
-                    .customView(content, wrapInScrollView)
-                    .positiveText(R.string.action_save)
-//                .positiveText(R.string.agree)
-                    .negativeText(R.string.action_cancel)
-//                .negativeText(R.string.disagree)
-                    .callback(new MaterialDialog.ButtonCallback() {
-                        @Override
-                        public void onPositive(MaterialDialog dialog) {
-                        /* reflect edit made on the attribute line */
-                            Pair selected = (Pair<String, String>) spColorPicker.getSelectedItem();
-                            tvNameSelected.setText(etAttributeName.getText().toString());
-                            colorIndicatorSelected.setBackgroundColor(Color.parseColor((String) selected.second));
-                            colorIndicatorSelected.setTag((String) selected.second);
-                        }
-                    })
-                    .dismissListener(new DialogInterface.OnDismissListener() {
-                        @Override
-                        public void onDismiss(DialogInterface dialog) {
-                            showingDialog = false;
-                        }
-                    })
-                    .show();
-        }
-    }
-
-    private void showAddAttributeDialog() {
-
-        // prevent multiple dialogs
-        if (!showingDialog) {
-            showingDialog = true;
-
-            // set up custom view for dialog - color indicator, edit text
-            LayoutInflater vi = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            final View row = vi.inflate(R.layout.dialog_content_new_attribute, null);
-
-            final EditText etAttributeName = ((FloatLabeledEditText) row.findViewById(R.id.et_attribute_name)).getEditText();
-
-            // set up spinner color picker
-            List<Pair<String, String>> colors = new ArrayList<Pair<String, String>>(listColor);
-
-            final Spinner spColorPicker = (Spinner) row.findViewById(R.id.sp_color_picker);
-            spColorPicker.setAdapter(new ColorSpinnerAdapter(mActivity, R.layout.dialog_content_new_attribute, colors));
-
-            // set up dialog
-            String dialogTitle = mActivity.getResources().getString(R.string.dialog_title_new_attributes);
-
-            boolean wrapInScrollView = true;
-            new MaterialDialog.Builder(mActivity)
-                    .title(dialogTitle)
-                    .customView(row, wrapInScrollView)
-                    .positiveText(R.string.action_save)
-//                .positiveText(R.string.agree)
-                    .negativeText(R.string.action_cancel)
-//                .negativeText(R.string.disagree)
-                    .callback(new MaterialDialog.ButtonCallback() {
-                        @Override
-                        public void onPositive(MaterialDialog dialog) {
-                            Pair selected = (Pair<String, String>) spColorPicker.getSelectedItem();
-
-                            Log.d(TAG, "## Attr Dialog - " + (String) selected.second
-                                    + ", " + etAttributeName.getText().toString());
-
-                            populateAttributeLine((String) selected.second, etAttributeName.getText().toString());
-                        }
-                    })
-                    .dismissListener(new DialogInterface.OnDismissListener() {
-                        @Override
-                        public void onDismiss(DialogInterface dialog) {
-                            showingDialog = false;
-                        }
-                    })
-                    .show();
-        }
     }
 
     /**
@@ -289,7 +139,7 @@ public class NewPollEnterDetailFragment extends Fragment {
      */
     private void populateAttributeLine(final String colorHex, final String attributeName) {
         LayoutInflater vi = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View row = vi.inflate(R.layout.row_poll_attribute_line_item, null);
+        final View row = vi.inflate(R.layout.row_poll_detail_attribute, null);
 
         final View colorIndicator = row.findViewById(R.id.iv_attribute_line_color_indicator);
         final TextView tvAttributeName = (TextView) row.findViewById(R.id.tv_attribute_line_attribute_name);
@@ -340,33 +190,8 @@ public class NewPollEnterDetailFragment extends Fragment {
         }
     }
 
-    private List<PollAttribute> grabAttributes() {
-        if (llAttributesContainer == null) {
-            return null;
-        }
-
-        List<PollAttribute> attributeList = new ArrayList<PollAttribute>();
-
-        for (int i = 0; i < llAttributesContainer.getChildCount(); i++) {
-            View c = llAttributesContainer.getChildAt(i);
-            TextView tvAttributeName = (TextView) c.findViewById(R.id.tv_attribute_line_attribute_name);
-
-            View v = c.findViewById(R.id.iv_attribute_line_color_indicator);
-
-            PollAttribute at = new PollAttribute("", "#FF0000");
-            at.setAttributeName(tvAttributeName.getText().toString());
-
-            String colorHex = (String) v.getTag();
-            if (colorHex == null) {
-                // TODO: DEFAULT COLOR VALUE
-                colorHex = ColorUtil.convertToHex(mActivity.getResources().getColor(R.color.poll_attribute_default));
-            }
-            at.setAttributeColorHex(colorHex);
-            attributeList.add(at);
-
-            Log.d(TAG, "## Attr: " + at);
-        }
-        return attributeList;
+    public List<PollAttribute> grabAttributes() {
+        return adapter.grabAttributes();
     }
 
     @Override
@@ -430,5 +255,25 @@ public class NewPollEnterDetailFragment extends Fragment {
                 populateAttributeLine(a.getAttributeColorHex(), a.getAttributeName());
             }
         }
+    }
+
+    public void setListViewHeightBasedOnChildren(ListView listView) {
+
+//        ListAdapter listAdapter = listView.getAdapter();
+        if (adapter == null) {
+            return;
+        }
+
+        int totalHeight = 0;
+        for (int i = 0, len = adapter.getCount(); i < len; i++) {
+            View listItem = adapter.getView(i, null, listView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight
+                + (listView.getDividerHeight() * (adapter.getCount() - 1));
+        listView.setLayoutParams(params);
     }
 }

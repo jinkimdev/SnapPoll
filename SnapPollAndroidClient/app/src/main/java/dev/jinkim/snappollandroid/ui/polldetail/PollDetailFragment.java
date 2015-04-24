@@ -322,7 +322,7 @@ public class PollDetailFragment extends Fragment {
 
         for (PollAttribute attr : attributes) {
             LayoutInflater vi = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View row = vi.inflate(R.layout.row_poll_attribute_line_item, null);
+            View row = vi.inflate(R.layout.row_poll_detail_attribute, null);
 
             final RadioButton rbAttributeSelect = (RadioButton) row.findViewById(R.id.rb_attribute_line_selection);
             if (first) {
