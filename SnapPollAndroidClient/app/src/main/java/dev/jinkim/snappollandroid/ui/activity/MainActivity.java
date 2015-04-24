@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -26,8 +25,8 @@ import dev.jinkim.snappollandroid.ui.NavigationDrawerFragment;
 import dev.jinkim.snappollandroid.ui.fragment.MyPollsFragment;
 import dev.jinkim.snappollandroid.ui.fragment.PollsTabFragment;
 import dev.jinkim.snappollandroid.ui.fragment.ProfileFragment;
-import dev.jinkim.snappollandroid.ui.widget.slidingtab.SlidingTabLayout;
-import dev.jinkim.snappollandroid.ui.widget.slidingtab.ViewPagerAdapter;
+import dev.jinkim.snappollandroid.ui.fragment.SettingsFragment;
+import dev.jinkim.snappollandroid.ui.onboarding.OnboardingActivity;
 
 
 public class MainActivity extends SnapPollBaseActivity
@@ -71,6 +70,8 @@ public class MainActivity extends SnapPollBaseActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        displayOnboarding();
 
         bus.register(this);
 
@@ -250,5 +251,10 @@ public class MainActivity extends SnapPollBaseActivity
 
     public Fragment getCurrentFragment() {
         return currentFragment;
+    }
+
+    private void displayOnboarding() {
+        Intent in = new Intent(MainActivity.this, OnboardingActivity.class);
+        startActivity(in);
     }
 }

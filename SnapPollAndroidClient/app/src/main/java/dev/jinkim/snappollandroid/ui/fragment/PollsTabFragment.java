@@ -18,8 +18,8 @@ import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.model.Poll;
 import dev.jinkim.snappollandroid.ui.activity.MainActivity;
 import dev.jinkim.snappollandroid.ui.newpoll.NewPollActivity;
+import dev.jinkim.snappollandroid.ui.widget.slidingtab.PollsViewPagerAdapter;
 import dev.jinkim.snappollandroid.ui.widget.slidingtab.SlidingTabLayout;
-import dev.jinkim.snappollandroid.ui.widget.slidingtab.ViewPagerAdapter;
 import dev.jinkim.snappollandroid.web.SnapPollRestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -34,7 +34,7 @@ public class PollsTabFragment extends Fragment {
     private MainActivity mActivity;
 
     private ViewPager viewPager;
-    private ViewPagerAdapter viewPagerAdapter;
+    private PollsViewPagerAdapter pollsViewPagerAdapter;
     private SlidingTabLayout slidingTabs;
     private CharSequence titles[];
     private int numTabs = 2;
@@ -47,7 +47,9 @@ public class PollsTabFragment extends Fragment {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mActivity = (MainActivity) getActivity();
+//        if (getActivity() instanceof MainActivity) {
+            mActivity = (MainActivity) getActivity();
+//        }
     }
 
     @Override
@@ -58,11 +60,11 @@ public class PollsTabFragment extends Fragment {
         titles = new String[]{getString(R.string.tab_title_invited), getString(R.string.tab_title_my_polls)};
 
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
-        viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager(), titles, numTabs);
+        pollsViewPagerAdapter = new PollsViewPagerAdapter(getChildFragmentManager(), titles, numTabs);
 
         // Assigning ViewPager View and setting the adapter
         viewPager = (ViewPager) rootView.findViewById(R.id.poll_list_viewpager);
-        viewPager.setAdapter(viewPagerAdapter);
+        viewPager.setAdapter(pollsViewPagerAdapter);
 
         // Assiging the Sliding Tab Layout View
         slidingTabs = (SlidingTabLayout) rootView.findViewById(R.id.slidingtabs);

@@ -10,13 +10,13 @@ import dev.jinkim.snappollandroid.ui.fragment.MyPollsFragment;
 /**
  * Created by Jin on 4/14/15.
  */
-public class ViewPagerAdapter extends FragmentStatePagerAdapter {
+public class PollsViewPagerAdapter extends FragmentStatePagerAdapter {
     CharSequence titles[]; // This will Store the titles of the Tabs which are Going to be passed when ViewPagerAdapter is created
     int NumbOfTabs; // Store the number of tabs, this will also be passed when the ViewPagerAdapter is created
 
 
     // Build a Constructor and assign the passed Values to appropriate values in the class
-    public ViewPagerAdapter(FragmentManager fm,CharSequence mTitles[], int mNumbOfTabsumb) {
+    public PollsViewPagerAdapter(FragmentManager fm, CharSequence mTitles[], int mNumbOfTabsumb) {
         super(fm);
 
         this.titles = mTitles;

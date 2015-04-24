@@ -9,7 +9,7 @@
     <color name="divider">#CCCCCC</color>
     <color name="transparent">#00000000</color>
     <color name="translucent">#D0FFFFFF</color>
-    <color name="new_poll_enter_detail_background_translucent">#E0FFFFFF</color>
+    <color name="new_poll_enter_detail_background_translucent">#D5FFFFFF</color>
 
     <color name="drawer_selected">#C8FF9800</color>
     <color name="drawer_not_selected">#50FFFFFF</color>

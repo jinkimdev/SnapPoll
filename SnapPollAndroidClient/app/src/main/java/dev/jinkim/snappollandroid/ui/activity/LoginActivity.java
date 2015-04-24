@@ -4,14 +4,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.facebook.Session;
@@ -29,6 +27,7 @@ import dev.jinkim.snappollandroid.event.GoogleApiClientConnectedEvent;
 import dev.jinkim.snappollandroid.event.RevokeGplusAccessEvent;
 import dev.jinkim.snappollandroid.model.User;
 import dev.jinkim.snappollandroid.session.SessionManager;
+import dev.jinkim.snappollandroid.ui.onboarding.OnboardingActivity;
 import dev.jinkim.snappollandroid.web.SnapPollRestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -45,6 +44,7 @@ public class LoginActivity extends SnapPollBaseActivity {
     private SignInButton btnGoogleLogin;
     private Button btnSignOut;
     private Button btnRevokeAccess;
+
 
     private boolean loginActive = false;
 //    private GoogleApiClient mGoogleApiClient;
@@ -94,9 +94,7 @@ public class LoginActivity extends SnapPollBaseActivity {
         appSession = new SessionManager(mActivity);
 
 
-
 //        RelativeLayout rl = (RelativeLayout) findViewById(R.id.rl_login_screen);
-
 
 
         btnFacebookLogin = (LoginButton) findViewById(R.id.fb_login_button);
