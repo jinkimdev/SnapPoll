@@ -7,7 +7,8 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager_onboarding"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginBottom="80dp" />
 
     <RelativeLayout
         android:background="@color/app_primary_dark"
@@ -24,7 +25,7 @@
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="12dp"
             android:layout_centerVertical="true"
-            android:text="@string/lbl_onboarding_skip"
+            android:text="@string/btn_onboarding_skip"
             android:textSize="14sp"
             android:textColor="@color/text_off_white" />
 
@@ -36,7 +37,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="12dp"
             android:layout_centerVertical="true"
-            android:text="@string/lbl_onboarding_done"
+            android:text="@string/btn_onboarding_done"
             android:textSize="14sp"
             android:textColor="@color/text_white"
             android:visibility="invisible" />

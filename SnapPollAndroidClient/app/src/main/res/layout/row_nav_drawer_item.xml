@@ -13,7 +13,7 @@
         android:layout_height="32dp"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginRight="24dp"
         android:layout_marginLeft="8dp" />
 
     <TextView
@@ -22,6 +22,6 @@
         android:layout_height="wrap_content"
         android:text="Polls"
         android:textSize="14sp"
-        android:textColor="@color/text_primary" />
+        android:textColor="@color/text_gray" />
 
 </LinearLayout>

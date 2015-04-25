@@ -39,23 +39,23 @@ public class OnboardingPageFragment extends Fragment {
         switch (page) {
 
             case 0:
-                tutorialPageResId = R.layout.frag_tutorial_page1;
+                tutorialPageResId = R.layout.frag_onboarding_page1;
                 break;
 
             case 1:
-                tutorialPageResId = R.layout.frag_tutorial_page2;
+                tutorialPageResId = R.layout.frag_onboarding_page1;
                 break;
 
             case 2:
-                tutorialPageResId = R.layout.frag_tutorial_page3;
+                tutorialPageResId = R.layout.frag_onboarding_page1;
                 break;
 
             case 3:
-                tutorialPageResId = R.layout.frag_tutorial_page1;
+                tutorialPageResId = R.layout.frag_onboarding_page1;
                 break;
 
             default:
-                tutorialPageResId = R.layout.frag_tutorial_page1;
+                tutorialPageResId = R.layout.frag_onboarding_page1;
                 break;
         }
 
@@ -68,7 +68,7 @@ public class OnboardingPageFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            page = getArguments().getInt(getString(R.string.key_tutorial_page));
+            page = getArguments().getInt(getString(R.string.key_onboarding_page));
         }
     }
 

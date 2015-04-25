@@ -24,7 +24,7 @@
     <!-- TEXT -->
     <color name="text_primary">#555555</color>
     <color name="text_gray">#777777</color>
-    <color name="text_light_gray">#AAAAAA</color>
+    <color name="text_light_gray">#999999</color>
     <color name="text_toolbar_title">#FFFFFF</color>
     <color name="text_disabled">#99FFFFFF</color>
     <color name="text_slidingtab_title_active">@color/text_toolbar_title</color>
@@ -46,6 +46,8 @@
     <color name="login_screen_foreground">#30000000</color>
     <color name="statusbar_gray">#333333</color>
     <color name="text_off_white">#FFF8E1</color>
+    <color name="divider_gray">#CCCCCC</color>
+    <color name="app_background">#F5F5F5</color>
 
 
 </resources>
