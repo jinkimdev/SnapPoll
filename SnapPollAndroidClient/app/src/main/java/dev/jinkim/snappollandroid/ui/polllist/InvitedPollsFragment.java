@@ -56,16 +56,6 @@ public class InvitedPollsFragment extends ListFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
         initializeListView();
-
-//        // get cached poll list
-//        List<Poll> invitedPolls = mActivity.getInvitedPolls();
-//        if (invitedPolls == null || invitedPolls.size() < 1) {
-//            retrievePolls();
-//        } else {
-//            // if poll list has been already retrieved, update the list with them
-//            updateList(invitedPolls);
-//            mActivity.hideProgressBar();
-//        }
     }
 
     private void initializeListView() {
