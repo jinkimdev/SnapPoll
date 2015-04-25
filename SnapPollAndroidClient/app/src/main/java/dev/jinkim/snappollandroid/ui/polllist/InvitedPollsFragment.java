@@ -123,7 +123,6 @@ public class InvitedPollsFragment extends ListFragment {
 
     @Override
     public void onResume() {
-
         super.onResume();
         if (!getUserVisibleHint()) {
             return;

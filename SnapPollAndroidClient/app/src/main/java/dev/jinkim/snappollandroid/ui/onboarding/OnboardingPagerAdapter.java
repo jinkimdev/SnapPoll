@@ -22,30 +22,7 @@ public class OnboardingPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int index) {
         // update the main content by replacing fragments
 
-        switch (index) {
-
-            case 0:
-                Fragment tutorialPage1 = fm.findFragmentByTag(TutorialOneFragment.TAG);
-                if (tutorialPage1 == null) {
-                    tutorialPage1 = new TutorialOneFragment();
-                }
-
-                return tutorialPage1;
-
-            case 1:
-                Fragment tutorialPage2 = fm.findFragmentByTag(TutorialTwoFragment.TAG);
-                if (tutorialPage2 == null) {
-                    tutorialPage2 = new TutorialTwoFragment();
-                }
-                return tutorialPage2;
-
-            default:
-                Fragment defaultFrag = fm.findFragmentByTag(TutorialOneFragment.TAG);
-                if (defaultFrag == null) {
-                    defaultFrag = new TutorialOneFragment();
-                }
-                return defaultFrag;
-        }
+        return OnboardingPageFragment.newInstance(index);
     }
 
     @Override

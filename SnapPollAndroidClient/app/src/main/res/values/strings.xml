@@ -81,4 +81,5 @@
     <string name="lbl_onboarding_skip">Skip</string>
     <string name="lbl_section_responded">Responded</string>
     <string name="lbl_section_not_responded">Not Responded Yet</string>
+    <string name="key_tutorial_page">tutorial_page</string>
 </resources>
