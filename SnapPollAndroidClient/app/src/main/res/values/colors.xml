@@ -45,6 +45,7 @@
     <color name="text_white">#FFFFFF</color>
     <color name="login_screen_foreground">#30000000</color>
     <color name="statusbar_gray">#333333</color>
+    <color name="text_off_white">#FFF8E1</color>
 
 
 </resources>

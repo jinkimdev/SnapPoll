@@ -460,9 +460,10 @@ public class PollDetailFragment extends Fragment {
 
         // grab selected attribute id, -1 if null
         int attrId = (selectedAttr != null) ? selectedAttr.getAttributeId() : -1;
+        User user = App.getInstance().getCurrentUser(getActivity());
 
         Response currentResponse = new Response(currentPoll.getPollId(),
-                loc.x, loc.y, currentPoll.getCreatorId(), attrId);
+                loc.x, loc.y, user.getUserId(), attrId);
 
         Log.d(TAG, "Submitting response API call");
         SnapPollRestClient rest = new SnapPollRestClient();

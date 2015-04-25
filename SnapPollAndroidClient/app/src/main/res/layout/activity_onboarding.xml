@@ -17,14 +17,29 @@
         android:layout_height="wrap_content">
 
         <Button
+            android:id="@+id/btn_onboarding_skip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/transparent"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="12dp"
             android:layout_centerVertical="true"
-            android:text="Skip"
-            android:textColor="@color/text_white" />
+            android:text="@string/lbl_onboarding_skip"
+            android:textSize="14sp"
+            android:textColor="@color/text_off_white" />
+
+        <Button
+            android:id="@+id/btn_onboarding_done"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="12dp"
+            android:layout_centerVertical="true"
+            android:text="@string/lbl_onboarding_done"
+            android:textSize="14sp"
+            android:textColor="@color/text_white"
+            android:visibility="invisible" />
 
         <me.relex.circleindicator.CircleIndicator
             android:id="@+id/indicator_default"

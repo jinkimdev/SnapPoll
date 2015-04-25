@@ -77,4 +77,6 @@
     <string name="lbl_poll_detail_total_responses">Total Responses: </string>
     <string name="lbl_default_attribute_name">Default Choice</string>
     <string name="lbl_default_numbered_attribute_name">Answer Choice %1$d</string>
+    <string name="lbl_onboarding_done">Done</string>
+    <string name="lbl_onboarding_skip">Skip</string>
 </resources>
