@@ -79,4 +79,6 @@
     <string name="lbl_default_numbered_attribute_name">Answer Choice %1$d</string>
     <string name="lbl_onboarding_done">Done</string>
     <string name="lbl_onboarding_skip">Skip</string>
+    <string name="lbl_section_responded">Responded</string>
+    <string name="lbl_section_not_responded">Not Responded Yet</string>
 </resources>

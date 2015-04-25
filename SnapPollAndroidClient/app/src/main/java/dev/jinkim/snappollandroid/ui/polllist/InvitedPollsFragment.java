@@ -1,4 +1,5 @@
-package dev.jinkim.snappollandroid.ui.fragment;
+package dev.jinkim.snappollandroid.ui.polllist;
+
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,15 +13,18 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.squareup.otto.Subscribe;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.app.App;
+import dev.jinkim.snappollandroid.event.BusProvider;
+import dev.jinkim.snappollandroid.event.ResponseSubmittedEvent;
 import dev.jinkim.snappollandroid.model.Poll;
 import dev.jinkim.snappollandroid.model.User;
 import dev.jinkim.snappollandroid.ui.activity.MainActivity;
-import dev.jinkim.snappollandroid.ui.adapter.MyPollListAdapter;
 import dev.jinkim.snappollandroid.ui.polldetail.PollDetailActivity;
 import dev.jinkim.snappollandroid.web.SnapPollRestClient;
 import retrofit.Callback;
@@ -30,87 +34,87 @@ import retrofit.client.Response;
 /**
  * Created by Jin on 11/27/14.
  */
-public class MyPollsFragment extends ListFragment {
-    public static final String TAG = MyPollsFragment.class.getSimpleName();
+public class InvitedPollsFragment extends ListFragment {
 
-    private MyPollListAdapter adapter;
-    private ListView lvMyPolls;
+    public static final String TAG = InvitedPollsFragment.class.getSimpleName();
+    private InvitedPollListAdapter adapter;
+    private ListView lvPolls;
     private MainActivity mActivity;
-    private List<Poll> myPolls;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.frag_tab_my_polls, container, false);
+        View rootView = inflater.inflate(R.layout.frag_tab_invited_polls, container, false);
+
         mActivity = (MainActivity) getActivity();
         mActivity.showProgressBar(R.string.msg_loading);
-
-        adapter = new MyPollListAdapter(getActivity(), null);
-        setListAdapter(adapter);
 
         return rootView;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        initializeViews();
 
-        // get cached poll list
-        myPolls = mActivity.getMyPolls();
-        if (myPolls == null || myPolls.size() < 1) {
-            retrieveMyPolls();
-        } else {
-            // if poll list has been already retrieved, update the list with them
-            updateList(myPolls);
-            mActivity.hideProgressBar();
-        }
+        initializeListView();
+
+//        // get cached poll list
+//        List<Poll> invitedPolls = mActivity.getInvitedPolls();
+//        if (invitedPolls == null || invitedPolls.size() < 1) {
+//            retrievePolls();
+//        } else {
+//            // if poll list has been already retrieved, update the list with them
+//            updateList(invitedPolls);
+//            mActivity.hideProgressBar();
+//        }
     }
 
-    private void initializeViews() {
-        lvMyPolls = getListView();
-        lvMyPolls.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    private void initializeListView() {
+        adapter = new InvitedPollListAdapter(mActivity, new ArrayList<Poll>());
+        setListAdapter(adapter);
+        lvPolls = getListView();
+        lvPolls.setDivider(null);
+        lvPolls.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Poll p = adapter.getItem(position);
+                Poll p = (Poll) parent.getAdapter().getItem(position);
                 Log.d(TAG, "Poll selected: " + p.getCreatorId() + " - " + p.getQuestion());
 
-                Intent in = new Intent(getActivity(), PollDetailActivity.class);
+                Intent in = new Intent(mActivity, PollDetailActivity.class);
                 Gson gson = new Gson();
                 String pollJson = gson.toJson(p);
                 in.putExtra(getString(R.string.key_poll), pollJson);
-                in.putExtra(getString(R.string.key_view_result_mode), true);
+                in.putExtra(getString(R.string.key_view_result_mode), false);
 
                 startActivity(in);
             }
         });
     }
 
-    //TODO: retrieve polls + creator first name
-    public void retrieveMyPolls() {
-        User u = App.getInstance().getCurrentUser(getActivity());
+
+    public void retrievePolls() {
+        User u = App.getInstance().getCurrentUser(mActivity);
 
         if (u != null) {
             SnapPollRestClient rest = new SnapPollRestClient();
-            rest.getApiService().getMyPolls(u.getUserId(), new Callback<List<Poll>>() {
+            rest.getApiService().getInvitedPolls(u.getUserId(), new Callback<List<Poll>>() {
                 @Override
                 public void success(List<Poll> polls, Response response) {
-                    Log.d(TAG, "GET /poll/my/:user_id success.");
-                    myPolls = polls;
-                    updateList(myPolls);
-                    mActivity.setMyPolls(myPolls);
+                    Log.d(TAG, "GET /poll/invited success.");
+                    updateList(polls);
+                    mActivity.setInvitedPolls(polls);
                     mActivity.hideProgressBar();
                 }
 
                 @Override
                 public void failure(RetrofitError error) {
-                    Log.d(TAG, "GET /poll/my/:user_id fail.");
+                    Log.d(TAG, "GET /poll/invited failed.");
                     mActivity.hideProgressBar();
                 }
             });
         } else {
-            Toast.makeText(getActivity(), R.string.msg_please_sign_in_to_see_polls, Toast.LENGTH_SHORT).show();
+            Toast.makeText(mActivity, R.string.msg_sign_in_to_see_polls, Toast.LENGTH_SHORT).show();
         }
+
     }
 
     private void updateList(List<Poll> polls) {
@@ -118,12 +122,6 @@ public class MyPollsFragment extends ListFragment {
         adapter.setPollsWithSections(polls);
         adapter.notifyDataSetChanged();
     }
-
-    private void updateListWithNewPoll(Poll poll) {
-        myPolls.add(0, poll);
-        adapter.notifyDataSetChanged();
-    }
-
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -135,6 +133,7 @@ public class MyPollsFragment extends ListFragment {
 
     @Override
     public void onResume() {
+
         super.onResume();
         if (!getUserVisibleHint()) {
             return;
@@ -142,4 +141,13 @@ public class MyPollsFragment extends ListFragment {
 
         mActivity.setCurrentFragment(this);
     }
+
+
+    public void onStart() {
+        super.onStart();
+        mActivity.showProgressBar(R.string.msg_loading);
+        retrievePolls();
+
+    }
+
 }

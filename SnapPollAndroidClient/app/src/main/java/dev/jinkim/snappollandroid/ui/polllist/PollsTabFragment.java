@@ -1,4 +1,4 @@
-package dev.jinkim.snappollandroid.ui.fragment;
+package dev.jinkim.snappollandroid.ui.polllist;
 
 
 import android.content.Intent;

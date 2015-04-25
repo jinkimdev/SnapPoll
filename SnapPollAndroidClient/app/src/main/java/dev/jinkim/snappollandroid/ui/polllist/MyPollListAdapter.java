@@ -1,4 +1,4 @@
-package dev.jinkim.snappollandroid.ui.adapter;
+package dev.jinkim.snappollandroid.ui.polllist;
 
 import android.app.Activity;
 import android.content.Context;
@@ -27,22 +27,22 @@ public class MyPollListAdapter extends BaseAdapter {
     private static final int TYPE_POLL = 0;
     private static final int TYPE_SECTION = 1;
     private Activity mActivity;
-    private List<MyPollItem> list;
-    private static LayoutInflater inflater;
+    private List<PollListItemInterface> list;
+    private LayoutInflater inflater;
 
     public MyPollListAdapter(Activity activity, List<Poll> polls) {
         mActivity = activity;
         inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         if (polls == null) {
-            list = new ArrayList<MyPollItem>();
+            list = new ArrayList<PollListItemInterface>();
         }
         setPollsWithSections(polls);
     }
 
     public void clear() {
         list = null;
-        list = new ArrayList<MyPollItem>();
+        list = new ArrayList<PollListItemInterface>();
     }
 
     public void setPollsWithSections(List<Poll> polls) {
@@ -52,7 +52,7 @@ public class MyPollListAdapter extends BaseAdapter {
 
         User u = App.getInstance().getCurrentUser(mActivity);
 
-        list = new ArrayList<MyPollItem>();
+        list = new ArrayList<PollListItemInterface>();
         list.add(new Section(mActivity.getResources().getString(R.string.section_open)));
         for (Poll p : polls) {
             if (p.getCreatorId().equals(u.getUserId()) && p.isOpen()) {
@@ -76,7 +76,7 @@ public class MyPollListAdapter extends BaseAdapter {
     }
 
     public Poll getItem(int position) {
-        MyPollItem pollItem = list.get(position);
+        PollListItemInterface pollItem = list.get(position);
         if (pollItem.isPoll()) {
             return (Poll) pollItem;
         }
@@ -102,9 +102,9 @@ public class MyPollListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         int type = getItemViewType(position);
         View view = convertView;
-        final MyPollItem item = list.get(position);
+        final PollListItemInterface item = list.get(position);
 
-        InvitedPollListAdapter.ViewHolder pollHolder;
+        InvitedPollListAdapter.InvitedPollViewHolder pollHolder;
         SectionViewHolder sectionHolder;
 
         switch (type) {
@@ -129,7 +129,7 @@ public class MyPollListAdapter extends BaseAdapter {
 
             case TYPE_POLL:
                 if (view == null) {
-                    pollHolder = new InvitedPollListAdapter.ViewHolder();
+                    pollHolder = new InvitedPollListAdapter.InvitedPollViewHolder();
                     view = inflater.inflate(R.layout.row_my_poll, null);
                     pollHolder.ivPollThumbnail = (ImageView) view.findViewById(R.id.my_poll_iv_poll_thumbnail);
                     pollHolder.tvQuestion = (TextView) view.findViewById(R.id.my_poll_tv_question);
@@ -137,7 +137,7 @@ public class MyPollListAdapter extends BaseAdapter {
                     view.setTag(pollHolder);
 
                 } else {
-                    pollHolder = (InvitedPollListAdapter.ViewHolder) view.getTag();
+                    pollHolder = (InvitedPollListAdapter.InvitedPollViewHolder) view.getTag();
                 }
 
                 Poll p = (Poll) item;
@@ -160,13 +160,9 @@ public class MyPollListAdapter extends BaseAdapter {
         public TextView title;
     }
 
-    public interface MyPollItem {
-        public boolean isPoll();
 
-        public boolean isSection();
-    }
 
-    public class Section implements MyPollItem {
+    public class Section implements PollListItemInterface {
 
         private String title;
 

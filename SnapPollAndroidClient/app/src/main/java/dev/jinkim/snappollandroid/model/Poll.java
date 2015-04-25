@@ -3,12 +3,13 @@ package dev.jinkim.snappollandroid.model;
 import java.util.Date;
 import java.util.List;
 
-import dev.jinkim.snappollandroid.ui.adapter.MyPollListAdapter;
+import dev.jinkim.snappollandroid.ui.polllist.MyPollListAdapter;
+import dev.jinkim.snappollandroid.ui.polllist.PollListItemInterface;
 
 /**
  * Created by Jin on 11/23/14.
  */
-public class Poll implements MyPollListAdapter.MyPollItem {
+public class Poll implements PollListItemInterface {
     public int pollId;
     public String creatorId = "";
     public String creatorLastName = "";
@@ -24,6 +25,7 @@ public class Poll implements MyPollListAdapter.MyPollItem {
     public boolean open = true;
     public List<PollAttribute> attributes;
     public int numResponses;
+    public boolean answeredByMe;
 
     public int getPollId() {
         return pollId;
@@ -155,4 +157,11 @@ public class Poll implements MyPollListAdapter.MyPollItem {
         this.numResponses = numResponses;
     }
 
+    public boolean isAnsweredByMe() {
+        return answeredByMe;
+    }
+
+    public void setAnsweredByMe(boolean answeredByMe) {
+        this.answeredByMe = answeredByMe;
+    }
 }

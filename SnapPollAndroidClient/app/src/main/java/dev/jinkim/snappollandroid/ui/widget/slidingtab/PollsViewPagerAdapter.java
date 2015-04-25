@@ -4,8 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import dev.jinkim.snappollandroid.ui.fragment.InvitedPollsFragment;
-import dev.jinkim.snappollandroid.ui.fragment.MyPollsFragment;
+import dev.jinkim.snappollandroid.ui.polllist.InvitedPollsFragment;
+import dev.jinkim.snappollandroid.ui.polllist.MyPollsFragment;
 
 /**
  * Created by Jin on 4/14/15.

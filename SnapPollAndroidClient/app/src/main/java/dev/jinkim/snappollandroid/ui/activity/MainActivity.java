@@ -22,11 +22,11 @@ import dev.jinkim.snappollandroid.event.ResponseSubmittedEvent;
 import dev.jinkim.snappollandroid.model.Poll;
 import dev.jinkim.snappollandroid.session.SessionManager;
 import dev.jinkim.snappollandroid.ui.NavigationDrawerFragment;
-import dev.jinkim.snappollandroid.ui.fragment.MyPollsFragment;
-import dev.jinkim.snappollandroid.ui.fragment.PollsTabFragment;
 import dev.jinkim.snappollandroid.ui.fragment.ProfileFragment;
 import dev.jinkim.snappollandroid.ui.fragment.SettingsFragment;
 import dev.jinkim.snappollandroid.ui.onboarding.OnboardingActivity;
+import dev.jinkim.snappollandroid.ui.polllist.MyPollsFragment;
+import dev.jinkim.snappollandroid.ui.polllist.PollsTabFragment;
 
 
 public class MainActivity extends SnapPollBaseActivity
@@ -223,6 +223,7 @@ public class MainActivity extends SnapPollBaseActivity
     public void onResponseSubmittedEvent(ResponseSubmittedEvent event) {
         Log.d(TAG, "Received response submitted event!");
         displaySnackBar(R.string.msg_response_submitted);
+
     }
 
     public SessionManager getAppSession() {
