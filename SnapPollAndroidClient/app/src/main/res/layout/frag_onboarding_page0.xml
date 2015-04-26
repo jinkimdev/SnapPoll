@@ -36,11 +36,7 @@
     <TextView
         android:id="@+id/tv_onboarding_page0_subtitle"
         android:layout_below="@id/tv_onboarding_page0_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:text="@string/lbl_onboarding_subtitle"
-        android:textSize="18sp"
-        android:textColor="@color/text_light_gray" />
+        style="@style/SnapPollOnboardingTextContent"
+        android:text="@string/lbl_onboarding_subtitle" />
 
 </LinearLayout>

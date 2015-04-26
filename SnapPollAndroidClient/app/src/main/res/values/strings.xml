@@ -83,12 +83,12 @@
     <!-- ONBOARDING -->
     <string name="key_onboarding_page">onboarding_page</string>
     <string name="lbl_onboarding_welcome">Welcome to</string>
-    <string name="btn_onboarding_done">Done</string>
-    <string name="btn_onboarding_skip">Skip</string>
+    <string name="btn_onboarding_done">DONE</string>
+    <string name="btn_onboarding_skip">SKIP</string>
     <string name="lbl_onboarding_title">SnapPoll Demo!</string>
     <string name="lbl_onboarding_subtitle">Mobile Polling with\nVisual Reference</string>
     <string name="onboarding_page">onboarding_page</string>
-    
+
     <string name="onboarding_page1_heading">On the main screen</string>
     <string name="onboarding_page1_content">Create a new poll.\n\nSee the list of polls\nfrom you or your friends.</string>
     <string name="onboarding_page2_heading">To create a poll</string>
