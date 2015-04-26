@@ -3,11 +3,44 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp">
+    android:paddingLeft="20dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Settings" />
+        style="@style/SnapPollSettingsSection"
+        android:text="GENERAL" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_settings_show_tutorial_title"
+            style="@style/SnapPollSettingsTitle"
+            android:layout_alignParentLeft="true"
+            android:text="Show Tutorial" />
+
+        <com.gc.materialdesign.views.Switch
+            android:id="@+id/sw_settings_show_tutorial"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/app_primary"
+            android:text="Show Tutorial" />
+
+        <TextView
+            style="@style/SnapPollSettingsSubtitle"
+            android:layout_below="@id/tv_settings_show_tutorial_title"
+            android:layout_toLeftOf="@id/sw_settings_show_tutorial"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="8dp"
+            android:text="Show tutorial screen once again at the start of the app" />
+
+    </RelativeLayout>
+
+    <View style="@style/divider" />
 
 </LinearLayout>

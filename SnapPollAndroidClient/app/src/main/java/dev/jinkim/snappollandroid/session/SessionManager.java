@@ -36,6 +36,10 @@ public class SessionManager {
     public static final String SESSION_USER_EMAIL = "userEmail";
     public static final String SESSION_USER_PHOTO_URL = "userPhotoUrl";
 
+    // store app user settings
+    public static final String SESSION_ONBOARDING_VIEWED = "onboardingViewed";
+
+
     public SessionManager(Context context) {
         mContext = context;
         pref = mContext.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
@@ -165,5 +169,14 @@ public class SessionManager {
         mContext.startActivity(in);
 
         return true;
+    }
+
+    public boolean isOnboardingViewed() {
+        return pref.getBoolean(SESSION_ONBOARDING_VIEWED, false);
+    }
+
+    public void setOnboardingViewed(boolean flag) {
+        editor.putBoolean(SESSION_ONBOARDING_VIEWED, flag);
+        editor.commit();
     }
 }

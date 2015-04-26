@@ -58,6 +58,13 @@ public class MainActivity extends SnapPollBaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        appSession = new SessionManager(this);
+
+        // if first time user, show onboarding screen
+        if (!appSession.isOnboardingViewed()) {
+            displayOnboarding();
+        }
+
         // set up toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -71,11 +78,7 @@ public class MainActivity extends SnapPollBaseActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
-        displayOnboarding();
-
         bus.register(this);
-
-        appSession = new SessionManager(this);
     }
 
     @Override
@@ -255,6 +258,10 @@ public class MainActivity extends SnapPollBaseActivity
     }
 
     private void displayOnboarding() {
+
+        // set the onboarding viewed flag
+        appSession.setOnboardingViewed(true);
+
         Intent in = new Intent(MainActivity.this, OnboardingActivity.class);
         startActivity(in);
     }
