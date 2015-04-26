@@ -48,7 +48,7 @@ public class PollsTabFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        if (getActivity() instanceof MainActivity) {
-            mActivity = (MainActivity) getActivity();
+        mActivity = (MainActivity) getActivity();
 //        }
     }
 

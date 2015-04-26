@@ -25,7 +25,6 @@ public class OnboardingActivity extends SnapPollBaseActivity {
 
         mActivity = this;
 
-
         Button btnSkip = (Button) findViewById(R.id.btn_onboarding_skip);
         btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,12 +41,10 @@ public class OnboardingActivity extends SnapPollBaseActivity {
             }
         });
 
-
         // DEFAULT
         ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager_onboarding);
         CircleIndicator circleIndicator = (CircleIndicator) findViewById(R.id.indicator_default);
         final OnboardingPagerAdapter pagerAdapter = new OnboardingPagerAdapter(getSupportFragmentManager());
-
 
         viewPager.setAdapter(pagerAdapter);
         circleIndicator.setViewPager(viewPager);
@@ -55,6 +52,7 @@ public class OnboardingActivity extends SnapPollBaseActivity {
         circleIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
                 if (position == pagerAdapter.getCount() - 1) {
                     btnDone.setVisibility(View.VISIBLE);
                 } else {
@@ -70,6 +68,5 @@ public class OnboardingActivity extends SnapPollBaseActivity {
             public void onPageScrollStateChanged(int state) {
             }
         });
-
     }
 }

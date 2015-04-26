@@ -6,11 +6,11 @@ package dev.jinkim.snappollandroid.ui.onboarding;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
-public class OnboardingPagerAdapter extends FragmentPagerAdapter {
+public class OnboardingPagerAdapter extends FragmentStatePagerAdapter {
 
-    private int pagerCount = 5;
+    private int pagerCount = 6;
     private FragmentManager fm;
 
     public OnboardingPagerAdapter(FragmentManager fm) {

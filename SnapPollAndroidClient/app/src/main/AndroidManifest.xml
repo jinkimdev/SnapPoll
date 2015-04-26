@@ -38,7 +38,7 @@
         <activity
             android:name=".ui.polldetail.PollDetailActivity"
             android:parentActivityName=".ui.activity.MainActivity" />
-        
+
         <activity
             android:name=".ui.newpoll.NewPollActivity"
             android:parentActivityName=".ui.activity.MainActivity" />

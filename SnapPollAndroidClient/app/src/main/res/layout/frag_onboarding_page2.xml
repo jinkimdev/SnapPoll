@@ -13,10 +13,10 @@
         android:layout_weight="2">
 
         <ImageView
-            android:id="@+id/iv_onboarding_page1_img"
+            android:id="@+id/iv_onboarding_page2_img"
             android:layout_width="280dp"
             android:layout_height="280dp"
-            android:src="@drawable/onboarding_page1" />
+            android:src="@drawable/onboarding_page2" />
 
     </LinearLayout>
 
@@ -29,11 +29,11 @@
 
         <TextView
             style="@style/SnapPollOnboardingTextHeading"
-            android:text="@string/onboarding_page1_heading" />
+            android:text="@string/onboarding_page2_heading" />
 
         <TextView
             style="@style/SnapPollOnboardingTextContent"
-            android:text="@string/onboarding_page1_content" />
+            android:text="@string/onboarding_page2_content" />
 
     </LinearLayout>
 

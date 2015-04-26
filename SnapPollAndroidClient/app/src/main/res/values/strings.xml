@@ -69,7 +69,7 @@
     <string name="msg_signin_error">Error in login. Please try again.</string>
     <string name="attribute_name_default">Default</string>
     <string name="action_refresh">Refresh</string>
-    <string name="lbl_poll_title">Poll Title (Optional)</string>
+    <string name="lbl_poll_title">Poll Title, Tags (Optional)</string>
     <string name="msg_current_fragment_invalid">Current Fragment is Null.</string>
     <string name="dialog_title_select_image_source">Select Image Source</string>
     <string name="msg_refreshing_list">Refreshing the list ...</string>
@@ -87,4 +87,16 @@
     <string name="btn_onboarding_skip">Skip</string>
     <string name="lbl_onboarding_title">SnapPoll Demo!</string>
     <string name="lbl_onboarding_subtitle">Mobile Polling with\nVisual Reference</string>
+    <string name="onboarding_page">onboarding_page</string>
+    
+    <string name="onboarding_page1_heading">On the main screen</string>
+    <string name="onboarding_page1_content">Create a new poll.\n\nSee the list of polls\nfrom you or your friends.</string>
+    <string name="onboarding_page2_heading">To create a poll</string>
+    <string name="onboarding_page2_content">Select a picture from\nGallery or Camera.\n\nType in your question and send.</string>
+    <string name="onboarding_page3_heading">When a friend invited you to a poll</string>
+    <string name="onboarding_page3_content">Simply tap on the picture to indicate\nyour response and submit.</string>
+    <string name="onboarding_page4_heading">For a poll you created</string>
+    <string name="onboarding_page4_content">Check the result from MY POLLS tab</string>
+    <string name="onboarding_page5_heading">For more</string>
+    <string name="onboarding_page5_content">Open Navigation Drawer\nto access the menu.</string>
 </resources>

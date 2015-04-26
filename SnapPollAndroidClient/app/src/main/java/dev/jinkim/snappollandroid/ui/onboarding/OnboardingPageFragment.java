@@ -15,6 +15,7 @@ public class OnboardingPageFragment extends Fragment {
     public static String TAG = OnboardingPageFragment.class.getSimpleName();
 
     private int page = 0;
+    private static final String KEY_PAGE = "onboarding_page";
 
     public OnboardingPageFragment() {
     }
@@ -24,7 +25,7 @@ public class OnboardingPageFragment extends Fragment {
         OnboardingPageFragment fragment = new OnboardingPageFragment();
 
         Bundle args = new Bundle();
-        args.putInt("tutorial_page", page);
+        args.putInt(KEY_PAGE, page);
         fragment.setArguments(args);
 
         return fragment;
@@ -34,12 +35,13 @@ public class OnboardingPageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        page = getArguments().getInt(KEY_PAGE);
         int tutorialPageResId;
 
         switch (page) {
 
             case 0:
-                tutorialPageResId = R.layout.frag_onboarding_page1;
+                tutorialPageResId = R.layout.frag_onboarding_page0;
                 break;
 
             case 1:
@@ -47,11 +49,19 @@ public class OnboardingPageFragment extends Fragment {
                 break;
 
             case 2:
-                tutorialPageResId = R.layout.frag_onboarding_page1;
+                tutorialPageResId = R.layout.frag_onboarding_page2;
                 break;
 
             case 3:
-                tutorialPageResId = R.layout.frag_onboarding_page1;
+                tutorialPageResId = R.layout.frag_onboarding_page3;
+                break;
+
+            case 4:
+                tutorialPageResId = R.layout.frag_onboarding_page4;
+                break;
+
+            case 5:
+                tutorialPageResId = R.layout.frag_onboarding_page5;
                 break;
 
             default:
