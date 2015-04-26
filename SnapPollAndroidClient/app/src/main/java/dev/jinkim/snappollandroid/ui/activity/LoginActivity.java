@@ -20,14 +20,12 @@ import com.facebook.widget.LoginButton;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.plus.Plus;
 import com.squareup.otto.Subscribe;
-import com.squareup.picasso.Picasso;
 
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.event.GoogleApiClientConnectedEvent;
 import dev.jinkim.snappollandroid.event.RevokeGplusAccessEvent;
 import dev.jinkim.snappollandroid.model.User;
 import dev.jinkim.snappollandroid.session.SessionManager;
-import dev.jinkim.snappollandroid.ui.onboarding.OnboardingActivity;
 import dev.jinkim.snappollandroid.web.SnapPollRestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -71,9 +69,6 @@ public class LoginActivity extends SnapPollBaseActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_login);
-
-        // load background image
-        loadBackgroundImage();
 
         // change the system status bar from orange (default theme) to dark gray on this activity only
         if (Build.VERSION.SDK_INT >= 21) {
@@ -141,16 +136,6 @@ public class LoginActivity extends SnapPollBaseActivity {
         });
 
         bus.register(this);
-    }
-
-    private void loadBackgroundImage() {
-        ivBackground = (ImageView) findViewById(R.id.login_iv_background);
-        Picasso.with(this)
-                .load(R.drawable.login_background)
-//                .resize(width, height)
-                .fit()
-                .centerCrop()
-                .into(ivBackground);
     }
 
     private Session.StatusCallback statusCallback = new Session.StatusCallback() {
