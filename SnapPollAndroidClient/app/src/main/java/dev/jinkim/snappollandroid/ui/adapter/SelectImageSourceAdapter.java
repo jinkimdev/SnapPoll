@@ -16,6 +16,8 @@ import dev.jinkim.snappollandroid.R;
 
 /**
  * Created by Jin on 2/18/15.
+ *
+ * Adapter used for the image source selection (Gallery or Camera) for attaching image reference
  */
 public class SelectImageSourceAdapter extends ArrayAdapter {
 

@@ -2,6 +2,8 @@ package dev.jinkim.snappollandroid.model;
 
 /**
  * Created by Jin on 1/25/15.
+ *
+ * Response (response submission to a poll) model object
  */
 public class Response {
 

@@ -28,6 +28,8 @@ import dev.jinkim.snappollandroid.ui.activity.SnapPollBaseActivity;
 
 /**
  * Created by Jin on 1/11/15.
+ *
+ * Activity for the creating a new poll flow
  */
 public class NewPollActivity extends SnapPollBaseActivity {
 

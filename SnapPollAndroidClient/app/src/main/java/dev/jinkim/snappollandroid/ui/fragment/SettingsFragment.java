@@ -14,6 +14,8 @@ import dev.jinkim.snappollandroid.ui.activity.MainActivity;
 
 /**
  * Created by Jin on 4/20/15.
+ *
+ * SettingsFragment in Navigation Drawer - User can check and manage app settings.
  */
 public class SettingsFragment extends Fragment {
     public static String TAG = SettingsFragment.class.getSimpleName();

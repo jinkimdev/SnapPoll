@@ -22,6 +22,8 @@ import dev.jinkim.snappollandroid.util.image.CircleTransform;
 
 /**
  * Created by Jin on 12/5/14.
+ *
+ * Adapter for showing list of polls that the user is invited to participate
  */
 public class InvitedPollListAdapter extends BaseAdapter {
     private static final int TYPE_POLL = 0;

@@ -7,6 +7,8 @@ import dev.jinkim.snappollandroid.R;
 
 /**
  * Created by Jin on 2/22/15.
+ *
+ * Util for handling color values
  */
 public class ColorUtil {
     public static String convertToHex(int colorInt) {

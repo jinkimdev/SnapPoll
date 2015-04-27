@@ -6,6 +6,8 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by Jin on 12/7/14.
+ *
+ * SnapPoll User model object
  */
 public class User {
 

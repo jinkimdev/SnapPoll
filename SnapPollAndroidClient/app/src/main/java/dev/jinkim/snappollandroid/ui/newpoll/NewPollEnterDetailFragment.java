@@ -30,6 +30,8 @@ import dev.jinkim.snappollandroid.util.ColorUtil;
 
 /**
  * Created by Jin on 3/6/15.
+ *
+ * Fragment for entering poll details including question, title, and answer choices
  */
 public class NewPollEnterDetailFragment extends Fragment {
 
@@ -144,16 +146,6 @@ public class NewPollEnterDetailFragment extends Fragment {
 
         updateIndicatorColor(colorIndicator, colorHex);
         tvAttributeName.setText(attributeName);
-//
-//        final ImageView btnEditAttribute = (ImageView) row.findViewById(R.id.iv_attribute_line_edit_button);
-//        btnEditAttribute.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String currentName = tvAttributeName.getText().toString();
-////                String currentColorHex = ColorUtil.convertToHex(colorIndicator.getSolidColor());
-//                showEditAttributeDialog(currentName, (String) colorIndicator.getTag(), tvAttributeName, colorIndicator);
-//            }
-//        });
 
         final ImageView btnRemoveAttribute = (ImageView) row.findViewById(R.id.iv_new_poll_attribute_remove_button);
         btnRemoveAttribute.setOnClickListener(new View.OnClickListener() {

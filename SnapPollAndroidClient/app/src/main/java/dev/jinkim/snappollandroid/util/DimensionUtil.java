@@ -8,6 +8,8 @@ import android.view.WindowManager;
 
 /**
  * Created by Jin on 1/14/15.
+ *
+ * Util for calculating screen dimensions
  */
 public class DimensionUtil {
     private Context context;

@@ -1,7 +1,6 @@
-package dev.jinkim.snappollandroid.ui.newpoll;
+package dev.jinkim.snappollandroid.ui.invitefriends;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +16,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dev.jinkim.snappollandroid.R;
-import dev.jinkim.snappollandroid.model.RowFriend;
+import dev.jinkim.snappollandroid.ui.invitefriends.RowFriend;
 import dev.jinkim.snappollandroid.util.image.CircleTransform;
 
 /**
  * Created by Jin on 3/10/15.
+ *
+ * List adapter for showing friends list (and search filtering) on InviteFriendsDialog
  */
 public class ChooseFriendListAdapter extends ArrayAdapter<RowFriend> implements Filterable {
     private LayoutInflater li;

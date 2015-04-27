@@ -9,6 +9,8 @@ import com.google.android.gms.plus.PlusShare;
 
 /**
  * Created by Jin on 3/23/15.
+ *
+ * Work in progress - Attempt on Facebook deep linking
  */
 public class ParseDeepLinkActivity extends Activity {
 

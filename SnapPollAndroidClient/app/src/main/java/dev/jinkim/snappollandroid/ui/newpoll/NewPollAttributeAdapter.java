@@ -23,6 +23,8 @@ import dev.jinkim.snappollandroid.util.ColorUtil;
 
 /**
  * Created by Jin on 4/22/15.
+ *
+ * Display and manage rows of new poll attributes containing indicator color and title
  */
 public class NewPollAttributeAdapter extends ArrayAdapter<PollAttribute> {
     private Context context;

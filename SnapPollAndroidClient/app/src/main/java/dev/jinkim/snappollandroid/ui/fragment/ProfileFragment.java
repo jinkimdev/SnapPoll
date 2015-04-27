@@ -26,6 +26,8 @@ import dev.jinkim.snappollandroid.util.image.CircleTransform;
 
 /**
  * Created by Jin on 11/27/14.
+ *
+ * Profile Fragment in Navigation Drawer - User can see the status of app login with Google + and Facebook
  */
 public class ProfileFragment extends Fragment {
 

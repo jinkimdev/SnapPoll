@@ -49,10 +49,10 @@ import dev.jinkim.snappollandroid.model.PollAttribute;
 import dev.jinkim.snappollandroid.model.PollInvitedFriendsResponse;
 import dev.jinkim.snappollandroid.model.Response;
 import dev.jinkim.snappollandroid.model.ResultStatsResponse;
-import dev.jinkim.snappollandroid.model.RowFriend;
 import dev.jinkim.snappollandroid.model.User;
-import dev.jinkim.snappollandroid.ui.invite.InviteFriendsController;
-import dev.jinkim.snappollandroid.ui.invite.InviteFriendsDialog;
+import dev.jinkim.snappollandroid.ui.invitefriends.InviteFriendsController;
+import dev.jinkim.snappollandroid.ui.invitefriends.InviteFriendsDialog;
+import dev.jinkim.snappollandroid.ui.invitefriends.RowFriend;
 import dev.jinkim.snappollandroid.ui.widget.TouchImageView;
 import dev.jinkim.snappollandroid.util.DimensionUtil;
 import dev.jinkim.snappollandroid.util.UriUtil;
@@ -63,6 +63,8 @@ import retrofit.RetrofitError;
 
 /**
  * Created by Jin on 1/11/15.
+ *
+ * Fragment for displaying poll detail
  */
 public class PollDetailFragment extends Fragment {
 

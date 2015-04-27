@@ -28,6 +28,8 @@ import retrofit.client.Response;
 
 /**
  * Created by Jin on 11/27/14.
+ *
+ * Fragment for showing my polls
  */
 public class MyPollsFragment extends ListFragment {
     public static final String TAG = MyPollsFragment.class.getSimpleName();

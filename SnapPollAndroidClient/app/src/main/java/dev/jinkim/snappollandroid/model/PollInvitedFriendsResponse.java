@@ -4,6 +4,8 @@ import java.util.List;
 
 /**
  * Created by Jin on 4/1/15.
+ *
+ * PollInvitedFriendsResponse from SnapPoll REST API
  */
 public class PollInvitedFriendsResponse {
     public int pollId;

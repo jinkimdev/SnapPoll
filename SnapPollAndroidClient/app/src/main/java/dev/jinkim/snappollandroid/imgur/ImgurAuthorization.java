@@ -20,6 +20,9 @@ import java.util.Scanner;
 
 import dev.jinkim.snappollandroid.app.App;
 
+/**
+ * ImgurAuthorization helper - reference: https://github.com/talklittle/ImgurAPIv3ExampleAndroid
+ */
 public class ImgurAuthorization {
 
     private static final String TAG = ImgurAuthorization.class.getSimpleName();

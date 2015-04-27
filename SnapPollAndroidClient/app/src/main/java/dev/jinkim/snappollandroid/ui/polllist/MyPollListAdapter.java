@@ -22,6 +22,8 @@ import dev.jinkim.snappollandroid.util.UriUtil;
 
 /**
  * Created by Jin on 12/5/14.
+ *
+ * Adapter for showing list of polls the user has created
  */
 public class MyPollListAdapter extends BaseAdapter {
     private static final int TYPE_POLL = 0;

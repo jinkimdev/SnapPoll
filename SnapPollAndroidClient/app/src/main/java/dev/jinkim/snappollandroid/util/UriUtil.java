@@ -9,10 +9,12 @@ import java.io.ByteArrayOutputStream;
 
 /**
  * Created by Jin on 2/2/15.
+ *
+ * Util for handling image uri from web address
  */
 public class UriUtil {
-    public UriUtil() {
 
+    public UriUtil() {
     }
 
     /**

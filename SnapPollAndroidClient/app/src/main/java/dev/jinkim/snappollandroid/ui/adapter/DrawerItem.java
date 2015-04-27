@@ -2,6 +2,8 @@ package dev.jinkim.snappollandroid.ui.adapter;
 
 /**
  * Created by Jin on 4/20/15.
+ *
+ * Object for row item in navigation drawer
  */
 public class DrawerItem {
     private int iconResId;

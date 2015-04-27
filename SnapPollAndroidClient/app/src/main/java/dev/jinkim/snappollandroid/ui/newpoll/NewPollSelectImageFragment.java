@@ -29,6 +29,8 @@ import dev.jinkim.snappollandroid.util.ImageFileUtil;
 
 /**
  * Created by Jin on 3/6/15.
+ *
+ * Fragment for attaching an image (from Gallery or Camera) in creating a poll
  */
 public class NewPollSelectImageFragment extends Fragment {
     public static final String TAG = NewPollSelectImageFragment.class.getSimpleName();

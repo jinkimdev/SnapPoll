@@ -18,7 +18,7 @@ import dev.jinkim.snappollandroid.imgur.ImgurConstants;
 import dev.jinkim.snappollandroid.model.ImgurResponse;
 import dev.jinkim.snappollandroid.model.Poll;
 import dev.jinkim.snappollandroid.model.PollAttribute;
-import dev.jinkim.snappollandroid.model.RowFriend;
+import dev.jinkim.snappollandroid.ui.invitefriends.RowFriend;
 import dev.jinkim.snappollandroid.model.User;
 import dev.jinkim.snappollandroid.ui.polldetail.PollDetailActivity;
 import dev.jinkim.snappollandroid.util.ColorUtil;
@@ -32,6 +32,8 @@ import retrofit.mime.TypedFile;
 
 /**
  * Created by Jin on 3/8/15.
+ *
+ * Keep up with the information in creating a new poll flow
  */
 public class NewPollController {
 

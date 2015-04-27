@@ -8,6 +8,8 @@ import dev.jinkim.snappollandroid.ui.polllist.PollListItemInterface;
 
 /**
  * Created by Jin on 11/23/14.
+ *
+ * Poll model object
  */
 public class Poll implements PollListItemInterface {
     public int pollId;

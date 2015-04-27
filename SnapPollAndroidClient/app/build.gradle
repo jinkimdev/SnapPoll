@@ -8,8 +8,8 @@ android {
         applicationId "dev.jinkim.snappollandroid"
         minSdkVersion 16
         targetSdkVersion 21
-        versionCode 6
-        versionName "0.1.4"
+        versionCode 7
+        versionName "0.1.5"
     }
     buildTypes {
         release {

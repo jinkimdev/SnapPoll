@@ -26,6 +26,8 @@ import retrofit.http.Path;
 
 /**
  * Created by Jin on 11/23/14.
+ *
+ * Define REST client to communicate with SnapPoll REST API using Retrofit
  */
 public class SnapPollRestClient {
     private ApiService apiService;

@@ -11,6 +11,8 @@ import me.relex.circleindicator.CircleIndicator;
 
 /**
  * Created by Jin on 4/24/15.
+ *
+ * Display onboarding tutorial screens for the first time user
  */
 public class OnboardingActivity extends SnapPollBaseActivity {
 

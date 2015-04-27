@@ -33,6 +33,8 @@ import retrofit.client.Response;
 
 /**
  * Created by Jin on 11/27/14.
+ *
+ * Fragment for showing polls I am invited to
  */
 public class InvitedPollsFragment extends ListFragment {
 

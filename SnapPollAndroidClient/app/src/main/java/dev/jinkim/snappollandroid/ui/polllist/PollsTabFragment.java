@@ -27,6 +27,8 @@ import retrofit.client.Response;
 
 /**
  * Created by Jin on 11/27/14.
+ *
+ * Host two tabs with view pager in poll lists
  */
 public class PollsTabFragment extends Fragment {
 

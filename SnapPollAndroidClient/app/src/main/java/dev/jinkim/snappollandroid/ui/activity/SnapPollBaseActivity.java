@@ -28,6 +28,8 @@ import dev.jinkim.snappollandroid.session.SessionManager;
 
 /**
  * Created by Jin on 1/21/15.
+ *
+ * BaseActivity that contains handling GoogleApi connection and SnackBar message, SessionManager and EventBus
  */
 public class SnapPollBaseActivity extends ActionBarActivity {
 

@@ -6,6 +6,8 @@ import dev.jinkim.snappollandroid.R;
 
 /**
  * Created by Jin on 4/22/15.
+ *
+ * ResultStatsResponse model object - include info like num reponses per answer choice in this poll
  */
 public class ResultStatsResponse {
 

@@ -1,4 +1,4 @@
-package dev.jinkim.snappollandroid.ui.invite;
+package dev.jinkim.snappollandroid.ui.invitefriends;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,11 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dev.jinkim.snappollandroid.R;
-import dev.jinkim.snappollandroid.model.RowFriend;
-import dev.jinkim.snappollandroid.ui.newpoll.ChooseFriendListAdapter;
 
 /**
  * Created by Jin on 4/3/15.
+ *
+ * Dialog for choosing friends to invite to a poll - show list of Google+ friends and invitation status
  */
 public class InviteFriendsDialog {
     public static String TAG = InviteFriendsDialog.class.getSimpleName();

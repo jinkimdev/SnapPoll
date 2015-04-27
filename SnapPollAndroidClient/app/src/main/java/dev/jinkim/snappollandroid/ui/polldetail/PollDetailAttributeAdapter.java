@@ -20,6 +20,8 @@ import dev.jinkim.snappollandroid.ui.widget.colorpicker.ColorPickerDialogDash;
 
 /**
  * Created by Jin on 4/22/15.
+ *
+ * Adapter for displaying answer choices in the sliding panel
  */
 public class PollDetailAttributeAdapter extends ArrayAdapter<PollAttribute> {
     private Context context;

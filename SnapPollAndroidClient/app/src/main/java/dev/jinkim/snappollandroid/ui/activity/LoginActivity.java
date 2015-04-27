@@ -33,6 +33,8 @@ import retrofit.client.Response;
 
 /**
  * Created by Jin on 11/27/14.
+ *
+ * Handle login to the app through Google+ / Facebook login
  */
 public class LoginActivity extends SnapPollBaseActivity {
 

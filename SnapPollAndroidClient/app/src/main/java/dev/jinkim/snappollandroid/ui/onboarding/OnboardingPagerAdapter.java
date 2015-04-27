@@ -2,6 +2,8 @@ package dev.jinkim.snappollandroid.ui.onboarding;
 
 /**
  * Created by Jin on 4/24/15.
+ *
+ * Handles viewpager swiping through the onboarding screens
  */
 
 import android.support.v4.app.Fragment;

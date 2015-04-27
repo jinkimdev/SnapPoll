@@ -6,6 +6,8 @@ import dev.jinkim.snappollandroid.util.ColorUtil;
 
 /**
  * Created by Jin on 2/9/15.
+ *
+ * Poll Attribute model object
  */
 public class PollAttribute {
     @SerializedName("attribute_id")

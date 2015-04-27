@@ -11,6 +11,8 @@ import dev.jinkim.snappollandroid.ui.activity.LoginActivity;
 
 /**
  * Created by Jin on 12/7/14.
+ *
+ * SessionManager keeps up with SharedPreferences and app login status
  */
 public class SessionManager {
     private final String TAG = SessionManager.class.getSimpleName();

@@ -11,6 +11,8 @@ import java.util.Date;
 
 /**
  * Created by Jin on 2/22/15.
+ *
+ * Util for handling image file - camera output / path
  */
 public class ImageFileUtil {
 

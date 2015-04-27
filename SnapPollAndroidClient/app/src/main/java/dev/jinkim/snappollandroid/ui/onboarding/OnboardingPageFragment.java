@@ -10,6 +10,8 @@ import dev.jinkim.snappollandroid.R;
 
 /**
  * Created by Jin on 4/20/15.
+ *
+ * Display onboarding graphics with different layouts
  */
 public class OnboardingPageFragment extends Fragment {
     public static String TAG = OnboardingPageFragment.class.getSimpleName();

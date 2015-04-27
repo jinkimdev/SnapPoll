@@ -1,4 +1,4 @@
-package dev.jinkim.snappollandroid.ui.invite;
+package dev.jinkim.snappollandroid.ui.invitefriends;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,8 +8,6 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-import dev.jinkim.snappollandroid.R;
-import dev.jinkim.snappollandroid.model.RowFriend;
 import dev.jinkim.snappollandroid.web.SnapPollRestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -17,6 +15,8 @@ import retrofit.client.Response;
 
 /**
  * Created by Jin on 4/3/15.
+ *
+ * Keep up with the list of friends (Google+) invited to the poll
  */
 public class InviteFriendsController {
 

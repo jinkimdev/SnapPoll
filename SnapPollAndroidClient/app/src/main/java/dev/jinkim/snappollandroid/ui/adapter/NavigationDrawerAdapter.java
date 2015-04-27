@@ -2,7 +2,6 @@ package dev.jinkim.snappollandroid.ui.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +16,8 @@ import dev.jinkim.snappollandroid.R;
 
 /**
  * Created by Jin on 4/20/15.
+ *
+ * Adapter for top level navigation drawer
  */
 public class NavigationDrawerAdapter extends ArrayAdapter<DrawerItem> {
     private Context context;

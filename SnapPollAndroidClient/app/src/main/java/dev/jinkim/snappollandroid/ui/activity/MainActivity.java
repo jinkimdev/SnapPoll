@@ -28,7 +28,9 @@ import dev.jinkim.snappollandroid.ui.onboarding.OnboardingActivity;
 import dev.jinkim.snappollandroid.ui.polllist.MyPollsFragment;
 import dev.jinkim.snappollandroid.ui.polllist.PollsTabFragment;
 
-
+/**
+ * Host main poll list tabs and navigation drawer
+ */
 public class MainActivity extends SnapPollBaseActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
