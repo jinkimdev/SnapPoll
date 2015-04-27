@@ -192,6 +192,7 @@ public class NewPollController {
         currentPoll.setReferenceUrl(resp.data.getLink());
         currentPoll.setReferenceDeleteHash(resp.data.getDeletehash());
 
+        // if attribute is empty, add a default attribute
         if (attributes.size() < 1) {
             // set a default attribute
             PollAttribute at = new PollAttribute();
@@ -201,7 +202,6 @@ public class NewPollController {
             attributes.add(at);
         }
         currentPoll.setAttributes(attributes);
-
 
         SnapPollRestClient.ApiService rest = new SnapPollRestClient().getApiService();
 

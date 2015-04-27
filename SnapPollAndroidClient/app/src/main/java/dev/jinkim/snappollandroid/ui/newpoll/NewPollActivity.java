@@ -19,16 +19,13 @@ import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.listeners.EventListener;
 import com.squareup.otto.Bus;
 
-import java.util.List;
-
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.event.BusProvider;
-import dev.jinkim.snappollandroid.model.PollAttribute;
 import dev.jinkim.snappollandroid.ui.activity.SnapPollBaseActivity;
 
 /**
  * Created by Jin on 1/11/15.
- *
+ * <p/>
  * Activity for the creating a new poll flow
  */
 public class NewPollActivity extends SnapPollBaseActivity {
@@ -161,9 +158,9 @@ public class NewPollActivity extends SnapPollBaseActivity {
                 }
 
                 if (f instanceof NewPollEnterDetailFragment) {
+                    setSubmitting(true);
+                    controller.setAttributes(((NewPollEnterDetailFragment) f).grabAttributes());
                     if (((NewPollEnterDetailFragment) f).saveNewPollDetails()) {
-                        setSubmitting(true);
-                        controller.setAttributes(((NewPollEnterDetailFragment) f).grabAttributes());
                         controller.uploadImage();
                     } else {
                         Toast.makeText(this, R.string.msg_poll_question_empty, Toast.LENGTH_SHORT).show();
@@ -283,6 +280,7 @@ public class NewPollActivity extends SnapPollBaseActivity {
     public void setCapturedImageUri(Uri imgUri) {
         this.capturedImageUri = imgUri;
     }
+
     public void setCapturedImageUri(String imgPath) {
         Uri uri = Uri.parse(imgPath);
         capturedImageUri = uri;
