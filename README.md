@@ -44,11 +44,11 @@ For more, open Navigation Drawer to access the menu.
 
 ##Other Components
 
-REST API (Node.js) end point used in this demo: http://snappoll.herokuapp.com/api
+- REST API (Node.js) end point used in this demo: http://snappoll.herokuapp.com/api
 
-[REST API Documentation](http://snappoll.herokuapp.com/apidoc).
+- [REST API Documentation](http://snappoll.herokuapp.com/apidoc)
 
-[Database](https://github.com/jinkim608/SnapPoll/wiki/3.-Database-(PostgreSQL)).
+- [Database](https://github.com/jinkim608/SnapPoll/wiki/3.-Database-(PostgreSQL))
 
 ##License
     Copyright 2014 Jinhyun Kim
