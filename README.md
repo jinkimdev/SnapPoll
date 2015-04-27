@@ -2,36 +2,53 @@ SnapPoll
 ========
 A Mobile Polling Interaction with Visual Reference
 
-** Development in progress ** Update 12/9/2014
+** Development in progress ** Last update 4/27/2015
 
 Jinhyun Kim (dev.jinkim@gmail.com)
 
-
-![](https://github.com/jinkim608/SnapPoll/blob/master/Assets/Screens/resized_create_poll.png)
-
 ##Overview
 
-Instead of writing out all the answer choices for a poll, attach a picture reference that participants can see and use to indicate their responses.
+Instead of writing out all the answer choices for a poll, attach a picture reference and ask a question!
 
-More info including possible use cases and architecture is [in the wiki](https://github.com/jinkim608/SnapPoll/wiki).
+Your friends can indicate their responses by a simple tap on the picture.
 
-##Components
+More thoughts on use cases and architecture is [in the wiki](https://github.com/jinkim608/SnapPoll/wiki).
 
-####REST API (Node.js)
-**End point** used in the demo: http://snappoll.herokuapp.com/api
+##Android Client
 
-REST API Documentation [here](http://snappoll.herokuapp.com/apidoc).
+<img src="https://github.com/jinkim608/SnapPoll/blob/master/Assets/Onboarding/v0.2.0-page1.png" width="400">
+
+You can create a new poll. See the list of polls from you or your friends.
+<hr>
+
+<img src="https://github.com/jinkim608/SnapPoll/blob/master/Assets/Onboarding/v0.2.0-page2.png" width="400">
+
+To create a poll, select an image from Gallery app or camera, type in your question and send.
+<hr>
+
+<img src="https://github.com/jinkim608/SnapPoll/blob/master/Assets/Onboarding/v0.2.0-page3.png" width="400">
+
+When a friend invites you to a poll, simply tap on the picture to indicate your response and submit it.
+<hr>
+
+<img src="https://github.com/jinkim608/SnapPoll/blob/master/Assets/Onboarding/v0.2.0-page4.png" width="400">
+
+For a poll you created, check the result from MY POLLS tab.
+<hr>
 
 
-#### Database Backend (PostgreSQL)
-DB contains users, polls, responses tables. Details of the DB schema are documented [in this page](https://github.com/jinkim608/SnapPoll/wiki/Database-(PostgreSQL)).
+<img src="https://github.com/jinkim608/SnapPoll/blob/master/Assets/Onboarding/v0.2.0-page5.png" width="400">
 
-####Android Client
-A user can create and upload a poll, with a visual reference (picture or screenshot) and a question attached.
+For more, open Navigation Drawer to access the menu.
+<hr>
 
-User's friends invited through social media platform can participate and upload their responses to the server. A user taps on the location of interest in the picture and sends the response.
+##Other Components
 
-A user can see the result of popular votes (aggregated responses from poll participants) in a type of visualization such as a heat map.
+REST API (Node.js) end point used in this demo: http://snappoll.herokuapp.com/api
+
+[REST API Documentation](http://snappoll.herokuapp.com/apidoc).
+
+[Database](https://github.com/jinkim608/SnapPoll/wiki/3.-Database-(PostgreSQL)).
 
 ##License
     Copyright 2014 Jinhyun Kim
