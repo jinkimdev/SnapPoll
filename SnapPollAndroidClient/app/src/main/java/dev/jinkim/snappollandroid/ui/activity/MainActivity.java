@@ -46,7 +46,7 @@ public class MainActivity extends SnapPollBaseActivity
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
-    private CharSequence mTitle;
+    public CharSequence currentToolbarTitle;
 
     private SessionManager appSession;
 
@@ -73,7 +73,7 @@ public class MainActivity extends SnapPollBaseActivity
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
-        mTitle = getTitle();
+        currentToolbarTitle = getTitle();
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
@@ -135,10 +135,10 @@ public class MainActivity extends SnapPollBaseActivity
     public void onSectionAttached(int number) {
         switch (number) {
             case 0:
-                mTitle = getString(R.string.nav_drawer_title_polls);
+                currentToolbarTitle = getString(R.string.nav_drawer_title_polls);
                 break;
             case 1:
-                mTitle = getString(R.string.nav_drawer_title_profile);
+                currentToolbarTitle = getString(R.string.nav_drawer_title_profile);
                 break;
         }
     }
@@ -147,8 +147,7 @@ public class MainActivity extends SnapPollBaseActivity
         ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
-//        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.app_primary)));
+        actionBar.setTitle(currentToolbarTitle);
     }
 
 
@@ -266,5 +265,14 @@ public class MainActivity extends SnapPollBaseActivity
 
         Intent in = new Intent(MainActivity.this, OnboardingActivity.class);
         startActivity(in);
+    }
+
+    public Toolbar getToolbar() {
+        return toolbar;
+    }
+
+    public void setToolbarTitle(int titleResId) {
+        getSupportActionBar().setTitle(getString(titleResId));
+        currentToolbarTitle = getString(titleResId);
     }
 }

@@ -447,7 +447,7 @@ public class PollDetailFragment extends Fragment {
     }
 
     private void submitResponse() {
-        mActivity.showProgressBar(R.string.msg_submitting);
+
 
         PointF loc = getMarkerLocation();
         if (loc == null) {
@@ -512,6 +512,7 @@ public class PollDetailFragment extends Fragment {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.action_poll_detail_submit:
+                mActivity.showProgressBar(R.string.msg_submitting);
                 submitResponse();
                 return true;
 

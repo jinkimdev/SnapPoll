@@ -3,6 +3,8 @@ package dev.jinkim.snappollandroid.ui.fragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -14,7 +16,7 @@ import dev.jinkim.snappollandroid.ui.activity.MainActivity;
 
 /**
  * Created by Jin on 4/20/15.
- *
+ * <p/>
  * SettingsFragment in Navigation Drawer - User can check and manage app settings.
  */
 public class SettingsFragment extends Fragment {
@@ -41,6 +43,8 @@ public class SettingsFragment extends Fragment {
 
         initializeViews(rootView);
 
+        mActivity.setToolbarTitle(R.string.title_settings);
+
         return rootView;
     }
 
@@ -54,6 +58,14 @@ public class SettingsFragment extends Fragment {
             }
         });
         swShowTutorial.setChecked(!session.isOnboardingViewed());
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+        // hide the main actionbar menu
+        menu.setGroupVisible(R.id.main_poll_list_menu_group, false);
     }
 
 }

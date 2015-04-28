@@ -99,4 +99,6 @@
     <string name="onboarding_page4_content">Check the result from MY POLLS tab</string>
     <string name="onboarding_page5_heading">For more</string>
     <string name="onboarding_page5_content">Open Navigation Drawer\nto access the menu.</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_settings">Settings</string>
 </resources>

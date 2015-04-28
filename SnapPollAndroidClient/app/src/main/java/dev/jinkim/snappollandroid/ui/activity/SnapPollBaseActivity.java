@@ -221,7 +221,7 @@ public class SnapPollBaseActivity extends ActionBarActivity {
     }
 
     public void showProgressBar(String msg) {
-        if (progressBar != null) {
+        if (progressBar == null) {
             progressBar = new MaterialDialog.Builder(this)
                     .content(msg)
                     .progress(true, 0)

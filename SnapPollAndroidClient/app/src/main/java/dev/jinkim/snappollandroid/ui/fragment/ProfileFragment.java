@@ -54,6 +54,7 @@ public class ProfileFragment extends Fragment {
         mActivity = (MainActivity) getActivity();
 //        mGoogleApiClient = mActivity.getGoogleApiClient();
         session = mActivity.getAppSession();
+        mActivity.setToolbarTitle(R.string.title_profile);
 
         initializeViews(rootView);
 
