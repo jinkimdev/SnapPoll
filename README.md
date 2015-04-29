@@ -6,6 +6,10 @@ A Mobile Polling Interaction with Visual Reference
 
 Jinhyun Kim (dev.jinkim@gmail.com)
 
+###NOTE !
+
+With the current configuration for the development, the polls created will be **public to all SnapPoll users**, and pictures attached will be uploaded to Imgur (**public on the Internet**).
+
 ##Overview
 
 Instead of writing out all the answer choices for a poll, attach a picture reference and ask a question!
