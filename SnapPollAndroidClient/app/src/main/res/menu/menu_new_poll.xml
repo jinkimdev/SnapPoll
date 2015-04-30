@@ -4,6 +4,13 @@
     tools:context=".PollDetailActivity">
 
     <item
+        android:id="@+id/action_new_poll_crop_image"
+        android:title="Crop"
+        snappoll:showAsAction="always"
+        android:showAsAction="always"
+        android:icon="@drawable/ic_action_image_crop"/>
+
+    <item
         android:id="@+id/action_new_poll_next"
         android:title="Next"
         snappoll:showAsAction="always"

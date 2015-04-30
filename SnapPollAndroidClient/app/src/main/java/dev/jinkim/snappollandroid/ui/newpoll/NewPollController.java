@@ -3,7 +3,6 @@ package dev.jinkim.snappollandroid.ui.newpoll;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -39,8 +38,6 @@ public class NewPollController {
 
     public static final String TAG = NewPollController.class.getSimpleName();
 
-    public Uri uriSelectedImg;
-
     public int pollId = -1;
     public String question;
     public String title;
@@ -54,18 +51,6 @@ public class NewPollController {
 
     public NewPollController(NewPollActivity activity) {
         mActivity = activity;
-    }
-
-    public Uri getUriSelectedImg() {
-        return uriSelectedImg;
-    }
-
-    public void setUriSelectedImg(Uri uriSelectedImg) {
-        this.uriSelectedImg = uriSelectedImg;
-    }
-
-    public void setUriSelectedImg(String imagePath) {
-        this.uriSelectedImg = Uri.parse(imagePath);
     }
 
     public int getPollId() {
@@ -136,8 +121,8 @@ public class NewPollController {
             //TODO: Check if this util works with various versions of Android
 
             File file = null;
-            if (mActivity.getCapturedImageUri() != null) {
-                file = FileUtils.getFile(mActivity, mActivity.getCapturedImageUri());
+            if (mActivity.getSelectedImageUri() != null) {
+                file = FileUtils.getFile(mActivity, mActivity.getSelectedImageUri());
             } else if (mActivity.getCapturedPhotoPath() != null) {
                 file = new File(mActivity.getCapturedPhotoPath());
             }

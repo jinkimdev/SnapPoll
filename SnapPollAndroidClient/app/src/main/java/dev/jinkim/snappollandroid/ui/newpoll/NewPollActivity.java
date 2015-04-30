@@ -1,5 +1,7 @@
 package dev.jinkim.snappollandroid.ui.newpoll;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,10 +19,14 @@ import android.widget.Toast;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.listeners.EventListener;
+import com.soundcloud.android.crop.Crop;
 import com.squareup.otto.Bus;
+
+import java.io.File;
 
 import dev.jinkim.snappollandroid.R;
 import dev.jinkim.snappollandroid.event.BusProvider;
+import dev.jinkim.snappollandroid.event.ImagePickedFromGalleryEvent;
 import dev.jinkim.snappollandroid.ui.activity.SnapPollBaseActivity;
 
 /**
@@ -36,14 +42,17 @@ public class NewPollActivity extends SnapPollBaseActivity {
     private Toolbar toolbar;
     private boolean isSubmitting = false;
     private MenuItem menuSubmit;
-    private Uri capturedImageUri;
+    private Uri selectedImageUri;
     private String capturedPhotoPath;
+
+    public static final int REQ_CODE_PICK_IMAGE_FROM_GALLERY = 11;
+    public static final int REQ_CODE_CAPTURE_FROM_CAMERA = 22;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
-            capturedImageUri = Uri.parse(savedInstanceState.getString("capturedImageUri"));
+            selectedImageUri = Uri.parse(savedInstanceState.getString("selectedImageUri"));
             capturedPhotoPath = savedInstanceState.getString("capturedPhotoPath");
         }
 
@@ -107,8 +116,12 @@ public class NewPollActivity extends SnapPollBaseActivity {
         // Determine which action menu to show (next or submit)
         Fragment f = getSupportFragmentManager().findFragmentById(R.id.new_poll_fragment_container);
         if (f instanceof NewPollEnterDetailFragment) {
+            // hide other two menu button
             MenuItem menuNext = menu.findItem(R.id.action_new_poll_next);
             menuNext.setVisible(false);
+            MenuItem menuCrop = menu.findItem(R.id.action_new_poll_crop_image);
+            menuCrop.setVisible(false);
+
             menuSubmit = menu.findItem(R.id.action_new_poll_submit);
             menuSubmit.setVisible(true);
         }
@@ -139,7 +152,7 @@ public class NewPollActivity extends SnapPollBaseActivity {
             case R.id.action_new_poll_next:
 
                 if (f instanceof NewPollSelectImageFragment) {
-                    if (capturedImageUri == null && capturedPhotoPath == null) {
+                    if (selectedImageUri == null && capturedPhotoPath == null) {
                         displaySnackBar(R.string.msg_image_not_selected);
                     } else {
                         Log.d(TAG, "Navigate from Image -> Detail");
@@ -167,6 +180,21 @@ public class NewPollActivity extends SnapPollBaseActivity {
                     }
                 }
 
+                return true;
+
+            case R.id.action_new_poll_crop_image:
+
+                if (f instanceof NewPollSelectImageFragment) {
+
+                    if (selectedImageUri != null) {
+                        beginCrop(selectedImageUri);
+                        // snackbar message after cropping is complete
+                    } else if (capturedPhotoPath != null) {
+                        // make the photo path as uri and then begin crop
+                    } else {
+                        displaySnackBar(R.string.msg_image_not_selected);
+                    }
+                }
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -211,12 +239,6 @@ public class NewPollActivity extends SnapPollBaseActivity {
     public void onPause() {
         super.onPause();
     }
-
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//    }
-
 
     @Override
     public void displaySnackBar(String msg) {
@@ -277,27 +299,26 @@ public class NewPollActivity extends SnapPollBaseActivity {
 
     }
 
-    public void setCapturedImageUri(Uri imgUri) {
-        this.capturedImageUri = imgUri;
+    public void setSelectedImageUri(Uri imgUri) {
+        this.selectedImageUri = imgUri;
     }
 
     public void setCapturedImageUri(String imgPath) {
         Uri uri = Uri.parse(imgPath);
-        capturedImageUri = uri;
+        selectedImageUri = uri;
     }
 
-    public Uri getCapturedImageUri() {
-        return capturedImageUri;
+    public Uri getSelectedImageUri() {
+        return selectedImageUri;
     }
 
     public void clearCapturedImageUri() {
-        this.capturedImageUri = null;
+        this.selectedImageUri = null;
     }
 
     public String getCapturedPhotoPath() {
         return capturedPhotoPath;
     }
-
 
     public void setCapturedPhotoPath(String capturedPhotoPath) {
         this.capturedPhotoPath = capturedPhotoPath;
@@ -306,11 +327,71 @@ public class NewPollActivity extends SnapPollBaseActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (capturedImageUri != null) {
-            outState.putString("capturedImageUri", capturedImageUri.toString());
+        if (selectedImageUri != null) {
+            outState.putString("selectedImageUri", selectedImageUri.toString());
         }
         if (capturedPhotoPath != null) {
             outState.putString("capturedPhotoPath", capturedPhotoPath);
+        }
+    }
+
+    /* Call Android Crop Activity */
+    private void beginCrop(Uri source) {
+        Uri destination = Uri.fromFile(new File(getCacheDir(), "cropped"));
+        new Crop(source).output(destination).start(this);
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent result) {
+        super.onActivityResult(requestCode, resultCode, result);
+
+        switch (requestCode) {
+            case REQ_CODE_PICK_IMAGE_FROM_GALLERY:
+                if (resultCode == Activity.RESULT_OK) {
+                    selectedImageUri = result.getData();
+                    Log.d(TAG, "Image selected: " + selectedImageUri.toString());
+
+                    // TODO FIRE EVENT
+                    // display selected image
+                    bus.post(new ImagePickedFromGalleryEvent(selectedImageUri));
+
+//                    updateThumbnail(selectedImageUri);
+
+                    // save the image URI
+//                    controller.setUriSelectedImg(selectedImageUri);
+                    setSelectedImageUri(selectedImageUri);
+                }
+                break;
+
+            case REQ_CODE_CAPTURE_FROM_CAMERA:
+                if (resultCode == Activity.RESULT_OK) {
+
+                    // path of the image captured from camera is already stored
+                    // display selected image
+
+                    // TODO FIRE EVENT
+                    bus.post(new PhotoCapturedFromCameraEvent(getCapturedPhotoPath()));
+                    // TODO SET path on this activity
+//                    updateThumbnail(getCapturedPhotoPath());
+                }
+                break;
+
+            case Crop.REQUEST_CROP:
+
+                // TODO FIRE EVENT
+
+                if (resultCode == Activity.RESULT_OK) {
+
+                    Uri destination = Crop.getOutput(result);
+                    if (destination != null) {
+                        // update uri and image view on SelectImageFrag
+                        selectedImageUri = destination;
+                    }
+
+                } else if (resultCode == Crop.RESULT_ERROR) {
+                    Toast.makeText(this, Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();
+                }
         }
     }
 

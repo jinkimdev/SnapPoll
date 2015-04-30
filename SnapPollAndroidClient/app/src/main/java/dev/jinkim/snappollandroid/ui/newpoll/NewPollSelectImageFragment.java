@@ -1,6 +1,5 @@
 package dev.jinkim.snappollandroid.ui.newpoll;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -18,25 +17,27 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.gc.materialdesign.views.ButtonFloat;
+import com.soundcloud.android.crop.Crop;
+import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
 
 import dev.jinkim.snappollandroid.R;
+import dev.jinkim.snappollandroid.event.BusProvider;
+import dev.jinkim.snappollandroid.event.ImagePickedFromGalleryEvent;
 import dev.jinkim.snappollandroid.ui.adapter.SelectImageSourceAdapter;
 import dev.jinkim.snappollandroid.util.ImageFileUtil;
 
 /**
  * Created by Jin on 3/6/15.
- *
+ * <p/>
  * Fragment for attaching an image (from Gallery or Camera) in creating a poll
  */
 public class NewPollSelectImageFragment extends Fragment {
     public static final String TAG = NewPollSelectImageFragment.class.getSimpleName();
 
-    private static final int REQ_CODE_PICK_IMAGE_FROM_GALLERY = 11;
-    private static final int REQ_CODE_CAPTURE_FROM_CAMERA = 22;
 
     private View rootView;
     private NewPollActivity mActivity;
@@ -90,10 +91,10 @@ public class NewPollSelectImageFragment extends Fragment {
 //                    .fit().centerInside()
 //                    .into(ivImage);
 //        } else {
-            Picasso.with(mActivity)
-                    .load(R.drawable.ic_placeholder_image)
-                    .fit().centerInside()
-                    .into(ivImage);
+        Picasso.with(mActivity)
+                .load(R.drawable.ic_placeholder_image)
+                .fit().centerInside()
+                .into(ivImage);
 //        }
     }
 
@@ -144,7 +145,7 @@ public class NewPollSelectImageFragment extends Fragment {
         Intent myIntent = new Intent(Intent.ACTION_GET_CONTENT, null);
         //noinspection HardCodedStringLiteral
         myIntent.setType("image/*");
-        startActivityForResult(myIntent, REQ_CODE_PICK_IMAGE_FROM_GALLERY);
+        mActivity.startActivityForResult(myIntent, NewPollActivity.REQ_CODE_PICK_IMAGE_FROM_GALLERY);
     }
 
     public void captureImageFromCamera() {
@@ -173,11 +174,11 @@ public class NewPollSelectImageFragment extends Fragment {
             if (photoFile != null) {
                 Uri fileUri = ImageFileUtil.getOutputMediaFileUri(ImageFileUtil.MEDIA_TYPE_IMAGE);
 
-                mActivity.setCapturedImageUri(fileUri);
+                mActivity.setSelectedImageUri(fileUri);
                 mActivity.setCapturedPhotoPath(fileUri.getPath());
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-                        mActivity.getCapturedImageUri());
-                startActivityForResult(takePictureIntent, REQ_CODE_CAPTURE_FROM_CAMERA);
+                        mActivity.getSelectedImageUri());
+                startActivityForResult(takePictureIntent, NewPollActivity.REQ_CODE_CAPTURE_FROM_CAMERA);
             }
         }
     }
@@ -200,46 +201,17 @@ public class NewPollSelectImageFragment extends Fragment {
 //        values.put("_data", "/sdcard/SnapPoll/" + ImageFileUtil.getUniqueImageFilename());
 //
 //        // capturedImageUri is the current activity attribute, define and save it for later usage (also in onSaveInstanceState)
-//        mActivity.setCapturedImageUri(
+//        mActivity.setSelectedImageUri(
 //                mActivity.getContentResolver()
 //                .insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
 //                        new ContentValues()));
 //
 //        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        intent.putExtra(MediaStore.EXTRA_OUTPUT, mActivity.getCapturedImageUri());
+//        intent.putExtra(MediaStore.EXTRA_OUTPUT, mActivity.getSelectedImageUri());
 ////        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
 //        startActivityForResult(intent, REQ_CODE_CAPTURE_FROM_CAMERA);
 //    }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
-        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
-
-        switch (requestCode) {
-            case REQ_CODE_PICK_IMAGE_FROM_GALLERY:
-                if (resultCode == Activity.RESULT_OK) {
-                    selectedImageUri = imageReturnedIntent.getData();
-                    Log.d(TAG, "Image selected: " + selectedImageUri.toString());
-
-                    // display selected image
-                    updateThumbnail(selectedImageUri);
-
-                    // save the image URI
-//                    controller.setUriSelectedImg(selectedImageUri);
-                    mActivity.setCapturedImageUri(selectedImageUri);
-                }
-                break;
-
-            case REQ_CODE_CAPTURE_FROM_CAMERA:
-                if (resultCode == Activity.RESULT_OK) {
-
-                    // path of the image captured from camera is already stored
-                    // display selected image
-                    updateThumbnail(mActivity.getCapturedPhotoPath());
-                }
-                break;
-        }
-    }
 
     private void updateThumbnail(Uri selectedImageUri) {
         Log.d(TAG, "updateThumbnail");
@@ -262,16 +234,9 @@ public class NewPollSelectImageFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
-//        if (controller.getUriSelectedImg() != null) {
-//            Picasso.with(mActivity)
-//                    .load(controller.getUriSelectedImg())
-//                    .fit().centerInside()
-//                    .into(ivImage);
-//        } else
-        if (mActivity.getCapturedImageUri() != null) {
+        if (mActivity.getSelectedImageUri() != null) {
             Picasso.with(mActivity)
-                    .load(mActivity.getCapturedImageUri())
+                    .load(mActivity.getSelectedImageUri())
                     .fit().centerInside()
                     .into(ivImage);
         } else if (mActivity.getCapturedPhotoPath() != null) {
@@ -291,5 +256,31 @@ public class NewPollSelectImageFragment extends Fragment {
         fabChooseImage.animate().translationY(position);
     }
 
+    /* Call Android Crop Activity */
+    private void beginCrop(Uri source) {
+        Uri destination = Uri.fromFile(new File(mActivity.getCacheDir(), "cropped"));
+        new Crop(source).output(destination).start(mActivity);
+    }
 
+    @Subscribe
+    public void onImagePickedFromGalleryEvent(ImagePickedFromGalleryEvent event) {
+        updateThumbnail(event.selectedImageUri);
+    }
+
+    @Subscribe
+    public void onPhotoCapturedFromCameraEvent(PhotoCapturedFromCameraEvent event) {
+        updateThumbnail(event.capturedPhotoPath);
+    }
+
+
+
+    public void onStart() {
+        super.onStart();
+        BusProvider.getInstance().register(this);
+    }
+
+    public void onStop() {
+        super.onStop();
+        BusProvider.getInstance().unregister(this);
+    }
 }

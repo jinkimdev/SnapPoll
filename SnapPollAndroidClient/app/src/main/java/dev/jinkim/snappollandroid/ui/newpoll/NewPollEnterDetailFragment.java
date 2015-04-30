@@ -83,14 +83,14 @@ public class NewPollEnterDetailFragment extends Fragment {
         ivImageBackground = (ImageView) v.findViewById(R.id.new_poll_detail_iv_background_image);
 
         // load selected image from saved URI
-        if (mActivity.getCapturedImageUri() != null) {
+        if (mActivity.getSelectedImageUri() != null) {
             Picasso.with(mActivity)
-                    .load(mActivity.getCapturedImageUri())
+                    .load(mActivity.getSelectedImageUri())
                     .fit().centerCrop()
                     .into(ivImageBackground);
         } else if (mActivity.getCapturedPhotoPath() != null) {
             Picasso.with(mActivity)
-                    .load(mActivity.getCapturedImageUri())
+                    .load(mActivity.getSelectedImageUri())
                     .fit().centerCrop()
                     .into(ivImageBackground);
         }
