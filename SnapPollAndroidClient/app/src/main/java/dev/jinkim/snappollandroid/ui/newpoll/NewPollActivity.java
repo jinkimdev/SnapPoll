@@ -172,7 +172,7 @@ public class NewPollActivity extends SnapPollBaseActivity {
 
                 if (f instanceof NewPollEnterDetailFragment) {
                     setSubmitting(true);
-                    controller.setAttributes(((NewPollEnterDetailFragment) f).grabAttributes());
+                        controller.setAttributes(((NewPollEnterDetailFragment) f).grabAttributes());
                     if (((NewPollEnterDetailFragment) f).saveNewPollDetails()) {
                         controller.uploadImage();
                     } else {
@@ -387,6 +387,7 @@ public class NewPollActivity extends SnapPollBaseActivity {
                     if (destination != null) {
                         // update uri and image view on SelectImageFrag
                         selectedImageUri = destination;
+                        BusProvider.getInstance().post(new ImagePickedFromGalleryEvent(selectedImageUri));
                     }
 
                 } else if (resultCode == Crop.RESULT_ERROR) {

@@ -230,6 +230,12 @@ public class NewPollEnterDetailFragment extends Fragment {
         loadNewPollDetails();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        saveNewPollDetails();
+    }
+
     /**
      * Load user input data during navigation
      */
